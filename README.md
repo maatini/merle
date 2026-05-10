@@ -7,7 +7,7 @@
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
 
 <p align="center">
-  <img src="merle.png" alt="Merle — Modern Enterprise RPA Leadership Environment" width="200">
+  <img src="merle.png" alt="Merle — Modern Enterprise RPA Leadership Environment" width="600">
 </p>
 
 **Modern Enterprise RPA Leadership Environment**  

@@ -61,7 +61,7 @@ Merle entwickelt sich schrittweise zu einer hochskalierbaren, intelligenten und 
   Komplexe RPA-Prozesse werden in feingranulare, eigenständig ausführbare und versionierbare Teil-Tasks zerlegt. Dies ermöglicht bessere Parallelisierung, isolierte Fehlerbehandlung, einfacheres Testing, Wiederverwendbarkeit und eine höhere Gesamt-Resilienz des Systems.
 
 - **Speicherung der Teil-Tasks in NATS (Message Broker)**  
-  Alle Teil-Tasks, deren Status und Metadaten werden über den hochperformanten, cloud-nativen Message Broker **[NATS (cobra-nats)](https://github.com/maatini/cobra-nats)** verwaltet. NATS bietet persistente Queues, JetStream, Pub/Sub, Request-Reply und exzellente Skalierbarkeit – die ideale Grundlage für eine lose gekoppelte, event-getriebene Architektur.
+  Alle Teil-Tasks, deren Status und Metadaten werden über den hochperformanten, cloud-nativen Message Broker **NATS** verwaltet. NATS bietet persistente Queues, JetStream, Pub/Sub, Request-Reply und exzellente Skalierbarkeit – die ideale Grundlage für eine lose gekoppelte, event-getriebene Architektur. Zur Einsicht und Verwaltung der Streams und Nachrichten nutzen wir die UI **[Cobra-NATS](https://github.com/maatini/cobra-nats)**.
 
 - **Intelligenter Orchestrator verteilt Teil-Tasks auf Rechen-Ressourcen**  
   Ein zentraler, hochverfügbarer Orchestrator übernimmt das Scheduling und Routing der Teil-Tasks auf die verfügbaren Worker-Ressourcen (Docker-Container, Kubernetes-Pods, On-Prem-Server, Cloud-Instanzen). Die Verteilung erfolgt dynamisch und unter Berücksichtigung von Echtzeit-Metriken.

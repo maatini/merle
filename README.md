@@ -92,48 +92,25 @@ Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Prefect 3.x, 
 
 ---
 
-## OpenCode und die Entwicklung von RPA – eine klare Erklärung
+## OpenCode in Merle: RPA-Hybrid-Architekt
 
-OpenCode ist ein **open-source KI-Coding-Agent**. Das bedeutet: Es ist ein kostenloses, frei einsehbares Programm, das Entwicklern beim Schreiben von Code hilft. Es läuft direkt im Terminal, in der Entwicklungsumgebung (IDE) oder als Desktop-App. 
+Für Merle wird eine speziell angepasste OpenCode-Version erstellt. Diese ist im Verzeichnis `rpa-opencode-hybrid/` enthalten und explizit als *RPA-Hybrid-Architekt* für das Merle-Framework konfiguriert. Er kennt unsere Leitplanken, Templates und die Systemarchitektur im Detail.
 
-Die **Spezialisierung** von OpenCode liegt darin, dass es genau auf Programmieraufgaben zugeschnitten ist. Es versteht Code sehr gut (dank LSP-Unterstützung), kann mit über 75 verschiedenen KI-Modellen arbeiten (z. B. Claude, GPT, Gemini oder sogar komplett lokale Modelle auf dem eigenen Rechner) und lässt sich mit eigenen Tools und „Agenten“ erweitern. Es ist nicht an einen einzigen Anbieter gebunden und kann komplett offline laufen.
+### Cloud-Native RPA im Azure AKS
+Da unsere Software-Roboter nicht lokal auf Desktops, sondern **zentral und hochskalierbar in der Cloud (z. B. Azure AKS Cluster)** ausgeführt werden, gelten besondere Anforderungen an den Code. OpenCode unterstützt das Entwicklungsteam gezielt bei der Umsetzung dieser Cloud-Native-Paradigmen:
 
-### Warum das die RPA-Entwicklung stark verbessert
+- **Container-Readiness:** Automatisierte Erstellung von Headless-fähigem Code (Playwright, Linux-kompatible Bibliotheken), der ohne Windows-Abhängigkeiten in Docker-Containern und Pods läuft.
+- **Stateless & Robust:** Erzwingung von Retry-Mechanismen (Tenacity) und strukturiertem Logging (Loguru) für resiliente Bot-Ausführungen in flüchtigen Cloud-Umgebungen.
+- **NATS & Orchestrierung:** Direkte Unterstützung bei der Anbindung an unseren NATS Message Broker für ereignisgesteuerte, verteilte Task-Bearbeitung.
 
-**RPA** (Robotic Process Automation) bedeutet: Man baut Software-Roboter, die am Computer genau das machen, was sonst ein Mensch von Hand erledigt – zum Beispiel Daten aus Excel in ein altes Fachverfahren kopieren, Rechnungen prüfen oder Formulare ausfüllen. 
+### Integrierte Governance & Tools
+Der OpenCode-Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Python_vs_UiPath.md) und der Projekt-Governance. Dazu greift er auf unsere spezifischen Tools und Skills im `.opencode/`-Verzeichnis zurück:
 
-Dafür braucht man oft **viel Code** (in Python, C#, JavaScript oder PowerShell). Dieser Code muss mit Benutzeroberflächen umgehen, Wartezeiten einplanen, Fehler abfangen und mit vielen verschiedenen Programmen zusammenarbeiten. Das Schreiben, Testen und Pflegen dieses Codes ist normalerweise zeitaufwendig, teuer und fehleranfällig.
+1. **`rpa-context` (MCP Tool):** Lädt Projekt-Dokumentationen dynamisch und stellt sicher, dass Architekturentscheidungen immer auf dem neuesten Stand des Frameworks basieren.
+2. **`rpa-bot-generator` (Skill):** Erzeugt neue Python-Bots ausschließlich auf Basis des verbindlichen Templates (`python_bots/template/`) – ein Start "von der grünen Wiese" ist ausgeschlossen.
+3. **`governance-validator` (Skill):** Prüft Code auf hardcodierte Pfade, fehlendes Error Handling und Container-Kompatibilität, bevor er in den AKS-Cluster deployed wird.
 
-Hier kommt die Spezialisierung von OpenCode ins Spiel – und das macht einen großen Unterschied:
-
-1. **Viel schneller Code schreiben**  
-   Du sagst in normaler Sprache, was der Roboter tun soll: „Erstelle ein Python-Skript, das sich bei SAP anmeldet, die offenen Bestellungen sucht und als Excel-Datei speichert.“ OpenCode schreibt dir den passenden Code vor, ergänzt fehlende Teile oder schlägt bessere Lösungen vor. Statt stundenlang zu tippen, brauchst du oft nur noch kleine Anpassungen.
-
-2. **Bessere und stabilere Roboter**  
-   RPA-Code muss sehr zuverlässig sein – sonst bricht der Roboter bei jeder kleinen Änderung in der Benutzeroberfläche ab. OpenCode kennt typische RPA-Muster (z. B. wie man auf Elemente klickt, auf das Erscheinen von Fenstern wartet oder mit Fehlermeldungen umgeht). Die KI hilft dabei, robusten Code zu erzeugen und häufige Fehler schon beim Schreiben zu vermeiden.
-
-3. **Unterstützt genau die Techniken, die in RPA gebraucht werden**  
-   Viele RPA-Lösungen nutzen Python mit Bibliotheken wie Playwright, Selenium oder pywinauto, oder sie erweitern OpenRPA und ähnliche Tools. OpenCode versteht all diese Sprachen und Frameworks sehr gut und kann Code dafür gezielt verbessern oder erklären.
-
-4. **Datenschutz und Unabhängigkeit (besonders wichtig in Firmen und Behörden)**  
-   Weil OpenCode komplett open-source ist und lokale KI-Modelle unterstützt, muss man sensible Daten oder internen Code nicht in die Cloud schicken. Man kann alles auf dem eigenen Rechner oder Server laufen lassen. Das ist ein großer Vorteil gegenüber reinen Cloud-KI-Tools, wenn es um vertrauliche Prozesse geht.
-
-5. **Einfacher erweiterbar für RPA-spezifische Aufgaben**  
-   Man kann eigene „Skills“ oder Zusatz-Tools bauen. Zum Beispiel einen Agenten, der automatisch RPA-Skripte testet, Dokumentation schreibt oder sich mit einem RPA-Orchestrierer (z. B. OpenFlow oder UiPath Orchestrator) verbindet. So wird aus einem reinen Coding-Helfer ein echtes Automatisierungs-Werkzeug.
-
-6. **Weniger Einstiegshürde und bessere Zusammenarbeit**  
-   Auch Entwickler, die RPA noch nicht so gut kennen, werden mit OpenCode schneller gut. Die KI erklärt, warum etwas so gemacht wird. Teams können eigene Prompts, Tools oder ganze Agenten teilen und gemeinsam weiterentwickeln – Wissen bleibt im Unternehmen und geht nicht verloren.
-
-### Das große Ganze
-
-Durch die Spezialisierung von OpenCode als flexibler, offener und mächtiger KI-Coding-Assistent wird die Entwicklung von RPA-Lösungen:
-- **schneller** (weniger Zeit für Routine-Code),
-- **günstiger** (weniger Entwicklerstunden),
-- **sicherer** (besserer Code + volle Kontrolle über Daten),
-- **zugänglicher** (auch für Teams mit weniger RPA-Erfahrung) und
-- **zukunftssicherer** (keine Abhängigkeit von einem einzigen KI-Anbieter).
-
-Kurz gesagt: OpenCode nimmt den Entwicklern den mühsamen Teil der RPA-Programmierung ab und lässt sie sich auf das Wesentliche konzentrieren – nämlich die Geschäftsprozesse wirklich gut zu automatisieren. Gleichzeitig bleibt alles transparent, anpassbar und unter eigener Kontrolle.
+Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit, sondern garantiert vor allem die **architektonische Integrität** und **Betriebsstabilität** aller Bots in unserer Cloud-Umgebung.
 
 ---
 

@@ -61,7 +61,7 @@ Merle entwickelt sich schrittweise zu einer hochskalierbaren, intelligenten und 
   Komplexe RPA-Prozesse werden in feingranulare, eigenständig ausführbare und versionierbare Teil-Tasks zerlegt. Dies ermöglicht bessere Parallelisierung, isolierte Fehlerbehandlung, einfacheres Testing, Wiederverwendbarkeit und eine höhere Gesamt-Resilienz des Systems.
 
 - **Speicherung der Teil-Tasks in NATS (Message Broker)**  
-  Alle Teil-Tasks, deren Status und Metadaten werden über den hochperformanten, cloud-nativen Message Broker **NATS** verwaltet. NATS bietet persistente Queues, JetStream, Pub/Sub, Request-Reply und exzellente Skalierbarkeit – die ideale Grundlage für eine lose gekoppelte, event-getriebene Architektur.
+  Alle Teil-Tasks, deren Status und Metadaten werden über den hochperformanten, cloud-nativen Message Broker **[NATS (cobra-nats)](https://github.com/maatini/cobra-nats)** verwaltet. NATS bietet persistente Queues, JetStream, Pub/Sub, Request-Reply und exzellente Skalierbarkeit – die ideale Grundlage für eine lose gekoppelte, event-getriebene Architektur.
 
 - **Intelligenter Orchestrator verteilt Teil-Tasks auf Rechen-Ressourcen**  
   Ein zentraler, hochverfügbarer Orchestrator übernimmt das Scheduling und Routing der Teil-Tasks auf die verfügbaren Worker-Ressourcen (Docker-Container, Kubernetes-Pods, On-Prem-Server, Cloud-Instanzen). Die Verteilung erfolgt dynamisch und unter Berücksichtigung von Echtzeit-Metriken.
@@ -82,13 +82,58 @@ Merle entwickelt sich schrittweise zu einer hochskalierbaren, intelligenten und 
   Zukünftig können KI-Komponenten (LLM-basierte Agenten, spezialisierte ML-Modelle, Vision-Modelle etc.) als vollwertige Executor für geeignete Teil-Tasks eingesetzt werden. Anwendungsfälle: intelligente Dokumentenklassifikation & -extraktion, kontextbezogene Entscheidungsfindung, Self-Healing bei Fehlern, generative Erstellung von Teil-Logik oder sogar vollständige KI-gestützte Prozessautomatisierung.
 
 - **Transparente Orchestrierung analog BPMN**  
-  Die gesamte Task-Orchestrierung, Abhängigkeiten, Datenflüsse, Status-Übergänge und Ausführungshistorie sollen visuell transparent und nachvollziehbar dargestellt werden – vergleichbar mit BPMN-Diagrammen oder modernen Workflow-Engines (z. B. Camunda, Temporal). Dies ermöglicht:
+  Die gesamte Task-Orchestrierung, Abhängigkeiten, Datenflüsse, Status-Übergänge und Ausführungshistorie sollen visuell transparent und nachvollziehbar dargestellt werden – angetrieben von der **[BPMNinja Engine](https://github.com/maatini/bpmninja)**. Dies ermöglicht:
   - Einfaches Auditing & Compliance
   - Prozessoptimierung durch Fachabteilungen
   - Bessere Zusammenarbeit zwischen Citizen Developers und RPA-Experten
   - Visuelle Dashboards und Drill-Down-Analysen
 
 Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Prefect 3.x, Docker und der bestehenden Governance auf. Sie führen Merle schrittweise in Richtung einer vollständig hybriden, KI-gestützten, kostenoptimierten und vollständig transparenten Enterprise-RPA-Plattform.
+
+---
+
+## OpenCode und die Entwicklung von RPA – eine klare Erklärung
+
+OpenCode ist ein **open-source KI-Coding-Agent**. Das bedeutet: Es ist ein kostenloses, frei einsehbares Programm, das Entwicklern beim Schreiben von Code hilft. Es läuft direkt im Terminal, in der Entwicklungsumgebung (IDE) oder als Desktop-App. 
+
+Die **Spezialisierung** von OpenCode liegt darin, dass es genau auf Programmieraufgaben zugeschnitten ist. Es versteht Code sehr gut (dank LSP-Unterstützung), kann mit über 75 verschiedenen KI-Modellen arbeiten (z. B. Claude, GPT, Gemini oder sogar komplett lokale Modelle auf dem eigenen Rechner) und lässt sich mit eigenen Tools und „Agenten“ erweitern. Es ist nicht an einen einzigen Anbieter gebunden und kann komplett offline laufen.
+
+### Warum das die RPA-Entwicklung stark verbessert
+
+**RPA** (Robotic Process Automation) bedeutet: Man baut Software-Roboter, die am Computer genau das machen, was sonst ein Mensch von Hand erledigt – zum Beispiel Daten aus Excel in ein altes Fachverfahren kopieren, Rechnungen prüfen oder Formulare ausfüllen. 
+
+Dafür braucht man oft **viel Code** (in Python, C#, JavaScript oder PowerShell). Dieser Code muss mit Benutzeroberflächen umgehen, Wartezeiten einplanen, Fehler abfangen und mit vielen verschiedenen Programmen zusammenarbeiten. Das Schreiben, Testen und Pflegen dieses Codes ist normalerweise zeitaufwendig, teuer und fehleranfällig.
+
+Hier kommt die Spezialisierung von OpenCode ins Spiel – und das macht einen großen Unterschied:
+
+1. **Viel schneller Code schreiben**  
+   Du sagst in normaler Sprache, was der Roboter tun soll: „Erstelle ein Python-Skript, das sich bei SAP anmeldet, die offenen Bestellungen sucht und als Excel-Datei speichert.“ OpenCode schreibt dir den passenden Code vor, ergänzt fehlende Teile oder schlägt bessere Lösungen vor. Statt stundenlang zu tippen, brauchst du oft nur noch kleine Anpassungen.
+
+2. **Bessere und stabilere Roboter**  
+   RPA-Code muss sehr zuverlässig sein – sonst bricht der Roboter bei jeder kleinen Änderung in der Benutzeroberfläche ab. OpenCode kennt typische RPA-Muster (z. B. wie man auf Elemente klickt, auf das Erscheinen von Fenstern wartet oder mit Fehlermeldungen umgeht). Die KI hilft dabei, robusten Code zu erzeugen und häufige Fehler schon beim Schreiben zu vermeiden.
+
+3. **Unterstützt genau die Techniken, die in RPA gebraucht werden**  
+   Viele RPA-Lösungen nutzen Python mit Bibliotheken wie Playwright, Selenium oder pywinauto, oder sie erweitern OpenRPA und ähnliche Tools. OpenCode versteht all diese Sprachen und Frameworks sehr gut und kann Code dafür gezielt verbessern oder erklären.
+
+4. **Datenschutz und Unabhängigkeit (besonders wichtig in Firmen und Behörden)**  
+   Weil OpenCode komplett open-source ist und lokale KI-Modelle unterstützt, muss man sensible Daten oder internen Code nicht in die Cloud schicken. Man kann alles auf dem eigenen Rechner oder Server laufen lassen. Das ist ein großer Vorteil gegenüber reinen Cloud-KI-Tools, wenn es um vertrauliche Prozesse geht.
+
+5. **Einfacher erweiterbar für RPA-spezifische Aufgaben**  
+   Man kann eigene „Skills“ oder Zusatz-Tools bauen. Zum Beispiel einen Agenten, der automatisch RPA-Skripte testet, Dokumentation schreibt oder sich mit einem RPA-Orchestrierer (z. B. OpenFlow oder UiPath Orchestrator) verbindet. So wird aus einem reinen Coding-Helfer ein echtes Automatisierungs-Werkzeug.
+
+6. **Weniger Einstiegshürde und bessere Zusammenarbeit**  
+   Auch Entwickler, die RPA noch nicht so gut kennen, werden mit OpenCode schneller gut. Die KI erklärt, warum etwas so gemacht wird. Teams können eigene Prompts, Tools oder ganze Agenten teilen und gemeinsam weiterentwickeln – Wissen bleibt im Unternehmen und geht nicht verloren.
+
+### Das große Ganze
+
+Durch die Spezialisierung von OpenCode als flexibler, offener und mächtiger KI-Coding-Assistent wird die Entwicklung von RPA-Lösungen:
+- **schneller** (weniger Zeit für Routine-Code),
+- **günstiger** (weniger Entwicklerstunden),
+- **sicherer** (besserer Code + volle Kontrolle über Daten),
+- **zugänglicher** (auch für Teams mit weniger RPA-Erfahrung) und
+- **zukunftssicherer** (keine Abhängigkeit von einem einzigen KI-Anbieter).
+
+Kurz gesagt: OpenCode nimmt den Entwicklern den mühsamen Teil der RPA-Programmierung ab und lässt sie sich auf das Wesentliche konzentrieren – nämlich die Geschäftsprozesse wirklich gut zu automatisieren. Gleichzeitig bleibt alles transparent, anpassbar und unter eigener Kontrolle.
 
 ---
 

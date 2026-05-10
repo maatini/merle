@@ -1,10 +1,11 @@
 # Merle
 
 [![License](https://img.shields.io/badge/license-proprietary-red)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/maatini/merle)
+[![Version](https://img.shields.io/badge/version-1.1-blue)](https://github.com/maatini/merle)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/01_Strategie.md)
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
+[![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](./README.md#vision--zukünftige-erweiterungen)
 
 <p align="center">
   <img src="merle.png" alt="Merle — Modern Enterprise RPA Leadership Environment" width="600">
@@ -12,7 +13,8 @@
 
 **Modern Enterprise RPA Leadership Environment**  
 Python-First Framework für hybride RPA-Entwicklung.  
-Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, UiPath nur bei nachgewiesenem Vorteil.
+Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, UiPath nur bei nachgewiesenem Vorteil.  
+**Zukünftig: Granulare, NATS-basierte Orchestrierung mit KI-Executor und BPMN-Transparenz.**
 
 ---
 
@@ -51,6 +53,45 @@ docker run --env-file .env mein-bot
 
 ---
 
+## Vision & Zukünftige Erweiterungen
+
+Merle entwickelt sich schrittweise zu einer hochskalierbaren, intelligenten und kosteneffizienten Enterprise-RPA-Orchestrierungsplattform. Die folgenden Erweiterungen sind als zentrale Roadmap-Bausteine geplant:
+
+- **Aufteilung von RPA-Tasks in kleinere abgeschlossene Teil-Tasks**  
+  Komplexe RPA-Prozesse werden in feingranulare, eigenständig ausführbare und versionierbare Teil-Tasks zerlegt. Dies ermöglicht bessere Parallelisierung, isolierte Fehlerbehandlung, einfacheres Testing, Wiederverwendbarkeit und eine höhere Gesamt-Resilienz des Systems.
+
+- **Speicherung der Teil-Tasks in NATS (Message Broker)**  
+  Alle Teil-Tasks, deren Status und Metadaten werden über den hochperformanten, cloud-nativen Message Broker **NATS** verwaltet. NATS bietet persistente Queues, JetStream, Pub/Sub, Request-Reply und exzellente Skalierbarkeit – die ideale Grundlage für eine lose gekoppelte, event-getriebene Architektur.
+
+- **Intelligenter Orchestrator verteilt Teil-Tasks auf Rechen-Ressourcen**  
+  Ein zentraler, hochverfügbarer Orchestrator übernimmt das Scheduling und Routing der Teil-Tasks auf die verfügbaren Worker-Ressourcen (Docker-Container, Kubernetes-Pods, On-Prem-Server, Cloud-Instanzen). Die Verteilung erfolgt dynamisch und unter Berücksichtigung von Echtzeit-Metriken.
+
+- **Anforderungsprofile für Tasks (UiPath, Python, GPU, RAM+HDD etc.)**  
+  Jeder Task und Teil-Task kann ein detailliertes Anforderungsprofil deklarieren:
+  - Technologie-Stack: `UiPath`, `Python`, `Path` (andere RPA-Tools)
+  - Hardware-Ressourcen: GPU (für ML/CV), CPU-Kerne, RAM, HDD/SSD-Kapazität, Netzwerk-Bandbreite
+  Der Orchestrator matched diese Anforderungen automatisch an passende Worker-Nodes (z. B. dedizierte UiPath-Lizenz-Worker oder GPU-beschleunigte Nodes).
+
+- **Prioritäten für Tasks**  
+  Tasks und Teil-Tasks erhalten Prioritäten (z. B. `critical`, `high`, `normal`, `low` oder numerisch). Der Orchestrator berücksichtigt diese Prioritäten bei der Scheduling-Entscheidung, um geschäftskritische Prozesse bevorzugt und termingerecht auszuführen (SLA-Support).
+
+- **Ressourcen-Optimierung zur Kosten-Minimierung**  
+  Durch intelligente Algorithmen (Predictive Scaling, Workload-Konsolidierung, bevorzugte Nutzung von Spot/Preemptible Instances, Auto-Hibernation nicht ausgelasteter Ressourcen) wird die Ressourcenauslastung optimiert. Ziel ist die nachhaltige Senkung der Betriebskosten bei gleichbleibender oder höherer Durchsatzleistung. Relevante KPIs: Cost-per-Execution, Resource Utilization, Idle-Time.
+
+- **KI als möglicher Executor**  
+  Zukünftig können KI-Komponenten (LLM-basierte Agenten, spezialisierte ML-Modelle, Vision-Modelle etc.) als vollwertige Executor für geeignete Teil-Tasks eingesetzt werden. Anwendungsfälle: intelligente Dokumentenklassifikation & -extraktion, kontextbezogene Entscheidungsfindung, Self-Healing bei Fehlern, generative Erstellung von Teil-Logik oder sogar vollständige KI-gestützte Prozessautomatisierung.
+
+- **Transparente Orchestrierung analog BPMN**  
+  Die gesamte Task-Orchestrierung, Abhängigkeiten, Datenflüsse, Status-Übergänge und Ausführungshistorie sollen visuell transparent und nachvollziehbar dargestellt werden – vergleichbar mit BPMN-Diagrammen oder modernen Workflow-Engines (z. B. Camunda, Temporal). Dies ermöglicht:
+  - Einfaches Auditing & Compliance
+  - Prozessoptimierung durch Fachabteilungen
+  - Bessere Zusammenarbeit zwischen Citizen Developers und RPA-Experten
+  - Visuelle Dashboards und Drill-Down-Analysen
+
+Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Prefect 3.x, Docker und der bestehenden Governance auf. Sie führen Merle schrittweise in Richtung einer vollständig hybriden, KI-gestützten, kostenoptimierten und vollständig transparenten Enterprise-RPA-Plattform.
+
+---
+
 ## Repository-Struktur
 
 ```
@@ -72,6 +113,8 @@ docker run --env-file .env mein-bot
 ├── AGENTS.md                 # AI-Agenten Kontext
 └── README.md                 # Diese Datei
 ```
+
+> **Hinweis zur Roadmap**: Zukünftige Verzeichnisse wie `orchestrator/`, `workers/`, `nats/`, `scheduler/` und `dashboards/` werden bei der Umsetzung der Vision ergänzt.
 
 ---
 
@@ -97,7 +140,7 @@ docker run --env-file .env mein-bot
 - **Config**: pydantic-settings
 - **Logging**: loguru
 - **Retry**: tenacity
-- **Orchestrierung**: Prefect 3.x
+- **Orchestrierung**: Prefect 3.x (aktuell) → zukünftig NATS + eigener Orchestrator
 - **Testing**: pytest
 - **Container**: Docker
 
@@ -132,6 +175,7 @@ Wenn du als AI-Agent (Claude, DeepSeek, etc.) in diesem Repository arbeitest:
 - Lies `agent/CLAUDE.md` für deine Persona als Merle RPA-Hybrid-Architekt
 - Befolge die Governance-Regeln strikt
 - Denke Python-first
+- Berücksichtige bei zukünftigen Erweiterungen die Vision der granularen, NATS-basierten und KI-gestützten Orchestrierung
 
 ---
 
@@ -141,4 +185,4 @@ Internes Framework — alle Rechte vorbehalten.
 
 ## Version
 
-1.0 — Mai 2026
+1.1 — Mai 2026 (inkl. detaillierter Orchestrierungs-Vision)

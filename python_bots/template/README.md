@@ -8,9 +8,10 @@ Dieses Template ist die **verbindliche Basis** für jeden neuen Python-Bot im hy
 - ✅ **tenacity** für Retry-Mechanismen mit exponentiellem Backoff
 - ✅ **pydantic-settings** für typsichere Konfiguration aus Umgebungsvariablen
 - ✅ **httpx** als async HTTP-Client
+- ✅ **ruff** für Linting + Formatting (Ersatz für flake8 + black + isort)
+- ✅ **mypy** für statische Typ-Prüfung (strict mode)
 - ✅ **pytest** für Testing
 - ✅ **Docker** für Container-Deployment
-- ✅ **Prefect-kompatibel** für Orchestrierung
 
 ## Verwendung
 
@@ -29,6 +30,18 @@ cd python_bots/mein_bot/
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python main.py
+```
+
+### Linting & Formatting
+```bash
+ruff check .          # Code-Qualität prüfen
+ruff format .         # Code automatisch formatieren
+ruff check --fix .    # Automatische Korrekturen
+```
+
+### Type-Checking
+```bash
+mypy .                # Statische Typ-Prüfung (strict mode)
 ```
 
 ### Tests

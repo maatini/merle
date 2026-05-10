@@ -30,6 +30,9 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python main.py
 
+# Linting & Type-Check
+ruff check . && ruff format . && mypy .
+
 # Tests
 pytest tests/ -v
 

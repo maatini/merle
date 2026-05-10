@@ -2,8 +2,14 @@
 Tests für die Haupt-Workflow-Logik.
 """
 
-import pytest
+from __future__ import annotations
+
+from typing import Any
 from unittest.mock import AsyncMock, patch
+
+import pytest
+
+from config import BotSettings
 from tasks.example_task import ExampleTask
 
 
@@ -11,10 +17,10 @@ class TestExampleTask:
     """Unit-Tests für ExampleTask."""
 
     @pytest.mark.asyncio
-    async def test_process_filters_active_items(self, settings):
+    async def test_process_filters_active_items(self, settings: BotSettings) -> None:
         """_process() soll nur aktive Einträge zurückgeben."""
         task = ExampleTask(settings)
-        data = [
+        data: list[dict[str, Any]] = [
             {"id": 1, "active": True},
             {"id": 2, "active": False},
             {"id": 3, "active": True},
@@ -24,7 +30,7 @@ class TestExampleTask:
         assert all(item["active"] for item in result)
 
     @pytest.mark.asyncio
-    async def test_fetch_data_success(self, settings):
+    async def test_fetch_data_success(self, settings: BotSettings) -> None:
         """_fetch_data() soll bei Erfolg Daten zurückgeben."""
         task = ExampleTask(settings)
         mock_response = AsyncMock()
@@ -36,10 +42,10 @@ class TestExampleTask:
             assert result[0]["id"] == 1
 
     @pytest.mark.asyncio
-    async def test_run_returns_status(self, settings):
+    async def test_run_returns_status(self, settings: BotSettings) -> None:
         """run() soll Status-Dict mit items_processed zurückgeben."""
         task = ExampleTask(settings)
-        mock_data = [
+        mock_data: list[dict[str, Any]] = [
             {"id": 1, "active": True},
             {"id": 2, "active": False},
         ]

@@ -1,0 +1,92 @@
+[project]
+name = "merle"
+version = "1.0.0"
+description = "Modern Enterprise RPA Leadership Environment — Python-first hybrid RPA framework"
+requires-python = ">=3.11"
+license = {text = "Proprietary"}
+readme = "README.md"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.9,<1.0",
+    "mypy>=1.14,<2.0",
+    "pytest>=8.0,<9.0",
+    "pytest-asyncio>=0.23,<1.0",
+    "pytest-playwright>=0.4,<1.0",
+]
+
+# ─── Ruff ───────────────────────────────────────────────
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "SIM",    # flake8-simplify
+    "UP",     # pyupgrade
+    "RUF",    # Ruff-spezifische Regeln
+    "T20",    # flake8-print
+    "PT",     # flake8-pytest-style
+]
+ignore = [
+    "E501",   # Line too long (handled by formatter)
+    "B008",   # Do not perform function calls in argument defaults
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["merle", "shared"]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# ─── Mypy ───────────────────────────────────────────────
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+no_implicit_optional = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "rpaframework.*",
+    "playwright.*",
+    "loguru.*",
+    "tenacity.*",
+]
+ignore_missing_imports = true
+
+# ─── Pytest ─────────────────────────────────────────────
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "-ra",
+]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "slow: langsamer Test (deselect mit '-m \"not slow\"')",
+    "integration: Integrationstest mit externen Abhängigkeiten",
+    "e2e: End-to-End-Test mit Playwright",
+]

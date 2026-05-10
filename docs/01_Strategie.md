@@ -1,8 +1,8 @@
-# RPA-Hybrid-Strategie: Python-First
+# Merle-Strategie: Python-First
 
 ## Strategische Ausrichtung
 
-Dieses Dokument definiert die technologische Strategie für unser hybrides RPA-Development-Kit.  
+Dieses Dokument definiert die technologische Strategie für das **Merle-Framework** (Modern Enterprise RPA Leadership Environment).  
 Es ist die normative Grundlage für **alle** Architekturentscheidungen in Automatisierungsprojekten.
 
 ### Leitsatz
@@ -130,7 +130,7 @@ Alles ist Code, alles ist versioniert:
 
 | Rolle | Verantwortung |
 |-------|---------------|
-| **RPA-Hybrid-Architekt** | Entscheidet Python vs. UiPath, reviewt Architektur, setzt Governance durch |
+| **Merle RPA-Hybrid-Architekt** | Entscheidet Python vs. UiPath, reviewt Architektur, setzt Governance durch |
 | **Python-RPA-Entwickler** | Entwickelt Python-Bots nach Template, schreibt Tests |
 | **UiPath-Entwickler** | Entwickelt UiPath-Komponenten nur bei freigegebenen Ausnahmen |
 | **DevOps/Automation Engineer** | CI/CD-Pipelines, Container-Deployment, Monitoring |
@@ -175,4 +175,4 @@ Alles ist Code, alles ist versioniert:
 
 | Version | Datum | Änderung | Autor |
 |---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | RPA-Hybrid-Architekt |
+| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

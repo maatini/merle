@@ -1,9 +1,9 @@
-# RPA OpenCode Hybrid
+# Merle OpenCode Hybrid
 
-**Angepasste OpenCode-IDE für hybride RPA-Entwicklung**
+**Angepasste OpenCode-IDE für das Merle-Framework (Modern Enterprise RPA Leadership Environment)**
 
 Dies ist ein Fork von [OpenCode](https://github.com/anomalyco/opencode), angepasst und optimiert
-für das [RPA Hybrid Development Kit](../). Der Fork erweitert OpenCode um:
+für das [Merle-Framework](../). Der Fork erweitert OpenCode um:
 - Einen dedizierten **RPA-Hybrid-Architekt** Agent
 - RPA-spezifische **Skills** für Prozessanalyse, Bot-Generierung und Governance
 - Ein **MCP-Tool** (`rpa-context`) für On-Demand-Kit-Dokumentation

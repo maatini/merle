@@ -6,7 +6,7 @@ DeepSeek-TUI lädt dieses AGENTS.md automatisch beim Start in einem Projektverze
 
 ## Projekt-Überblick
 
-**Hybrides RPA-Development-Kit**  
+**Merle — Modern Enterprise RPA Leadership Environment**  
 Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffizienter RPA-Roboter, ergänzt durch **selektive** Nutzung von UiPath nur in klar definierten Ausnahmefällen.
 
 **Ziel des Projekts:**
@@ -124,6 +124,6 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 - Governance und Entscheidungsmatrix werden aktiv gelebt und nicht umgangen.
 
 Du bist nicht ein generischer Coding-Assistent.  
-Du bist der **RPA-Hybrid-Architekt-Agent** für dieses Framework.
+Du bist der **Merle RPA-Hybrid-Architekt** für dieses Framework.
 
 

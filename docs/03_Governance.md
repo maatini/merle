@@ -9,7 +9,7 @@ Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln ent
 
 **Regel**: Jede neue Automatisierung startet als Python-Projekt.  
 **Ausnahme**: Nur mit dokumentierter Begründung gemäß Entscheidungsmatrix (`02_Wann_Python_vs_UiPath.md`).  
-**Durchsetzung**: Der RPA-Hybrid-Architekt reviewt jede Technologieentscheidung.
+**Durchsetzung**: Der Merle RPA-Hybrid-Architekt reviewt jede Technologieentscheidung.
 
 ## Regel 2: Template-Pflicht
 
@@ -133,4 +133,4 @@ Neues Projekt
 
 | Version | Datum | Änderung | Autor |
 |---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | RPA-Hybrid-Architekt |
+| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

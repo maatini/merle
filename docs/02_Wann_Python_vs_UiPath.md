@@ -105,7 +105,7 @@ Jede Entscheidung MUSS dokumentiert werden:
 - [Risiko 1] → [Mitigation]
 
 **Entscheider**: [Name/Rolle]
-**Genehmigt durch**: [RPA-Hybrid-Architekt]
+**Genehmigt durch**: [Merle RPA-Hybrid-Architekt]
 ```
 
 ## Fallbeispiele
@@ -145,4 +145,4 @@ Diese Begründungen sind **nicht** ausreichend für UiPath:
 
 | Version | Datum | Änderung | Autor |
 |---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | RPA-Hybrid-Architekt |
+| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

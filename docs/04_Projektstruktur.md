@@ -158,4 +158,4 @@ CMD ["python", "main.py"]
 
 | Version | Datum | Änderung | Autor |
 |---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | RPA-Hybrid-Architekt |
+| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

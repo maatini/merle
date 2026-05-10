@@ -1,6 +1,7 @@
-# RPA Hybrid Development Kit
+# Merle
 
-**Python-First Framework für hybride RPA-Entwicklung**  
+**Modern Enterprise RPA Leadership Environment**  
+Python-First Framework für hybride RPA-Entwicklung.  
 Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, UiPath nur bei nachgewiesenem Vorteil.
 
 ---
@@ -57,7 +58,7 @@ docker run --env-file .env mein-bot
 ├── integration_examples/     # Python ↔ UiPath Muster
 ├── uipath_templates/         # UiPath-Templates (nur Ausnahmen)
 ├── agent/
-│   └── CLAUDE.md             # RPA-Hybrid-Architekt Agent
+│   └── CLAUDE.md             # Merle RPA-Hybrid-Architekt
 ├── AGENTS.md                 # AI-Agenten Kontext
 └── README.md                 # Diese Datei
 ```
@@ -116,9 +117,9 @@ Details: [Governance-Regeln](docs/03_Governance.md)
 
 ## Für AI-Agenten
 
-Wenn du ein AI-Agent (Claude, DeepSeek, etc.) in diesem Repository arbeitest:
+Wenn du als AI-Agent (Claude, DeepSeek, etc.) in diesem Repository arbeitest:
 - Lies `AGENTS.md` für deinen System-Kontext
-- Lies `agent/CLAUDE.md` für deine Persona als RPA-Hybrid-Architekt
+- Lies `agent/CLAUDE.md` für deine Persona als Merle RPA-Hybrid-Architekt
 - Befolge die Governance-Regeln strikt
 - Denke Python-first
 

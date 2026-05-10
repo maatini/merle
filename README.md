@@ -1,5 +1,15 @@
 # Merle
 
+[![License](https://img.shields.io/badge/license-proprietary-red)](./LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/maatini/merle)
+[![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/01_Strategie.md)
+[![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
+
+<p align="center">
+  <img src="merle.png" alt="Merle — Modern Enterprise RPA Leadership Environment" width="200">
+</p>
+
 **Modern Enterprise RPA Leadership Environment**  
 Python-First Framework für hybride RPA-Entwicklung.  
 Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, UiPath nur bei nachgewiesenem Vorteil.

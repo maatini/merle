@@ -1,0 +1,29 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {},
+  "permission": {
+    "edit": {
+      "packages/opencode/migration/*": "ask",
+      "python_bots/*/config.py": "ask",
+      "python_bots/*/Dockerfile": "ask",
+      "python_bots/*/main.py": "allow",
+      "python_bots/*/tasks/*": "allow",
+      "python_bots/*/tests/*": "allow",
+      "python_bots/*/README.md": "allow",
+      "python_bots/*/.env.example": "allow",
+      "python_bots/*/requirements.txt": "allow",
+      "docs/decisions/*": "allow",
+      "agent/*": "ask"
+    },
+    "shell": {
+      "python_bots/*": "allow",
+      "docs/*": "allow"
+    }
+  },
+  "mcp": {},
+  "tools": {
+    "github-triage": false,
+    "github-pr-search": false,
+    "rpa-context": true
+  }
+}

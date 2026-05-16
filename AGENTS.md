@@ -6,7 +6,7 @@ DeepSeek-TUI lädt dieses AGENTS.md automatisch beim Start in einem Projektverze
 
 ## Projekt-Überblick
 
-**Merle — Modern Enterprise RPA Leadership Environment**  
+**Merle — Modular Enterprise RPA Lifecycle Engine**  
 Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffizienter RPA-Roboter, ergänzt durch **selektive** Nutzung von UiPath nur in klar definierten Ausnahmefällen.
 
 **Ziel des Projekts:**

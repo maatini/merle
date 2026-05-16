@@ -8,10 +8,10 @@
 [![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](./README.md#vision--zukünftige-erweiterungen)
 
 <p align="center">
-  <img src="merle.png" alt="Merle — Modern Enterprise RPA Leadership Environment" width="600">
+  <img src="merle.png" alt="Merle — Modular Enterprise RPA Lifecycle Engine" width="600">
 </p>
 
-**Modern Enterprise RPA Leadership Environment**  
+**Modular Enterprise RPA Lifecycle Engine**  
 Python-First Framework für hybride RPA-Entwicklung.  
 Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, UiPath nur bei nachgewiesenem Vorteil.  
 **Zukünftig: Granulare, NATS-basierte Orchestrierung mit KI-Executor und BPMN-Transparenz.**

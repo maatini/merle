@@ -1,7 +1,7 @@
 [project]
 name = "merle"
 version = "1.0.0"
-description = "Modern Enterprise RPA Leadership Environment — Python-first hybrid RPA framework"
+description = "Modular Enterprise RPA Lifecycle Engine — Python-first hybrid RPA framework"
 requires-python = ">=3.11"
 license = {text = "Proprietary"}
 readme = "README.md"

@@ -2,7 +2,7 @@
 
 ## Strategische Ausrichtung
 
-Dieses Dokument definiert die technologische Strategie für das **Merle-Framework** (Modern Enterprise RPA Leadership Environment).  
+Dieses Dokument definiert die technologische Strategie für das **Merle-Framework** (Modular Enterprise RPA Lifecycle Engine).  
 Es ist die normative Grundlage für **alle** Architekturentscheidungen in Automatisierungsprojekten.
 
 ### Leitsatz

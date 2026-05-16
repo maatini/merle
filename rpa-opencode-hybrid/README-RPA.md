@@ -1,6 +1,6 @@
 # Merle OpenCode Hybrid
 
-**Angepasste OpenCode-IDE für das Merle-Framework (Modern Enterprise RPA Leadership Environment)**
+**Angepasste OpenCode-IDE für das Merle-Framework (Modular Enterprise RPA Lifecycle Engine)**
 
 Dies ist ein Fork von [OpenCode](https://github.com/anomalyco/opencode), angepasst und optimiert
 für das [Merle-Framework](../). Der Fork erweitert OpenCode um:

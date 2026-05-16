@@ -62,6 +62,7 @@ jobs:
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
+        continue-on-error: true # sarif may not exist if image Trivy was skipped (build failed)
         with:
           sarif_file: "trivy-results.sarif"
 

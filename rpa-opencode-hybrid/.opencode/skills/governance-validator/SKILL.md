@@ -1,144 +1,79 @@
-# Governance Validator
+# Governance Validator (Phase 3+)
 
 ## Purpose
 Validiert Code und Projektstruktur auf **vollständige Einhaltung** aller
-Governance-Regeln des RPA Hybrid Development Kit.
+Governance-Regeln des Merle RPA Frameworks (inkl. Rule 10: Merle-Core-Pflicht).
 
 ## When to Use
-- Nach der Bot-Erstellung (vor Code-Review)
-- Vor dem Merge in `main`
-- Bei quartalsweisen Audits
-- Bei Verdacht auf Regelverstöße
-- Auf Anforderung: „Validiere den Bot <name>"
+- Nach Bot-Erstellung (vor Code-Review)
+- Vor Merge nach `main`
+- Bei Audits
+- Auf Anfrage: "Validiere den Bot <name>"
 
 ## Process
 
 ### 1. Ziel bestimmen
 - Einzelner Bot: `python_bots/<bot_name>/`
-- Alle Bots: `python_bots/*/`
 - Gesamtes Repository: `.`
 
-### 2. Regel-Checks durchführen
+### 2. Regel-Checks durchführen (alle 10 Regeln)
 
 #### Regel 1: Python-First
-- [ ] Technologieentscheidung dokumentiert? (ADR in `docs/decisions/`)
-- [ ] Bei UiPath: Begründung gemäß Entscheidungsmatrix?
-- [ ] Bei UiPath: Python-Alternative geprüft?
+- Technologieentscheidung dokumentiert (ADR)?
+- Bei UiPath: Begründung gemäß Entscheidungsmatrix?
 
-#### Regel 2: Template-Pflicht
-- [ ] Bot-Verzeichnis enthält alle Template-Dateien?
-  - `main.py`
-  - `config.py`
-  - `tasks/` (mit __init__.py und mindestens einer Task)
-  - `tests/` (mit __init__.py, conftest.py, mindestens einem Test)
-  - `requirements.txt`
-  - `Dockerfile`
-  - `.env.example`
-  - `README.md`
+#### Regel 2: Template-Pflicht (aktualisiert)
+- Wurde der Bot mit `merle new-bot` oder Copier (`templates/bot/`) erstellt?
+- Oder zumindest: Enthält er alle notwendigen Dateien?
 
 #### Regel 3: Keine hartcodierten Werte
-- [ ] Keine URLs im Code (außer Defaults in Settings-Klasse)
-- [ ] Keine API-Keys, Passwörter, Tokens im Code
-- [ ] Keine absoluten Windows-Pfade (`C:\...`)
-- [ ] Alle Umgebungsvariablen in `.env.example` dokumentiert
-- [ ] `.env` in `.gitignore`
-
-Prüf-Befehl:
-```bash
-grep -rn "api_key\s*=\s*['\"]" python_bots/  # Sollte LEER sein
-grep -rn "password\s*=\s*['\"]" python_bots/  # Sollte LEER sein
-grep -rn "C:\\\\" python_bots/                  # Sollte LEER sein
-```
+- Keine API-Keys, URLs, Pfade im Code
+- Alle Werte in `config.py` (pydantic-settings)
 
 #### Regel 4: Strukturiertes Logging
-- [ ] loguru wird importiert und verwendet (`from loguru import logger`)
-- [ ] Kein `print()` für Logging-Zwecke
-- [ ] Logger-Instanz pro Bot/Task mit `bind()`
-- [ ] JSON-Logging-Option in Produktion (`BOT_LOG_JSON`)
-
-Prüf-Befehl:
-```bash
-grep -rn "from loguru import logger" python_bots/  # Sollte in jeder .py-Datei sein
-grep -rn "^[^#]*print\(" python_bots/               # Sollte minimal sein
-```
+- `loguru` wird verwendet
+- `configure_observability()` in `main.py` vorhanden?
 
 #### Regel 5: Retry-Mechanismen
-- [ ] `from tenacity import retry` in Dateien mit externen Aufrufen
-- [ ] `@retry`-Dekorator auf HTTP-Calls, DB-Zugriffen, Datei-I/O
-- [ ] Exponentielles Backoff konfiguriert
-- [ ] Maximale Anzahl Versuche definiert (3-5)
+- `@with_retry` oder Policies aus `merle_core.retry` werden genutzt
 
 #### Regel 6: Tests
-- [ ] `tests/`-Verzeichnis mit mindestens einer Test-Datei
-- [ ] Unit-Tests für Business-Logik (`test_*.py`)
-- [ ] Mock für externe Abhängigkeiten verwendet (nicht echte Aufrufe)
-- [ ] `pytest` in `requirements.txt`
+- `tests/` vorhanden mit sinnvollen Tests
 
-Prüf-Befehl:
-```bash
-find python_bots/*/tests -name "test_*.py" | wc -l  # Sollte > 0 sein
-```
-
-#### Regel 7: Linux-Container-Kompatibilität
-- [ ] `Dockerfile` vorhanden
-- [ ] Basis-Image ist Linux (`python:3.11-slim` oder ähnlich)
-- [ ] Keine Windows-only-Befehle (`powershell`, `cmd`, `reg`)
-- [ ] Keine Windows-Pfade (`C:\`, `\\server\share`)
-- [ ] Playwright-Abhängigkeiten installiert (wenn Playwright verwendet)
-
-Prüf-Befehl:
-```bash
-grep -rn "powershell\|cmd\.exe\|reg\.exe" python_bots/  # Sollte LEER sein
-```
+#### Regel 7: Linux-Container-fähig
+- `Dockerfile` vorhanden und Linux-basiert
 
 #### Regel 8: Dokumentation
-- [ ] `README.md` im Bot-Verzeichnis
-- [ ] Enthält: Zweck, Konfiguration, Entwicklung, Docker, Betrieb
-- [ ] Bei UiPath: ADR in `docs/decisions/`
+- `README.md` vorhanden und aktuell
 
 #### Regel 9: Code-Review-Bereitschaft
-- [ ] Keine auskommentierten Code-Blöcke (> 3 Zeilen)
-- [ ] Keine TODO/FIXME ohne Issue-Referenz
-- [ ] Gitignore vollständig (`.env`, `__pycache__`, `logs/`)
 
-#### Regel 10: Entscheidungsdokumentation
-- [ ] Bei UiPath-Nutzung: ADR vorhanden mit Begründung, Alternativen, Risiken
+#### Regel 10: Merle-Core-Pflicht (neu)
+- Wird `merle-core` als Dependency verwendet?
+- Werden `BaseTask`, `TaskSpec`, Observability-Funktionen genutzt?
+- Werden Helfer aus `merle_core.nats`, `merle_core.playwright` etc. verwendet?
 
 ### 3. Bewertung ausgeben
 
 ```markdown
-## Governance-Validierung: [Bot-Name]
+## Governance-Validierung: <Bot-Name>
 
 **Gesamtergebnis**: ✅ Bestanden / ⚠️ Mängel / ❌ Nicht bestanden
 **Score**: X/10 Regeln erfüllt
 
-### Detail-Ergebnisse
+### Kritische Mängel (Deployment-Blocker)
+- ...
 
-| Regel | Status | Anmerkung |
-|-------|--------|-----------|
-| 1. Python-First | ✅ | ADR vorhanden |
-| 2. Template | ✅ | Alle Dateien vorhanden |
-| 3. Keine Hardcoding | ⚠️ | Zeile 42: URL hartcodiert |
-| ... | ... | ... |
-
-### Kritische Mängel (müssen behoben werden)
-- [ ] [Mangel 1] → [Konkrete Behebungsanleitung]
-- [ ] [Mangel 2] → [Konkrete Behebungsanleitung]
-
-### Warnungen (sollten behoben werden)
-- [ ] [Warnung 1] → [Verbesserungsvorschlag]
+### Empfohlene Verbesserungen
+- ...
 ```
-
-### 4. Schweregrade
-- **❌ Kritisch**: Regel 1-3, 7 verletzt → Deployment-Blocker
-- **⚠️ Warnung**: Regel 4-6, 8-10 teilweise verletzt → Vor Merge beheben
-- **💡 Hinweis**: Kleinere Verbesserungsmöglichkeiten
 
 ## Hard Constraints
 - IMMER alle 10 Regeln prüfen
-- IMMER konkrete Zeilennummern und Behebungsvorschläge nennen
-- NIE „Bestanden" melden, wenn kritische Mängel vorliegen
+- Besonders auf Rule 10 (Merle-Core) achten
+- Konkrete Beispiele und Verbesserungsvorschläge liefern
 
 ## References
-- `docs/03_Governance.md` — Vollständige Governance-Regeln
-- `docs/05_Entwicklungsleitfaden.md` — Abschnitt „Checkliste für Bot-Fertigstellung"
+- `docs/03_Governance.md`
+- `docs/05_Entwicklungsleitfaden.md`
+- `merle_core/` (v0.3+)

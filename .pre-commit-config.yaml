@@ -1,0 +1,48 @@
+# pre-commit configuration for Merle RPA
+# Run locally: uv run pre-commit install
+# Or: pre-commit run --all-files
+
+repos:
+  # Ruff: Linting + Auto-fix (replaces flake8, isort, pyupgrade, etc.)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.6
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # Mypy: Static type checking (strict mode)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        args:
+          - "--strict"
+          - "--no-error-summary"
+          - "--show-error-codes"
+        files: ^python_bots/shared/src/
+        additional_dependencies:
+          - "loguru>=0.7"
+          - "tenacity>=8.0"
+          - "httpx>=0.25"
+
+  # Prettier: Format YAML, Markdown, JSON, TOML (non-Python files)
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.4.2
+    hooks:
+      - id: prettier
+        types_or: [yaml, markdown, json, toml]
+        exclude: |
+          (?x)^(
+              rpa-opencode-hybrid/.*|
+              .*\.lock|
+              .*\.sql
+          )$
+
+# Optional: additional useful hooks
+#  - repo: https://github.com/pre-commit/pre-commit-hooks
+#    rev: v4.6.0
+#    hooks:
+#      - id: check-yaml
+#      - id: end-of-file-fixer
+#      - id: trailing-whitespace

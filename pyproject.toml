@@ -1,18 +1,22 @@
 [project]
 name = "merle"
-version = "1.0.0"
+version = "0.2.0"
 description = "Modular Enterprise RPA Lifecycle Engine — Python-first hybrid RPA framework"
 requires-python = ">=3.11"
 license = {text = "Proprietary"}
 readme = "README.md"
 
-[project.optional-dependencies]
+[tool.uv.workspace]
+members = ["python_bots/shared"]
+
+[dependency-groups]
 dev = [
     "ruff>=0.9,<1.0",
     "mypy>=1.14,<2.0",
     "pytest>=8.0,<9.0",
     "pytest-asyncio>=0.23,<1.0",
     "pytest-playwright>=0.4,<1.0",
+    "pre-commit>=3.7,<4.0",
 ]
 
 # ─── Ruff ───────────────────────────────────────────────
@@ -40,7 +44,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["merle", "shared"]
+known-first-party = ["merle", "merle_core"]
 force-sort-within-sections = true
 
 [tool.ruff.format]
@@ -82,7 +86,7 @@ addopts = [
     "--strict-config",
     "-ra",
 ]
-testpaths = ["tests"]
+testpaths = ["python_bots"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 markers = [

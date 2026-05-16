@@ -1,0 +1,32 @@
+"""
+Beispiel-Task für {{ bot_name }}.
+
+Ab Phase 2 sollten Tasks von `BaseTask` erben (bessere Metriken, Hooks, Konsistenz).
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
+from config import BotSettings
+from merle_core import BaseTask
+
+
+class ExampleTask(BaseTask):
+    """
+    Moderner Task basierend auf BaseTask.
+    Erbt automatisch:
+    - Timing + Metriken
+    - _on_success / _on_failure Hooks
+    - Strukturiertes Logging
+    """
+
+    def __init__(self, settings: BotSettings) -> None:
+        super().__init__(settings, name="ExampleTask")
+
+    async def execute(self) -> dict[str, Any]:
+        self.logger.info("Führe Business-Logik aus...")
+
+        # Hier echte Logik (HTTP, Datenverarbeitung, etc.)
+
+        return {"status": "ok", "processed": 0}

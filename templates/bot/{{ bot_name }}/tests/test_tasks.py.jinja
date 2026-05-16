@@ -1,0 +1,29 @@
+"""
+Beispiel-Tests für Tasks von {{ bot_name }}.
+
+Ab Phase 2 ist es empfohlen, Tasks von `BaseTask` zu erben und diese entsprechend zu testen.
+"""
+
+import pytest
+
+from config import BotSettings
+from tasks.example_task import ExampleTask
+
+
+@pytest.fixture
+def settings():
+    return BotSettings(
+        bot_name="{{ bot_name }}",
+        environment="testing",
+        log_level="DEBUG",
+    )
+
+
+@pytest.mark.asyncio
+async def test_example_task_returns_success(settings):
+    task = ExampleTask(settings)
+    result = await task.run()
+
+    assert result["status"] == "ok"
+    assert task.status == "success"
+    assert task.duration is not None

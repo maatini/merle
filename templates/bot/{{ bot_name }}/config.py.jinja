@@ -1,0 +1,42 @@
+"""
+Zentrale Konfiguration für {{ bot_name }}.
+
+Verwendet pydantic-settings für typsichere Konfiguration aus Umgebungsvariablen.
+"""
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class BotSettings(BaseSettings):
+    """Bot-spezifische Konfiguration."""
+
+    model_config = SettingsConfigDict(
+        env_prefix="BOT_",
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    # --- Allgemein ---
+    bot_name: str = "{{ bot_name }}"
+    environment: str = "development"
+
+    # --- Logging ---
+    log_level: str = "INFO"
+    log_json: bool = False
+
+    # --- Retry & HTTP ---
+    max_retries: int = 3
+    request_timeout: float = 30.0
+
+    # --- Zielsystem (projektspezifisch anpassen) ---
+    target_url: str = "https://example.com/api"
+    api_key: str = ""
+
+    {% if include_uipath_orchestrator %}
+    # --- UiPath Orchestrator (optional) ---
+    orchestrator_url: str = ""
+    orchestrator_tenant: str = "Default"
+    orchestrator_client_id: str = ""
+    orchestrator_client_secret: str = ""
+    {% endif %}

@@ -1,0 +1,58 @@
+"""
+{{ bot_name }} — {{ bot_description }}
+
+Dieser Bot wurde mit dem offiziellen Merle Copier-Template (Phase 1+) erzeugt.
+"""
+
+import asyncio
+
+from loguru import logger
+
+from config import BotSettings
+from merle_core import setup_logging
+
+{% if use_base_bot_class %}
+from merle_core import BaseBot
+{% endif %}
+
+{% if include_playwright or include_pandas or include_pdf %}
+from tasks.example_task import ExampleTask
+{% endif %}
+
+
+async def main() -> None:
+    """Haupt-Workflow des Bots."""
+    settings = BotSettings()  # type: ignore[call-arg]
+
+    # === Phase 2: Observability aktivieren ===
+    from merle_core.observability import configure_observability
+    configure_observability(service_name=settings.bot_name)
+
+    setup_logging(level=settings.log_level, json_format=settings.log_json)
+
+    logger.info("Bot {} startet (env={})", settings.bot_name, settings.environment)
+
+    try:
+        {% if use_base_bot_class %}
+        # Moderne Architektur: Von BaseBot erben
+        # from merle_core import BaseBot
+        # bot = MeinBot(settings)
+        # await bot.run()
+        {% endif %}
+
+        {% if include_playwright or include_pandas or include_pdf %}
+        # Tasks von BaseTask erben (empfohlen)
+        task = ExampleTask(settings)
+        result = await task.run()
+        logger.info("Task abgeschlossen: {}", result)
+        {% else %}
+        logger.info("Bot erfolgreich ausgeführt (Platzhalter – eigene Logik hier einfügen)")
+        {% endif %}
+
+    except Exception:
+        logger.exception("Kritischer Fehler im Bot")
+        raise
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

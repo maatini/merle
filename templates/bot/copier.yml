@@ -1,0 +1,74 @@
+# Copier Template für Merle RPA-Bots (Phase 1+)
+# Verwendung:
+#   copier copy templates/bot python_bots/mein_bot
+#   oder über die merle CLI: merle new-bot mein_bot
+
+_min_copier_version: "9.3"
+_subdirectory: "{{ bot_name }}"
+
+# ─────────────────────────────────────────────────────────────
+# Fragen an den Benutzer
+# ─────────────────────────────────────────────────────────────
+
+bot_name:
+  type: str
+  help: "Name des neuen Bots (snake_case, z.B. invoice_processor, hr_onboarding)"
+
+bot_description:
+  type: str
+  help: "Kurze Beschreibung, was der Bot macht (erscheint in README und docstrings)"
+  default: "Automatisiert einen wiederkehrenden Geschäftsprozess"
+
+python_version:
+  type: str
+  help: "Python-Version für den Bot"
+  default: "3.11"
+  choices:
+    - "3.11"
+    - "3.12"
+
+# Feature-Flags (erzeugen schlanke, passgenaue Bots)
+
+include_playwright:
+  type: bool
+  help: "Playwright für Web-Automatisierung einbinden? (empfohlen für Browser-Bots)"
+  default: false
+
+include_pandas:
+  type: bool
+  help: "pandas + openpyxl für Excel-/Datenverarbeitung einbinden?"
+  default: false
+
+include_pdf:
+  type: bool
+  help: "pdfplumber für PDF-Verarbeitung einbinden?"
+  default: false
+
+include_uipath_orchestrator:
+  type: bool
+  help: "UiPath Orchestrator Client (API) einbinden? (nur bei nachgewiesenem Bedarf)"
+  default: false
+
+use_base_bot_class:
+  type: bool
+  help: "Beispiel einer von BaseBot (merle-core) erbenden Klasse erzeugen?"
+  default: true
+
+location:
+  type: str
+  help: "In welchem Verzeichnis soll der Bot erzeugt werden? (beeinflusst merle-core Referenz)"
+  default: "python_bots"
+  choices:
+    - "python_bots"      # Standard: relativer Pfad zu ../shared funktioniert
+    - "standalone"       # Später: normales merle-core>=0.1.0 (internes PyPI)
+
+# ─────────────────────────────────────────────────────────────
+# Tasks nach der Generierung
+# ─────────────────────────────────────────────────────────────
+
+_tasks:
+  - "echo '✅ Bot {{ bot_name }} wurde erfolgreich generiert.'"
+  - "echo 'Nächste Schritte: cd {{ _copier_conf.answers.location }}/{{ bot_name }} && uv sync --group dev'"
+
+# Optional: spätere Erweiterung mit post-generation Hook
+# _tasks kann auch Python-Hooks aufrufen (siehe hooks/post_gen_project.py)

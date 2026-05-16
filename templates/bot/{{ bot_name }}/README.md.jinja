@@ -1,0 +1,41 @@
+# {{ bot_name }}
+
+{{ bot_description }}
+
+Dieser Bot wurde mit dem **offiziellen Merle Copier-Template** (Phase 1+) erzeugt.
+
+## Schnellstart
+
+```bash
+uv sync --group dev
+uv run python main.py
+```
+
+## Features dieses Bots
+
+{% if include_playwright %}- ✅ Playwright (Web-Automatisierung)
+{% endif %}{% if include_pandas %}- ✅ pandas + openpyxl
+{% endif %}{% if include_pdf %}- ✅ pdfplumber
+{% endif %}{% if include_uipath_orchestrator %}- ✅ UiPath Orchestrator Client
+{% endif %}{% if use_base_bot_class %}- ✅ BaseBot aus merle-core
+{% endif %}
+
+## Konfiguration
+
+Alle Einstellungen stehen in `.env` (siehe `.env.example`).
+
+| Variable | Beschreibung |
+|----------|--------------|
+| `BOT_TARGET_URL` | Zielsystem |
+| `BOT_API_KEY` | Authentifizierung |
+
+## Docker
+
+```bash
+docker build -t {{ bot_name }} .
+docker run --env-file .env {{ bot_name }}
+```
+
+## Governance
+
+Dieser Bot entspricht vollständig den Merle-Regeln (ADR-0004 + Governance).

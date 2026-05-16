@@ -1,0 +1,20 @@
+"""
+Test-Konfiguration für {{ bot_name }}.
+"""
+
+from collections.abc import Generator
+
+import pytest
+
+from config import BotSettings
+
+
+@pytest.fixture
+def settings() -> Generator[BotSettings, None, None]:
+    yield BotSettings(
+        bot_name="{{ bot_name }}",
+        environment="testing",
+        log_level="DEBUG",
+        target_url="https://test.example.com/api",
+        api_key="test-key",
+    )

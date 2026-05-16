@@ -1,0 +1,17 @@
+"""
+Grundlegende Tests für {{ bot_name }}.
+"""
+
+import pytest
+
+from config import BotSettings
+
+
+class TestBotSettings:
+    """Tests für die Konfiguration."""
+
+    def test_default_bot_name(self, settings: BotSettings) -> None:
+        assert settings.bot_name == "{{ bot_name }}"
+
+    def test_environment_is_testing(self, settings: BotSettings) -> None:
+        assert settings.environment == "testing"

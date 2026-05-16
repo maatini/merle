@@ -2,12 +2,9 @@
 Tests for the merle_core exception hierarchy.
 """
 
-import pytest
-
 from merle_core.exceptions import (
     MerleError,
     RetryExhaustedError,
-    PlaywrightError,
     ElementNotFoundError,
     SecretNotFoundError,
 )

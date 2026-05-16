@@ -19,9 +19,9 @@ Verwendung von BaseBot (empfohlen in realen Bots):
 import asyncio
 
 from loguru import logger
+from merle_core import setup_logging
 
 from config import BotSettings
-from merle_core import setup_logging
 from tasks.example_task import ExampleTask
 
 

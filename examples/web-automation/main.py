@@ -8,11 +8,12 @@ Zeigt:
 """
 
 import asyncio
+
 from loguru import logger
 
 from merle_core import BaseTask
 from merle_core.observability import configure_observability
-from merle_core.playwright import launch_robust_browser, safe_click, safe_fill
+from merle_core.playwright import launch_robust_browser
 
 
 class LoginAndExtractTask(BaseTask):

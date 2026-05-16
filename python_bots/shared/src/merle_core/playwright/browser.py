@@ -6,8 +6,6 @@ Bietet einen sicheren, stealth-fähigen und fehlertoleranten Browser-Kontext fü
 
 from __future__ import annotations
 
-import asyncio
-import os
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
@@ -15,14 +13,11 @@ from typing import Any
 
 from loguru import logger
 
-from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
+from playwright.async_api import Browser, BrowserContext, Page, async_playwright
 
 from merle_core.exceptions import (
     BrowserLaunchError,
-    ElementNotFoundError,
-    PlaywrightError,
 )
-from merle_core.retry import browser_retry
 
 
 class RobustBrowser:

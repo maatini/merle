@@ -5,7 +5,6 @@ Abstrakte Basis für Secret Provider.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any
 
 
 class SecretProvider(ABC):
@@ -24,4 +23,5 @@ class SecretProvider(ABC):
 
 class SecretNotFoundError(Exception):
     """Wird geworfen, wenn ein Secret nicht gefunden wurde."""
+
     pass

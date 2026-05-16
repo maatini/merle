@@ -22,6 +22,7 @@ class MerleError(Exception):
 # Retry & Resilience
 # ─────────────────────────────────────────────────────────────
 
+
 class RetryExhaustedError(MerleError):
     """Alle Retry-Versuche sind fehlgeschlagen."""
 
@@ -42,6 +43,7 @@ class CircuitBreakerOpenError(MerleError):
 # ─────────────────────────────────────────────────────────────
 # Playwright / Browser
 # ─────────────────────────────────────────────────────────────
+
 
 class PlaywrightError(MerleError):
     """Basis-Exception für alle Playwright-bezogenen Fehler."""
@@ -68,6 +70,7 @@ class ScreenshotFailedError(PlaywrightError):
 # Datenverarbeitung (Excel, PDF, Email)
 # ─────────────────────────────────────────────────────────────
 
+
 class DataProcessingError(MerleError):
     """Fehler bei der Verarbeitung von Excel, PDF oder E-Mails."""
 
@@ -84,6 +87,7 @@ class PdfError(DataProcessingError):
 # UiPath / Orchestrator
 # ─────────────────────────────────────────────────────────────
 
+
 class UiPathError(MerleError):
     """Fehler bei der Kommunikation mit UiPath Orchestrator."""
 
@@ -96,6 +100,7 @@ class QueueItemError(UiPathError):
 # Secrets & Konfiguration
 # ─────────────────────────────────────────────────────────────
 
+
 class SecretsError(MerleError):
     """Fehler beim Zugriff auf Secrets (Key Vault, .env, etc.)."""
 
@@ -107,6 +112,7 @@ class SecretNotFoundError(SecretsError):
 # ─────────────────────────────────────────────────────────────
 # Allgemeine Business-Fehler
 # ─────────────────────────────────────────────────────────────
+
 
 class BusinessRuleViolation(MerleError):
     """Eine Geschäftsregel wurde verletzt (z.B. ungültiger Status)."""

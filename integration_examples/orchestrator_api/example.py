@@ -14,6 +14,7 @@ Voraussetzungen:
 """
 
 import asyncio
+
 import httpx
 from loguru import logger
 
@@ -103,6 +104,7 @@ async def main():
     """Demo: Orchestrator-Integration."""
     # Diese Werte aus Umgebungsvariablen laden (niemals hartcodieren!)
     import os
+
     client_id = os.getenv("UIPATH_CLIENT_ID", "")
     client_secret = os.getenv("UIPATH_CLIENT_SECRET", "")
     tenant = os.getenv("UIPATH_TENANT", "Default")
@@ -113,11 +115,14 @@ async def main():
     await orchestrator.authenticate()
 
     # 2. Queue-Item erstellen (z.B. Rechnungsdaten)
-    await orchestrator.add_queue_item("InvoiceQueue", {
-        "invoice_id": "INV-2026-001",
-        "amount": 1500.00,
-        "vendor": "ACME Corp",
-    })
+    await orchestrator.add_queue_item(
+        "InvoiceQueue",
+        {
+            "invoice_id": "INV-2026-001",
+            "amount": 1500.00,
+            "vendor": "ACME Corp",
+        },
+    )
 
     # 3. Job starten (z.B. Rechnungsverarbeitung)
     # result = await orchestrator.start_job("your-process-key-here")

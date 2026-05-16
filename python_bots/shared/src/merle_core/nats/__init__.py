@@ -19,7 +19,7 @@ Verwendung:
 
 from .client import NatsClient, NatsMessage, PullConsumer
 
-__all__ = ["NatsClient", "NatsMessage", "PullConsumer"]
+__all__ = ["NatsClient", "NatsMessage", "PullConsumer", "TaskSpec", "TaskResult"]
 
 # Re-export für bequeme Nutzung
 from ..task import TaskSpec, TaskResult

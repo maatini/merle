@@ -8,7 +8,6 @@ import pytest
 
 from merle_core import BaseTask
 from merle_core.retry import with_retry, browser_retry
-from merle_core.exceptions import RetryExhaustedError
 
 
 class UnstableExternalServiceTask(BaseTask):

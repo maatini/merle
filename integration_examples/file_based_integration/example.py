@@ -14,10 +14,11 @@ Nachteile:
 - Dateizugriff muss koordiniert werden (Locking)
 """
 
-import json
 import csv
-from pathlib import Path
 from datetime import datetime
+import json
+from pathlib import Path
+
 from loguru import logger
 
 
@@ -57,7 +58,7 @@ class FileBasedIntegration:
         results = []
 
         for csv_file in input_dir.glob(pattern):
-            with open(csv_file, "r", encoding="utf-8") as f:
+            with open(csv_file, encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 rows = list(reader)
                 results.extend(rows)

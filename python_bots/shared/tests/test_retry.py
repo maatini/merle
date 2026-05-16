@@ -2,10 +2,7 @@
 Tests for the centralized retry module.
 """
 
-import asyncio
-
 import pytest
-from tenacity import RetryError
 
 from merle_core.exceptions import RetryExhaustedError
 from merle_core.retry import (

@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 @dataclass
 class NatsMessage:
     """Repräsentiert eine empfangene NATS-Nachricht."""
+
     subject: str
     data: dict[str, Any]
     reply: str | None = None
@@ -47,7 +48,7 @@ class NatsClient:
         connect_timeout: float = 10.0,
         max_reconnects: int = 10,
         reconnect_time_wait: float = 2.0,
-        retry_policy: Any = None,   # aus merle_core.retry
+        retry_policy: Any = None,  # aus merle_core.retry
     ):
         self.servers = servers if isinstance(servers, list) else [servers]
         self.name = name
@@ -65,10 +66,7 @@ class NatsClient:
         try:
             import nats
         except ImportError as e:
-            raise ImportError(
-                "NATS-Unterstützung erfordert das Extra: "
-                'uv add "merle-core[nats]"'
-            ) from e
+            raise ImportError('NATS-Unterstützung erfordert das Extra: uv add "merle-core[nats]"') from e
 
         self._nc = await nats.connect(
             servers=self.servers,
@@ -193,6 +191,7 @@ class NatsClient:
     async def publish_task(self, subject: str, task_spec: "TaskSpec") -> None:
         """Veröffentlicht eine TaskSpec auf einem Subject."""
         from ..task import TaskSpec
+
         if not isinstance(task_spec, TaskSpec):
             raise TypeError("Erwarte TaskSpec")
         await self.publish(subject, task_spec.to_dict())
@@ -338,11 +337,13 @@ class PullConsumer:
             for msg in msgs:
                 try:
                     data = json.loads(msg.data.decode())
-                    result.append(NatsMessage(
-                        subject=msg.subject,
-                        data=data,
-                        reply=msg.reply,
-                    ))
+                    result.append(
+                        NatsMessage(
+                            subject=msg.subject,
+                            data=data,
+                            reply=msg.reply,
+                        )
+                    )
                     # Wir merken uns die Original-Nachricht für Ack
                     result[-1]._raw_msg = msg  # type: ignore
                 except Exception as e:

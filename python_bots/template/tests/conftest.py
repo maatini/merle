@@ -14,7 +14,7 @@ from config import BotSettings
 @pytest.fixture
 def settings() -> Generator[BotSettings, None, None]:
     """Basis-Settings für Tests (keine echten Secrets)."""
-    yield BotSettings(
+    return BotSettings(
         bot_name="test_bot",
         environment="testing",
         log_level="DEBUG",

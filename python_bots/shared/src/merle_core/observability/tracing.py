@@ -34,11 +34,13 @@ def init_tracing(
     if _tracer_provider is not None:
         return _tracer_provider
 
-    resource = Resource.create({
-        "service.name": service_name,
-        "service.version": service_version,
-        **(resource_attributes or {}),
-    })
+    resource = Resource.create(
+        {
+            "service.name": service_name,
+            "service.version": service_version,
+            **(resource_attributes or {}),
+        }
+    )
 
     provider = TracerProvider(resource=resource)
 
@@ -49,6 +51,7 @@ def init_tracing(
     else:
         # Fallback: Console Exporter für lokale Entwicklung
         from opentelemetry.sdk.trace.export import ConsoleSpanExporter
+
         processor = BatchSpanProcessor(ConsoleSpanExporter())
         provider.add_span_processor(processor)
 

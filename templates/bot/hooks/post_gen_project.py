@@ -6,10 +6,8 @@ Wird automatisch nach der Generierung ausgeführt.
 Führt uv sync + grundlegendes Linting aus, damit der Bot sofort "grün" ist.
 """
 
-import os
-import subprocess
-import sys
 from pathlib import Path
+import subprocess
 
 
 def run(cmd: list[str], check: bool = True) -> subprocess.CompletedProcess:

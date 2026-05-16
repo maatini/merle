@@ -27,7 +27,9 @@ async def test_launch_robust_browser_yields_robust_browser(mock_browser, mock_br
 
 
 @pytest.mark.asyncio
-async def test_robust_browser_captures_failure_artifacts_on_exception(mock_browser, mock_browser_context, mock_page, tmp_path):
+async def test_robust_browser_captures_failure_artifacts_on_exception(
+    mock_browser, mock_browser_context, mock_page, tmp_path
+):
     """When an exception occurs inside the context, failure artifacts should be created."""
 
     with patch("merle_core.playwright.browser.async_playwright") as mock_pw:

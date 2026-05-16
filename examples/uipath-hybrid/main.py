@@ -5,7 +5,9 @@ Zeigt wie man Queue-Items aus UiPath verarbeitet und Ergebnisse zurückschreibt.
 """
 
 import asyncio
+
 from loguru import logger
+
 from merle_core import BaseTask
 from merle_core.observability import configure_observability
 

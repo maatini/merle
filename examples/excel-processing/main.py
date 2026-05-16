@@ -5,7 +5,9 @@ Zeigt saubere Task-Struktur für Datenverarbeitung.
 """
 
 import asyncio
+
 from loguru import logger
+
 from merle_core import BaseTask
 from merle_core.observability import configure_observability
 
@@ -18,11 +20,7 @@ class ProcessExcelTask(BaseTask):
         # Platzhalter-Logik
         processed_rows = 1247
 
-        return {
-            "status": "success",
-            "rows_processed": processed_rows,
-            "file": "rechnungen_q2.xlsx"
-        }
+        return {"status": "success", "rows_processed": processed_rows, "file": "rechnungen_q2.xlsx"}
 
 
 async def main():

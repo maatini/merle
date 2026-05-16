@@ -82,6 +82,7 @@ def configure_observability(
     configure_loguru_otel_sink()
 
     from loguru import logger
+
     logger.info(
         "Observability initialized for service={}",
         service_name,

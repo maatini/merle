@@ -9,12 +9,12 @@ fokussieren sich diese Tests vor allem auf:
 - Mock-Tests für Client-Methoden
 """
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from merle_core import TaskSpec, TaskResult, TaskStatus
-from merle_core.nats import NatsClient, NatsMessage
+from merle_core.nats import NatsClient, NatsMessage, PullConsumer
 
 
 class TestNatsMessage:

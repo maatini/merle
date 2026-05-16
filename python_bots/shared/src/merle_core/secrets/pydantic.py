@@ -7,7 +7,6 @@ geladen werden können, mit sauberer Fallback-Kette.
 
 from __future__ import annotations
 
-import os
 from typing import Any, TypeVar
 
 from loguru import logger

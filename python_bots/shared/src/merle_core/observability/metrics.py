@@ -31,10 +31,12 @@ def init_metrics(
     if _meter_provider is not None:
         return _meter_provider
 
-    resource = Resource.create({
-        "service.name": service_name,
-        **(resource_attributes or {}),
-    })
+    resource = Resource.create(
+        {
+            "service.name": service_name,
+            **(resource_attributes or {}),
+        }
+    )
 
     readers = []
 
@@ -45,6 +47,7 @@ def init_metrics(
     else:
         # Für lokale Entwicklung: Console
         from opentelemetry.sdk.metrics.export import ConsoleMetricExporter
+
         reader = PeriodicExportingMetricReader(ConsoleMetricExporter(), export_interval_millis=30000)
         readers.append(reader)
 
@@ -63,6 +66,7 @@ def get_meter(name: str) -> metrics.Meter:
 # ─────────────────────────────────────────────────────────────
 # Praktische Helper für typische Merle-Metriken
 # ─────────────────────────────────────────────────────────────
+
 
 def create_bot_metrics(meter: metrics.Meter) -> dict[str, Any]:
     """

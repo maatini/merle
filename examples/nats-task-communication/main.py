@@ -10,9 +10,10 @@ Dies zeigt das grundlegende Fire-and-Forget + Request/Reply Pattern.
 
 import asyncio
 import uuid
+
 from loguru import logger
 
-from merle_core import TaskSpec, TaskResult, TaskStatus
+from merle_core import TaskResult, TaskSpec
 from merle_core.nats import NatsClient
 
 
@@ -21,11 +22,8 @@ async def run_web_scraper(client: NatsClient):
     task_spec = TaskSpec(
         task_id=str(uuid.uuid4()),
         task_type="web_scrape",
-        payload={
-            "url": "https://example.com",
-            "selectors": [".title", ".price"]
-        },
-        metadata={"source": "web-scraper-bot"}
+        payload={"url": "https://example.com", "selectors": [".title", ".price"]},
+        metadata={"source": "web-scraper-bot"},
     )
 
     logger.info("WebScraper: Sende Task {}", task_spec.task_id)
@@ -43,9 +41,7 @@ async def run_data_processor(client: NatsClient):
         await asyncio.sleep(0.5)
 
         result = TaskResult.success(
-            task_id=spec.task_id,
-            result={"processed": True, "records": 12},
-            processor="data-processor-bot"
+            task_id=spec.task_id, result={"processed": True, "records": 12}, processor="data-processor-bot"
         )
 
         logger.info("DataProcessor: Task {} fertig", spec.task_id)

@@ -6,7 +6,6 @@ Verwendet Managed Identity / DefaultAzureCredential wo möglich.
 
 from __future__ import annotations
 
-import os
 from typing import Any
 
 from loguru import logger
@@ -38,10 +37,7 @@ class AzureKeyVaultProvider(SecretProvider):
             from azure.identity.aio import DefaultAzureCredential
             from azure.keyvault.secrets.aio import SecretClient
         except ImportError as e:
-            raise ImportError(
-                "Azure Key Vault Support erfordert die Extras: "
-                "uv add 'merle-core[azure]'"
-            ) from e
+            raise ImportError("Azure Key Vault Support erfordert die Extras: uv add 'merle-core[azure]'") from e
 
         if self._credential is None:
             self._credential = DefaultAzureCredential()

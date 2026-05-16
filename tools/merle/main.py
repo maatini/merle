@@ -1,5 +1,5 @@
 """
-Merle CLI – Der offizielle Einstiegspunkt für neue RPA-Bots.
+Merle CLI - Der offizielle Einstiegspunkt für neue RPA-Bots.
 
 Beispiel:
     merle new-bot invoice_processor --playwright --description "..."
@@ -9,9 +9,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import typer
 from rich.console import Console
 from rich.panel import Panel
+import typer
 
 # Copier programmatisch aufrufen
 try:
@@ -21,7 +21,7 @@ except ImportError:
 
 app = typer.Typer(
     name="merle",
-    help="Merle RPA Framework – Developer Experience Tools",
+    help="Merle RPA Framework - Developer Experience Tools",
     add_completion=False,
 )
 console = Console()
@@ -72,8 +72,7 @@ def new_bot(
 
     console.print(
         Panel.fit(
-            f"[bold green]Merle[/bold green] erzeugt neuen Bot: [bold]{name}[/bold]\n"
-            f"Ziel: [cyan]{target_dir}[/cyan]",
+            f"[bold green]Merle[/bold green] erzeugt neuen Bot: [bold]{name}[/bold]\nZiel: [cyan]{target_dir}[/cyan]",
             title="🚀 Merle Bot Generator",
         )
     )
@@ -97,7 +96,7 @@ def new_bot(
 @app.command()
 def version() -> None:
     """Zeigt die aktuelle Merle CLI Version."""
-    console.print("merle CLI v0.1.0 (Phase 1 – Copier-basiert)")
+    console.print("merle CLI v0.1.0 (Phase 1 - Copier-basiert)")
 
 
 if __name__ == "__main__":

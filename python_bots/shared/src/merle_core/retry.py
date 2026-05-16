@@ -25,7 +25,6 @@ from tenacity import (
     retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
-    before_sleep_log,
     RetryCallState,
 )
 from loguru import logger
@@ -38,6 +37,7 @@ T = TypeVar("T")
 # ─────────────────────────────────────────────────────────────
 # Vordefinierte Policies
 # ─────────────────────────────────────────────────────────────
+
 
 def _log_retry(retry_state: RetryCallState) -> None:
     """Loggt jeden Retry-Versuch strukturiert."""
@@ -94,6 +94,7 @@ aggressive_retry = retry(
 # Dekorator-Factory
 # ─────────────────────────────────────────────────────────────
 
+
 def with_retry(
     policy: Any = default_http_retry,
     *,
@@ -130,6 +131,7 @@ def with_retry(
 # ─────────────────────────────────────────────────────────────
 # Hilfsfunktion für manuelle Nutzung
 # ─────────────────────────────────────────────────────────────
+
 
 async def retry_with_policy(
     func: Callable[..., Any],

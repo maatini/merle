@@ -20,6 +20,7 @@ from typing import Any
 
 class TaskStatus(str, Enum):
     """Mögliche Zustände einer Task."""
+
     PENDING = "pending"
     RUNNING = "running"
     SUCCESS = "success"
@@ -31,6 +32,7 @@ class TaskStatus(str, Enum):
 @dataclass
 class TaskError:
     """Standardisierte Fehlerrepräsentation einer Task."""
+
     type: str
     message: str
     details: dict[str, Any] | None = None
@@ -66,6 +68,7 @@ class TaskSpec:
         retry_policy: Name einer Retry-Policy aus merle_core.retry (optional)
         created_at: Zeitpunkt der Erstellung
     """
+
     task_id: str
     task_type: str
     payload: dict[str, Any]
@@ -91,8 +94,7 @@ class TaskSpec:
             payload=data.get("payload", {}),
             metadata=data.get("metadata", {}),
             retry_policy=data.get("retry_policy"),
-            created_at=datetime.fromisoformat(data["created_at"])
-            if "created_at" in data else datetime.utcnow(),
+            created_at=datetime.fromisoformat(data["created_at"]) if "created_at" in data else datetime.utcnow(),
         )
 
 
@@ -109,6 +111,7 @@ class TaskResult:
         metadata: Zusätzliche Metadaten (z.B. duration, worker_id, etc.)
         completed_at: Zeitpunkt der Fertigstellung
     """
+
     task_id: str
     status: TaskStatus
     result: dict[str, Any] | None = None
@@ -143,8 +146,7 @@ class TaskResult:
             result=data.get("result"),
             error=error,
             metadata=data.get("metadata", {}),
-            completed_at=datetime.fromisoformat(data["completed_at"])
-            if "completed_at" in data else datetime.utcnow(),
+            completed_at=datetime.fromisoformat(data["completed_at"]) if "completed_at" in data else datetime.utcnow(),
         )
 
     @classmethod

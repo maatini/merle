@@ -4,7 +4,6 @@ Mocked tests for the observability module.
 
 from unittest.mock import patch
 
-import pytest
 
 from merle_core.observability import configure_observability, get_tracer, get_meter
 

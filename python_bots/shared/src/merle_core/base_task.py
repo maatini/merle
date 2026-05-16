@@ -108,9 +108,11 @@ class BaseTask(ABC):
 # Leichte OTEL-Integration (wird nur aktiv, wenn configure_observability() aufgerufen wurde)
 # ─────────────────────────────────────────────────────────────
 
+
 def _record_task_start(task_name: str) -> None:
     try:
         from .observability.metrics import get_meter
+
         meter = get_meter("merle_core.base_task")
         counter = meter.create_counter("task_executions_total", unit="1")
         counter.add(1, {"task": task_name, "status": "started"})
@@ -121,6 +123,7 @@ def _record_task_start(task_name: str) -> None:
 def _record_task_success(task_name: str, duration: float) -> None:
     try:
         from .observability.metrics import get_meter
+
         meter = get_meter("merle_core.base_task")
         counter = meter.create_counter("task_executions_total", unit="1")
         histogram = meter.create_histogram("task_duration_seconds", unit="s")
@@ -133,6 +136,7 @@ def _record_task_success(task_name: str, duration: float) -> None:
 def _record_task_failure(task_name: str, duration: float) -> None:
     try:
         from .observability.metrics import get_meter
+
         meter = get_meter("merle_core.base_task")
         counter = meter.create_counter("task_executions_total", unit="1")
         error_counter = meter.create_counter("errors_total", unit="1")

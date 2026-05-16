@@ -2,6 +2,8 @@
 
 **Die offizielle und standardmäßige Entwicklungsumgebung für Merle ist Devbox + direnv.**
 
+Ausführliche Anleitung: → **[docs/development/devbox.md](devbox.md)**
+
 Sie liefert exakt die gleichen Tool-Versionen wie in der CI (Python 3.11, uv 0.11.8, Node 20, Copier, pre-commit) — reproduzierbar auf macOS, Linux und WSL.
 
 ## 1. Voraussetzungen (einmalig)

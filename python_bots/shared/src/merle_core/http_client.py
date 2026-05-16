@@ -8,6 +8,10 @@ Nutzt httpx mit:
 - Authentifizierung
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
@@ -34,7 +38,7 @@ class RpaHttpClient:
         wait=wait_exponential(multiplier=1, min=4, max=10),
         retry=retry_if_exception_type((httpx.HTTPStatusError, httpx.RequestError)),
     )
-    async def get(self, path: str) -> dict:
+    async def get(self, path: str) -> dict[str, Any]:
         """GET-Request mit Retry."""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.get(
@@ -42,14 +46,14 @@ class RpaHttpClient:
                 headers=self._headers(),
             )
             response.raise_for_status()
-            return response.json()
+            return response.json()  # type: ignore[no-any-return]
 
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=4, max=10),
         retry=retry_if_exception_type((httpx.HTTPStatusError, httpx.RequestError)),
     )
-    async def post(self, path: str, data: dict) -> dict:
+    async def post(self, path: str, data: dict[str, Any]) -> dict[str, Any]:
         """POST-Request mit Retry."""
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.post(
@@ -58,4 +62,4 @@ class RpaHttpClient:
                 json=data,
             )
             response.raise_for_status()
-            return response.json()
+            return response.json()  # type: ignore[no-any-return]

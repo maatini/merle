@@ -28,6 +28,9 @@ jobs:
             **/pyproject.toml
             **/uv.lock
 
+      - name: Validate lockfile is up to date
+        run: uv lock --check
+
       - name: Sync workspace (dev group)
         run: uv sync --group dev --all-packages
 
@@ -57,6 +60,9 @@ jobs:
           cache-dependency-glob: |
             **/pyproject.toml
             **/uv.lock
+
+      - name: Validate lockfile is up to date
+        run: uv lock --check
 
       - name: Sync workspace (dev group)
         run: uv sync --group dev --all-packages
@@ -96,6 +102,9 @@ jobs:
             **/pyproject.toml
             **/uv.lock
             .pre-commit-config.yaml
+
+      - name: Validate lockfile is up to date
+        run: uv lock --check
 
       - name: Sync workspace
         run: uv sync --group dev --all-packages

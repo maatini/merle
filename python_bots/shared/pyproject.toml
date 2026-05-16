@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Proprietary"}
 authors = [
-    { name = "Merle RPA Team" },
+    { name = "Martin Richardt", email = "martin.richardt@gmail.com" },
 ]
 
 dependencies = [

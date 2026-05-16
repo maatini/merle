@@ -1,106 +1,60 @@
-# ⚠️ LEGACY – Nicht mehr verwenden (Professional Foundation v0.2+)
+# ⚠️ LEGACY – Deprecated (seit Professional Foundation v0.2 / Phase 1)
 
-**Dieses Verzeichnis (`python_bots/template/`) ist veraltet.**
+**Dieses Verzeichnis (`python_bots/template/`) ist veraltet und wird nicht mehr gepflegt.**
 
-Die **verbindliche und empfohlene** Methode, neue Merle-Bots zu erstellen, ist seit der Professional Foundation (v0.2):
+Es ist eine statische Snapshot-Kopie aus der frühen Phase des Projekts und führt zu **Drift** gegenüber dem offiziellen, feature-flag-fähigen Copier-Template.
 
-### Empfohlener Weg (2026+)
+---
+
+## ✅ Verbindlicher Weg (2026+)
 
 ```bash
-# Mit der offiziellen Merle CLI (beste DX)
-merle new-bot mein_bot --playwright --pandas
+# Beste DX: just (empfohlen)
+just new-bot mein_bot --playwright --pandas
 
-# Oder direkt mit Copier (die Quelle der Wahrheit)
+# Oder direkt
+uv run merle new-bot mein_bot --playwright --pandas
+# oder
 copier copy templates/bot python_bots/mein_bot
 ```
 
-Das echte, wartbare Template liegt unter:
-- `templates/bot/` (Copier-basiert, mit Feature-Flags, Jinja, Post-Hooks)
-- `tools/merle/` (CLI: `merle new-bot`)
+**Die Quelle der Wahrheit ist ausschließlich:**
+- `templates/bot/` + `copier.yml` + Jinja-Templates + `hooks/post_gen_project.py`
+- `tools/merle/` (die `merle` CLI, als uv-Workspace-Member installiert)
 
 ---
 
-## Warum dieses alte Template nicht mehr verwendet werden sollte
+## Warum du dieses Verzeichnis **nicht** mehr verwenden darfst
 
-- Es ist eine statische Kopie und wird nicht mehr gepflegt.
-- Es kennt keine Feature-Flags (`--playwright`, `--pandas`, `--pdf`...).
-- Es enthält keine modernen Patterns aus `merle-core` (verbessertes `BaseBot`, NATS-Vorbereitung, etc.).
-- Docker-Builds und CI sind auf das neue Copier-Template optimiert.
-
----
-
-## Was tun, wenn du bereits Bots aus diesem Ordner hast?
-
-Kopiere die **Logik** in einen frisch generierten Bot aus `templates/bot/`.
-
-Die alte `cp -r` Methode wird **nicht mehr unterstützt**.
+- Keine Feature-Flags (Playwright, pandas, PDF, UiPath-Orchestrator, browser_engine etc.)
+- Kein modernes `merle-core` (BaseBot, Observability, NATS-Client, Self-Healing)
+- Kein Post-Generation-Hook (uv sync + ruff auto-fix)
+- Führt langfristig zu inkonsistenten, nicht wartbaren Bots
+- Wird in CI/ADR/Dokumentation nicht mehr berücksichtigt
 
 ---
 
-**Siehe auch:**
-- [Quickstart](../../docs/getting-started/quickstart.md)
-- [templates/bot/README.md](../../templates/bot/README.md)
-- `merle new-bot --help`
+## Migration bestehender Bots
 
-### 3. Konfiguration
-```bash
-cp .env.example .env
-# .env anpassen (niemals committen!)
-```
+Falls du Bots hast, die per `cp -r python_bots/template/` erstellt wurden:
 
-### 4. Bot starten
-```bash
-uv run python main.py
-# oder einfach: uv run main.py
-```
+1. Erzeuge einen frischen Bot mit `just new-bot <name> --<flags>`
+2. Kopiere deine fachliche Logik (`tasks/`, Business-Code) in den neuen Bot
+3. Passe `config.py` und `pyproject.toml` an (merle-core Dependency ist bereits korrekt)
+4. Lösche den alten Bot-Ordner oder markiere ihn als `legacy/`
 
-### Linting, Format, Type-Check, Test
-```bash
-uv run ruff check --fix .
-uv run ruff format .
-uv run mypy .
-uv run pytest -v
-```
+Die manuelle `cp -r`-Methode wird **nicht mehr supported**.
 
-### Docker (empfohlen)
-```bash
-docker build -t mein-bot .
-docker run --env-file .env mein-bot
-```
+---
 
-> **Hinweis**: Das neue Dockerfile nutzt uv intern und ist deutlich schneller beim Rebuild als das alte pip-basierte.
+**Weiterführend:**
+- `just --list` (zeigt `new-bot`)
+- `uv run merle new-bot --help`
+- [templates/bot/README.md](../templates/bot/README.md)
+- ADR 0004 (Copier-Bot-Scaffolding) + 0005 (merle-core Architecture)
+- `docs/getting-started/quickstart.md`
 
-## Enthaltene Standards (2026)
+---
 
-- merle-core (BaseBot, RpaHttpClient, einheitliches Logging)
-- pydantic-settings (12-Factor Config)
-- loguru + tenacity + httpx
-- ruff + mypy (strict) + pytest
-- uv + Docker (Linux-Container-first)
-- .env.example + klare Governance
-
-## Nächste Schritte beim Bot-Bau
-
-1. `config.py` um domänenspezifische Felder erweitern
-2. Eigene Tasks unter `tasks/` anlegen (am besten mit `RpaHttpClient` aus merle-core)
-3. Optional: eigene Klasse von `BaseBot` ableiten und `execute()` implementieren
-4. Tests schreiben
-5. ADR bei architekturrelevanten Entscheidungen in `docs/decisions/` anlegen
-
-## Konfiguration
-
-| Variable | Beschreibung | Default |
-|----------|-------------|---------|
-| `BOT_BOT_NAME` | Name des Bots | `template_bot` |
-| `BOT_ENVIRONMENT` | Umgebung | `development` |
-| `BOT_LOG_LEVEL` | Log-Level | `INFO` |
-| `BOT_LOG_JSON` | JSON-Format-Logging | `false` |
-| `BOT_MAX_RETRIES` | Maximale Retries | `3` |
-| `BOT_REQUEST_TIMEOUT` | HTTP-Timeout (Sekunden) | `30.0` |
-| `BOT_TARGET_URL` | Ziel-URL | `https://example.com/api` |
-| `BOT_API_KEY` | API-Key | — |
-
-## Governance
-Dieses Template implementiert die Regeln aus:
-- `docs/03_Governance.md`
-- `docs/05_Entwicklungsleitfaden.md`
+**Governance-Hinweis für Agenten:**  
+Siehe AGENTS.md und agent/CLAUDE.md – Template-First bedeutet **immer** den Copier-Weg.

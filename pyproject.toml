@@ -2,6 +2,9 @@
 name = "merle"
 version = "0.2.0"
 description = "Modular Enterprise RPA Lifecycle Engine — Python-first hybrid RPA framework"
+authors = [
+    { name = "Martin Richardt", email = "martin.richardt@gmail.com" },
+]
 requires-python = ">=3.11"
 license = {text = "Proprietary"}
 readme = "README.md"
@@ -20,6 +23,7 @@ dev = [
     "pytest-asyncio>=0.23,<1.0",
     "pytest-playwright>=0.4,<1.0",
     "pre-commit>=3.7,<4.0",
+    "commitizen>=3.29,<4.0",   # Conventional Commits + SemVer + CHANGELOG
 ]
 
 # ─── Ruff ───────────────────────────────────────────────
@@ -101,3 +105,19 @@ markers = [
     "integration: Integrationstest mit externen Abhängigkeiten",
     "e2e: End-to-End-Test mit Playwright",
 ]
+
+# ─── Commitizen (Conventional Commits + SemVer + auto-CHANGELOG) ─────────────
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.2.0"
+version_files = [
+    "pyproject.toml:version",
+    "python_bots/shared/pyproject.toml:version",
+    "tools/merle/pyproject.toml:version",
+]
+tag_format = "v$version"
+update_changelog_on_bump = true
+changelog_file = "CHANGELOG.md"
+changelog_incremental = true
+# Use "git cz" or "cz commit" locally after `uv run cz`
+# pre-commit hook below enforces conventional format on commit

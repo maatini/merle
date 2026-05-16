@@ -1,0 +1,73 @@
+# =============================================================================
+# Merle — MkDocs GitHub Pages Deployment
+# =============================================================================
+# Deploys the professional documentation (German + English parity) to GitHub Pages.
+# Trigger: push to main that touches docs/, mkdocs.yml or AGENTS.md.
+# For private repos: requires GitHub Pages enabled in repo settings (source = GitHub Actions).
+# Public URL example: https://maatini.github.io/merle/ (adjust org/user).
+# =============================================================================
+
+name: Docs (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "AGENTS.md"
+      - "README*.md"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build MkDocs site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup uv + Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.11.8"
+          python-version: "3.11"
+
+      - name: Install docs dependencies
+        run: |
+          uv sync --group dev --all-packages
+          uv pip install mkdocs-material mkdocs-awesome-pages-plugin --quiet
+
+      - name: Build docs (strict)
+        run: |
+          rm -rf site/
+          uv run mkdocs build --strict
+
+      - name: Upload artifact (for Pages)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

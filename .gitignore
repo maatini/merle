@@ -1,8 +1,22 @@
 # =============================================================================
-# Merle — Python-first RPA Framework .gitignore
+# Merle — Modular Enterprise RPA Lifecycle Engine
+# Comprehensive .gitignore (Enterprise-grade, uv + Monorepo + MkDocs + RPA)
+# =============================================================================
+# Philosophy: Never commit generated, cached, secret, or environment-specific files.
+# This file is optimized for:
+#   - uv (Python package manager, replaces pip/poetry/pdm)
+#   - Python 3.11+ (RPA bots, merle-core, CLI)
+#   - MkDocs documentation builds
+#   - Docker / Container builds
+#   - Pre-commit, Ruff, Mypy, Pytest, Playwright
+#   - IDEs (VS Code, PyCharm, Cursor, Zed)
+#   - Node.js / Bun / TypeScript (for .opencode/ and rpa-opencode-hybrid)
+#   - NATS, Azure, Playwright artifacts
 # =============================================================================
 
-# --- Python ---
+# -----------------------------------------------------------------------------
+# Python (Core)
+# -----------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
@@ -23,15 +37,38 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.whl
+*.pyo
+*.pyd
 
-# Virtual environments
+# -----------------------------------------------------------------------------
+# Virtual Environments & Package Managers
+# -----------------------------------------------------------------------------
 .venv/
 venv/
 ENV/
 env/
 .conda/
+.condarc
+.python-version
+uv.lock  # NOTE: committed in this repo for reproducibility (remove if you prefer not to)
+.pdm.toml
+.pdm-python
+poetry.lock  # if ever used
+Pipfile.lock
+.hatch/
+.hatchling/
 
-# --- Testing & Coverage ---
+# -----------------------------------------------------------------------------
+# uv (Astral) specific caches and state
+# -----------------------------------------------------------------------------
+.uv/
+uv-python-versions/
+.python-version
+
+# -----------------------------------------------------------------------------
+# Testing, Coverage, Type Checking, Linting
+# -----------------------------------------------------------------------------
 htmlcov/
 .tox/
 .nox/
@@ -47,43 +84,100 @@ coverage.xml
 .pytype/
 .ruff_cache/
 .mutmut-cache/
+.hypothesis/
+.benchmarks/
+junit.xml
+test-results/
+test-reports/
+*.lcov
+coverage/
 
-# --- Type checkers ---
-.mypy_cache/
+# Type checker artifacts
 .dmypy.json
 dmypy.json
+pyrightconfig.json
 
-# --- Documentation (MkDocs) ---
+# -----------------------------------------------------------------------------
+# Documentation (MkDocs / Sphinx / pdoc)
+# -----------------------------------------------------------------------------
 site/
+site/**
+.doctrees/
+docs/_build/
+docs/api/
+*.html
+*.epub
+*.pdf  # built docs
 
-# --- Logs & Temp ---
+# -----------------------------------------------------------------------------
+# Logs, Temporary & Runtime Artifacts
+# -----------------------------------------------------------------------------
 logs/
 *.log
 tmp/
 tmp.*
 *.tmp
 *.temp
-.pdm.toml
-
-# --- Environment & Secrets ---
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-secrets/
-
-# --- IDE / Editor ---
-.vscode/
-.idea/
 *.swp
 *.swo
 *~
+*.bak
+*.orig
+.cache/
+.rpa_cache/
+playwright-*.log
+lightpanda-*.log
+nats-*.log
+*.pid
+
+# -----------------------------------------------------------------------------
+# Secrets, Credentials & Environment
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+vault/
+*.token
+*.secret
+config/local.yaml
+config/production.yaml
+azure-credentials.json
+service-account*.json
+
+# -----------------------------------------------------------------------------
+# IDE / Editor / Tooling
+# -----------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 .project
 .pydevproject
 .settings/
+*.code-workspace
+.cursor/
+.zed/
+.zed_settings/
+.devcontainer/
+.devbox/
 
-# --- OS generated ---
+# Editor backup / swap
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# -----------------------------------------------------------------------------
+# OS Generated Files
+# -----------------------------------------------------------------------------
 .DS_Store
 .DS_Store?
 ._*
@@ -91,16 +185,122 @@ secrets/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
 
-# --- Docker / Compose overrides ---
+# -----------------------------------------------------------------------------
+# Docker & Container
+# -----------------------------------------------------------------------------
 docker-compose.override.yml
 docker-compose.*.yml
+docker-compose.local.yml
+*.dockerenv
+.container
+.docker/
+buildx/
+*.tar
+*.tar.gz  # container images
 
-# --- OpenCode / rpa-opencode-hybrid (heavy full fork) ---
-# This is a complete fork of OpenCode and is ONLY relevant for developing OpenCode core patches.
-# For normal daily Merle RPA work, use the lightweight configuration in .opencode/ at the project root.
-# See AGENTS.md and docs/development/devbox.md.
+# -----------------------------------------------------------------------------
+# Node.js / Bun / TypeScript (OpenCode, rpa-opencode-hybrid, extensions)
+# -----------------------------------------------------------------------------
+node_modules/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+bun.lockb
+bunfig.lock
+dist/
+.next/
+out/
+.turbo/
+.vercel/
+.netlify/
+
+# -----------------------------------------------------------------------------
+# OpenCode / rpa-opencode-hybrid (heavy ~88MB fork – ONLY for core patches)
+# See AGENTS.md for rationale. Use lightweight .opencode/ instead.
+# -----------------------------------------------------------------------------
 rpa-opencode-hybrid/
+rpa-opencode-hybrid/**
 
-# --- Misc project specific ---
-# Keep this minimal — most generated things are covered above
+# -----------------------------------------------------------------------------
+# Build & Distribution Artifacts (general)
+# -----------------------------------------------------------------------------
+*.manifest
+*.spec
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST.in
+
+# -----------------------------------------------------------------------------
+# RPA / Automation specific
+# -----------------------------------------------------------------------------
+# UiPath artifacts (when used)
+*.xaml  # only if not source-controlled intentionally
+*.dll
+*.exe
+# Playwright browsers (large, installed via playwright install)
+ms-playwright/
+playwright-report/
+test-results/
+# Robot Framework / rpaframework (if used)
+log.html
+report.html
+output.xml
+
+# -----------------------------------------------------------------------------
+# Git & Version Control
+# -----------------------------------------------------------------------------
+.git/
+.gitignore
+.gitattributes
+
+# -----------------------------------------------------------------------------
+# Misc / Framework specific
+# -----------------------------------------------------------------------------
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+# Prefect
+.prefect/
+# NATS / JetStream local state
+nats-data/
+jetstream/
+# Azure / Cloud
+.azure/
+# Pre-commit
+.pre-commit-config.yaml  # committed, but hooks cache below
+.pre-commit/
+
+# -----------------------------------------------------------------------------
+# Project-specific generated (Merle conventions)
+# -----------------------------------------------------------------------------
+# Bots generated during development / CI (never commit test bots)
+python_bots/test_*/
+python_bots/tmp_*/
+python_bots/*-test/
+# Any local bot clones
+bots/
+
+# Keep this file minimal but explicit — explicit > implicit for enterprise repos.

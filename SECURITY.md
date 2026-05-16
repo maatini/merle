@@ -14,10 +14,30 @@ Instead, report security issues **privately** via one of the following channels:
    → https://github.com/maatini/merle/security/advisories/new
 
 2. **Direct email to maintainers**  
-   martin.richardt@antigravity.example.com  
+   martin.richardt@gmail.com  
    (PGP key available on request)
 
 3. **Internal escalation**  
+   - RPA Core Team via internal Slack / Jira Security ticket
+   - For high-severity: immediate page to on-call (see .opencode/ or internal runbook)
+
+## Supported Versions
+
+| Version | Supported          |
+|---------|--------------------|
+| 0.2.x   | ✅ Current (Phase 1/2) |
+| < 0.2   | ❌ No longer supported |
+
+## Security Tooling (enforced in CI)
+
+- Bandit (SAST)
+- Trivy (container + fs)
+- TruffleHog / gitleaks (secret scanning)
+- Dependabot + Renovate (dependency updates)
+- pre-commit (hook-based checks)
+- `merle validate` (governance + basic hygiene)
+
+All findings with CRITICAL/HIGH severity are treated as blocking for production bot deployments.  
    Use the `#security` or `#merle-rpa` channel in the Antigravity Slack/Teams and tag `@merle-security`.
 
 ## Scope

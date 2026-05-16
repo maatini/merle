@@ -42,6 +42,15 @@ repos:
               .*\.sql
           )$
 
+# Commitizen: Enforce Conventional Commits (feat, fix, docs, refactor, test, chore, etc.)
+# Local: after `uv sync --group dev`, run `uv run pre-commit install`
+# To commit: `git cz` (interactive) or normal `git commit` (hook validates)
+- repo: https://github.com/commitizen-tools/commitizen
+  rev: v3.29.0
+  hooks:
+    - id: commitizen
+      stages: [commit-msg]
+
 # Optional: additional useful hooks
 #  - repo: https://github.com/pre-commit/pre-commit-hooks
 #    rev: v4.6.0

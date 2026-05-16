@@ -100,8 +100,9 @@ test-cov:
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Build the official bot template image (for validation / Trivy scan)
+# NOTE: Uses legacy snapshot for comparison only. Real validation uses generated bot from templates/bot/
 docker-template:
-    docker build -t merle-bot-template:latest -f python_bots/template/Dockerfile python_bots/template
+    docker build -t merle-bot-template:latest -f python_bots/template/Dockerfile python_bots/template || echo "⚠️ Legacy template build (deprecated — see python_bots/template/DEPRECATED.md)"
 
 # Build a specific generated bot (after copier)
 docker-bot BOT:
@@ -120,9 +121,11 @@ trivy-template:
 docs:
     uv run mkdocs serve -a localhost:8000
 
-# Build static docs site
+# Build static docs site (always clean first to avoid committing generated artifacts)
 docs-build:
+    rm -rf site/
     uv run mkdocs build --strict
+    @echo "✅ Docs built to site/ (never commit this directory!)"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CI Simulation (local)

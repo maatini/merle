@@ -52,14 +52,33 @@ Siehe `docs/development/setup.md` und Skill `devbox-environment` für Details.
 
 **Wichtige Regel:** Änderungen an `templates/bot/` oder `merle-core` haben höchste Priorität und müssen besonders sorgfältig getestet werden.
 
-## Commit Messages
+## Commit Messages (Conventional Commits + Commitizen)
 
-Verwende Conventional Commits:
+**Verpflichtend:** Conventional Commits (enforced by pre-commit hook + commitizen).
 
-- `feat(core): add BaseTask self-healing hooks`
-- `fix(playwright): improve failure artifact naming`
-- `docs(architecture): add C4 diagrams`
-- `chore(template): update to merle-core 0.2`
+Beispiele:
+- `feat(core): add self-healing retry hooks to BaseTask`
+- `fix(template): correct playwright extra in generated pyproject.toml.jinja`
+- `docs(adr): add ADR-0008 for repository visibility`
+- `chore(ci): add Trivy + Bandit to matrix`
+- `refactor(shared): move merle-core to packages/ (breaking change — major version)`
+
+**Lokale DX:**
+```bash
+uv sync --group dev
+uv run pre-commit install
+# Interaktiv (empfohlen):
+uv run cz commit
+# Oder normal commit (Hook validiert Message):
+git commit -m "feat(cli): add merle validate command"
+```
+
+Commitizen + pre-commit Hook sorgen für:
+- Konsistente Messages
+- Automatische SemVer-Bumps (`uv run cz bump`)
+- Automatisches CHANGELOG-Update
+
+Siehe `pyproject.toml` → `[tool.commitizen]` und `.pre-commit-config.yaml`.
 
 ## Code of Conduct
 

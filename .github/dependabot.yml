@@ -1,0 +1,45 @@
+# =============================================================================
+# Dependabot configuration for Merle (uv + GitHub Actions)
+# =============================================================================
+# Since we use uv + lockfile, Dependabot can still update:
+#   - GitHub Actions
+#   - Python deps (via pip, uv will reconcile)
+# For full uv-native updates consider Renovate (more powerful for workspaces/lockfiles).
+# =============================================================================
+
+version: 2
+updates:
+  # GitHub Actions (critical for CI security)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci(deps)"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # Python (pip ecosystem) — uv will be used locally to reconcile
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "python"
+    # Ignore very frequent or breaking updates during Phase 2/3 stabilization
+    ignore:
+      - dependency-name: "ruff"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "mypy"
+        update-types: ["version-update:semver-major"]
+
+  # Future: uv-native (when Dependabot supports uv.lock directly)
+  # Consider migrating to Renovate for monorepo + lockfile precision.

@@ -8,8 +8,11 @@
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
 [![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](docs/ROADMAP.md)
 
-> **⚠️ INTERNAL USE ONLY** — Dieses Repository enthält proprietären Code der Antigravity GmbH.  
-> Jegliche unautorisierte Nutzung, Weitergabe oder externe Verwendung ist strengstens untersagt. Siehe [LICENSE](./LICENSE).
+> **⛔️ STRICTLY CONFIDENTIAL — INTERNAL USE ONLY**  
+> Dieses Repository enthält **proprietären, urheberrechtlich geschützten Code** der Antigravity GmbH (RPA-Framework, Governance, ADRs, interne Patterns).  
+> **Jede unautorisierte Nutzung, Weitergabe, Fork oder externe Verwendung ist strengstens untersagt und wird zivil- sowie strafrechtlich verfolgt.**  
+> Siehe [LICENSE](./LICENSE) und [ADR-0008](./docs/decisions/0008-repository-visibility-and-internal-governance.md).  
+> **Repository ist und bleibt PRIVAT.** Nie public machen! Bei versehentlichem Public-Status: sofort auf Private stellen + Secrets rotieren.
 
 <p align="center">
   <img src="merle.png" alt="Merle — Modular Enterprise RPA Lifecycle Engine" width="600">
@@ -28,35 +31,40 @@
 
 ---
 
-## Schnellstart (uv)
+## Schnellstart (uv + just)
 
 ```bash
-# 1. Repository klonen & Workspace initialisieren (einmalig)
+# 1. Repository klonen & Entwicklungsumgebung (einmalig)
 git clone <repo>
 cd merle
-uv sync --group dev
+just setup          # uv sync --all-packages + pre-commit + merle CLI
 
-# 2. Neuen Python-Bot erstellen (Template)
-cp -r python_bots/template/ python_bots/mein_bot/
-cd python_bots/mein_bot/
+# 2. Neuen Python-Bot mit einem Befehl erzeugen (empfohlen)
+just new-bot invoice_processor --playwright --pandas
+# oder direkt: uv run merle new-bot invoice_processor --playwright --pandas
 
-# 3. Bot entwickeln (uv managed)
+cd python_bots/invoice_processor
 uv run python main.py
 
-# Linting & Type-Check (am Root oder im Bot-Verzeichnis)
-uv run ruff check .
-uv run ruff format .
-uv run mypy .
+# 3. Qualität & Tests
+just lint
+just mypy
+just test
 
-# Tests
-uv run pytest python_bots -v
-
-# Docker (Template)
-docker build -t mein-bot python_bots/template
-docker run --env-file .env mein-bot
+# Docker (für einen generierten Bot)
+docker build -t invoice-processor python_bots/invoice_processor
 ```
 
-> **Hinweis**: Mit `uv` als Package-Manager werden alle Abhängigkeiten (inkl. `merle-core` aus dem Workspace) automatisch und reproduzierbar verwaltet. Das alte `requirements.txt` + venv-Setup wird schrittweise abgelöst.
+> **Hinweis**: Der `merle` CLI (via `tools/merle/`) und `just new-bot` / `merle new-bot` sind der **offizielle** One-Command-Flow (Template-First).  
+> Das legacy `python_bots/template/` (manuelles `cp -r`) ist seit Phase 1 **deprecated** (siehe `python_bots/template/DEPRECATED.md`).  
+> `merle-core` (SSOT in `python_bots/shared/`) wird **nur** als Dependency referenziert — keine Code-Duplikation in generierten Bots.
+
+**Alternative ohne just:**
+```bash
+uv sync --group dev --all-packages
+uv run merle new-bot my_bot --playwright
+copier copy templates/bot python_bots/my_bot   # direkter Copier-Aufruf
+```
 
 ---
 
@@ -278,7 +286,7 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 
 ### Wichtige Regeln
 
-- **Kein Code ohne Template**: Jeder neue Bot startet aus `python_bots/template/`
+- **Kein Code ohne Template**: Jeder neue Bot startet **ausschließlich** via `just new-bot` / `merle new-bot` (Copier-Template in `templates/bot/`). Das legacy-Verzeichnis `python_bots/template/` ist deprecated.
 - **merle-core** (`python_bots/shared/`) nur bei echter Wiederverwendbarkeit erweitern
 - **Keine hartcodierten Secrets/Pfade**
 - **Linux-Container-Kompatibilität** ist Pflicht

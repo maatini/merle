@@ -40,9 +40,34 @@ See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lin
 | Governance              | ✅         | `AGENTS.md`, 6+ ADRs, Entscheidungsmatrix, CODEOWNERS, issue/PR templates, SECURITY.md |
 | DX                      | ✅         | `justfile`, Devbox + direnv, uv workspace, excellent docs structure |
 
-**This repository is ready for internal enterprise RPA teams** building production bots.
+**⛔️ STRICTLY CONFIDENTIAL — INTERNAL USE ONLY**  
+This repository contains **proprietary, copyrighted** code of Antigravity GmbH. Unauthorized use, distribution, forking or external deployment is strictly prohibited and will be prosecuted. See [LICENSE](./LICENSE) and [ADR-0008](./docs/decisions/0008-repository-visibility-and-internal-governance.md).  
+**Repository MUST remain private.** Never make public. If accidentally public: set to private immediately + rotate any leaked secrets.
 
-## Documentation
+**This repository is ready for authorized internal enterprise RPA teams** building production bots.
+
+## Philosophy (identical to German primary)
+
+| Principle            | Description |
+|----------------------|-------------|
+| **Python-First**     | Python is the default for 80–90 % of all automations (Playwright, pandas, Prefect, loguru, tenacity, NATS) |
+| **UiPath only justified** | UiPath is used **only** when there is a proven qualitative/architectural advantage (see Entscheidungsmatrix) |
+| **Template-First**   | Every new Python bot **must** be created exclusively via `merle new-bot` / `templates/bot/` (Copier) |
+| **Container-ready**  | Every bot runs in Linux containers (multi-stage Dockerfile.jinja, monorepo pattern) |
+| **Test-driven**      | Unit + integration tests, pre-commit, full CI matrix, `merle validate` |
+| **Governance**       | Binding rules in AGENTS.md, ADRs, decision matrix, CODEOWNERS, strict review process |
+
+## Documentation (German primary — English parity in progress)
+
+- **Primary & most complete:** German documentation in `docs/` + [AGENTS.md](./AGENTS.md) (binding for AI agents & humans)
+- Architecture & Concepts: [docs/concepts/](./docs/concepts/) (strategy, decision matrix, governance, secrets, architecture C4)
+- Decision Records: [docs/decisions/](./docs/decisions/) (7+ ADRs)
+- Merle Core: [docs/merle-core/](./docs/merle-core/) (BaseBot, observability, retry, playwright)
+- English parity effort: See completed analysis + plan in `docs/plans/07-dokumentation-visualisierung.md` and ROADMAP v0.3 goal ("fully bilingual or English-primary")
+
+## Documentation Status Note (from 2026-05 analysis)
+
+English docs in `docs/` subdirectories are currently secondary. `README.en.md` is the main English entry point. Full parity (translated concepts/, decisions/, getting-started/, merle-core/ at equal depth) is tracked as Phase 3 priority. The German content is the source of truth for governance.
 
 - **Primary & most complete:** German documentation in `docs/` + [AGENTS.md](./AGENTS.md) (binding rules for all AI agents and contributors)
 - Architecture & Concepts: [docs/concepts/](./docs/concepts/)

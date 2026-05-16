@@ -1,13 +1,12 @@
-# Merle OpenCode Hybrid
+# Merle OpenCode Hybrid (Advanced / Fork Development)
 
-**Angepasste OpenCode-IDE für das Merle-Framework (Modular Enterprise RPA Lifecycle Engine)**
+> **Für die tägliche RPA-Arbeit nicht verwenden!**  
+> Die empfohlene Integration ist die leichte `.opencode/`-Konfiguration direkt im Merle-Root (`../.opencode/`).  
+> Einfach `opencode` im Merle-Hauptverzeichnis starten — der RPA-Hybrid-Architekt ist dann automatisch aktiv.
 
-Dies ist ein Fork von [OpenCode](https://github.com/anomalyco/opencode), angepasst und optimiert
-für das [Merle-Framework](../). Der Fork erweitert OpenCode um:
-- Einen dedizierten **RPA-Hybrid-Architekt** Agent
-- RPA-spezifische **Skills** für Prozessanalyse, Bot-Generierung und Governance
-- Ein **MCP-Tool** (`rpa-context`) für On-Demand-Kit-Dokumentation
-- Custom **Commands** (`/rpa-new-bot`, `/rpa-validate`)
+Dieses Verzeichnis enthält einen **vollständigen Fork** von [OpenCode](https://github.com/anomalyco/opencode). Es ist nur relevant, wenn du selbst am OpenCode-Core arbeiten oder einen angepassten Build erstellen möchtest.
+
+Der Fork erweitert OpenCode um die Merle-spezifischen RPA-Erweiterungen (die jedoch mittlerweile primär im Root unter `.opencode/` gepflegt werden).
 
 ## Enthaltene Erweiterungen
 
@@ -39,47 +38,41 @@ Feingranulare Berechtigungen:
 - `ask` für kritische Änderungen (config.py, Dockerfile)
 - Shell-Zugriff auf Bot- und Docs-Verzeichnisse
 
-## Verwendung
+## Verwendung (nur für Fork-Entwicklung)
 
-1. Öffne das RPA Hybrid Development Kit mit OpenCode:
-   ```bash
-   cd rpa-opencode-hybrid
-   opencode ../  # Öffnet das Kit als Workspace
-   ```
+```bash
+cd rpa-opencode-hybrid
+opencode ../          # Merle als Workspace mit diesem Fork öffnen
+# oder
+opencode .            # Direkt im Fork arbeiten (für OpenCode-Core-Änderungen)
+```
 
-2. Wähle den `rpa-hybrid` Agent aus (falls nicht automatisch als Default)
+**Empfohlener Weg für die tägliche Merle-Arbeit:**  
+Im Merle-Root einfach `opencode` ausführen. Die RPA-Erweiterungen leben dort unter `.opencode/` als leichte, versionierte Projekt-Konfiguration und benötigen diesen Fork nicht mehr (siehe `../.opencode/` und `../README.md`).
 
-3. Nutze die Commands:
-   - `/rpa-new-bot` — Neuen Bot erstellen
-   - `/rpa-validate` — Governance prüfen
+## Struktur der Erweiterungen (im Fork)
 
-4. Bei Bedarf Skills laden:
-   - `load_skill rpa-process-analyzer` — Prozess analysieren
-   - `load_skill rpa-bot-generator` — Bot generieren
-   - `load_skill governance-validator` — Validieren
-
-## Struktur der Erweiterungen
+Die RPA-Erweiterungen liegen auch hier noch unter `.opencode/`, dienen aber primär als Referenz oder für Tests gegen den Fork. Die **kanonische Version** befindet sich im Merle-Root unter `../.opencode/`.
 
 ```
 .opencode/
-├── agent/
-│   └── rpa-hybrid.md           # Custom Primary Agent
-├── skills/
-│   ├── rpa-process-analyzer/
-│   │   └── SKILL.md
-│   ├── rpa-bot-generator/
-│   │   └── SKILL.md
-│   └── governance-validator/
-│       └── SKILL.md
-├── tool/
-│   └── rpa-context.ts          # MCP-Tool für Kit-Kontext
-├── command/
-│   ├── rpa-new-bot.md
-│   └── rpa-validate.md
-└── opencode.jsonc              # Permissions & Tool-Konfiguration
+├── agent/rpa-hybrid.md
+├── skills/rpa-*/SKILL.md
+├── tool/rpa-context.ts
+├── command/rpa-*.md
+└── opencode.jsonc
 ```
 
-## Upstream
+## Upstream & Strategie
 
 Dieser Fork basiert auf [anomalyco/opencode](https://github.com/anomalyco/opencode).
-Die Anpassungen sind nicht-invasiv — alle OpenCode-Features bleiben vollständig erhalten.
+
+**Wichtige Architektur-Entscheidung (2026):**  
+Die Merle-spezifischen RPA-Erweiterungen (Persona, Skills, Tool, Commands) wurden aus dem schweren Fork in eine **leichte, projekt-lokale `.opencode/`-Konfiguration** im Merle-Root verschoben. Dadurch profitieren alle Entwickler sofort von der RPA-Hybrid-Architekt-Persona, ohne den großen Fork klonen zu müssen.
+
+Das Verzeichnis `rpa-opencode-hybrid/` bleibt nur für folgende seltene Fälle erhalten:
+- Entwicklung von Patches am OpenCode-Core
+- Erstellung angepasster Builds / Tauri-Pakete
+- Experimente mit neuen OpenCode-Plugin-APIs
+
+Für den Normalfall: `opencode` im Merle-Root starten.

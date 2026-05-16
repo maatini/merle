@@ -103,18 +103,20 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 
 ## IDE und Agenten-Umgebung
 
-- Die angepasste Coding-Umgebung liegt unter `rpa-opencode-hybrid/` (OpenCode-Fork).
-- **Primary Agent**: `rpa-hybrid` (`.opencode/agent/rpa-hybrid.md`) — vollständiger RPA-Hybrid-Architekt
+- Die **projekt-lokale OpenCode-Konfiguration** liegt direkt im Merle-Root unter `.opencode/`.
+- **Primary Agent**: `rpa-hybrid` (`.opencode/agent/rpa-hybrid.md`) — wird automatisch aktiv, sobald du `opencode` im Merle-Root startest.
 - **Skills**: `rpa-process-analyzer`, `rpa-bot-generator`, `governance-validator` (`.opencode/skills/`)
-- **MCP-Tool**: `rpa-context` (`.opencode/tool/rpa-context.ts`) — lädt Kit-Dokumentation on-demand
+- **MCP-Tool**: `rpa-context` (`.opencode/tool/rpa-context.ts`) — `load_rpa_context` für On-Demand-Dokumentation
 - **Commands**: `/rpa-new-bot`, `/rpa-validate` (`.opencode/command/`)
+
+Das schwere `rpa-opencode-hybrid/` (vollständiger Fork) ist **nur** noch für die Entwicklung von OpenCode-Core-Patches relevant.
 
 ## Hinweise speziell für DeepSeek-TUI
 
 - Dieses AGENTS.md wird automatisch als Projekt-Kontext injiziert.
 - Kombiniere mit `agent/CLAUDE.md` für die detaillierte „RPA-Hybrid-Architekt“-Persona.
 - Für große Analyse-Aufgaben RLM (parallel cheap V4-Flash Sub-Agents) nutzen, aber **immer** die oben genannten Regeln durchsetzen.
-- Die OpenCode-Erweiterungen (Agent, Skills, Tools, Commands) in `rpa-opencode-hybrid/.opencode/` respektieren alle hier definierten Governance-Regeln.
+- Die OpenCode-Erweiterungen in `.opencode/` (Agent, Skills, Tool, Commands) respektieren alle hier definierten Governance-Regeln. Wenn du `opencode` im Merle-Root ausführst, ist der RPA-Hybrid-Architekt sofort verfügbar.
 
 ## Erfolgskriterien für AI-gestützte Arbeit in diesem Projekt
 

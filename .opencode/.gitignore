@@ -1,0 +1,9 @@
+# Development artifacts (if someone experiments with packages inside .opencode)
+node_modules/
+*.log
+dist/
+.DS_Store
+
+# Never commit local OpenCode state
+plans/
+references/

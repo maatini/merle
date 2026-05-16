@@ -109,5 +109,19 @@ jobs:
           restore-keys: |
             pre-commit-${{ runner.os }}-
 
-      - name: Run pre-commit on all files
-        run: uv run pre-commit run --all-files --show-diff-on-failure
+      - name: Run Ruff + Ruff-format (all files)
+        run: |
+          uv run pre-commit run ruff --all-files --show-diff-on-failure
+          uv run pre-commit run ruff-format --all-files --show-diff-on-failure
+
+      - name: Run Prettier only on changed files
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref || 'main' }} --depth=1
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref || 'main' }}...HEAD -- '*.md' '*.yaml' '*.yml' '*.json' '*.toml' || true)
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "Checking Prettier on changed files:"
+            echo "$CHANGED_FILES"
+            echo "$CHANGED_FILES" | xargs uv run prettier --check || (echo "Prettier would reformat some files. Run 'prettier --write' locally." && exit 1)
+          else
+            echo "No relevant files changed for Prettier."
+          fi

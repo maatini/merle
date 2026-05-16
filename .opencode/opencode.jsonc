@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {},
+  "permission": {
+    "edit": {
+      // Sensitive bot files — ask before editing
+      "python_bots/*/config.py": "ask",
+      "python_bots/*/Dockerfile": "ask",
+      "python_bots/*/pyproject.toml": "ask",
+      // Generated bot code — free to edit
+      "python_bots/*/main.py": "allow",
+      "python_bots/*/tasks/*": "allow",
+      "python_bots/*/tests/*": "allow",
+      "python_bots/*/README.md": "allow",
+      "python_bots/*/.env.example": "allow",
+      "python_bots/*/requirements.txt": "allow",
+      // Copier template (modern source of truth)
+      "templates/bot/*": "ask",
+      // Architecture decisions & governance
+      "docs/decisions/*": "allow",
+      // Agent persona (CLAUDE.md + AGENTS.md)
+      "agent/*": "ask",
+      ".opencode/*": "ask"
+    },
+    "shell": {
+      // Allow shell in bot directories and docs for validation / testing
+      "python_bots/*": "allow",
+      "docs/*": "allow",
+      "templates/*": "allow",
+      // Allow running the Merle CLI and uv
+      ".": "allow"
+    }
+  },
+  "mcp": {},
+  "tools": {
+    // Disable generic OpenCode tools we don't need in RPA context
+    "github-triage": false,
+    "github-pr-search": false,
+    // Enable our custom Merle tool
+    "rpa-context": true
+  }
+}

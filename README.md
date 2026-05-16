@@ -108,21 +108,34 @@ Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Prefect 3.x, 
 
 ## OpenCode in Merle: RPA-Hybrid-Architekt
 
-Für Merle wird eine speziell angepasste OpenCode-Version erstellt. Diese ist im Verzeichnis `rpa-opencode-hybrid/` enthalten und explizit als *RPA-Hybrid-Architekt* für das Merle-Framework konfiguriert. Er kennt unsere Leitplanken, Templates und die Systemarchitektur im Detail.
+Merle bringt eine **projekt-lokale OpenCode-Konfiguration** mit (`/.opencode/`). Sobald du `opencode` im Root des Merle-Repositories startest, ist automatisch der **RPA-Hybrid-Architekt** als Primary Agent aktiv. Er kennt die Entscheidungsmatrix, alle Governance-Regeln, Templates und die Cloud-Native-Architektur im Detail.
+
+### Einfache Nutzung
+```bash
+# Im Merle-Root
+opencode
+# → rpa-hybrid Agent ist sofort verfügbar
+# → Skills: rpa-process-analyzer, rpa-bot-generator, governance-validator
+# → Command: /rpa-new-bot, /rpa-validate
+# → Tool: load_rpa_context (MCP)
+```
 
 ### Cloud-Native RPA im Azure AKS
-Da unsere Software-Roboter nicht lokal auf Desktops, sondern **zentral und hochskalierbar in der Cloud (z. B. Azure AKS Cluster)** ausgeführt werden, gelten besondere Anforderungen an den Code. OpenCode unterstützt das Entwicklungsteam gezielt bei der Umsetzung dieser Cloud-Native-Paradigmen:
+Da unsere Software-Roboter nicht lokal auf Desktops, sondern **zentral und hochskalierbar in der Cloud (z. B. Azure AKS Cluster)** ausgeführt werden, gelten besondere Anforderungen an den Code. Der RPA-Hybrid-Architekt unterstützt das Entwicklungsteam gezielt bei der Umsetzung dieser Cloud-Native-Paradigmen:
 
 - **Container-Readiness:** Automatisierte Erstellung von Headless-fähigem Code (Playwright, Linux-kompatible Bibliotheken), der ohne Windows-Abhängigkeiten in Docker-Containern und Pods läuft.
 - **Stateless & Robust:** Erzwingung von Retry-Mechanismen (Tenacity) und strukturiertem Logging (Loguru) für resiliente Bot-Ausführungen in flüchtigen Cloud-Umgebungen.
 - **NATS & Orchestrierung:** Direkte Unterstützung bei der Anbindung an unseren NATS Message Broker für ereignisgesteuerte, verteilte Task-Bearbeitung.
 
 ### Integrierte Governance & Tools
-Der OpenCode-Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Python_vs_UiPath.md) und der Projekt-Governance. Dazu greift er auf unsere spezifischen Tools und Skills im `.opencode/`-Verzeichnis zurück:
+Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Python_vs_UiPath.md) und der Projekt-Governance. Dazu stehen folgende Erweiterungen im `.opencode/`-Verzeichnis zur Verfügung:
 
-1. **`rpa-context` (MCP Tool):** Lädt Projekt-Dokumentationen dynamisch und stellt sicher, dass Architekturentscheidungen immer auf dem neuesten Stand des Frameworks basieren.
-2. **`rpa-bot-generator` (Skill):** Erzeugt neue Python-Bots ausschließlich auf Basis des verbindlichen Templates (`python_bots/template/`) – ein Start "von der grünen Wiese" ist ausgeschlossen.
-3. **`governance-validator` (Skill):** Prüft Code auf hardcodierte Pfade, fehlendes Error Handling und Container-Kompatibilität, bevor er in den AKS-Cluster deployed wird.
+1. **`rpa-context` (MCP Tool):** Lädt Projekt-Dokumentationen dynamisch (`load_rpa_context strategy`, `dev-guide`, `governance` …).
+2. **`rpa-bot-generator` (Skill):** Erzeugt neue Python-Bots **ausschließlich** auf Basis des verbindlichen Copier-Templates (`templates/bot/`) via `merle new-bot` oder Copier.
+3. **`governance-validator` (Skill):** Prüft Code auf Einhaltung aller 10 Governance-Regeln (inkl. Rule 10: merle-core + BaseTask).
+4. **Commands:** `/rpa-new-bot` und `/rpa-validate` für schnelle Workflows.
+
+**Hinweis zur Fork-Version:** Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork und ist **nur** relevant, wenn du selbst Änderungen am OpenCode-Core entwickeln oder eine komplett angepasste Desktop-App bauen möchtest. Für die tägliche Bot-Entwicklung reicht die leichte `.opencode/`-Integration im Root.
 
 Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit, sondern garantiert vor allem die **architektonische Integrität** und **Betriebsstabilität** aller Bots in unserer Cloud-Umgebung.
 
@@ -140,8 +153,10 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 │   ├── 05_Entwicklungsleitfaden.md  # Entwicklungsleitfaden
 │   └── decisions/            # ADR-Archiv
 ├── python_bots/
-│   ├── template/             # ✨ Verbindliches Bot-Template
+│   ├── template/             # Legacy Template (nur noch für alte Bots)
 │   └── shared/               # merle-core (installierbares Package, src-layout)
+├── templates/
+│   └── bot/                  # ✨ Offizielles Copier-Template (merle new-bot)
 │       ├── pyproject.toml
 │       ├── src/merle_core/
 │       │   ├── __init__.py   # BaseBot, RpaHttpClient, setup_logging
@@ -151,7 +166,12 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 ├── uipath_templates/         # UiPath-Templates (nur Ausnahmen)
 ├── agent/
 │   └── CLAUDE.md             # Merle RPA-Hybrid-Architekt
-├── AGENTS.md                 # AI-Agenten Kontext
+├── .opencode/                # OpenCode RPA-Erweiterungen (rpa-hybrid Agent, Skills, rpa-context Tool)
+│   ├── agent/rpa-hybrid.md   # Primary Agent (automatisch aktiv bei `opencode`)
+│   ├── skills/               # rpa-process-analyzer, rpa-bot-generator, governance-validator
+│   ├── tool/rpa-context.ts   # MCP-Tool: load_rpa_context
+│   └── command/              # /rpa-new-bot, /rpa-validate
+├── AGENTS.md                 # AI-Agenten Kontext (DeepSeek-TUI etc.)
 └── README.md                 # Diese Datei
 ```
 

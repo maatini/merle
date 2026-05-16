@@ -45,3 +45,21 @@ uv run pytest -v
 - Eigene Tasks unter `tasks/` anlegen (von `BaseTask` erben)
 - `configure_observability()` in `main.py` aktivieren
 - `.env` mit echten Werten befüllen (niemals committen!)
+
+---
+
+## KI-gestützte Entwicklung mit OpenCode (empfohlen)
+
+Im Merle-Root einfach `opencode` starten:
+
+```bash
+opencode
+```
+
+Du erhältst sofort den **Merle RPA-Hybrid-Architekt** als Primary Agent mit:
+- Vollständiger Kenntnis der Entscheidungsmatrix und aller 10 Governance-Regeln
+- Skills: `rpa-process-analyzer`, `rpa-bot-generator`, `governance-validator`
+- Commands: `/rpa-new-bot`, `/rpa-validate`
+- Tool: `load_rpa_context` für On-Demand-Dokumentation
+
+Der Agent achtet strikt auf Template-Konformität (`templates/bot/` + `merle new-bot`), merle-core-Nutzung und Linux-Container-Fähigkeit.

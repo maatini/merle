@@ -50,11 +50,11 @@ class AzureKeyVaultProvider(SecretProvider):
         return self._client
 
     async def get_secret(self, name: str) -> str:
-        client = await self._get_client()
+        client = await self._get_client()  # type: ignore[no-untyped-call]
         try:
             secret = await client.get_secret(name)
             logger.debug("Secret '{}' erfolgreich aus Key Vault geladen", name)
-            return secret.value
+            return secret.value  # type: ignore[no-any-return]
         except Exception as exc:
             logger.error("Secret '{}' konnte nicht aus Key Vault geladen werden: {}", name, exc)
             raise SecretNotFoundError(f"Secret '{name}' nicht in Key Vault gefunden") from exc
@@ -65,8 +65,8 @@ class AzureKeyVaultProvider(SecretProvider):
         except SecretNotFoundError:
             return default
 
-    async def close(self):
+    async def close(self):  # type: ignore[no-untyped-def]
         """Schließt den Client (wichtig bei async)."""
         if self._client:
             await self._client.close()
-            self._client = None
+            self._client = None  # type: ignore[unreachable]

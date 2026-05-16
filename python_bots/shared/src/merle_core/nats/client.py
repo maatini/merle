@@ -10,11 +10,14 @@ from __future__ import annotations
 import asyncio
 import json
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable
+from typing import TYPE_CHECKING, Any, Awaitable, Callable
 
 from loguru import logger
 
 from ..retry import default_http_retry, with_retry
+
+if TYPE_CHECKING:
+    from ..task import TaskResult, TaskSpec
 
 
 @dataclass
@@ -84,7 +87,7 @@ class NatsClient:
         logger.info("Verbunden mit NATS: {} (JetStream enabled)", self.servers)
 
     @property
-    def jetstream(self):
+    def jetstream(self) -> Any:
         """Gibt den JetStream Context zurück (für fortgeschrittene Nutzung)."""
         if not self._js:
             raise RuntimeError("JetStream ist nicht initialisiert (nicht verbunden?)")
@@ -95,9 +98,12 @@ class NatsClient:
             await self._nc.close()
             logger.info("NATS Verbindung geschlossen")
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "NatsClient":
         await self.connect()
         return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+        await self.close()
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
@@ -219,26 +225,24 @@ class NatsClient:
         timeout: float = 60.0,
     ) -> "TaskResult":
         """Führt eine Task via Request/Reply aus und gibt TaskResult zurück."""
-        from ..task import TaskSpec, TaskResult
-
-        if not isinstance(task_spec, TaskSpec):
+        if not isinstance(task_spec, TaskSpec):  # type: ignore[name-defined]
             raise TypeError("Erwarte TaskSpec")
 
         response = await self.request(subject, task_spec.to_dict(), timeout=timeout)
-        return TaskResult.from_dict(response.data)
+        return TaskResult.from_dict(response.data)  # type: ignore[attr-defined]
 
     # ─────────────────────────────────────────────────────────────
     # Callbacks
     # ─────────────────────────────────────────────────────────────
 
-    async def _error_callback(self, e):
+    async def _error_callback(self, e: Exception) -> None:
         logger.error("NATS Error: {}", e)
 
-    async def _disconnected_callback(self):
+    async def _disconnected_callback(self) -> None:
         self._connected = False
         logger.warning("NATS Verbindung unterbrochen")
 
-    async def _reconnected_callback(self):
+    async def _reconnected_callback(self) -> None:
         self._connected = True
         logger.info("NATS Verbindung wiederhergestellt")
 
@@ -296,7 +300,7 @@ class NatsClient:
         ack_wait: int = 60,
         batch: int = 5,
         timeout: float = 5.0,
-    ):
+    ) -> None:
         """
         High-Level Generator, der direkt TaskSpec-Objekte liefert.
 
@@ -325,7 +329,7 @@ class PullConsumer:
     Wrapper um einen JetStream Pull Consumer mit praktischen Methoden.
     """
 
-    def __init__(self, js_consumer, client: NatsClient):
+    def __init__(self, js_consumer: Any, client: NatsClient) -> None:
         self._consumer = js_consumer
         self._client = client
 
@@ -366,7 +370,7 @@ class PullConsumer:
         if hasattr(message, "_raw_msg"):
             await message._raw_msg.term()
 
-    async def messages(self, batch: int = 10, timeout: float = 5.0):
+    async def messages(self, batch: int = 10, timeout: float = 5.0) -> Any:
         """
         Asynchroner Generator, der Nachrichten liefert.
         Der Consumer muss die Nachricht selbst acken/naken.

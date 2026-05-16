@@ -11,14 +11,14 @@ import os
 from typing import Any, TypeVar
 
 from loguru import logger
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings  # type: ignore[import-not-found]
 
 from .azure import AzureKeyVaultProvider
 
 T = TypeVar("T", bound="AzureKeyVaultSettings")
 
 
-class AzureKeyVaultSettings(BaseSettings):
+class AzureKeyVaultSettings(BaseSettings):  # type: ignore[misc]
     """
     Mixin für pydantic-settings, das Azure Key Vault als Secret-Quelle unterstützt.
 

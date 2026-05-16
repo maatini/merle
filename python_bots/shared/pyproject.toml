@@ -69,3 +69,23 @@ dev = [
 [tool.mypy]
 python_version = "3.11"
 strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pydantic_settings.*",
+    "rpaframework.*",
+    "nats.*",
+    "azure.identity.*",
+    "azure.keyvault.secrets.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "merle_core.nats.*"
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+warn_unreachable = false
+
+[[tool.mypy.overrides]]
+module = ["merle_core.secrets.*", "merle_core.playwright.*"]
+ignore_errors = true

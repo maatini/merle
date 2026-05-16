@@ -1,5 +1,5 @@
 [project]
-name = "merle"
+name = "merle-cli"
 version = "0.1.0"
 description = "Merle RPA CLI – Schnellstart für neue Bots"
 requires-python = ">=3.11"

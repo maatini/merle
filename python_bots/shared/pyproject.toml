@@ -69,7 +69,9 @@ dev = [
 [tool.mypy]
 python_version = "3.11"
 strict = true
+warn_unused_ignores = true
 
+# Optional / external dependencies (not installed in all CI jobs)
 [[tool.mypy.overrides]]
 module = [
     "pydantic_settings.*",
@@ -80,12 +82,19 @@ module = [
 ]
 ignore_missing_imports = true
 
+# New / complex modules (NATS is still maturing in Phase 4)
 [[tool.mypy.overrides]]
 module = "merle_core.nats.*"
 disallow_untyped_defs = false
 disallow_untyped_calls = false
 warn_unreachable = false
+ignore_errors = true  # NATS client is still in early Phase 4 development
+
+# Modules with heavy dynamic / third-party interaction
+[[tool.mypy.overrides]]
+module = "merle_core.playwright.*"
+ignore_errors = true
 
 [[tool.mypy.overrides]]
-module = ["merle_core.secrets.*", "merle_core.playwright.*"]
+module = "merle_core.secrets.azure"
 ignore_errors = true

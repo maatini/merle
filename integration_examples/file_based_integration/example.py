@@ -30,7 +30,7 @@ class FileBasedIntegration:
         self.shared_path.mkdir(parents=True, exist_ok=True)
         self.logger = logger.bind(component="FileBasedIntegration")
 
-    def write_for_uipath(self, data: list[dict], filename: str = None) -> Path:
+    def write_for_uipath(self, data: list[dict], filename: str | None = None) -> Path:
         """
         Schreibt Daten als JSON-Datei für UiPath.
 

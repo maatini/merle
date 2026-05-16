@@ -22,8 +22,8 @@ async def test_launch_robust_browser_yields_robust_browser(mock_browser, mock_br
 
         async with launch_robust_browser(headless=True, stealth=False) as browser:
             assert isinstance(browser, RobustBrowser)
-            page = await browser.new_page()
-            assert page is not None
+            _page = await browser.new_page()
+            assert _page is not None
 
 
 @pytest.mark.asyncio
@@ -46,7 +46,7 @@ async def test_robust_browser_captures_failure_artifacts_on_exception(
                 screenshot_on_failure=True,
                 failure_dir=str(failure_dir),
             ) as browser:
-                page = await browser.new_page()
+                _page = await browser.new_page()
                 # Simulate a real failure inside user code
                 raise ValueError("Simulated bot failure")
 

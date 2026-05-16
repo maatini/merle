@@ -56,7 +56,7 @@ class TestWithRetryDecorator:
             call_count += 1
             raise ConnectionError("Service unavailable")
 
-        with pytest.raises((RetryExhaustedError, Exception)) as exc_info:
+        with pytest.raises((RetryExhaustedError, Exception)) as _exc_info:
             await always_fails()
 
         # The decorator + tenacity should eventually stop retrying

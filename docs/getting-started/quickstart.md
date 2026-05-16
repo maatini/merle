@@ -1,5 +1,8 @@
 # Schnellstart
 
+> **Neu im Team oder zum ersten Mal hier?**  
+> Lies zuerst den **[Junior-Guide für Einsteiger](junior-guide.md)** – alles wird dort in ganz einfacher Sprache erklärt.
+
 > **Hinweis:** Die empfohlene Entwicklungsumgebung ist **Devbox + direnv** (siehe [Entwicklungsumgebung einrichten](../development/setup.md)). Alle folgenden Befehle laufen idealerweise innerhalb der Devbox (`devbox run ...` oder `devbox shell`).
 
 ## 1. Voraussetzungen

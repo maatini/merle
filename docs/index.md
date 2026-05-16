@@ -20,6 +20,8 @@ Python-First Framework für wartbare, testbare und skalierbare RPA-Bots.
 
 ## Schnellstart
 
+**Neu hier?** → Lies zuerst den **[Junior-Guide für Einsteiger](getting-started/junior-guide.md)** (einfach erklärt, Schritt für Schritt).
+
 ```bash
 # Neuen Bot erzeugen (empfohlen)
 merle new-bot mein_bot --playwright

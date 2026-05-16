@@ -7,7 +7,10 @@ license = {text = "Proprietary"}
 readme = "README.md"
 
 [tool.uv.workspace]
-members = ["python_bots/shared"]
+members = [
+    "python_bots/shared",
+    "tools/merle",
+]
 
 [dependency-groups]
 dev = [

@@ -23,7 +23,7 @@ dev = [
     "pytest-asyncio>=0.23,<1.0",
     "pytest-playwright>=0.4,<1.0",
     "pre-commit>=3.7,<4.0",
-    "commitizen>=3.29,<4.0",   # Conventional Commits + SemVer + CHANGELOG
+    "commitizen>=4.16.2,<5.0",   # Conventional Commits + SemVer + CHANGELOG
 ]
 
 # ─── Ruff ───────────────────────────────────────────────

@@ -1,7 +1,12 @@
 """
 {{ bot_name }} — {{ bot_description }}
 
-Dieser Bot wurde mit dem offiziellen Merle Copier-Template (Phase 1+) erzeugt.
+This bot was generated from the official Merle Copier Template (Professional Foundation v0.2+).
+
+Recommended architecture:
+- Inherit from BaseBot
+- Decompose work into multiple BaseTask classes (better testability + future NATS distribution)
+- Use observability + retry policies from merle-core
 """
 
 import asyncio
@@ -20,38 +25,95 @@ from tasks.example_task import ExampleTask
 {% endif %}
 
 
-async def main() -> None:
-    """Haupt-Workflow des Bots."""
-    settings = BotSettings()  # type: ignore[call-arg]
+{% if use_base_bot_class %}
+class {{ bot_name | replace("_", " ") | title | replace(" ", "") }}Bot(BaseBot):
+    """
+    Main orchestrator for {{ bot_name }}.
 
-    # === Phase 2: Observability aktivieren ===
-    from merle_core.observability import configure_observability
-    configure_observability(service_name=settings.bot_name)
+    Follows the Merle 2026 pattern:
+    - Clean inheritance from BaseBot
+    - execute() contains the high-level pipeline
+    - Real work is delegated to typed BaseTask classes
+    """
+
+    def __init__(self, settings: BotSettings) -> None:
+        # Use the new ergonomic BaseBot API (name= is optional but recommended)
+        super().__init__(settings, name="{{ bot_name }}")
+
+    async def execute(self) -> dict[str, any]:
+        """High-level pipeline. Called by BaseBot.run()."""
+        self.logger.info("Starting {{ bot_name }} pipeline (env={})", self.settings.environment)
+
+        results: dict[str, any] = {}
+
+        {% if include_playwright or include_pandas or include_pdf %}
+        # Example: run one or more tasks (extend this in real bots)
+        task = ExampleTask(self.settings)
+        task_result = await task.run()
+        results["example_task"] = task_result
+        {% else %}
+        self.logger.info("No feature flags selected — add your tasks here")
+        results["status"] = "placeholder"
+        {% endif %}
+
+        self.logger.success("Pipeline completed")
+        return results
+
+    def _on_success(self, result: dict[str, any]) -> None:
+        """Hook: runs after successful execution (metrics, notifications, etc.)."""
+        self.logger.success("{{ bot_name }} finished successfully")
+
+    def _on_failure(self, exception: Exception) -> None:
+        """Hook: escalation, alerting, dead-letter, self-healing."""
+        self.logger.error("{{ bot_name }} failed: {}", exception)
+
+
+async def main() -> None:
+    settings = BotSettings()
+
+    # Observability (safe — won't crash the bot if OTEL is not fully available)
+    try:
+        from merle_core.observability import configure_observability
+        configure_observability(
+            service_name=settings.bot_name,
+            service_version="0.1.0",
+            enable_tracing=True,
+            enable_metrics=False,
+            resource_attributes={"deployment.environment": settings.environment},
+        )
+    except Exception as exc:
+        logger.warning("Observability setup skipped: {}", exc)
 
     setup_logging(level=settings.log_level, json_format=settings.log_json)
 
-    logger.info("Bot {} startet (env={})", settings.bot_name, settings.environment)
+    bot = {{ bot_name | replace("_", " ") | title | replace(" ", "") }}Bot(settings)
 
-    try:
-        {% if use_base_bot_class %}
-        # Moderne Architektur: Von BaseBot erben
-        # from merle_core import BaseBot
-        # bot = MeinBot(settings)
-        # await bot.run()
-        {% endif %}
+    # BaseBot.run() gives you: timing, structured logging, hooks, metrics, status
+    result = await bot.run()
 
-        {% if include_playwright or include_pandas or include_pdf %}
-        # Tasks von BaseTask erben (empfohlen)
-        task = ExampleTask(settings)
-        result = await task.run()
-        logger.info("Task abgeschlossen: {}", result)
-        {% else %}
-        logger.info("Bot erfolgreich ausgeführt (Platzhalter – eigene Logik hier einfügen)")
-        {% endif %}
+    logger.info("Final result: {}", result)
+    logger.info("Health: {}", bot.health_check())
 
-    except Exception:
-        logger.exception("Kritischer Fehler im Bot")
-        raise
+
+{% else %}
+# Simple mode (no BaseBot) — only used when user explicitly disabled the flag
+async def main() -> None:
+    settings = BotSettings()
+
+    setup_logging(level=settings.log_level, json_format=settings.log_json)
+    logger.info("Bot {} starting (simple mode)", settings.bot_name)
+
+    {% if include_playwright or include_pandas or include_pdf %}
+    from tasks.example_task import ExampleTask
+    task = ExampleTask(settings)
+    result = await task.run()
+    logger.info("Task finished: {}", result)
+    {% else %}
+    logger.info("Bot executed (add your logic here)")
+    {% endif %}
+
+
+{% endif %}
 
 
 if __name__ == "__main__":

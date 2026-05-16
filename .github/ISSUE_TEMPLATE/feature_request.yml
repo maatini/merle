@@ -1,0 +1,67 @@
+name: ✨ Feature Request / Enhancement
+description: Propose a new feature, improvement to merle-core, template, CLI, or governance
+labels: ["enhancement", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thank you for suggesting an improvement!**  
+        Merle follows a strict **Python-first + Governance-first** approach. Please explain the **why** and how it fits the [Entscheidungsmatrix](https://github.com/maatini/merle/blob/main/docs/concepts/entscheidungsmatrix.md).
+
+  - type: input
+    id: title_short
+    attributes:
+      label: Short Title
+      placeholder: "Add NATS JetStream consumer helper to merle_core"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Primary Area
+      options:
+        - merle-core (resilience, observability, BaseBot, secrets, NATS)
+        - Template / Copier (new feature flags, best practices)
+        - CLI (merle new-bot, validate, etc.)
+        - Developer Experience (just, devbox, docs)
+        - Orchestration / Vision (NATS, Prefect, KI-Executor)
+        - Governance / ADR / Decision Matrix
+        - Documentation / Examples
+      multiple: true
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: "What problem are you trying to solve? Who is affected?"
+      placeholder: "Currently every bot has to copy-paste the same NATS consumer boilerplate..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed Solution
+      description: "Describe the API, new module, or change. Code sketches welcome."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: "Why not solve it differently (e.g. in each bot, via Prefect, via UiPath)?"
+
+  - type: checkboxes
+    id: alignment
+    attributes:
+      label: Alignment with Merle Principles (please confirm)
+      options:
+        - label: This feature keeps **Python as default** (no unnecessary UiPath)
+        - label: It can be implemented in `merle-core` or the official **Copier template**
+        - label: It does **not** introduce Windows-only or non-containerizable dependencies
+        - label: I am open to an ADR if this is an architectural change

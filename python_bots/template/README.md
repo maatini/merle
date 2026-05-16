@@ -1,30 +1,46 @@
-# Bot-Template (Phase 0+)
+# ⚠️ LEGACY – Nicht mehr verwenden (Professional Foundation v0.2+)
 
-Dieses Template ist die **verbindliche Basis** für jeden neuen Python-Bot im Merle-Framework.
+**Dieses Verzeichnis (`python_bots/template/`) ist veraltet.**
 
-## Neue Architektur (ab Phase 0)
+Die **verbindliche und empfohlene** Methode, neue Merle-Bots zu erstellen, ist seit der Professional Foundation (v0.2):
 
-- **`merle-core`** (Workspace-Package) liefert:
-  - `BaseBot` – abstrakte Basisklasse mit standardisiertem Lifecycle
-  - `RpaHttpClient` – mit tenacity-Retry & Auth
-  - `setup_logging()` – einheitliches loguru-Setup
-- Vollständiges **uv**-Management (pyproject.toml + uv.lock)
-- Docker-Image mit uv (reproduzierbar, schnell, non-root)
+### Empfohlener Weg (2026+)
 
-## Verwendung
-
-### 1. Neuen Bot erstellen
 ```bash
-cp -r python_bots/template/ python_bots/mein_invoice_bot/
-cd python_bots/mein_invoice_bot/
+# Mit der offiziellen Merle CLI (beste DX)
+merle new-bot mein_bot --playwright --pandas
+
+# Oder direkt mit Copier (die Quelle der Wahrheit)
+copier copy templates/bot python_bots/mein_bot
 ```
 
-### 2. uv Sync (einmalig)
-```bash
-uv sync --group dev
-```
+Das echte, wartbare Template liegt unter:
+- `templates/bot/` (Copier-basiert, mit Feature-Flags, Jinja, Post-Hooks)
+- `tools/merle/` (CLI: `merle new-bot`)
 
-uv zieht automatisch `merle-core` aus dem Parent-Workspace.
+---
+
+## Warum dieses alte Template nicht mehr verwendet werden sollte
+
+- Es ist eine statische Kopie und wird nicht mehr gepflegt.
+- Es kennt keine Feature-Flags (`--playwright`, `--pandas`, `--pdf`...).
+- Es enthält keine modernen Patterns aus `merle-core` (verbessertes `BaseBot`, NATS-Vorbereitung, etc.).
+- Docker-Builds und CI sind auf das neue Copier-Template optimiert.
+
+---
+
+## Was tun, wenn du bereits Bots aus diesem Ordner hast?
+
+Kopiere die **Logik** in einen frisch generierten Bot aus `templates/bot/`.
+
+Die alte `cp -r` Methode wird **nicht mehr unterstützt**.
+
+---
+
+**Siehe auch:**
+- [Quickstart](../../docs/getting-started/quickstart.md)
+- [templates/bot/README.md](../../templates/bot/README.md)
+- `merle new-bot --help`
 
 ### 3. Konfiguration
 ```bash

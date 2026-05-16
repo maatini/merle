@@ -109,7 +109,17 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 - **MCP-Tool**: `rpa-context` (`.opencode/tool/rpa-context.ts`) — `load_rpa_context` für On-Demand-Dokumentation
 - **Commands**: `/rpa-new-bot`, `/rpa-validate` (`.opencode/command/`)
 
-Das schwere `rpa-opencode-hybrid/` (vollständiger Fork) ist **nur** noch für die Entwicklung von OpenCode-Core-Patches relevant.
+Das schwere `rpa-opencode-hybrid/` (vollständiger Fork, ~88 MB) ist **nur** noch für die Entwicklung von OpenCode-Core-Patches relevant.
+
+**Entscheidung (Phase 0 – Professional Foundation, 2026-05):**  
+Wir binden `rpa-opencode-hybrid` **nicht** als git submodule ein und entfernen es auch nicht aus dem Working Tree.  
+Begründung:
+- 95 % aller Merle-Nutzer (Bot-Entwickler, CI, Agenten) brauchen nur die schlanke `.opencode/`-Konfiguration.
+- Ein Submodule mit 88 MB (inkl. Electron, Tauri, node_modules, Patches) würde `git clone` massiv verlangsamen und Submodule-Pflegekosten verursachen.
+- Die aktuelle Lösung (`.gitignore` + klare Dokumentation in `.gitignore`, `README.md` und hier) ist die professionellste und DX-freundlichste Variante.
+- Bei Bedarf kann `maatini/merle-opencode-hybrid` als eigenständiges privates Repository maintained werden (ohne Submodule-Beziehung).
+
+Siehe auch: `.gitignore:99`, `README.md` (Abschnitt "OpenCode RPA-Hybrid"), `docs/decisions/0005-merle-core-v02-architecture.md`.
 
 ## Hinweise speziell für DeepSeek-TUI
 

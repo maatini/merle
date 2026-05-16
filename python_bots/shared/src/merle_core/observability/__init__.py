@@ -79,7 +79,14 @@ def configure_observability(
         )
 
     # Loguru mit Trace-Kontext anreichern (sehr nützlich)
-    configure_loguru_otel_sink()
+    # Made defensive: observability must never break bot execution
+    try:
+        configure_loguru_otel_sink()
+    except Exception as e:
+        # Don't let observability setup crash the bot
+        from loguru import logger as _logger
+
+        _logger.warning("Failed to configure OTEL Loguru sink (observability partially disabled): {}", e)
 
     from loguru import logger
 

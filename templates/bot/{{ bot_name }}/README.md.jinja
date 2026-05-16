@@ -2,40 +2,99 @@
 
 {{ bot_description }}
 
-Dieser Bot wurde mit dem **offiziellen Merle Copier-Template** (Phase 1+) erzeugt.
+**Generated with the official Merle Copier Template (Professional Foundation v0.2+)**
 
-## Schnellstart
+This bot follows the current Merle best practices:
+- `BaseBot` + multiple `BaseTask` classes (when enabled)
+- Strong observability + retry policies
+- Clean configuration with pydantic-settings
+- Ready for future NATS-based granular orchestration
+
+## Quick Start
 
 ```bash
 uv sync --group dev
 uv run python main.py
 ```
 
-## Features dieses Bots
+## Architecture
 
-{% if include_playwright %}- ✅ Playwright (Web-Automatisierung)
-{% endif %}{% if include_pandas %}- ✅ pandas + openpyxl
-{% endif %}{% if include_pdf %}- ✅ pdfplumber
-{% endif %}{% if include_uipath_orchestrator %}- ✅ UiPath Orchestrator Client
-{% endif %}{% if use_base_bot_class %}- ✅ BaseBot aus merle-core
+{% if use_base_bot_class %}
+This bot uses the **recommended Merle 2026 pattern**:
+
+```python
+class {{ bot_name | replace("_", " ") | title | replace(" ", "") }}Bot(BaseBot):
+    async def execute(self) -> dict:
+        # High-level orchestration
+        result = await ExampleTask(self.settings).run()
+        return result
+```
+
+Real work lives in small, testable `BaseTask` subclasses (see `tasks/`).
+{% else %}
+Simple script mode (you disabled `use_base_bot_class`).
 {% endif %}
 
-## Konfiguration
+## Enabled Features
 
-Alle Einstellungen stehen in `.env` (siehe `.env.example`).
+{% if include_playwright %}- ✅ **Playwright** — robust browser automation with stealth + auto-screenshots
+{% endif %}{% if include_pandas %}- ✅ **pandas + openpyxl** — data processing & professional Excel output
+{% endif %}{% if include_pdf %}- ✅ **pdfplumber** — PDF parsing
+{% endif %}{% if include_uipath_orchestrator %}- ✅ **UiPath Orchestrator** client (only use when justified by the decision matrix!)
+{% endif %}
 
-| Variable | Beschreibung |
-|----------|--------------|
-| `BOT_TARGET_URL` | Zielsystem |
-| `BOT_API_KEY` | Authentifizierung |
+## Recommended Next Steps
+
+1. Study the **gold standard reference implementation**:
+   ```bash
+   cd examples/invoice-processing
+   uv run python main.py
+   ```
+   This shows a full production-grade invoice bot with 4 real `BaseTask`s.
+
+2. Replace `ExampleTask` with your actual domain tasks.
+
+3. Add more tasks as the process grows (this is the path to NATS distribution later).
+
+## Configuration
+
+All settings live in `BotSettings` (`config.py`) and are loaded from environment variables with `BOT_` prefix + `.env` file.
 
 ## Docker
 
+### Monorepo mode (recommended while developing inside this repository)
+
 ```bash
-docker build -t {{ bot_name }} .
-docker run --env-file .env {{ bot_name }}
+# From the Merle repository root:
+docker build \
+  -f python_bots/{{ bot_name }}/Dockerfile \
+  --build-arg BUILD_MODE=monorepo \
+  -t {{ bot_name }}:latest \
+  .
+
+docker run --env-file python_bots/{{ bot_name }}/.env {{ bot_name }}:latest
 ```
+
+### Standalone mode (later, when merle-core is published internally)
+
+```bash
+cd python_bots/{{ bot_name }}
+docker build --build-arg BUILD_MODE=standalone -t {{ bot_name }}:latest .
+docker run --env-file .env {{ bot_name }}:latest
+```
+
+The Dockerfile is multi-stage, uses a non-root user, and has a healthcheck.
+
 
 ## Governance
 
-Dieser Bot entspricht vollständig den Merle-Regeln (ADR-0004 + Governance).
+This bot was created according to Merle rules (see `AGENTS.md` + `docs/decisions/`).
+
+- Python is the default
+- Template-first
+- Observable + resilient
+- No hard-coded secrets
+
+---
+
+**Need help?** Look at `docs/` and the reference bot in `examples/invoice-processing/`.

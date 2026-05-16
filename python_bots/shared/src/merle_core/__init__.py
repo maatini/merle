@@ -53,18 +53,47 @@ __all__ = [
     "aggressive_retry",
 ]
 
-# Observability (optional, via extra "observability")
-from . import observability
-from .observability import configure_observability, get_tracer, get_meter
+# --- Optional submodules (only imported when the corresponding extra is installed) ---
 
-# Playwright (optional, via extra "playwright")
-from . import playwright
+# Observability (extra: "observability")
+try:
+    from . import observability
+    from .observability import configure_observability, get_tracer, get_meter  # type: ignore
 
-# Secrets (optional, via extra "azure")
-from . import secrets
+    _has_observability = True
+except ImportError:
+    observability = None  # type: ignore
+    configure_observability = None  # type: ignore
+    get_tracer = None  # type: ignore
+    get_meter = None  # type: ignore
+    _has_observability = False
 
-# NATS (optional, via extra "nats") - Phase 4
-from . import nats
+# Playwright (extra: "playwright")
+try:
+    from . import playwright  # type: ignore
+
+    _has_playwright = True
+except ImportError:
+    playwright = None  # type: ignore
+    _has_playwright = False
+
+# Secrets / Azure (extra: "azure")
+try:
+    from . import secrets  # type: ignore
+
+    _has_azure = True
+except ImportError:
+    secrets = None  # type: ignore
+    _has_azure = False
+
+# NATS (extra: "nats") — Phase 4 foundation
+try:
+    from . import nats  # type: ignore
+
+    _has_nats = True
+except ImportError:
+    nats = None  # type: ignore
+    _has_nats = False
 
 __all__ += [
     "configure_observability",

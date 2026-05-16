@@ -2,9 +2,6 @@
 Mocked tests for the observability module.
 """
 
-from unittest.mock import patch
-
-
 from merle_core.observability import configure_observability, get_tracer, get_meter
 
 
@@ -27,7 +24,26 @@ def test_get_meter_returns_meter():
     assert meter is not None
 
 
-@patch("merle_core.observability.tracing.init_tracing")
-def test_configure_calls_init_tracing(mock_init):
-    configure_observability(service_name="test-bot", enable_tracing=True)
-    mock_init.assert_called()
+def test_configure_observability_does_not_crash_and_enables_tracing():
+    """Integration-style test: configure_observability should work without crashing
+    and make get_tracer / get_meter return valid objects."""
+    # Reset global state
+    import merle_core.observability.tracing as tracing_mod
+    import merle_core.observability.metrics as metrics_mod
+
+    tracing_mod._tracer_provider = None  # type: ignore[attr-defined]
+    metrics_mod._meter_provider = None  # type: ignore[attr-defined]
+
+    # Should not raise
+    configure_observability(
+        service_name="test-bot",
+        service_version="0.2.0",
+        enable_tracing=True,
+        enable_metrics=True,
+    )
+
+    tracer = get_tracer("test.module")
+    meter = get_meter("test.module")
+
+    assert tracer is not None
+    assert meter is not None

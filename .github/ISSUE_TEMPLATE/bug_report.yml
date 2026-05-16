@@ -1,0 +1,79 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior in Merle (core, template, CLI, docs)
+labels: ["bug", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thanks for reporting a bug!**  
+        Please fill out the sections below. For internal Antigravity issues, also reference the relevant ADR or governance rule if applicable.
+
+  - type: input
+    id: version
+    attributes:
+      label: Merle Version / Commit
+      description: "e.g. v0.2.0 or commit hash"
+      placeholder: "v0.2.0 or 7f3a2c1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      options:
+        - merle-core (python_bots/shared)
+        - Bot Template (templates/bot or python_bots/template)
+        - merle CLI (tools/merle)
+        - Copier Template
+        - CI / Docker / Devbox
+        - Documentation (docs/)
+        - .opencode/ Agent & Skills
+        - Other
+      multiple: true
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: "What happened? What did you expect?"
+      placeholder: "When running `merle new-bot foo --playwright`, the generated bot fails to import BaseBot..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: "Minimal steps + code snippet or command"
+      placeholder: |
+        1. `merle new-bot testbot --playwright`
+        2. `cd python_bots/testbot`
+        3. `uv sync`
+        4. `uv run python main.py`
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: "OS, Python, uv, Devbox version, etc."
+      placeholder: |
+        - OS: macOS 15.4 / Ubuntu 24.04
+        - Python: 3.11.9 (via devbox)
+        - uv: 0.11.8
+        - Devbox: 0.14.0
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues and docs
+        - label: I have read the [Governance rules](https://github.com/maatini/merle/blob/main/AGENTS.md) and [Entscheidungsmatrix](https://github.com/maatini/merle/blob/main/docs/concepts/entscheidungsmatrix.md)
+        - label: This is **not** a UiPath-only issue (UiPath issues go to the UiPath project)
+        - label: I am willing to provide a minimal reproduction repository

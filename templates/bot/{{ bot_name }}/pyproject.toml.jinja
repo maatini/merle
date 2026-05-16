@@ -7,7 +7,8 @@ requires-python = ">={{ python_version }}"
 license = {text = "Proprietary"}
 
 dependencies = [
-    "merle-core[observability]",   # Phase 2: Observability + BaseBot/BaseTask
+    # merle-core with relevant extras (BaseBot + observability always included)
+    "merle-core[observability{% if include_pandas or include_pdf %},data{% endif %}{% if include_playwright %},playwright{% endif %}]",
 
     "pydantic-settings>=2.0,<3.0",
     "loguru>=0.7,<1.0",

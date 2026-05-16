@@ -1,8 +1,11 @@
 """
-Loguru Integration mit OpenTelemetry.
+Loguru + OpenTelemetry Integration für Merle.
 
-Fügt automatisch Trace-ID und Span-ID zu allen Loguru-Logs hinzu,
-wenn ein aktiver Span vorhanden ist.
+Professionelle, nicht-invasive Anreicherung von Loguru-Records mit
+Trace-ID und Span-ID aus dem aktuellen OpenTelemetry Context.
+
+Diese Implementierung verwendet `logger.patch()`, was die sicherste und
+performanteste Variante ist (kein Re-Logging, keine Deadlocks).
 """
 
 from __future__ import annotations
@@ -11,12 +14,8 @@ from loguru import logger
 from opentelemetry import trace
 
 
-def _otel_sink(message: str) -> None:
-    """
-    Custom Loguru Sink, der Trace-Kontext injiziert.
-    """
-    record = message.record
-
+def _inject_otel_context(record: dict) -> None:
+    """Patch-Funktion: Injiziert Trace/Span IDs in jedes Log-Record."""
     span = trace.get_current_span()
     if span and span.is_recording():
         ctx = span.get_span_context()
@@ -26,39 +25,28 @@ def _otel_sink(message: str) -> None:
         record["extra"].setdefault("trace_id", "")
         record["extra"].setdefault("span_id", "")
 
-    # Standard-Format mit Trace-Kontext
-    logger.opt(depth=6).log(
-        record["level"].name,
-        "{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | "
-        "trace={extra[trace_id]} span={extra[span_id]} | "
-        "{name}:{function}:{line} - {message}",
-        **record,
-    )
-
 
 def configure_loguru_otel_sink() -> None:
     """
-    Aktiviert den OTEL-fähigen Loguru-Sink.
+    Konfiguriert Loguru so, dass alle Logs automatisch mit OpenTelemetry
+    Trace/Span-Kontext angereichert werden.
 
-    Entfernt vorherige Handler und ersetzt sie durch einen, der
-    Trace-Kontext automatisch mitloggt.
+    Diese Methode ist idempotent und sicher (auch in Tests und bei
+    mehrfachem Aufruf).
     """
-    logger.remove()
+    # Entferne bestehende Handler nur, wenn wir noch nicht konfiguriert haben
+    # (vermeidet doppeltes Logging und Deadlocks)
+    if getattr(logger, "_merle_otel_configured", False):
+        return
 
-    logger.add(
-        _otel_sink,
-        level="INFO",
-        serialize=False,
-        backtrace=True,
-        diagnose=False,
-    )
+    # Wende den Patch global an — das ist der professionelle Weg
+    logger.configure(patcher=_inject_otel_context)
 
-    # Optional: separater JSON-Handler für Produktion (kann später erweitert werden)
-    logger.add(
-        "logs/bot_{time:YYYY-MM-DD}.json",
-        level="INFO",
-        format="{time} {level} {message} {extra}",
-        serialize=True,
-        rotation="10 MB",
-        retention="30 days",
-    )
+    # Markiere als konfiguriert (idempotent)
+    logger._merle_otel_configured = True  # type: ignore[attr-defined]
+
+    # Hinweis: Das eigentliche Format mit trace/span muss im Logger-Handler
+    # oder in der Anwendung selbst gesetzt werden, z.B.:
+    # logger.add(sys.stderr, format="{time} | {level} | trace={extra[trace_id]} ...")
+    #
+    # Für die meisten Merle-Bots reicht der Patch + ein gutes Format in main.py.

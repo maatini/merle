@@ -1,7 +1,10 @@
 """
-Beispiel-Task für {{ bot_name }}.
+Example Task for {{ bot_name }}.
 
-Ab Phase 2 sollten Tasks von `BaseTask` erben (bessere Metriken, Hooks, Konsistenz).
+This is the recommended pattern in Merle (2026):
+- Inherit from BaseTask for timing, metrics, hooks and structured logging
+- Use @with_retry for resilience
+- Keep tasks small and focused (easy to test + distribute via NATS later)
 """
 
 from __future__ import annotations
@@ -10,23 +13,51 @@ from typing import Any
 
 from config import BotSettings
 from merle_core import BaseTask
+from merle_core.retry import with_retry, default_http_retry
 
 
 class ExampleTask(BaseTask):
     """
-    Moderner Task basierend auf BaseTask.
-    Erbt automatisch:
-    - Timing + Metriken
-    - _on_success / _on_failure Hooks
-    - Strukturiertes Logging
+    A realistic task template.
+
+    In a real bot you would create multiple such classes:
+        - FetchDataFromERP
+        - TransformAndValidate
+        - WriteToTargetSystem
+        - SendNotification
     """
 
     def __init__(self, settings: BotSettings) -> None:
         super().__init__(settings, name="ExampleTask")
 
+    @with_retry(policy=default_http_retry)
+    async def _do_work(self) -> dict[str, Any]:
+        """The actual work (network call, file processing, etc.)."""
+        self.logger.info("Performing example work...")
+
+        # TODO: Replace with real logic
+        # await asyncio.sleep(0.1)
+        # response = await self.settings.http_client.get(...)
+
+        return {
+            "status": "success",
+            "processed_items": 42,
+            "source": "example",
+        }
+
     async def execute(self) -> dict[str, Any]:
-        self.logger.info("Führe Business-Logik aus...")
+        """Entry point called by BaseTask.run()."""
+        self.logger.info("ExampleTask starting with settings for environment={}", self.settings.environment)
 
-        # Hier echte Logik (HTTP, Datenverarbeitung, etc.)
+        result = await self._do_work()
 
-        return {"status": "ok", "processed": 0}
+        self.logger.success("ExampleTask completed: {}", result)
+        return result
+
+    def _on_success(self, result: dict[str, Any]) -> None:
+        """Optional per-task hook."""
+        pass
+
+    def _on_failure(self, exception: Exception) -> None:
+        """Optional per-task self-healing / escalation hook."""
+        self.logger.warning("ExampleTask failure hook triggered")

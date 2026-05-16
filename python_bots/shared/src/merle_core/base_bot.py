@@ -25,9 +25,19 @@ class BaseBot(ABC):
     Die `run()`-Methode übernimmt standardisiertes Logging, Timing und Error-Handling.
     """
 
-    def __init__(self, settings: Any) -> None:
+    def __init__(self, settings: Any, *, name: str | None = None) -> None:
+        """
+        Initialize BaseBot.
+
+        Args:
+            settings: Pydantic-settings or any config object. Should ideally have
+                      a `bot_name` attribute (enforced by governance).
+            name: Optional explicit bot name. Takes precedence over settings.bot_name.
+        """
         self.settings = settings
-        self.logger = logger.bind(bot=settings.bot_name)
+        bot_name = name or getattr(settings, "bot_name", None) or self.__class__.__name__
+        self.name = bot_name
+        self.logger = logger.bind(bot=self.name)
         self._start_time: float | None = None
         self._duration: float | None = None
         self._status: str = "pending"
@@ -47,7 +57,7 @@ class BaseBot(ABC):
 
         self.logger.info(
             "Bot {} startet (env={})",
-            self.settings.bot_name,
+            self.name,
             getattr(self.settings, "environment", "unknown"),
         )
 
@@ -61,18 +71,18 @@ class BaseBot(ABC):
 
             self.logger.info(
                 "Bot {} erfolgreich beendet in {:.2f}s",
-                self.settings.bot_name,
+                self.name,
                 self._duration,
             )
-            _record_bot_success(self.settings.bot_name, self._duration)
+            _record_bot_success(self.name, self._duration)
             self._on_success(result)
             return result
 
         except Exception as exc:
             self._status = "failed"
             self._duration = time.perf_counter() - self._start_time if self._start_time else 0
-            self.logger.exception("Bot {} fehlgeschlagen nach {:.2f}s", self.settings.bot_name, self._duration)
-            _record_bot_failure(self.settings.bot_name, self._duration)
+            self.logger.exception("Bot {} fehlgeschlagen nach {:.2f}s", self.name, self._duration)
+            _record_bot_failure(self.name, self._duration)
             self._on_failure(exc)
             raise
 
@@ -88,7 +98,7 @@ class BaseBot(ABC):
         """Erweiterter Health-Check mit aktuellen Metriken."""
         return {
             "status": "healthy" if self._status != "failed" else "unhealthy",
-            "bot": self.settings.bot_name,
+            "bot": self.name,
             "environment": getattr(self.settings, "environment", "unknown"),
             "last_run_status": self._status,
             "last_run_duration": round(self._duration, 3) if self._duration else None,
@@ -97,7 +107,7 @@ class BaseBot(ABC):
     def get_metrics(self) -> dict[str, Any]:
         """Liefert Metriken der letzten Bot-Ausführung."""
         return {
-            "bot": self.settings.bot_name,
+            "bot": self.name,
             "status": self._status,
             "duration_seconds": round(self._duration, 3) if self._duration is not None else None,
         }

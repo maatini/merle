@@ -1,0 +1,78 @@
+# Merle Bot Docker ignore (generated)
+# Keep this tight for fast, secure builds
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing & caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment & secrets (never ship these)
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# Logs
+logs/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed in runtime image)
+*.md
+docs/
+
+# Development only
+tests/
+devbox.json
+justfile
+
+# If building in monorepo mode, we usually want to exclude the entire sibling bots
+# but include the shared core (controlled by the build command / .dockerignore at root)
+{% if location == "python_bots" %}
+# When building a python_bots/ bot, the parent context usually excludes other bots
+python_bots/!(shared)/
+!python_bots/shared/
+{% endif %}

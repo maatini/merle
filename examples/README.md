@@ -1,30 +1,49 @@
 # Merle Examples
 
-In diesem Ordner findest du vollständige, lauffähige Beispiele für typische RPA-Szenarien.
+This directory contains **production-grade reference implementations** and smaller demonstrations for typical Merle RPA patterns.
 
-## Verfügbare Beispiele
+## Reference Implementation (Start Here)
 
-| Beispiel                | Technologien                     | Beschreibung |
-|-------------------------|----------------------------------|------------|
-| `web-automation/`       | Playwright + merle-core          | Robustes Web-Scraping / UI-Automatisierung |
-| `excel-processing/`     | pandas + openpyxl + merle-core   | Excel-Dateien einlesen, verarbeiten, schreiben |
-| `uipath-hybrid/`        | Python + UiPath Orchestrator     | Queue-Items aus UiPath mit Python verarbeiten |
+| Example                        | Status       | Description |
+|--------------------------------|--------------|-------------|
+| **`invoice-processing/`**      | ✅ **Gold Standard** | Full end-to-end invoice bot using `BaseBot` + 4 `BaseTask`s, PDF parsing (`pdfplumber`), master data enrichment, professional Excel reporting, observability, retry policies, self-healing hooks. **This is the example you show new developers and auditors.** |
 
-## Alle Beispiele starten
+## Smaller Demonstrations
+
+| Example                | Technologies                          | Purpose |
+|------------------------|---------------------------------------|---------|
+| `web-automation/`      | Playwright + `launch_robust_browser` + `BaseTask` | Stealth browser automation, failure artifacts, retry |
+| `excel-processing/`    | pandas + openpyxl                     | Data transformation patterns |
+| `nats-task-communication/` | `merle_core.nats` + JetStream     | Early NATS / task queue patterns (Phase 4 foundation) |
+| `uipath-hybrid/`       | UiPath Orchestrator API               | When UiPath is justified — Python ↔ UiPath integration |
+
+## Quick Start — Reference Bot
 
 ```bash
-cd examples/web-automation
-uv sync
+cd examples/invoice-processing
+uv sync --group dev
 uv run python main.py
 ```
 
-Die Beispiele sind bewusst klein gehalten, demonstrieren aber die empfohlenen Patterns aus Phase 2:
+You will get:
+- 3 synthetic invoices processed
+- Structured data + master data enrichment
+- A beautifully formatted Excel report in `data/reports/`
 
-- Verwendung von `BaseTask`
-- `configure_observability()`
-- `launch_robust_browser()` (im Web-Beispiel)
-- Saubere Struktur + Logging
+## How to Use These Examples
 
-## Nächste Schritte
+1. **Study `invoice-processing/` first** — it is the complete, governance-compliant, observable pattern.
+2. For new real bots: always start with `merle new-bot ...` (Copier template).
+3. Copy proven task patterns from the reference implementation into your generated bot.
+4. The smaller examples show specific technical capabilities (browser, NATS, UiPath bridge).
 
-In realen Projekten würdest du diese Beispiele als Basis nehmen und mit domänenspezifischer Logik erweitern.
+## Governance Note
+
+All examples in this directory follow the Merle rules:
+- Python is the default
+- Every complex process is decomposed into `BaseTask` units
+- Full observability + resilience
+- No hard-coded secrets
+- Ready for future NATS-based granular orchestration
+
+See also: [docs/ROADMAP.md](../docs/ROADMAP.md) and the main [AGENTS.md](../AGENTS.md).

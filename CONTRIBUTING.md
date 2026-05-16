@@ -5,7 +5,8 @@ Vielen Dank, dass du zum Merle Framework beitragen möchtest!
 ## Grundprinzipien
 
 - **Python-First** — Neue Funktionen werden primär in Python umgesetzt.
-- **Template & Core zuerst** — Änderungen am `templates/bot/` und `merle-core` haben höchste Priorität.
+- **Template & Core zuerst** — Änderungen am `templates/bot/` (Copier) und `merle-core` haben höchste Priorität.
+- **Referenz-Beispiel beachten** — Schau dir `examples/invoice-processing/` an — das ist der aktuelle Gold-Standard für Merle-Bots.
 - **Kleine, reviewbare PRs** — Große Refactorings bitte vorher als Issue oder ADR diskutieren.
 - **Tests & Docs** — Jede neue Funktion braucht Tests und Dokumentation.
 
@@ -23,21 +24,33 @@ devbox run setup        # uv sync + pre-commit hooks
 Wichtige Befehle (innerhalb Devbox):
 
 ```bash
-devbox run new-bot test_bot --playwright
-devbox run lint
-devbox run test
+devbox run new-bot test_bot --playwright     # Neuen Bot generieren
+just lint                                    # Ruff + Format Check
+just test                                    # Core + Reference Tests
+just ci                                      # Full local CI (lint + test + pre-commit)
 uv run mkdocs serve
 ```
+
+Der `justfile` im Root ist der empfohlene Einstieg für alle gängigen Entwickler-Commands.
 
 Siehe `docs/development/setup.md` und Skill `devbox-environment` für Details.
 
 ## Pull Request Prozess
 
-1. Branch von `develop` oder `main` erstellen
+1. Branch von `main` erstellen (Feature-Branches: `feature/...` oder `fix/...`)
 2. Feature implementieren + Tests schreiben
-3. `uv run ruff check --fix . && uv run ruff format .`
-4. `uv run pytest`
-5. PR erstellen mit guter Beschreibung + Screenshots (falls UI-relevant)
+3. Qualität sicherstellen:
+   ```bash
+   just lint
+   just test
+   # oder manuell:
+   uv run ruff check --fix . && uv run ruff format .
+   uv run pytest python_bots/shared -q
+   ```
+4. Bei Template-Änderungen: Einen Test-Bot mit `merle new-bot` oder Copier generieren und prüfen
+5. PR mit guter Beschreibung + Referenz zu Issue/ADR erstellen
+
+**Wichtige Regel:** Änderungen an `templates/bot/` oder `merle-core` haben höchste Priorität und müssen besonders sorgfältig getestet werden.
 
 ## Commit Messages
 

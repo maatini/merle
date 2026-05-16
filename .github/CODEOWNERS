@@ -1,0 +1,35 @@
+# Merle CODEOWNERS
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Root governance, strategy, and high-level decisions require architect approval
+*                                    @maatini/merle-architects
+
+# Core Python framework (highest impact on all bots)
+python_bots/shared/                  @maatini/merle-core-maintainers
+python_bots/shared/src/merle_core/   @maatini/merle-core-maintainers
+
+# Official Copier template + CLI (every new bot starts here)
+templates/bot/                       @maatini/merle-template-maintainers
+tools/merle/                         @maatini/merle-template-maintainers
+
+# Documentation & ADRs (binding for the project)
+docs/                                @maatini/merle-architects
+AGENTS.md                            @maatini/merle-architects
+docs/decisions/                      @maatini/merle-architects
+
+# CI, Devbox, pre-commit, Docker, justfile
+.github/workflows/                   @maatini/merle-platform
+devbox.json                          @maatini/merle-platform
+justfile                             @maatini/merle-platform
+.pre-commit-config.yaml              @maatini/merle-platform
+
+# OpenCode RPA Hybrid (only for patch development — special approval required)
+rpa-opencode-hybrid/                 @maatini/merle-opencode-hybrid
+.opencode/                           @maatini/merle-opencode-hybrid
+
+# Examples and integration patterns
+examples/                            @maatini/merle-examples
+integration_examples/                @maatini/merle-examples
+
+# UiPath-related (rare, must be justified)
+uipath_templates/                    @maatini/merle-uipath-reviewers

@@ -1,0 +1,54 @@
+# =============================================================================
+# Merle Repository Root .dockerignore
+# =============================================================================
+# This is critical for fast and secure Docker builds of individual bots
+# when using the monorepo build pattern:
+#   docker build -f python_bots/xxx/Dockerfile .
+
+# --- Everything we never want in any Docker image ---
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+*.md
+site/
+docs/
+examples/
+integration_examples/
+uipath_templates/
+rpa-opencode-hybrid/          # 88MB monster - never needed in bot images
+tools/
+.devbox/
+.venv/
+**/.venv/
+**/__pycache__/
+**/.ruff_cache/
+**/.mypy_cache/
+**/.pytest_cache/
+**/*.log
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+
+# Do not send other bots when building one specific bot
+python_bots/*/
+!python_bots/shared/
+
+# Large binary assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+merle.png
+
+# Development / local only
+justfile
+devbox.json
+devbox.lock
+uv.lock
+.pre-commit-config.yaml
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/

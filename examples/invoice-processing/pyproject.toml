@@ -1,0 +1,34 @@
+[project]
+name = "merle-invoice-processing"
+version = "0.1.0"
+description = "Production-grade invoice processing bot using Merle (PDF + Excel + reporting)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "merle-core[data,observability]>=0.2.0",
+    "pydantic-settings>=2.0",
+]
+
+[tool.uv.sources]
+merle-core = { path = "../../python_bots/shared", editable = true }
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9",
+    "mypy>=1.14",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["pdfplumber.*", "openpyxl.*", "pandas.*"]
+ignore_missing_imports = true

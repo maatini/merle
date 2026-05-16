@@ -6,7 +6,7 @@
 [![uv](https://img.shields.io/badge/uv-0.11+-8A2BE2?logo=python)](https://docs.astral.sh/uv/)
 [![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/01_Strategie.md)
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
-[![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](./README.md#vision--zukünftige-erweiterungen)
+[![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](docs/ROADMAP.md)
 
 > **⚠️ INTERNAL USE ONLY** — Dieses Repository enthält proprietären Code der Antigravity GmbH.  
 > Jegliche unautorisierte Nutzung, Weitergabe oder externe Verwendung ist strengstens untersagt. Siehe [LICENSE](./LICENSE).
@@ -16,9 +16,15 @@
 </p>
 
 **Modular Enterprise RPA Lifecycle Engine**  
-Python-First Framework für hybride RPA-Entwicklung.  
-Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, UiPath nur bei nachgewiesenem Vorteil.  
-**Zukünftig: Granulare, NATS-basierte Orchestrierung mit KI-Executor und BPMN-Transparenz.**
+*Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation.*
+
+**80–90 % Python (Playwright, pandas, Prefect, loguru, tenacity, NATS) — UiPath only when it delivers a proven architectural advantage.**  
+**Vision: Granular, NATS-based orchestration with intelligent executors (Python / KI / UiPath) and BPMN-grade transparency.**
+
+> **Current Status (v0.2 – Professional Foundation):**  
+> Production-ready `merle-core`, official Copier template, `merle` CLI, strong CI + pre-commit, `.opencode/` RPA agent, and full governance. Ready for internal enterprise use and scaling.
+
+**Zukünftig (Roadmap):** Granulare NATS-Orchestrierung, KI-Executor, Prefect 3 Patterns, Self-Healing auf Task-Ebene.
 
 ---
 
@@ -135,7 +141,12 @@ Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Py
 3. **`governance-validator` (Skill):** Prüft Code auf Einhaltung aller 10 Governance-Regeln (inkl. Rule 10: merle-core + BaseTask).
 4. **Commands:** `/rpa-new-bot` und `/rpa-validate` für schnelle Workflows.
 
-**Hinweis zur Fork-Version:** Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork und ist **nur** relevant, wenn du selbst Änderungen am OpenCode-Core entwickeln oder eine komplett angepasste Desktop-App bauen möchtest. Für die tägliche Bot-Entwicklung reicht die leichte `.opencode/`-Integration im Root.
+**Hinweis zur Fork-Version (Professional Foundation Decision):**  
+Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork (~88 MB) und ist **ausschließlich** für die Entwicklung von OpenCode-Core-Patches und angepassten Desktop-Builds relevant.  
+
+**Für die tägliche RPA-Bot-Entwicklung genügt die schlanke `.opencode/`-Integration** im Repository-Root (Agent `rpa-hybrid`, Skills `governance-validator` + `rpa-bot-generator`, Commands `/rpa-new-bot`).
+
+Wir haben bewusst **kein git submodule** für den Fork eingebunden (siehe Begründung in [AGENTS.md](AGENTS.md) und `.gitignore`). Dies hält `git clone` schnell und die Einstiegshürde niedrig. Bei Bedarf wird `maatini/merle-opencode-hybrid` als eigenständiges privates Repository geführt.
 
 ### Wie die RPA-Hybrid-Integration funktioniert
 

@@ -11,13 +11,15 @@ export default tool({
   description: `Lade RPA-Kit-Dokumentation zu einem bestimmten Thema.
 
 Verfügbare Topics:
-- "strategy" → docs/01_Strategie.md (Python-First Strategie)
-- "decision-matrix" → docs/02_Wann_Python_vs_UiPath.md (Entscheidungsmatrix)
-- "governance" → docs/03_Governance.md (Governance-Regeln)
-- "project-structure" → docs/04_Projektstruktur.md (Projektstruktur)
-- "dev-guide" → docs/05_Entwicklungsleitfaden.md (Entwicklungsleitfaden)
-- "template" → python_bots/template/ (Template-Struktur)
-- "agent-rules" → agent/CLAUDE.md (Agent-Regeln)
+- "strategy" → Python-First Strategie
+- "decision-matrix" → Entscheidungsmatrix
+- "governance" → Governance-Regeln (inkl. Rule 10)
+- "architecture" → Architektur (C4 + NATS Vision)
+- "secrets" → Secrets Management
+- "merle_core" → merle-core v0.3 (BaseTask, NATS, Observability...)
+- "examples" → Offizielle Beispiele
+- "dev-guide" → Entwicklungsleitfaden
+- "agent-rules" → Agent-Regeln
 - "all" → Alle Docs im Überblick
 
 Nutze dieses Tool, wenn du RPA-Kit-Dokumentation brauchst.`,
@@ -29,8 +31,12 @@ Nutze dieses Tool, wenn du RPA-Kit-Dokumentation brauchst.`,
         "governance",
         "project-structure",
         "dev-guide",
-        "template",
+        "secrets",
+        "architecture",
         "agent-rules",
+        "merle_core",
+        "examples",
+        "template",
         "all",
       ])
       .describe("Welches Thema soll geladen werden?"),
@@ -53,7 +59,11 @@ Nutze dieses Tool, wenn du RPA-Kit-Dokumentation brauchst.`,
         file: "docs/05_Entwicklungsleitfaden.md",
         label: "Entwicklungsleitfaden",
       },
+      secrets: { file: "docs/06_Secrets_Management.md", label: "Secrets Management" },
+      architecture: { file: "docs/concepts/architecture.md", label: "Architektur (C4 + NATS)" },
       "agent-rules": { file: "agent/CLAUDE.md", label: "Agent-Regeln" },
+      merle_core: { file: "python_bots/shared/README.md", label: "merle-core v0.3" },
+      examples: { file: "examples/README.md", label: "Offizielle Beispiele" },
     }
 
     try {

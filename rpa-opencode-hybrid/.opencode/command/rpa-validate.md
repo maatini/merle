@@ -1,49 +1,39 @@
 ---
-description: Governance-Validierung eines Bots
+description: Governance-Validierung eines Bots (Phase 3+)
 model: opencode/gpt-5.4
 subtask: false
 ---
 
-Validiere den angegebenen Bot auf Einhaltung aller 10 Governance-Regeln.
+Validiere den angegebenen Bot auf Einhaltung aller 10 Governance-Regeln (inkl. Rule 10: Merle-Core-Pflicht).
 
 ## Prüfung
 
 ### Regel 1: Python-First
-- [ ] Technologieentscheidung dokumentiert?
+- Technologieentscheidung dokumentiert?
 
 ### Regel 2: Template-Pflicht
-- [ ] Alle Template-Dateien vorhanden? (main.py, config.py, tasks/, tests/, Dockerfile, .env.example, README.md)
+- Wurde `merle new-bot` oder Copier verwendet?
+- Moderne Struktur vorhanden?
 
 ### Regel 3: Keine hartcodierten Werte
-!`grep -rn "api_key\s*=\s*['\"]" python_bots/ 2>/dev/null || echo "OK - keine hartcodierten API-Keys"`
-!`grep -rn "C:\\\\" python_bots/ 2>/dev/null || echo "OK - keine Windows-Pfade"`
+- Keine Secrets, URLs, Pfade im Code?
 
-### Regel 4: Strukturiertes Logging
-!`grep -rn "from loguru import logger" python_bots/ 2>/dev/null | head -20`
-!`grep -rn "^[^#]*print\(" python_bots/ 2>/dev/null | grep -v "__pycache__" | head -10 || echo "OK - kein print()"`
-
-### Regel 5: Retry-Mechanismen
-!`grep -rn "from tenacity import\|@retry" python_bots/ 2>/dev/null | head -20`
+### Regel 4-5: Logging + Retry
+- `configure_observability()` vorhanden?
+- `@with_retry` oder `merle_core.retry` wird genutzt?
 
 ### Regel 6: Tests
-!`find python_bots/ -name "test_*.py" 2>/dev/null | sort`
+- Sinnvolle Tests vorhanden?
 
 ### Regel 7: Linux-Container
-!`grep -rn "powershell\|cmd\.exe" python_bots/ 2>/dev/null || echo "OK - keine Windows-Commands"`
-!`ls python_bots/*/Dockerfile 2>/dev/null`
+- Dockerfile Linux-basiert?
 
-### Regel 8: Dokumentation
-!`ls python_bots/*/README.md 2>/dev/null`
+### Regel 8-9: Dokumentation & Review
 
-### Regel 9: Code-Review-Bereitschaft
-Prüfe auf auskommentierte Code-Blöcke und TODOs ohne Referenz.
+### Regel 10: Merle-Core-Pflicht (kritisch)
+- `merle-core` als Dependency?
+- `BaseTask` wird verwendet?
+- Observability aktiviert?
 
-### Regel 10: Entscheidungsdokumentation
-!`ls docs/decisions/*.md 2>/dev/null || echo "Keine ADRs gefunden"`
-
-## Ergebnis
-Gib eine strukturierte Bewertung aus:
-- **Gesamtergebnis**: ✅ Bestanden / ⚠️ Mängel / ❌ Nicht bestanden
-- **Score**: X/10
-- **Kritische Mängel**: Liste mit Behebungsvorschlägen
-- **Warnungen**: Liste mit Verbesserungsvorschlägen
+## Ausgabe
+Strukturiertes Ergebnis mit Score, kritischen Mängeln und Verbesserungsvorschlägen.

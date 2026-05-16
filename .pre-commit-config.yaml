@@ -29,7 +29,8 @@ repos:
   #         - "pydantic>=2.0"
 
   # Prettier: Format YAML, Markdown, JSON, TOML (non-Python files)
-  - repo: https://github.com/pre-commit/mirrors-prettier
+  # Using rbubley maintained fork which provides stable v3.3.3 tag (original mirrors-prettier lacks v3.3.x tags)
+  - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.3.3
     hooks:
       - id: prettier

@@ -123,6 +123,11 @@ jobs:
           uv run pre-commit run ruff --all-files --show-diff-on-failure
           uv run pre-commit run ruff-format --all-files --show-diff-on-failure
 
+      - name: Set up Node.js (for Prettier in CI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Run Prettier only on changed files
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref || 'main' }} --depth=1
@@ -130,7 +135,7 @@ jobs:
           if [ -n "$CHANGED_FILES" ]; then
             echo "Checking Prettier on changed files:"
             echo "$CHANGED_FILES"
-            echo "$CHANGED_FILES" | xargs uv run prettier --check || (echo "Prettier would reformat some files. Run 'prettier --write' locally." && exit 1)
+            echo "$CHANGED_FILES" | xargs npx --yes prettier@3.3.3 --check || (echo "Prettier would reformat some files. Run 'prettier --write' locally." && exit 1)
           else
             echo "No relevant files changed for Prettier."
           fi

@@ -11,11 +11,12 @@ Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln ent
 **Ausnahme**: Nur mit dokumentierter Begründung gemäß Entscheidungsmatrix (`02_Wann_Python_vs_UiPath.md`).  
 **Durchsetzung**: Der Merle RPA-Hybrid-Architekt reviewt jede Technologieentscheidung.
 
-## Regel 2: Template-Pflicht
+## Regel 2: Template-Pflicht (Copier)
 
-**Regel**: Jeder neue Python-Bot wird aus `python_bots/template/` geklont und nicht von Null begonnen.  
-**Umfang**: main.py, config.py, requirements.txt, logging, retry, testing, Docker.  
-**Durchsetzung**: Code-Review-Checkliste prüft Template-Konformität.
+**Regel**: Jeder neue Python-Bot wird **ausschließlich** über das offizielle Copier-Template (`templates/bot/`) oder den Befehl `merle new-bot` erzeugt.  
+**Umfang**: pyproject.toml (uv), merle-core, BaseBot, Logging, Retry, Testing, Dockerfile, .dockerignore.  
+**Verboten**: Manuelles `cp -r python_bots/template/` (deprecated seit Phase 1).  
+**Durchsetzung**: `governance-validator` + Code-Review.
 
 ## Regel 3: Keine hartcodierten Werte
 
@@ -56,7 +57,15 @@ Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln ent
 
 ## Regel 9: Code-Review
 
-**Regel**: Jede Änderung durchläuft ein Code-Review durch mindestens einen anderen Entwickler.  
+**Regel**: Jede Änderung durchläuft ein Code-Review durch mindestens einen anderen Entwickler.
+
+## Regel 10: Merle-Core-Pflicht (ab Phase 2)
+
+**Regel**: Jeder neue Python-Bot **muss** `merle-core` als Abhängigkeit verwenden und die zentralen Basisklassen (`BaseBot`, `BaseTask`) sowie Utilities (`retry`, `exceptions`, Observability) nutzen.
+
+**Begründung**: Vermeidung von Duplizierung, garantierte Observability, einheitliche Resilienz und Secrets-Handhabung über alle Bots hinweg.
+
+**Durchsetzung**: `governance-validator` + `rpa-bot-generator` Skill + Code-Review.
 **Fokus**: Template-Konformität, Security, Fehlerbehandlung, Tests.  
 **Durchsetzung**: Branch-Protection in Git.
 

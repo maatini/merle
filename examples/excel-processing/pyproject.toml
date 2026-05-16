@@ -1,0 +1,11 @@
+[project]
+name = "merle-example-excel"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+dependencies = [
+    "merle-core[observability,data]",
+]
+
+[tool.uv.sources]
+merle-core = { path = "../../python_bots/shared" }

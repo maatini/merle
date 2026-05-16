@@ -26,11 +26,18 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 
 ## Phase 2: Bot-Gerüst aufsetzen
 
-### Schritt 1: Template klonen
+### Schritt 1: Bot mit Copier erzeugen (empfohlen)
 ```bash
-cp -r python_bots/template/ python_bots/<bot_name>/
-cd python_bots/<bot_name>/
+# Mit der Merle CLI (beste DX)
+merle new-bot <bot_name> --playwright --pandas
+
+# Oder direkt mit Copier
+copier copy templates/bot python_bots/<bot_name>
+cd python_bots/<bot_name>
+uv sync --group dev
 ```
+
+> **Hinweis**: Das alte `cp -r python_bots/template/` ist seit Phase 1 deprecated.
 
 ### Schritt 2: Konfiguration anpassen
 1. `config.py`: Settings-Klasse mit projektspezifischen Feldern

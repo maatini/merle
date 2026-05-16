@@ -1,0 +1,12 @@
+[project]
+name = "merle-example-uipath-hybrid"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+dependencies = [
+    "merle-core[observability]",
+    # In realen Projekten: "merle-core[uipath]" sobald verfügbar
+]
+
+[tool.uv.sources]
+merle-core = { path = "../../python_bots/shared" }

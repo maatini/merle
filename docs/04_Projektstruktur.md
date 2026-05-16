@@ -15,13 +15,12 @@
 │   └── decisions/                     # Architecture Decision Records (ADR)
 │       └── .gitkeep
 ├── python_bots/                       # Python-Bot-Projekte
-│   ├── template/                      # ✨ Template für neue Bots
-│   │   ├── main.py
-│   │   ├── config.py
-│   │   ├── requirements.txt
-│   │   ├── Dockerfile
-│   │   ├── README.md
-│   │   └── tests/
+│   ├── template/                      # ⛔ Deprecated (Phase 0 Snapshot)
+│   │   └── ...
+├── templates/
+│   └── bot/                           # ✨ Offizielles Copier-Template (Single Source of Truth)
+│       ├── copier.yml
+│       └── {{ bot_name }}/...         # Jinja2-Templates + Hooks
 │   │       └── test_main.py
 │   └── shared/                        # Gemeinsame Utilities
 │       ├── __init__.py

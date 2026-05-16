@@ -1,0 +1,83 @@
+site_name: Merle
+site_description: Modular Enterprise RPA Lifecycle Engine — Python-first
+site_author: Antigravity RPA Team
+repo_url: https://github.com/maatini/merle
+repo_name: merle
+
+theme:
+  name: material
+  language: de
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+
+nav:
+  - Start: index.md
+  - Getting Started:
+      - Schnellstart: getting-started/quickstart.md
+      - Installation: getting-started/installation.md
+  - Konzepte:
+      - Strategie: concepts/strategie.md
+      - Entscheidungsmatrix: concepts/entscheidungsmatrix.md
+      - Governance: concepts/governance.md
+      - Architektur: concepts/architecture.md
+  - merle-core:
+      - Übersicht: merle-core/index.md
+      - BaseBot & BaseTask: merle-core/base-classes.md
+      - Retry & Resilienz: merle-core/retry.md
+      - Observability: merle-core/observability.md
+      - Playwright Wrapper: merle-core/playwright.md
+      - Secrets Management: merle-core/secrets.md
+  - Beispiele:
+      - Web-Automatisierung: examples/web.md
+      - Excel-Verarbeitung: examples/excel.md
+      - UiPath-Hybrid: examples/uipath-hybrid.md
+  - Entwicklung:
+      - Contributing: development/contributing.md
+      - Entwicklungsumgebung: development/setup.md
+  - Entscheidungen (ADRs): decisions/index.md
+
+plugins:
+  - search
+  - mermaid2
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/maatini/merle
+    - icon: fontawesome/brands/python
+      link: https://python.org
+
+copyright: Copyright © 2026 Antigravity — Internal Use Only

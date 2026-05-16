@@ -1,0 +1,11 @@
+[project]
+name = "merle-example-web"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+dependencies = [
+    "merle-core[playwright,observability]",
+]
+
+[tool.uv.sources]
+merle-core = { path = "../../python_bots/shared" }

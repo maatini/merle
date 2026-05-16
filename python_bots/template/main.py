@@ -1,50 +1,43 @@
 """
 RPA Bot Template — Einstiegspunkt.
 
-Dieses Template dient als Ausgangspunkt für jeden neuen Python-Bot.
-Es implementiert die verbindlichen Standards:
-- loguru für strukturiertes Logging
-- tenacity für Retry-Mechanismen
-- pydantic-settings für Konfiguration
-- Async-first Architektur
+Dieses Template ist die **verbindliche Basis** für jeden neuen Python-Bot im Merle-Framework.
+
+Standards (Phase 0+):
+- merle-core für wiederverwendbare Basisklassen, HTTP-Client und Logging
+- pydantic-settings für typsichere Konfiguration
+- loguru + tenacity + httpx (via merle-core)
+- Async-first + strukturierte Fehlerbehandlung
+
+Verwendung von BaseBot (empfohlen in realen Bots):
+    from merle_core import BaseBot
+    class MeinBot(BaseBot):
+        async def execute(self) -> dict:
+            ...
 """
 
 import asyncio
-import sys
+
 from loguru import logger
+
 from config import BotSettings
+from merle_core import setup_logging
 from tasks.example_task import ExampleTask
-
-
-def setup_logging(settings: BotSettings) -> None:
-    """Konfiguriere loguru mit den Settings."""
-    logger.remove()  # Default-Handler entfernen
-    logger.add(
-        sys.stderr,
-        level=settings.log_level,
-        format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
-    )
-    if settings.log_json:
-        logger.add(
-            "logs/bot_{time:YYYY-MM-DD}.json",
-            level=settings.log_level,
-            format="{time} {level} {message} {extra}",
-            serialize=True,
-            rotation="10 MB",
-            retention="30 days",
-        )
 
 
 async def main() -> None:
     """Haupt-Workflow des Bots."""
     settings = BotSettings()  # type: ignore[call-arg]
-    setup_logging(settings)
+
+    # Logging jetzt zentral aus merle-core (konsistent über alle Bots)
+    setup_logging(level=settings.log_level, json_format=settings.log_json)
 
     logger.info("Bot {} wird gestartet", settings.bot_name)
     logger.info("Umgebung: {}", settings.environment)
 
     try:
         # --- Bot-Logik hier ---
+        # In produktiven Bots: von BaseBot erben und .run() nutzen
         task = ExampleTask(settings)
         result = await task.run()
         logger.info("Task abgeschlossen: {}", result)

@@ -1,59 +1,75 @@
-# Bot-Template
+# Bot-Template (Phase 0+)
 
-## Zweck
-Dieses Template ist die **verbindliche Basis** für jeden neuen Python-Bot im hybriden RPA-Development-Kit.
+Dieses Template ist die **verbindliche Basis** für jeden neuen Python-Bot im Merle-Framework.
 
-## Enthaltene Standards
-- ✅ **loguru** für strukturiertes Logging (mit JSON-Support für Produktion)
-- ✅ **tenacity** für Retry-Mechanismen mit exponentiellem Backoff
-- ✅ **pydantic-settings** für typsichere Konfiguration aus Umgebungsvariablen
-- ✅ **httpx** als async HTTP-Client
-- ✅ **ruff** für Linting + Formatting (Ersatz für flake8 + black + isort)
-- ✅ **mypy** für statische Typ-Prüfung (strict mode)
-- ✅ **pytest** für Testing
-- ✅ **Docker** für Container-Deployment
+## Neue Architektur (ab Phase 0)
+
+- **`merle-core`** (Workspace-Package) liefert:
+  - `BaseBot` – abstrakte Basisklasse mit standardisiertem Lifecycle
+  - `RpaHttpClient` – mit tenacity-Retry & Auth
+  - `setup_logging()` – einheitliches loguru-Setup
+- Vollständiges **uv**-Management (pyproject.toml + uv.lock)
+- Docker-Image mit uv (reproduzierbar, schnell, non-root)
 
 ## Verwendung
 
-### Neuen Bot erstellen
+### 1. Neuen Bot erstellen
 ```bash
-cp -r python_bots/template/ python_bots/mein_bot/
-cd python_bots/mein_bot/
+cp -r python_bots/template/ python_bots/mein_invoice_bot/
+cd python_bots/mein_invoice_bot/
 ```
 
-### Konfiguration anpassen
-1. `config.py` um projektspezifische Felder erweitern
-2. `.env`-Datei mit Werten füllen (niemals committen!)
-
-### Entwicklung
+### 2. uv Sync (einmalig)
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python main.py
+uv sync --group dev
 ```
 
-### Linting & Formatting
+uv zieht automatisch `merle-core` aus dem Parent-Workspace.
+
+### 3. Konfiguration
 ```bash
-ruff check .          # Code-Qualität prüfen
-ruff format .         # Code automatisch formatieren
-ruff check --fix .    # Automatische Korrekturen
+cp .env.example .env
+# .env anpassen (niemals committen!)
 ```
 
-### Type-Checking
+### 4. Bot starten
 ```bash
-mypy .                # Statische Typ-Prüfung (strict mode)
+uv run python main.py
+# oder einfach: uv run main.py
 ```
 
-### Tests
+### Linting, Format, Type-Check, Test
 ```bash
-pytest tests/ -v
+uv run ruff check --fix .
+uv run ruff format .
+uv run mypy .
+uv run pytest -v
 ```
 
-### Docker
+### Docker (empfohlen)
 ```bash
-docker build -t bot-template .
-docker run --env-file .env bot-template
+docker build -t mein-bot .
+docker run --env-file .env mein-bot
 ```
+
+> **Hinweis**: Das neue Dockerfile nutzt uv intern und ist deutlich schneller beim Rebuild als das alte pip-basierte.
+
+## Enthaltene Standards (2026)
+
+- merle-core (BaseBot, RpaHttpClient, einheitliches Logging)
+- pydantic-settings (12-Factor Config)
+- loguru + tenacity + httpx
+- ruff + mypy (strict) + pytest
+- uv + Docker (Linux-Container-first)
+- .env.example + klare Governance
+
+## Nächste Schritte beim Bot-Bau
+
+1. `config.py` um domänenspezifische Felder erweitern
+2. Eigene Tasks unter `tasks/` anlegen (am besten mit `RpaHttpClient` aus merle-core)
+3. Optional: eigene Klasse von `BaseBot` ableiten und `execute()` implementieren
+4. Tests schreiben
+5. ADR bei architekturrelevanten Entscheidungen in `docs/decisions/` anlegen
 
 ## Konfiguration
 

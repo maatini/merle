@@ -1,11 +1,15 @@
 # Merle
 
 [![License](https://img.shields.io/badge/license-proprietary-red)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1-blue)](https://github.com/maatini/merle)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue)](https://github.com/maatini/merle)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![uv](https://img.shields.io/badge/uv-0.11+-8A2BE2?logo=python)](https://docs.astral.sh/uv/)
 [![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/01_Strategie.md)
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
 [![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](./README.md#vision--zukünftige-erweiterungen)
+
+> **⚠️ INTERNAL USE ONLY** — Dieses Repository enthält proprietären Code der Antigravity GmbH.  
+> Jegliche unautorisierte Nutzung, Weitergabe oder externe Verwendung ist strengstens untersagt. Siehe [LICENSE](./LICENSE).
 
 <p align="center">
   <img src="merle.png" alt="Merle — Modular Enterprise RPA Lifecycle Engine" width="600">
@@ -18,28 +22,35 @@ Wartbare, testbare und kosteneffiziente Automatisierung — 80–90 % Python, Ui
 
 ---
 
-## Schnellstart
+## Schnellstart (uv)
 
 ```bash
-# Neuen Python-Bot erstellen
+# 1. Repository klonen & Workspace initialisieren (einmalig)
+git clone <repo>
+cd merle
+uv sync --group dev
+
+# 2. Neuen Python-Bot erstellen (Template)
 cp -r python_bots/template/ python_bots/mein_bot/
 cd python_bots/mein_bot/
 
-# Entwicklung
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python main.py
+# 3. Bot entwickeln (uv managed)
+uv run python main.py
 
-# Linting & Type-Check
-ruff check . && ruff format . && mypy .
+# Linting & Type-Check (am Root oder im Bot-Verzeichnis)
+uv run ruff check .
+uv run ruff format .
+uv run mypy .
 
 # Tests
-pytest tests/ -v
+uv run pytest python_bots -v
 
-# Docker
-docker build -t mein-bot .
+# Docker (Template)
+docker build -t mein-bot python_bots/template
 docker run --env-file .env mein-bot
 ```
+
+> **Hinweis**: Mit `uv` als Package-Manager werden alle Abhängigkeiten (inkl. `merle-core` aus dem Workspace) automatisch und reproduzierbar verwaltet. Das alte `requirements.txt` + venv-Setup wird schrittweise abgelöst.
 
 ---
 
@@ -130,7 +141,12 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 │   └── decisions/            # ADR-Archiv
 ├── python_bots/
 │   ├── template/             # ✨ Verbindliches Bot-Template
-│   └── shared/               # Gemeinsame Utilities
+│   └── shared/               # merle-core (installierbares Package, src-layout)
+│       ├── pyproject.toml
+│       ├── src/merle_core/
+│       │   ├── __init__.py   # BaseBot, RpaHttpClient, setup_logging
+│       │   └── ...
+│       └── README.md
 ├── integration_examples/     # Python ↔ UiPath Muster
 ├── uipath_templates/         # UiPath-Templates (nur Ausnahmen)
 ├── agent/
@@ -145,13 +161,16 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 
 ## Dokumentation
 
-| Dokument | Inhalt |
-|----------|--------|
-| [Strategie](docs/01_Strategie.md) | Warum Python-First, Architekturprinzipien, KPIs |
-| [Entscheidungsmatrix](docs/02_Wann_Python_vs_UiPath.md) | Wann Python, wann UiPath — mit Fallbeispielen |
-| [Governance](docs/03_Governance.md) | 10 verbindliche Regeln für alle Bots |
-| [Projektstruktur](docs/04_Projektstruktur.md) | Repository-Layout, Konventionen |
-| [Entwicklungsleitfaden](docs/05_Entwicklungsleitfaden.md) | Schritt-für-Schritt zur Bot-Entwicklung |
+Die vollständige Dokumentation findest du unter:
+
+- **MkDocs Material** (empfohlen): `uv run mkdocs serve`
+- Online (geplant): docs.merle.example.com
+
+Wichtige Dokumente:
+- [Architektur](docs/concepts/architecture.md) (inkl. C4-Diagramme)
+- [Governance](docs/03_Governance.md)
+- [merle-core](docs/merle-core/index.md) (ab v0.2)
+- [Beispiele](examples/README.md) (Web, Excel, UiPath-Hybrid)
 
 ---
 
@@ -204,10 +223,47 @@ Wenn du als AI-Agent (Claude, DeepSeek, etc.) in diesem Repository arbeitest:
 
 ---
 
+## Contributing
+
+Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarbeiter und Partner.
+
+### Workflow für interne Entwickler
+
+1. **Branch erstellen**: `feature/<kurzbeschreibung>` oder `fix/<issue>`
+2. **Code-Qualität**:
+   - `uv run ruff check --fix . && uv run ruff format .`
+   - `uv run mypy python_bots/shared/src/merle_core`
+   - `uv run pytest python_bots -v`
+3. **pre-commit Hooks** (empfohlen):
+   ```bash
+   uv run pre-commit install
+   ```
+4. **PR erstellen** gegen `develop` (oder `main` für Hotfixes)
+5. **Review**: Mindestens ein Senior RPA-Architekt + automatisierte CI (Ruff, Mypy, Tests, Trivy)
+
+### Wichtige Regeln
+
+- **Kein Code ohne Template**: Jeder neue Bot startet aus `python_bots/template/`
+- **merle-core** (`python_bots/shared/`) nur bei echter Wiederverwendbarkeit erweitern
+- **Keine hartcodierten Secrets/Pfade**
+- **Linux-Container-Kompatibilität** ist Pflicht
+- Änderungen an der Architektur oder Governance → ADR in `docs/decisions/`
+
+### Fragen?
+
+- Technische Fragen → `#rpa-engineering` (Slack/Teams)
+- Architektur-Entscheidungen → `docs/03_Governance.md` + `agent/CLAUDE.md`
+
 ## Lizenz
 
-Internes Framework — alle Rechte vorbehalten.
+**PROPRIETARY — INTERNAL USE ONLY**
+
+Dieses Repository und alle darin enthaltenen Artefakte sind ausschließlich für den internen Gebrauch bei Antigravity bestimmt. Siehe [LICENSE](./LICENSE) für die vollständige Lizenz.
 
 ## Version
 
-1.1 — Mai 2026 (inkl. detaillierter Orchestrierungs-Vision)
+**0.2.0** — Phase 0 Foundations (uv + merle-core + CI/CD + pre-commit) — Mai 2026
+
+Frühere Versionen:
+- 1.1 — Mai 2026 (initiale Vision & Template)
+- 1.0 — Initiales Python-First Framework

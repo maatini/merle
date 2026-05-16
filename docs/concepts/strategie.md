@@ -43,9 +43,12 @@ UiPath wird nur dann eingesetzt, wenn ein **nachgewiesener qualitativer oder arc
 ### Python-Domäne (80–90 % der Fälle)
 
 **Web-Automatisierung**
-- Playwright ist stabiler, schneller und wartbarer als UiPath-Browser-Automation
-- Moderne Web-Apps (React, Angular, Vue) werden besser unterstützt
-- Headless-Betrieb für Server-/Container-Deployment
+- **Playwright** (über `merle-core[playwright]` oder `[lightpanda]`) ist stabiler, wartbarer und cloud-native im Vergleich zu UiPath
+- Zwei Engines zur Auswahl:
+  - `chromium` (Default): Maximale Kompatibilität, volle Screenshot-/PDF-Unterstützung
+  - `lightpanda` (Zig-basiert via CDP): 10–16× weniger RAM, 5–11× höherer Durchsatz – ideal für hochvolumige, parallele Automatisierung (siehe ADR-0007)
+- Moderne Web-Apps (React, Angular, Vue, SPAs) werden exzellent unterstützt
+- Vollständig headless + Linux-Container-fähig (Docker/Kubernetes)
 
 **API-Integrationen**
 - REST, GraphQL, SOAP: Python hat überlegene HTTP-Client-Bibliotheken (httpx, requests)

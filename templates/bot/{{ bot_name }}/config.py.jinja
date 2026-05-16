@@ -33,6 +33,14 @@ class BotSettings(BaseSettings):
     target_url: str = "https://example.com/api"
     api_key: str = ""
 
+    {% if include_playwright %}
+    # --- Browser Engine (merle-core.playwright) ---
+    browser_engine: str = "{{ browser_engine }}"
+    lightpanda_host: str = "127.0.0.1"
+    lightpanda_port: int = 9222
+    lightpanda_log_level: str = "error"
+    {% endif %}
+
     {% if include_uipath_orchestrator %}
     # --- UiPath Orchestrator (optional) ---
     orchestrator_url: str = ""

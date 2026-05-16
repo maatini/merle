@@ -34,6 +34,15 @@ include_playwright:
   help: "Playwright für Web-Automatisierung einbinden? (empfohlen für Browser-Bots)"
   default: false
 
+browser_engine:
+  type: str
+  help: "Browser-Engine bei Playwright-Bots (chromium = Default, maximale Kompatibilität; lightpanda = ressourcenschonend & schnell)"
+  default: "chromium"
+  choices:
+    - "chromium"
+    - "lightpanda"
+  when: "{{ include_playwright }}"
+
 include_pandas:
   type: bool
   help: "pandas + openpyxl für Excel-/Datenverarbeitung einbinden?"

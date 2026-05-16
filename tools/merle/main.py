@@ -1,8 +1,10 @@
 """
 Merle CLI - Der offizielle Einstiegspunkt für neue RPA-Bots.
 
-Beispiel:
+Beispiele:
     merle new-bot invoice_processor --playwright --description "..."
+    merle new-bot high_volume_scraper --playwright --browser-engine lightpanda
+    merle new-bot high_volume_scraper --lightpanda   # Shortcut
 """
 
 from __future__ import annotations
@@ -41,6 +43,13 @@ def new_bot(
     name: str = typer.Argument(..., help="Name des neuen Bots (snake_case)"),
     description: str | None = typer.Option(None, "--description", "-d", help="Kurzbeschreibung"),
     playwright: bool = typer.Option(False, "--playwright", help="Playwright einbinden"),
+    browser_engine: str = typer.Option(
+        "chromium",
+        "--browser-engine",
+        help="Browser-Engine: chromium (Default) oder lightpanda",
+        show_default=True,
+    ),
+    lightpanda: bool = typer.Option(False, "--lightpanda", help="Shortcut: --browser-engine lightpanda"),
     pandas: bool = typer.Option(False, "--pandas", help="pandas + openpyxl einbinden"),
     uipath: bool = typer.Option(False, "--uipath", help="UiPath Orchestrator Client"),
     use_basebot: bool = typer.Option(True, "--basebot/--no-basebot", help="BaseBot-Klasse verwenden"),
@@ -58,10 +67,17 @@ def new_bot(
         )
         raise typer.Exit(1)
 
+    # Lightpanda-Shortcut verarbeiten
+    effective_engine = "lightpanda" if lightpanda else browser_engine
+    if effective_engine not in ("chromium", "lightpanda"):
+        console.print(f"[red]Ungültige Browser-Engine:[/red] {effective_engine}. Erlaubt: chromium, lightpanda")
+        raise typer.Exit(1)
+
     answers = {
         "bot_name": name,
         "bot_description": description or f"Automatisiert den Prozess '{name}'",
-        "include_playwright": playwright,
+        "include_playwright": playwright or (effective_engine == "lightpanda"),
+        "browser_engine": effective_engine,
         "include_pandas": pandas,
         "include_uipath_orchestrator": uipath,
         "use_base_bot_class": use_basebot,

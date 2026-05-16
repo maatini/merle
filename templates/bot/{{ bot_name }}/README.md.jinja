@@ -38,9 +38,29 @@ Simple script mode (you disabled `use_base_bot_class`).
 ## Enabled Features
 
 {% if include_playwright %}- ✅ **Playwright** — robust browser automation with stealth + auto-screenshots
+  - Engine: **{{ browser_engine }}** {% if browser_engine == "lightpanda" %}(Zig-basiert, 10–16× weniger RAM, 5–11× schneller){% else %}(Chromium – maximale Kompatibilität){% endif %}
 {% endif %}{% if include_pandas %}- ✅ **pandas + openpyxl** — data processing & professional Excel output
 {% endif %}{% if include_pdf %}- ✅ **pdfplumber** — PDF parsing
 {% endif %}{% if include_uipath_orchestrator %}- ✅ **UiPath Orchestrator** client (only use when justified by the decision matrix!)
+{% endif %}
+
+{% if include_playwright %}
+## Browser Engine
+
+Dieser Bot verwendet **{{ browser_engine }}** als Browser-Engine.
+
+- `chromium`: Maximale Kompatibilität, volle Screenshot/PDF-Unterstützung, höherer Ressourcenverbrauch.
+- `lightpanda`: Extrem ressourcenschonend und schnell (ideal für hochvolumige Cloud-Automatisierung). Keine pixel-perfekten Screenshots.
+
+**Konfiguration (.env):**
+```bash
+BOT_BROWSER_ENGINE={{ browser_engine }}
+{% if browser_engine == "lightpanda" %}BOT_LIGHTPANDA_HOST=127.0.0.1
+BOT_LIGHTPANDA_PORT=9222
+BOT_LIGHTPANDA_LOG_LEVEL=error{% endif %}
+```
+
+Weitere Infos: [docs/concepts/entwicklungsleitfaden.md](../../docs/concepts/entwicklungsleitfaden.md)
 {% endif %}
 
 ## Recommended Next Steps

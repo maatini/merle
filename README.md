@@ -18,7 +18,7 @@
 **Modular Enterprise RPA Lifecycle Engine**  
 *Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation.*
 
-**80–90 % Python (Playwright, pandas, Prefect, loguru, tenacity, NATS) — UiPath only when it delivers a proven architectural advantage.**  
+**80–90 % Python (Playwright mit Chromium/Lightpanda, pandas, Prefect, loguru, tenacity, NATS) — UiPath only when it delivers a proven architectural advantage.**  
 **Vision: Granular, NATS-based orchestration with intelligent executors (Python / KI / UiPath) and BPMN-grade transparency.**
 
 > **Current Status (v0.2 – Professional Foundation):**  
@@ -213,7 +213,7 @@ Wichtige Dokumente:
 
 ### Python (Default)
 - **RPA**: rpaframework ≥ 28.0
-- **Web**: Playwright
+- **Web**: Playwright (Chromium + Lightpanda via CDP)
 - **Daten**: pandas, openpyxl, pdfplumber
 - **HTTP**: httpx (async)
 - **Config**: pydantic-settings

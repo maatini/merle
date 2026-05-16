@@ -19,7 +19,9 @@
 - Standard-Metriken (`bot_executions_total`, `task_duration_seconds`, `errors_total` etc.)
 
 ### Weitere Module
-- `playwright` (Extra) – `launch_robust_browser()` mit Stealth, Auto-Screenshot, Proxy
+- `playwright` (Extra `playwright`) – `launch_robust_browser()` mit Stealth, Auto-Screenshot, Proxy + **zwei Engines**:
+  - `chromium` (Default)
+  - `lightpanda` (Zig-basiert via CDP – 10–16× weniger RAM)
 - `secrets` (Extra `azure`) – `AzureKeyVaultProvider` + `AzureKeyVaultSettings` für pydantic-settings
 - `uipath` – Orchestrator Queue & Job Helpers
 - `data` – Excel, PDF, E-Mail Utilities
@@ -30,8 +32,11 @@
 # Minimal
 uv add merle-core
 
-# Mit Playwright + Observability
+# Mit Playwright (Chromium)
 uv add "merle-core[playwright,observability]"
+
+# Mit Lightpanda (Zig-basiert, ressourcenschonend – empfohlen für hochvolumige Bots)
+uv add "merle-core[lightpanda,observability]"
 ```
 
 ## Philosophie

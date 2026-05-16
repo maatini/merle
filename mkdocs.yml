@@ -47,6 +47,7 @@ nav:
       - Base Classes: merle-core/base-classes.md
       - Retry & Resilienz: merle-core/retry.md
       - Observability: merle-core/observability.md
+      - Playwright Wrapper: merle-core/playwright.md
       - Architektur & Komponenten: concepts/architecture.md
   - Entwicklung:
       - Übersicht: development/index.md

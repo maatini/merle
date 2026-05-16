@@ -57,13 +57,19 @@ RUN groupadd --system --gid 1000 bot && \
 # Copy uv for the entrypoint
 COPY --from=ghcr.io/astral-sh/uv:0.11 /uv /bin/uv
 
-# Playwright runtime dependencies (only when the feature is enabled)
-{% if include_playwright %}
+# Browser runtime dependencies (engine-aware)
+{% if include_playwright and browser_engine == "chromium" %}
+# Schwere Chromium-Abhängigkeiten (nur bei chromium nötig)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates fonts-liberation \
         libglib2.0-0 libnss3 libatk1.0-0 libatk-bridge2.0-0 \
         libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 \
         libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2 \
+    && rm -rf /var/lib/apt/lists/*
+{% elif include_playwright and browser_engine == "lightpanda" %}
+# Minimal für Lightpanda (Zig-Binary wird von lightpanda-py heruntergeladen)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates curl \
     && rm -rf /var/lib/apt/lists/*
 {% endif %}
 

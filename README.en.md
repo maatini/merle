@@ -3,7 +3,7 @@
 **Modular Enterprise RPA Lifecycle Engine**  
 *Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation at enterprise scale.*
 
-**80–90 % of automations in modern Python** (Playwright, pandas, Prefect 3, NATS, OpenTelemetry) — **UiPath only when it delivers a proven architectural advantage**.
+**80–90 % of automations in modern Python** (Playwright with Chromium or Lightpanda engine, pandas, Prefect 3, NATS, OpenTelemetry) — **UiPath only when it delivers a proven architectural advantage**.
 
 ## Quick Start (Recommended)
 
@@ -32,7 +32,7 @@ See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lin
 
 | Area                    | Status     | Notes |
 |-------------------------|------------|-------|
-| `merle-core`            | ✅ 0.2.0   | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel), secrets (Azure), NATS client, Playwright wrapper |
+| `merle-core`            | ✅ 0.2.0   | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel), secrets (Azure), NATS client, Playwright wrapper (Chromium + Lightpanda) |
 | Copier Template         | ✅         | `templates/bot/` with feature flags (playwright, pandas, pdf, uipath_orchestrator, base_bot) + post-gen hook |
 | CLI                     | ✅         | `merle new-bot`, governance validation via `tools/merle` |
 | OpenCode Integration    | ✅         | `.opencode/` with `rpa-hybrid` agent, `governance-validator`, `rpa-bot-generator`, `/rpa-new-bot` command |

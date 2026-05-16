@@ -1,32 +1,36 @@
 """
 merle_core.playwright
 
-Robust Playwright Wrapper für Merle RPA-Bots.
+Robust Playwright Wrapper für Merle RPA-Bots (Chromium + Lightpanda).
+
+Unterstützte Engines:
+- "chromium" (Default) – volle Playwright-Kompatibilität
+- "lightpanda" – Zig-basierte, ressourcenschonende CDP-Alternative (via lightpanda-py)
 
 Features:
+- Engine-agnostischer Launcher (BROWSER_ENGINE=lightpanda|chromium)
 - Stealth-Modus (Anti-Detection)
-- Automatische Screenshots + HTML-Dumps bei Fehlern
+- Automatische Screenshots + HTML-Dumps bei Fehlern (Chromium-better)
 - Proxy-Support
-- Integrierte Retry-Policy (browser_retry)
-- Bessere Fehlermeldungen (ElementNotFoundError etc.)
+- Robuster CDP Readiness-Check für Lightpanda
 
 Verwendung:
     from merle_core.playwright import launch_robust_browser
 
     async with launch_robust_browser(
-        headless=True,
+        engine="lightpanda",          # oder "chromium"
         stealth=True,
-        proxy="http://user:pass@proxy:8080",
         screenshot_on_failure=True,
     ) as browser:
         page = await browser.new_page()
         await page.goto("https://example.com")
 """
 
-from .browser import RobustBrowser, launch_robust_browser
+from .browser import BrowserEngine, RobustBrowser, launch_robust_browser
 from .utils import robust_goto, safe_click, safe_fill
 
 __all__ = [
+    "BrowserEngine",
     "RobustBrowser",
     "launch_robust_browser",
     "robust_goto",

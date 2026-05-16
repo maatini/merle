@@ -23,7 +23,7 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 
 | Layer                    | Component                          | Maturity | Notes |
 |--------------------------|------------------------------------|----------|-------|
-| **Core**                 | `merle-core` (0.2.0)               | ✅ Good  | BaseBot, BaseTask, tenacity retry, OTel observability, Azure secrets, NATS client, Playwright stealth wrapper, self-healing hooks |
+| **Core**                 | `merle-core` (0.3.x)               | ✅ Good  | BaseBot, BaseTask, tenacity retry, OTel observability, Azure secrets, NATS client, **Playwright wrapper mit Chromium + Lightpanda (ADR-0007)**, self-healing hooks |
 | **Scaffolding**          | Copier Template + `merle` CLI      | ✅ Good  | Feature flags, post-gen hooks, `merle new-bot`, governance enforcement |
 | **DX & Tooling**         | uv workspace, Devbox, justfile, pre-commit | ✅ Good | CI (Ruff + mypy + pytest + Trivy), CODEOWNERS, issue/PR templates |
 | **Agent & Governance**   | `.opencode/` + AGENTS.md           | ✅ Excellent | rpa-hybrid agent, governance-validator skill, rpa-bot-generator, binding rules |
@@ -32,6 +32,8 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 | **Docker Story**         | Template Dockerfile + Trivy        | 🟡 Partial | Works but path-dep on merle-core still limits full independence (known issue) |
 
 **Milestone achieved:** Merle is now a **professional, reviewable, internal-enterprise-ready RPA framework**. No longer "just a good first push".
+
+**Neu in v0.3:** Lightpanda als erste alternative Browser-Engine (ressourcenoptimiert, CDP-basiert) – siehe ADR-0007.
 
 ---
 

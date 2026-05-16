@@ -39,6 +39,10 @@ line-length = 120
 playwright = [
     "playwright>=1.40,<2.0",
 ]
+lightpanda = [
+    "lightpanda-py>=0.2.0,<1.0",
+    "playwright-core>=1.40,<2.0",
+]
 azure = [
     "azure-identity>=1.16,<2.0",
     "azure-keyvault-secrets>=4.8,<5.0",
@@ -94,6 +98,10 @@ ignore_errors = true  # NATS client is still in early Phase 4 development
 [[tool.mypy.overrides]]
 module = "merle_core.playwright.*"
 ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "lightpanda.*"
+ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "merle_core.secrets.azure"

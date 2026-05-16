@@ -6,18 +6,19 @@ Bietet einen sicheren, stealth-fähigen und fehlertoleranten Browser-Kontext fü
 
 from __future__ import annotations
 
+import asyncio
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from loguru import logger
 
 from playwright.async_api import Browser, BrowserContext, Page, async_playwright
 
-from merle_core.exceptions import (
-    BrowserLaunchError,
-)
+from merle_core.exceptions import BrowserLaunchError
+
+BrowserEngine = Literal["chromium", "lightpanda"]
 
 
 class RobustBrowser:
@@ -115,6 +116,7 @@ class RobustBrowser:
 @asynccontextmanager
 async def launch_robust_browser(
     *,
+    engine: BrowserEngine = "chromium",
     headless: bool = True,
     slow_mo: int = 50,
     proxy: str | None = None,
@@ -123,70 +125,108 @@ async def launch_robust_browser(
     viewport: dict[str, int] | None = None,
     screenshot_on_failure: bool = True,
     failure_dir: str = "logs/failures",
+    # Lightpanda-spezifisch
+    lightpanda_host: str = "127.0.0.1",
+    lightpanda_port: int = 9222,
+    lightpanda_log_level: str = "error",
     **launch_kwargs: Any,
 ):
     """
-    Launcht einen robusten Playwright Browser mit guten RPA-Defaults.
+    Launcht einen robusten Playwright Browser (Chromium oder Lightpanda via CDP).
+
+    Lightpanda ist eine hochperformante, ressourcenschonende Zig-basierte
+    Alternative zu Chromium – ideal für hochvolumige, cloud-native Automatisierung.
 
     Args:
-        headless: Headless-Modus
-        slow_mo: Verzögerung zwischen Aktionen (ms)
-        proxy: Proxy-URL (z.B. "http://user:pass@proxy.company:8080")
-        stealth: Stealth-Techniken aktivieren (Anti-Detection)
-        user_agent: Benutzerdefinierter User-Agent
-        viewport: Viewport-Größe
-        screenshot_on_failure: Bei Fehlern automatisch Screenshots machen
-        failure_dir: Ordner für Failure-Artifacts
+        engine: "chromium" (Default, maximale Kompatibilität) oder "lightpanda"
+        headless: Headless-Modus (nur bei chromium relevant)
+        slow_mo: Verzögerung zwischen Aktionen (ms) – nur chromium
+        proxy: Proxy-URL
+        stealth: Stealth-Techniken aktivieren (funktioniert bei beiden Engines)
+        user_agent, viewport, screenshot_on_failure, failure_dir: wie bisher
+        lightpanda_host / lightpanda_port / lightpanda_log_level: Lightpanda CDP Server
     """
-    proxy_config = {"server": proxy} if proxy else None
-
     default_user_agent = (
         user_agent
         or "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     )
-
     default_viewport = viewport or {"width": 1920, "height": 1080}
 
-    async with async_playwright() as p:
-        try:
-            browser = await p.chromium.launch(
-                headless=headless,
-                slow_mo=slow_mo,
-                proxy=proxy_config,
-                args=[
-                    "--disable-blink-features=AutomationControlled",
-                    "--no-sandbox",
-                    "--disable-dev-shm-usage",
-                ],
-                **launch_kwargs,
+    lp_proc = None
+    browser: Browser | None = None
+    context: BrowserContext | None = None
+
+    try:
+        async with async_playwright() as p:
+            if engine == "lightpanda":
+                browser, lp_proc = await _connect_lightpanda(
+                    p,
+                    host=lightpanda_host,
+                    port=lightpanda_port,
+                    log_level=lightpanda_log_level,
+                    proxy=proxy,
+                )
+            else:
+                browser = await _launch_chromium(
+                    p,
+                    headless=headless,
+                    slow_mo=slow_mo,
+                    proxy=proxy,
+                    **launch_kwargs,
+                )
+
+            context_options: dict[str, Any] = {
+                "user_agent": default_user_agent,
+                "viewport": default_viewport,
+                "ignore_https_errors": True,
+            }
+            if proxy and engine == "lightpanda":
+                context_options["proxy"] = {"server": proxy}
+
+            context = await browser.new_context(**context_options)
+
+            if stealth:
+                await _apply_stealth(context)
+
+            robust_browser = RobustBrowser(
+                browser,
+                context,
+                screenshot_on_failure=screenshot_on_failure,
+                failure_dir=failure_dir,
             )
-        except Exception as exc:
-            raise BrowserLaunchError(f"Browser konnte nicht gestartet werden: {exc}") from exc
 
-        context_options: dict[str, Any] = {
-            "user_agent": default_user_agent,
-            "viewport": default_viewport,
-            "ignore_https_errors": True,
-        }
+            try:
+                yield robust_browser
+            finally:
+                await robust_browser.close()
+                if context:
+                    try:
+                        await context.close()
+                    except Exception:
+                        pass
+                if browser:
+                    try:
+                        await browser.close()
+                    except Exception:
+                        pass
+                if lp_proc is not None:
+                    try:
+                        lp_proc.terminate()
+                        await asyncio.wait_for(asyncio.to_thread(lp_proc.wait), timeout=5.0)
+                    except Exception:
+                        try:
+                            lp_proc.kill()
+                        except Exception:
+                            pass
 
-        context = await browser.new_context(**context_options)
-
-        # Stealth aktivieren
-        if stealth:
-            await _apply_stealth(context)
-
-        robust_browser = RobustBrowser(
-            browser,
-            context,
-            screenshot_on_failure=screenshot_on_failure,
-            failure_dir=failure_dir,
-        )
-
-        try:
-            yield robust_browser
-        finally:
-            await robust_browser.close()
+    except Exception as exc:
+        if lp_proc is not None:
+            try:
+                lp_proc.kill()
+            except Exception:
+                pass
+        raise BrowserLaunchError(f"{engine} Browser konnte nicht gestartet werden: {exc}") from exc
 
 
 async def _apply_stealth(context: BrowserContext) -> None:
@@ -212,3 +252,102 @@ async def _apply_stealth(context: BrowserContext) -> None:
     """)
 
     logger.debug("Stealth-Mode für Playwright Context aktiviert")
+
+
+# ─────────────────────────────────────────────────────────────
+# Interne Engine-Helper (nicht öffentlich)
+# ─────────────────────────────────────────────────────────────
+
+
+async def _launch_chromium(
+    playwright: Any,
+    *,
+    headless: bool,
+    slow_mo: int,
+    proxy: str | None,
+    **launch_kwargs: Any,
+) -> Browser:
+    """Startet einen lokalen Chromium-Prozess (bisheriges Verhalten)."""
+    proxy_config = {"server": proxy} if proxy else None
+    try:
+        return await playwright.chromium.launch(
+            headless=headless,
+            slow_mo=slow_mo,
+            proxy=proxy_config,
+            args=[
+                "--disable-blink-features=AutomationControlled",
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+            ],
+            **launch_kwargs,
+        )
+    except Exception as exc:
+        raise BrowserLaunchError(f"Chromium konnte nicht gestartet werden: {exc}") from exc
+
+
+async def _connect_lightpanda(
+    playwright: Any,
+    *,
+    host: str,
+    port: int,
+    log_level: str,
+    proxy: str | None,
+) -> tuple[Browser, Any]:
+    """
+    Startet den Lightpanda CDP Server und verbindet sich via connect_over_cdp.
+    Gibt (Browser, lightpanda_process) zurück.
+    """
+    try:
+        import lightpanda
+    except ImportError as exc:
+        raise BrowserLaunchError(
+            "lightpanda-py ist nicht installiert. Installiere mit: uv add 'merle-core[lightpanda]'"
+        ) from exc
+
+    lp_proc = lightpanda.serve(host=host, port=port, log_level=log_level)
+
+    # Robuster Readiness-Check statt festem Sleep
+    await _wait_for_lightpanda_ready(host, port, timeout=20.0)
+
+    endpoint = f"http://{host}:{port}"
+    try:
+        browser = await playwright.chromium.connect_over_cdp(endpoint)
+        logger.info("Lightpanda CDP erfolgreich verbunden: {}", endpoint)
+        return browser, lp_proc
+    except Exception as exc:
+        try:
+            lp_proc.kill()
+        except Exception:
+            pass
+        raise BrowserLaunchError(f"Verbindung zu Lightpanda CDP fehlgeschlagen: {exc}") from exc
+
+
+async def _wait_for_lightpanda_ready(
+    host: str,
+    port: int,
+    *,
+    timeout: float = 15.0,
+    poll_interval: float = 0.25,
+) -> None:
+    """
+    Pollt den Lightpanda CDP Endpoint (/json/version), bis der Server bereit ist.
+    Verwendet httpx (bereits Core-Dependency).
+    """
+    import httpx
+
+    url = f"http://{host}:{port}/json/version"
+    deadline = asyncio.get_running_loop().time() + timeout
+
+    async with httpx.AsyncClient(timeout=httpx.Timeout(2.0)) as client:
+        while True:
+            try:
+                resp = await client.get(url)
+                if resp.status_code == 200:
+                    logger.debug("Lightpanda CDP Server bereit auf {}:{}", host, port)
+                    return
+            except Exception:
+                pass  # Server noch nicht bereit oder Netzwerk-Transient
+
+            if asyncio.get_running_loop().time() > deadline:
+                raise BrowserLaunchError(f"Lightpanda CDP Server auf {host}:{port} nicht bereit nach {timeout}s")
+            await asyncio.sleep(poll_interval)

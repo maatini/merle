@@ -37,6 +37,10 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 # Mit der Merle CLI (beste DX)
 merle new-bot <bot_name> --playwright --pandas
 
+# Lightpanda (Zig-basiert, extrem ressourcenschonend)
+merle new-bot high_volume_scraper --playwright --lightpanda
+# oder: --browser-engine lightpanda
+
 # Oder direkt mit Copier
 copier copy templates/bot python_bots/<bot_name>
 cd python_bots/<bot_name>
@@ -44,6 +48,8 @@ uv sync --group dev
 ```
 
 > **Hinweis**: Das alte `cp -r python_bots/template/` ist seit Phase 1 deprecated.
+
+> **Browser-Engine (seit 2026-05)**: Bei `--playwright` kannst du mit `--browser-engine lightpanda` die Zig-basierte Lightpanda-Engine wählen (10–16× weniger RAM, 5–11× schneller). Default bleibt `chromium` für maximale Kompatibilität + Screenshot/PDF-Fähigkeit. Siehe ADR-0007.
 
 ### Schritt 2: Konfiguration anpassen
 1. `config.py`: Settings-Klasse mit projektspezifischen Feldern

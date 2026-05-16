@@ -79,6 +79,7 @@ check_untyped_defs = true
 module = [
     "rpaframework.*",
     "playwright.*",
+    "lightpanda.*",
     "loguru.*",
     "tenacity.*",
 ]

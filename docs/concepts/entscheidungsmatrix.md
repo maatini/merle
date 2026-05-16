@@ -33,7 +33,7 @@ Der folgende Entscheidungsfluss ist das **zentrale Steuerungsinstrument** für a
 
 | Domäne | Beispiele | Technologie |
 |--------|-----------|-------------|
-| **Web-Automatisierung** | SAP Fiori, Salesforce, beliebige Webportale, Shop-Systeme | Playwright (via rpaframework.Browser) |
+| **Web-Automatisierung** | SAP Fiori, Salesforce, beliebige Webportale, Shop-Systeme, Agenten-Workflows | **Playwright** (merle-core.playwright) + Engine-Wahl: `chromium` (Default) oder `lightpanda` (Zig, 10–16× weniger RAM) |
 | **API-Integration** | REST, GraphQL, SOAP, MS Graph, OData | httpx, zeep (SOAP) |
 | **Datenverarbeitung** | Excel-Reports, CSV-Konvertierung, PDF-Extraktion, Datenbank-ETL | pandas, openpyxl, pdfplumber, SQLAlchemy |
 | **E-Mail-Verarbeitung** | Posteingangs-Monitoring, Anhang-Extraktion, Auto-Reply | imaplib, MS Graph API, exchangelib |
@@ -42,6 +42,21 @@ Der folgende Entscheidungsfluss ist das **zentrale Steuerungsinstrument** für a
 | **AI/ML-Integration** | Dokument-Klassifikation, NLP, Bilderkennung | transformers, LangChain, OpenCV |
 | **Reporting** | Excel-Generierung, PDF-Berichte, Dashboards | openpyxl, reportlab, streamlit |
 | **Scheduling/Orchestrierung** | Zeitpläne, Abhängigkeiten, Retries | Prefect 3.x, APScheduler |
+
+### Browser-Engine innerhalb von Python (Chromium vs. Lightpanda)
+
+Seit Mai 2026 unterstützt Merle **zwei Browser-Engines** über den einheitlichen `merle_core.playwright` Wrapper:
+
+| Engine       | Vorteile                                      | Wann verwenden?                                      | Nachteile                              |
+|--------------|-----------------------------------------------|-------------------------------------------------------|----------------------------------------|
+| **chromium** (Default) | Maximale Kompatibilität, Screenshots, PDF, reife Features | Die meisten Bots, Audit-Pflicht, visuelle Verifikation, komplexe SPAs | Höherer RAM/CPU-Verbrauch             |
+| **lightpanda**        | 10–16× weniger RAM, 5–11× höherer Durchsatz, kleinere Images | Hochvolumige Extraktion, parallele Agenten-Workflows, Kosten-sensitiv, reine Datengewinnung | Keine vollwertigen Screenshots/PDFs (Stand 2026) |
+
+**Entscheidungsregel**: 
+- Default = `chromium`
+- `lightpanda` nur bei nachgewiesenem Ressourcen-/Kosten-Vorteil (Benchmark + ADR-0007)
+
+Siehe auch: [ADR-0007](../decisions/0007-lightpanda-als-optionale-browser-engine.md) und CLI-Option `--lightpanda`.
 
 ### UiPath-Ausnahmekategorien (begründungspflichtig)
 

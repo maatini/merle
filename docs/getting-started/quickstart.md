@@ -13,6 +13,8 @@
 
 ```bash
 merle new-bot rechnungsverarbeitung --playwright --pandas
+# Für hochvolumige / kostensensitive Web-Bots:
+# merle new-bot high_volume_scraper --playwright --lightpanda   # oder --browser-engine lightpanda
 cd python_bots/rechnungsverarbeitung
 ```
 

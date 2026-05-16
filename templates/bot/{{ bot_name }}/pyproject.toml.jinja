@@ -8,7 +8,7 @@ license = {text = "Proprietary"}
 
 dependencies = [
     # merle-core with relevant extras (BaseBot + observability always included)
-    "merle-core[observability{% if include_pandas or include_pdf %},data{% endif %}{% if include_playwright %},playwright{% endif %}]",
+    "merle-core[observability{% if include_pandas or include_pdf %},data{% endif %}{% if include_playwright and browser_engine == 'chromium' %},playwright{% endif %}{% if include_playwright and browser_engine == 'lightpanda' %},lightpanda{% endif %}]",
 
     "pydantic-settings>=2.0,<3.0",
     "loguru>=0.7,<1.0",
@@ -24,8 +24,11 @@ dependencies = [
     "pdfplumber>=0.10,<1.0",
     {% endif %}
 
-    {% if include_playwright %}
+    {% if include_playwright and browser_engine == "chromium" %}
     "playwright>=1.40,<2.0",
+    {% elif include_playwright and browser_engine == "lightpanda" %}
+    "lightpanda-py>=0.2.0,<1.0",
+    "playwright-core>=1.40,<2.0",
     {% endif %}
 
     {% if include_uipath_orchestrator %}
@@ -48,7 +51,7 @@ dev = [
     "mypy>=1.14,<2.0",
     "pytest>=8.0,<9.0",
     "pytest-asyncio>=0.23,<1.0",
-    {% if include_playwright %}
+    {% if include_playwright and browser_engine == "chromium" %}
     "pytest-playwright>=0.4,<1.0",
     {% endif %}
 ]

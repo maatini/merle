@@ -30,7 +30,7 @@ C4Container
 
     Container_Boundary(merle, "Merle Platform") {
         Container(template, "Copier Template", "Python + uv", "Standardisiertes Bot-Gerüst")
-        Container(merle_core, "merle-core", "Python Library", "BaseBot, BaseTask, Retry, Observability, Playwright, Secrets")
+        Container(merle_core, "merle-core", "Python Library", "BaseBot, BaseTask, Retry, Observability, Playwright (Chromium + Lightpanda), Secrets")
         Container(examples, "Example Bots", "Python", "Web, Excel, UiPath-Hybrid Beispiele")
     }
 
@@ -87,7 +87,9 @@ Diese Architektur ermöglicht:
 - **Core**: Python 3.11+, uv, pydantic-settings
 - **Resilienz**: tenacity, merle-core retry policies
 - **Observability**: OpenTelemetry (OTLP) + loguru
-- **Web**: Playwright (via merle-core wrapper)
+- **Web**: Playwright (via `merle_core.playwright`) mit zwei Engines:
+  - `chromium` (Default – volle Feature-Kompatibilität)
+  - `lightpanda` (Zig-basiert, CDP, extrem ressourcenschonend – ADR-0007)
 - **Daten**: pandas, openpyxl, pdfplumber
 - **Secrets**: Azure Key Vault
 - **Container**: Docker (non-root, uv-basiert)

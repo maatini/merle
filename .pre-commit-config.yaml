@@ -28,7 +28,7 @@ repos:
 
   # Prettier: Format YAML, Markdown, JSON, TOML (non-Python files)
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.4.2
+    rev: v3.3.3
     hooks:
       - id: prettier
         types_or: [yaml, markdown, json, toml]

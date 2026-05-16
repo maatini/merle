@@ -1,30 +1,106 @@
-# Python
+# =============================================================================
+# Merle — Python-first RPA Framework .gitignore
+# =============================================================================
+
+# --- Python ---
 __pycache__/
 *.py[cod]
-*.egg-info/
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
 dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
 .venv/
 venv/
+ENV/
+env/
+.conda/
 
-# Environment
-.env
+# --- Testing & Coverage ---
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+.mypy_cache/
+.pytype/
+.ruff_cache/
+.mutmut-cache/
 
-# Logs
+# --- Type checkers ---
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# --- Documentation (MkDocs) ---
+site/
+
+# --- Logs & Temp ---
 logs/
 *.log
+tmp/
+tmp.*
+*.tmp
+*.temp
+.pdm.toml
 
-# IDE
+# --- Environment & Secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# --- IDE / Editor ---
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
 
-# OS
+# --- OS generated ---
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Docker
+# --- Docker / Compose overrides ---
 docker-compose.override.yml
+docker-compose.*.yml
 
-# OpenCode (generated/cached)
-rpa-opencode-hybrid/node_modules/
-rpa-opencode-hybrid/.turbo/
-site/
+# --- OpenCode / rpa-opencode-hybrid (heavy full fork) ---
+# This is a complete fork of OpenCode and is ONLY relevant for developing OpenCode core patches.
+# For normal daily Merle RPA work, use the lightweight configuration in .opencode/ at the project root.
+# See AGENTS.md and docs/development/devbox.md.
+rpa-opencode-hybrid/
+
+# --- Misc project specific ---
+# Keep this minimal — most generated things are covered above

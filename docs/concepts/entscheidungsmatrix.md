@@ -6,39 +6,26 @@ Diese Matrix ist das **zentrale Werkzeug** für die Entscheidung, ob ein Automat
 
 ## Entscheidungslogik
 
-```
-Neue Automatisierungsidee
-         │
-         ▼
-┌─────────────────────────────┐
-│ Fällt es klar in die        │
-│ Python-Domäne?              │
-│ (Web, API, Daten, Logik)    │
-├─────────────────────────────┤
-│ JA → Python                 │
-│ NEIN → Weiter prüfen        │
-└─────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────┐
-│ Fällt es in eine der        │
-│ UiPath-Ausnahmekategorien?  │
-├─────────────────────────────┤
-│ NEIN → Python (Default!)    │
-│ JA → Detaillierte Prüfung   │
-└─────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────┐
-│ Ist der UiPath-Vorteil      │
-│ NACHWEISBAR?               │
-│ (Prototyp, Benchmark,       │
-│  Expertenbewertung)         │
-├─────────────────────────────┤
-│ NEIN → Python               │
-│ JA → UiPath mit Begründung  │
-└─────────────────────────────┘
-```
+Der folgende Entscheidungsfluss ist das **zentrale Steuerungsinstrument** für alle Technologieentscheidungen im Merle-Framework.
+
+![Python vs. UiPath Entscheidungsfluss](assets/images/decisions/python-vs-uipath-decision-flow.jpg)
+
+> **Tipp für Reviews**: Drucke dieses Diagramm aus oder pinne es in deinem Chat. Jede Technologieentscheidung sollte sich an diesem Fluss orientieren und in einem ADR (`docs/decisions/`) dokumentiert werden.
+
+### Kurze Zusammenfassung der Logik
+
+1. **Python-Domäne?** → Web, API, Daten, Business-Logik, Reporting → **Default: Python**
+2. **UiPath-Ausnahmekategorie?** → Nur bei Legacy Desktop, sehr hohem Document Understanding Volumen oder zwingendem HITL
+3. **Vorteil nachweisbar?** → Prototyp + Messung + Begründung erforderlich
+
+**Niemals ausreichend als Begründung:**
+- „Das Team kennt nur UiPath“
+- „UiPath hat dafür eine Activity“
+- „Das haben wir schon immer so gemacht“
+
+---
+
+**Merke**: 80–90 % aller Automatisierungen sollten mit Python umgesetzt werden. UiPath nur bei **nachgewiesenem** qualitativen oder architektonischen Vorteil.
 
 ## Domänen-Matrix
 

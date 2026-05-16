@@ -137,6 +137,10 @@ Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Py
 
 **Hinweis zur Fork-Version:** Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork und ist **nur** relevant, wenn du selbst Änderungen am OpenCode-Core entwickeln oder eine komplett angepasste Desktop-App bauen möchtest. Für die tägliche Bot-Entwicklung reicht die leichte `.opencode/`-Integration im Root.
 
+### Wie die RPA-Hybrid-Integration funktioniert
+
+![OpenCode RPA-Hybrid Integration in Merle](docs/assets/images/architecture/opencode-rpa-hybrid-integration.jpg)
+
 Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit, sondern garantiert vor allem die **architektonische Integrität** und **Betriebsstabilität** aller Bots in unserer Cloud-Umgebung.
 
 ---

@@ -32,33 +32,37 @@ theme:
 
 nav:
   - Start: index.md
-  - Getting Started:
+  - Schnellstart:
       - Schnellstart: getting-started/quickstart.md
-      - Installation: getting-started/installation.md
   - Konzepte:
+      - Übersicht: concepts/index.md
       - Strategie: concepts/strategie.md
       - Entscheidungsmatrix: concepts/entscheidungsmatrix.md
       - Governance: concepts/governance.md
-      - Architektur: concepts/architecture.md
+      - Projektstruktur: concepts/projektstruktur.md
+      - Entwicklungsleitfaden: concepts/entwicklungsleitfaden.md
+      - Secrets Management: concepts/secrets-management.md
   - merle-core:
       - Übersicht: merle-core/index.md
-      - BaseBot & BaseTask: merle-core/base-classes.md
+      - Base Classes: merle-core/base-classes.md
       - Retry & Resilienz: merle-core/retry.md
       - Observability: merle-core/observability.md
-      - Playwright Wrapper: merle-core/playwright.md
-      - Secrets Management: merle-core/secrets.md
-  - Beispiele:
-      - Web-Automatisierung: examples/web.md
-      - Excel-Verarbeitung: examples/excel.md
-      - UiPath-Hybrid: examples/uipath-hybrid.md
+      - Architektur & Komponenten: concepts/architecture.md
   - Entwicklung:
+      - Übersicht: development/index.md
+      - Setup: development/setup.md
       - Contributing: development/contributing.md
-      - Entwicklungsumgebung: development/setup.md
-  - Entscheidungen (ADRs): decisions/index.md
+  - Entscheidungen (ADRs):
+      - Übersicht: decisions/index.md
+      - Python-First Strategie: decisions/0001-python-first-strategie.md
+      - Template-Architektur: decisions/0002-verbindliche-template-architektur.md
+      - Python ↔ UiPath: decisions/0003-integration-python-uipath.md
+      - Copier Scaffolding: decisions/0004-copier-bot-scaffolding.md
+      - merle-core v0.2: decisions/0005-merle-core-v02-architecture.md
+      - NATS Orchestrierung: decisions/0006-nats-orchestration-foundation.md
 
 plugins:
   - search
-  - mermaid2
 
 markdown_extensions:
   - admonition

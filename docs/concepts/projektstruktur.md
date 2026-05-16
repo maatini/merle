@@ -7,12 +7,15 @@
 ├── AGENTS.md                          # Persistenter Kontext für AI-Agenten
 ├── README.md                          # Projekt-Dokumentation
 ├── docs/                              # Strategie, Governance, Leitfäden
-│   ├── 01_Strategie.md                # Python-First Strategie
-│   ├── 02_Wann_Python_vs_UiPath.md    # Entscheidungsmatrix
-│   ├── 03_Governance.md               # Governance-Regeln
-│   ├── 04_Projektstruktur.md          # Dieses Dokument
-│   ├── 05_Entwicklungsleitfaden.md    # Entwicklungsleitfaden
-│   └── decisions/                     # Architecture Decision Records (ADR)
+│   ├── concepts/                      # Kernkonzepte (neu strukturierte Dokumentation)
+│   │   ├── strategie.md
+│   │   ├── entscheidungsmatrix.md
+│   │   ├── governance.md
+│   │   ├── projektstruktur.md
+│   │   └── entwicklungsleitfaden.md
+│   ├── decisions/                     # Architecture Decision Records (ADR)
+│   ├── merle-core/                    # Dokumentation zum Core-Framework
+│   └── development/                   # Contributing & Setup Guides
 │       └── .gitkeep
 ├── python_bots/                       # Python-Bot-Projekte
 │   ├── template/                      # ⛔ Deprecated (Phase 0 Snapshot)

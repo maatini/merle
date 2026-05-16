@@ -60,6 +60,26 @@ C4Container
 - Für **komplexe Workflows** mit vielen Abhängigkeiten → Prefect 3
 - Für **hochskalierbare, event-getriebene RPA** → NATS (Zielarchitektur)
 
+## NATS Orchestrierung – Phase 4 Vision
+
+Die folgende Architektur zeigt, wie NATS + JetStream als zentrale Orchestrierungsschicht in Merle aussehen wird:
+
+![NATS Orchestrierung Vision – Merle Phase 4](../assets/images/architecture/nats-orchestration-vision.jpg)
+
+Diese Architektur ermöglicht:
+- Stark entkoppelte, horizontal skalierbare Worker
+- Native Retry + Dead Letter Queues über JetStream
+- Zentrale Observability (Traces, Metrics, Logs über NATS)
+- Visuelles Monitoring mit Cobra-NATS
+
+---
+
+## merle-core – Die Bausteine
+
+![merle-core Komponenten Übersicht](../assets/images/architecture/merle-core-components.jpg)
+
+`merle-core` ist das Herzstück jedes Merle-Bots. Mit einem einfachen `uv add merle-core[playwright,observability,nats]` erhältst du ein komplettes, produktionsreifes Fundament.
+
 ---
 
 ## Technologie-Stack (2026)

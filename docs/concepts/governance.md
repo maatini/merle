@@ -2,13 +2,21 @@
 
 ## Zweck
 
-Dieses Dokument definiert die verbindlichen Governance-Regeln für das hybride RPA-Development-Kit.  
-Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln entsprechen.
+Dieses Dokument definiert die **verbindlichen Governance-Regeln** für das Merle RPA-Framework.  
+Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln entsprechen. Die Einhaltung wird durch Code-Reviews, den `governance-validator` Skill und den RPA-Hybrid-Architekten sichergestellt.
+
+## Visuelle Übersicht – Die 10 Governance-Regeln
+
+![Die 10 Governance-Regeln von Merle](assets/images/governance/governance-rules-overview.jpg)
+
+> Dieses Poster kannst du ausdrucken und im Team verteilen. Es fasst alle verbindlichen Regeln auf einen Blick zusammen.
+
+---
 
 ## Regel 1: Python-First (Default-Regel)
 
 **Regel**: Jede neue Automatisierung startet als Python-Projekt.  
-**Ausnahme**: Nur mit dokumentierter Begründung gemäß Entscheidungsmatrix (`02_Wann_Python_vs_UiPath.md`).  
+**Ausnahme**: Nur mit dokumentierter Begründung gemäß Entscheidungsmatrix (`entscheidungsmatrix.md`).  
 **Durchsetzung**: Der Merle RPA-Hybrid-Architekt reviewt jede Technologieentscheidung.
 
 ## Regel 2: Template-Pflicht (Copier)
@@ -72,7 +80,7 @@ Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln ent
 ## Regel 10: Entscheidungsdokumentation
 
 **Regel**: Jede Technologieentscheidung (insbesondere Python vs. UiPath) wird dokumentiert.  
-**Format**: Siehe `02_Wann_Python_vs_UiPath.md`, Abschnitt „Entscheidungsdokumentation".  
+**Format**: Siehe `entscheidungsmatrix.md`, Abschnitt „Entscheidungsdokumentation".  
 **Durchsetzung**: Architecture Decision Records (ADR) im `docs/decisions/`-Verzeichnis.
 
 ## Governance-Prozess

@@ -48,6 +48,16 @@ uv run pytest -v
 
 ---
 
+## Wichtige Visuals zum Verständnis
+
+Bevor du startest, solltest du dir diese drei Diagramme anschauen — sie ersetzen viele Seiten Text:
+
+- [Python vs. UiPath Entscheidungsfluss](../concepts/entscheidungsmatrix.md)
+- [Die 10 Governance-Regeln (Poster)](../concepts/governance.md)
+- [Merle Bot Lifecycle](../concepts/entwicklungsleitfaden.md)
+
+---
+
 ## KI-gestützte Entwicklung mit OpenCode (empfohlen)
 
 Im Merle-Root einfach `opencode` starten:

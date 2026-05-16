@@ -2,9 +2,15 @@
 
 ## Ziel
 
-Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neuen Python-Bots im hybriden RPA-Development-Kit — von der Anforderungsanalyse bis zum Deployment.
+Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neuen Python-Bots im Merle-Framework — von der ersten Idee bis zum produktiven Einsatz in Azure AKS.
+
+## Merle Bot Lifecycle – Der gesamte Weg auf einen Blick
+
+![Merle Bot Lifecycle – von der Idee bis zum produktiven Bot](assets/images/onboarding/merle-bot-lifecycle.jpg)
 
 ---
+
+## Phase 1: Anforderungsanalyse und Technologieentscheidung
 
 ## Phase 1: Anforderungsanalyse und Technologieentscheidung
 
@@ -16,7 +22,7 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 5. Fehlertoleranz und SLAs klären
 
 ### Schritt 2: Technologieentscheidung treffen
-1. Entscheidungsmatrix (`02_Wann_Python_vs_UiPath.md`) anwenden
+1. Entscheidungsmatrix (`entscheidungsmatrix.md`) anwenden
 2. Bei Python-Domäne: Direkt zu Phase 2
 3. Bei unklarem Fall: Scoring-Modell anwenden
 4. Bei UiPath-Erwägung: Prototyp bauen und vergleichen
@@ -46,7 +52,7 @@ uv sync --group dev
 
 ### Schritt 3: Abhängigkeiten definieren
 1. `requirements.txt`: Nur benötigte Pakete
-2. Version-Pinning nach Konvention (siehe `04_Projektstruktur.md`)
+2. Version-Pinning nach Konvention (siehe `projektstruktur.md`)
 
 ---
 

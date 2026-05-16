@@ -32,6 +32,17 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 
 ## Kernregeln (immer befolgen)
 
+### Regel 0: Devbox Development Environment (Standard)
+**Devbox + direnv ist die verbindliche Standard-Entwicklungsumgebung für Merle.**
+
+- Vor **jedem** Shell-Befehl, `uv`, `python`, `ruff`, `pytest`, `merle new-bot` etc. muss die Devbox-Umgebung aktiv sein (`devbox shell` oder automatisch via `.envrc` + direnv).
+- AI-Agenten führen Befehle bevorzugt mit `devbox run <cmd>` aus (wenn keine interaktive Shell aktiv ist).
+- Die Dateien `devbox.json`, `.envrc` und `devbox.lock` sind Governance-relevante Konfigurationsdateien (wie `pyproject.toml`).
+- Bei Versionskonflikten oder "command not found" → sofort auf Devbox umstellen.
+- Skill: `devbox-environment` (lädt detaillierte Anleitung + Verhaltensregeln für Agenten).
+
+Siehe Skill `devbox-environment` und `docs/development/setup.md`.
+
 ### Regel 1: Python-First
 Jede neue Automatisierung startet als Python-Projekt. UiPath nur mit dokumentierter
 Begründung gemäß Entscheidungsmatrix.
@@ -145,9 +156,10 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 
 Nutze diese Skills für spezifische Aufgaben (via `load_skill`):
 
+- `devbox-environment` — **Standard-Entwicklungsumgebung**. Stellt sicher, dass alle Shell-Befehle, uv, Python und Tools in der reproduzierbaren Devbox (Python 3.11 + uv + Node 20 + Copier) laufen. Immer zuerst laden/aktivieren!
 - `rpa-process-analyzer` — Analysiert Prozessbeschreibungen und gibt fundierte Python-vs-UiPath-Empfehlung
 - `rpa-bot-generator` — Generiert neue Bots strikt nach Template und Qualitätsregeln
-- `governance-validator` — Validiert Code auf Einhaltung aller Governance-Regeln
+- `governance-validator` — Validiert Code auf Einhaltung aller Governance-Regeln (inkl. Devbox-Nutzung)
 
 ## Kommunikationsstil
 

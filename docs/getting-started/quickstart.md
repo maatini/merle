@@ -1,9 +1,11 @@
 # Schnellstart
 
+> **Hinweis:** Die empfohlene Entwicklungsumgebung ist **Devbox + direnv** (siehe [Entwicklungsumgebung einrichten](../development/setup.md)). Alle folgenden Befehle laufen idealerweise innerhalb der Devbox (`devbox run ...` oder `devbox shell`).
+
 ## 1. Voraussetzungen
 
-- Python 3.11+
-- [uv](https://docs.astral.sh/uv/) (empfohlen) oder pip
+- Devbox + direnv (empfohlen) **oder** Python 3.11+ + uv
+- Git
 
 ## 2. Neuen Bot erstellen
 

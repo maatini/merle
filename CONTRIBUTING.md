@@ -9,23 +9,27 @@ Vielen Dank, dass du zum Merle Framework beitragen möchtest!
 - **Kleine, reviewbare PRs** — Große Refactorings bitte vorher als Issue oder ADR diskutieren.
 - **Tests & Docs** — Jede neue Funktion braucht Tests und Dokumentation.
 
-## Entwicklungsumgebung
+## Entwicklungsumgebung (verbindlich: Devbox + direnv)
+
+**Devbox ist der Standard.** Sie stellt reproduzierbare Versionen von Python 3.11, uv, pre-commit, Node 20 und Copier bereit.
 
 ```bash
 git clone <repo>
 cd merle
-uv sync --group dev --all-packages
+direnv allow .          # oder: devbox shell
+devbox run setup        # uv sync + pre-commit hooks
 ```
 
-Wichtige Befehle:
+Wichtige Befehle (innerhalb Devbox):
 
 ```bash
-# Neuen Bot zum Testen erzeugen
-merle new-bot test_bot --playwright
-
-# Docs lokal starten (MkDocs Material)
+devbox run new-bot test_bot --playwright
+devbox run lint
+devbox run test
 uv run mkdocs serve
 ```
+
+Siehe `docs/development/setup.md` und Skill `devbox-environment` für Details.
 
 ## Pull Request Prozess
 

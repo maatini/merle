@@ -1,43 +1,72 @@
 # Entwicklungsumgebung einrichten
 
-## Voraussetzungen
+**Die offizielle und standardmäßige Entwicklungsumgebung für Merle ist Devbox + direnv.**
 
-- Python 3.11+
-- [uv](https://docs.astral.sh/uv/) (empfohlen)
-- Git
+Sie liefert exakt die gleichen Tool-Versionen wie in der CI (Python 3.11, uv 0.11.8, Node 20, Copier, pre-commit) — reproduzierbar auf macOS, Linux und WSL.
 
-## Einrichtung
+## 1. Voraussetzungen (einmalig)
+
+- [Devbox](https://www.jetify.com/devbox) installieren
+- [direnv](https://direnv.net) installieren (für automatische Aktivierung beim `cd`)
 
 ```bash
-# Repository klonen
+# macOS (Homebrew)
+brew install devbox direnv
+
+# Danach direnv in die Shell integrieren (zsh/bash/fish — siehe direnv Docs)
+```
+
+## 2. Projekt klonen + Devbox aktivieren (Standard)
+
+```bash
 git clone https://github.com/maatini/merle.git
 cd merle
 
-# Merle CLI installieren (für Bot-Generierung)
-uv pip install -e tools/merle
+# Einmalig direnv erlauben → ab jetzt wird Devbox beim Betreten des Verzeichnisses automatisch geladen
+direnv allow .
 
-# Abhängigkeiten für shared/merle-core
-cd python_bots/shared
-uv sync --group dev
+# (Falls du kein direnv nutzt:)
+devbox shell
 ```
 
-## Wichtige Befehle
+Innerhalb der Devbox-Umgebung stehen `python`, `uv`, `pre-commit`, `node`, `copier` und `merle` sofort zur Verfügung (isolierte Versionen).
+
+## 3. Einrichtung der Python-Umgebung
+
+```bash
+# Komplette Einrichtung (empfohlen)
+devbox run setup
+# oder manuell:
+uv sync --group dev --all-packages
+uv run pre-commit install --install-hooks
+```
+
+## 4. Wichtige Befehle (innerhalb Devbox)
 
 ```bash
 # Neuen Bot erzeugen
-merle new-bot mein_bot --playwright --pandas
+devbox run new-bot rechnungsverarbeitung --playwright --pandas
+# oder direkt: uv run merle new-bot ...
 
-# Tests ausführen
-uv run pytest
+# Tests
+devbox run test
+# oder: uv run pytest -q
 
-# Docs lokal bauen
-uv run --with mkdocs-material mkdocs serve
+# Linting + Format
+devbox run lint
+
+# Docs lokal
+uv run mkdocs serve
 ```
 
-## OpenCode (empfohlen)
+## OpenCode (empfohlen für KI-gestützte Entwicklung)
 
-Einfach `opencode` im Merle-Root starten — der **RPA-Hybrid-Architekt** ist automatisch aktiv.
+```bash
+opencode
+```
+
+Der **RPA-Hybrid-Architekt** ist automatisch aktiv und **verwendet standardmäßig die Devbox-Umgebung** (Skill `devbox-environment` wird geladen). Alle Shell-Befehle des Agenten laufen über `devbox run ...`.
 
 ---
 
-**Nächster Schritt**: Lies den [Schnellstart](../getting-started/quickstart.md).
+**Nächster Schritt**: Lies den aktualisierten [Schnellstart](../getting-started/quickstart.md).

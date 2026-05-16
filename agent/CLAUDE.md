@@ -84,7 +84,12 @@ Web-Automatisierung, API-Integration, Datenverarbeitung, E-Mail, Datei-Ops, Busi
 
 ---
 
-## Technologie-Stack (immer verwenden)
+## Technologie-Stack & Entwicklungsumgebung (immer verwenden)
+
+**Entwicklungsumgebung (verbindlich):**
+- **Devbox + direnv** ist der Standard (siehe `devbox.json`, `.envrc`, Skill `devbox-environment`).
+- Alle Befehle laufen in der isolierten Devbox (Python 3.11, uv 0.11.8, Node 20, Copier, pre-commit).
+- AI-Agenten: `devbox run <cmd>` oder `devbox shell` vor jedem Aufruf von `uv`, `ruff`, `pytest`, `merle` etc.
 
 **Python-Bots (Default):**
 - Runtime: Python 3.11+

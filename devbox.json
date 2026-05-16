@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/main/.schema/devbox.schema.json",
+  "packages": [
+    "python@3.11",
+    "uv@0.11.8",
+    "pre-commit@latest",
+    "nodejs@20",
+    "copier@9.15.0",
+    "git"
+  ],
+  "env": {
+    "UV_PYTHON": "python3.11",
+    "UV_PROJECT_ENVIRONMENT": ".venv",
+    "PYTHONPATH": ".:python_bots/shared/src",
+    "PRE_COMMIT_ALLOW_NO_CONFIG": "1"
+  },
+  "shell": {
+    "init_hook": [
+      "echo '🐍 Merle Devbox Environment aktiviert'",
+      "echo '   Python 3.11 + uv 0.11.8 + pre-commit + Node 20 + Copier'",
+      "echo ''",
+      "echo 'Nächste Schritte (innerhalb dieser Shell):'",
+      "echo '  1. uv sync --group dev --all-packages     # Workspace + merle-core + Tools'",
+      "echo '  2. uv run pre-commit install              # Hook-Setup (ruff, prettier, ...)'",
+      "echo '  3. merle --help                           # Merle CLI testen'",
+      "echo ''",
+      "echo 'Tipps:'",
+      "echo '  - devbox run <cmd>     → Befehl in isolierter Env ausführen (ohne Shell zu betreten)'",
+      "echo '  - devbox shell         → Interaktive Devbox-Shell'",
+      "echo '  - Alle AI-Agenten (OpenCode) sollen Devbox standardmäßig nutzen!'",
+      "echo ''"
+    ],
+    "scripts": {
+      "setup": [
+        "uv sync --group dev --all-packages",
+        "uv run pre-commit install --install-hooks",
+        "echo '✅ Merle Dev-Umgebung vollständig eingerichtet'"
+      ],
+      "lint": "uv run ruff check . && uv run ruff format --check .",
+      "test": "uv run pytest -q",
+      "new-bot": "uv run merle new-bot"
+    }
+  }
+}

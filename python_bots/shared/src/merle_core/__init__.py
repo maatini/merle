@@ -23,12 +23,21 @@ from .retry import (
     sensitive_operation_retry,
     aggressive_retry,
 )
+from .task import TaskSpec, TaskResult, TaskStatus, TaskError
+
+# Task Model (available as submodule)
+from . import task
 
 __all__ = [
     "BaseBot",
-    "BaseTask",                    # Neu in v0.2
+    "BaseTask",
     "RpaHttpClient",
     "setup_logging",
+    # Task Model (Phase 4)
+    "TaskSpec",
+    "TaskResult",
+    "TaskStatus",
+    "TaskError",
     # Exceptions
     "MerleError",
     "RetryExhaustedError",
@@ -51,8 +60,11 @@ from .observability import configure_observability, get_tracer, get_meter
 # Playwright (optional, via extra "playwright")
 from . import playwright
 
-# Secrets (optional, via extra "azure") - available as submodule
-# from merle_core import secrets
+# Secrets (optional, via extra "azure")
+from . import secrets
+
+# NATS (optional, via extra "nats") - Phase 4
+from . import nats
 
 __all__ += [
     "configure_observability",
@@ -60,7 +72,9 @@ __all__ += [
     "get_meter",
     "observability",
     "playwright",
-    "secrets",   # available as submodule
+    "secrets",
+    "nats",
+    "task",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"  # Phase 4: NATS + Task Model

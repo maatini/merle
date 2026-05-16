@@ -127,7 +127,7 @@ jobs:
           exit-code: "0"
 
       - name: Upload legacy Trivy results (if any)
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         continue-on-error: true
         with:

@@ -23,8 +23,10 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 - `docs/03_Governance.md` → 10 verbindliche Governance-Regeln
 - `docs/04_Projektstruktur.md` → Repository-Struktur und Konventionen
 - `docs/05_Entwicklungsleitfaden.md` → Schritt-für-Schritt Bot-Entwicklung
-- `python_bots/template/` → **Verbindliches** Basis-Template für jeden neuen Bot
-- `python_bots/shared/` → Gemeinsame Utilities (BaseBot, RpaHttpClient, Logging)
+- `templates/bot/` → Offizielles Copier-Template (Phase 1+)
+- `merle-core` (v0.3) → Zentrales Framework (BaseTask, Observability, NATS, Playwright Wrapper, Secrets)
+- `python_bots/shared/` → Quellcode von merle-core
+- `examples/` → Offizielle Beispiele (Web, Excel, UiPath-Hybrid, NATS)
 - `integration_examples/` → Bewährte Python↔UiPath Integrationsmuster
 - `agent/CLAUDE.md` → Detaillierte Agent-Persona und Interaktionsmuster
 
@@ -58,8 +60,9 @@ README.md für jeden Bot. ADR für Technologieentscheidungen.
 ### Regel 9: Code-Review
 Prüfe Template-Konformität, Security, Fehlerbehandlung, Tests.
 
-### Regel 10: Entscheidungen dokumentieren
-Python-vs-UiPath-Entscheidungen immer mit Begründung dokumentieren.
+### Regel 10: Merle-Core-Pflicht + Entscheidungsdokumentation
+- Jeder Bot muss `merle-core` verwenden (BaseTask, Observability, etc.)
+- Python-vs-UiPath-Entscheidungen immer mit Begründung in `docs/decisions/` dokumentieren.
 
 ## Entscheidungsfindung (Python vs. UiPath)
 
@@ -91,20 +94,16 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 - ❌ „Das haben wir schon immer so gemacht" → Technische Schuld abbauen
 - ❌ „Der Kunde verlangt UiPath" → Beratungskompetenz zeigen
 
-## Technologie-Stack
+## Technologie-Stack (2026)
 
 **Python (Default):**
-- Runtime: Python 3.11+
-- RPA: rpaframework ≥ 28.0
-- Web: Playwright
-- Daten: pandas, openpyxl, pdfplumber
-- HTTP: httpx (async-first)
-- Config: pydantic-settings
-- Logging: loguru
-- Retry: tenacity
-- Orchestrierung: Prefect 3.x
-- Testing: pytest, pytest-asyncio, pytest-playwright
-- Container: Docker
+- merle-core v0.3 (BaseTask, TaskSpec, Observability, NATS Client, Playwright Wrapper, Secrets)
+- Web: Playwright (via merle_core.playwright)
+- Orchestrierung: NATS + JetStream (Phase 4+ Vision)
+- Logging + Observability: loguru + OpenTelemetry
+- Retry & Resilience: merle_core.retry
+- Config & Secrets: pydantic-settings + Azure Key Vault
+- Container: Docker (uv-basiert)
 
 **UiPath (nur Ausnahme):**
 - Integration: Orchestrator REST API, Python Scope Activity, dateibasiert
@@ -116,7 +115,7 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 1. Analysiere die Anforderung (Systeme, Daten, Frequenz, Komplexität)
 2. Wende die Entscheidungsmatrix an (Lies `docs/02_Wann_Python_vs_UiPath.md` bei Unsicherheit)
 3. Begründe die Python/UiPath-Entscheidung
-4. Bei Python: Lade `python_bots/template/` und erstelle den Bot
+4. Bei Python: Verwende `merle new-bot` oder `copier copy templates/bot/` und erstelle den Bot nach modernem Standard (merle-core + BaseTask + Observability)
 5. Dokumentiere die Entscheidung in `docs/decisions/`
 
 ### Bei Code-Review

@@ -13,7 +13,7 @@ repos:
 
   # Mypy: Static type checking (strict mode)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.14.1
+    rev: v1.15.2
     hooks:
       - id: mypy
         args:
@@ -25,6 +25,7 @@ repos:
           - "loguru>=0.7"
           - "tenacity>=8.0"
           - "httpx>=0.25"
+          - "pydantic>=2.0"
 
   # Prettier: Format YAML, Markdown, JSON, TOML (non-Python files)
   - repo: https://github.com/pre-commit/mirrors-prettier

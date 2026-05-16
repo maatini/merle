@@ -23,6 +23,10 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
           python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
 
       - name: Sync workspace (dev group)
         run: uv sync --group dev --all-packages
@@ -49,6 +53,10 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
           python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
 
       - name: Sync workspace (dev group)
         run: uv sync --group dev --all-packages

@@ -67,12 +67,8 @@ jobs:
           scan-ref: 'python_bots/template'
           exit-code: '0'   # Non-blocking for now, informational
 
-      - name: (Optional) Push to GHCR on main
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Push step would go here in a real release workflow (omitted for Phase 0 to keep simple)
+      # GHCR Push is currently disabled (Phase 0).
+      # When enabling in the future, add:
+      # - docker/login-action
+      # - docker/build-push-action with push: true and proper tags
+      # - Use secrets.GITHUB_TOKEN or a dedicated GHCR token

@@ -10,7 +10,9 @@ from typing import Any
 
 from loguru import logger
 
-from .base import SecretProvider, SecretNotFoundError
+from merle_core.exceptions import SecretNotFoundError
+
+from .base import SecretProvider
 
 
 class AzureKeyVaultProvider(SecretProvider):

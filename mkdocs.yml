@@ -1,6 +1,6 @@
 site_name: Merle
-site_description: Modular Enterprise RPA Lifecycle Engine — Python-first hybrid RPA Framework (Antigravity GmbH)
-site_author: Antigravity RPA Team
+site_description: Modular Enterprise RPA Lifecycle Engine — Python-first hybrid RPA Framework (Martin Richardt)
+site_author: Martin Richardt
 site_url: https://maatini.github.io/merle/   # GitHub Pages (public repo: free via GitHub Actions + gh-pages branch)
 repo_url: https://github.com/maatini/merle
 repo_name: merle
@@ -88,4 +88,4 @@ extra:
     - icon: fontawesome/brands/python
       link: https://python.org
 
-copyright: Copyright © 2026 Antigravity — Internal Use Only
+copyright: Copyright © 2026 Martin Richardt — Proprietary / Internal Use Only

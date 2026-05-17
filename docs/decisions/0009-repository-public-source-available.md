@@ -2,7 +2,7 @@
 
 **Status:** Accepted  
 **Date:** 2026-05-17  
-**Deciders:** Martin Richardt (Antigravity GmbH)  
+**Deciders:** Martin Richardt (persönlich)  
 **Supersedes:** ADR-0008 (Repository Visibility and Internal Governance)
 
 ## Kontext
@@ -15,7 +15,7 @@ Das gesamte Projekt (inklusive Historie, ADRs, merle-core, Template, rpa-opencod
 
 **Das Repository `maatini/merle` wird von PRIVATE auf PUBLIC umgestellt (Visibility = Public).**
 
-Es handelt sich um ein **Source-Available** Modell: Der Quellcode ist frei einsehbar und klonbar, die Rechte bleiben jedoch vollständig bei der Antigravity GmbH durch die bestehende Proprietary License.
+Es handelt sich um ein **Source-Available** Modell: Der Quellcode ist frei einsehbar und klonbar, die Rechte bleiben vollständig bei Martin Richardt (persönlich) durch die bestehende Proprietary License.
 
 ### Warum diese Kehrtwende?
 
@@ -53,7 +53,7 @@ Die in ADR-0008 beschriebene Alternative ("bei Open-Sourcing ein komplett neues,
 
 - Die **LICENSE** bleibt "PROPRIETARY LICENSE — INTERNAL USE ONLY" (unverändert)
 - Nur Mitarbeiter und Contractor mit gültigem NDA dürfen den Code produktiv einsetzen
-- Jede kommerzielle Nutzung oder Weitergabe außerhalb der Antigravity GmbH erfordert eine separate Lizenzvereinbarung
+- Jede kommerzielle Nutzung oder Weitergabe ohne Zustimmung von Martin Richardt erfordert eine separate Lizenzvereinbarung
 - Interne Governance (Code Reviews, ADRs, Template-Pflicht, etc.) gilt weiterhin für alle internen und beauftragten Entwickler
 - Security-Vorfälle werden weiterhin bevorzugt privat gemeldet (SECURITY.md)
 

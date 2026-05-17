@@ -71,4 +71,4 @@ Diese drei Diagramme geben dir den besten Überblick über Merle:
 
 ---
 
-**Merle** ist ein internes Framework der Antigravity GmbH. Alle Rechte vorbehalten.
+**Merle** ist ein proprietäres Framework von Martin Richardt. Alle Rechte vorbehalten.

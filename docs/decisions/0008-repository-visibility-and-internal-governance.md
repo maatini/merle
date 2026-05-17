@@ -5,12 +5,12 @@
 
 **Status:** Superseded (by ADR-0009)  
 **Date:** 2026-05-16 (original)  
-**Deciders:** Martin Richardt (Antigravity GmbH)  
+**Deciders:** Martin Richardt (persönlich)  
 **Related:** ADR-0001, ADR-0002, ADR-0009, LICENSE
 
 ## Context
 
-The Merle repository contains proprietary, business-critical RPA framework code, governance rules, decision records, and internal tooling of Antigravity GmbH. It is marked "INTERNAL USE ONLY" with a proprietary license.
+The Merle repository contains proprietary, business-critical RPA framework code, governance rules, decision records, and internal tooling of Martin Richardt. It is marked "INTERNAL USE ONLY" with a proprietary license.
 
 Despite this, there is a risk that the repository on GitHub (`maatini/merle`) is configured as **public**. This violates the license, creates legal exposure, and contradicts the explicit "Repository ist privat (seit 2026-05)" statement in README.md.
 

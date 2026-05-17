@@ -10,7 +10,7 @@
 
 > **📖 Source Available — Proprietary License**  
 > Dieses Repository ist öffentlich einsehbar (seit 2026-05, siehe [ADR-0009](./docs/decisions/0009-repository-public-source-available.md)).  
-> Der gesamte Code bleibt **urheberrechtlich geschütztes Eigentum der Antigravity GmbH**.  
+> Der gesamte Code bleibt **urheberrechtlich geschütztes Eigentum von Martin Richardt**.  
 > Eine produktive Nutzung, Modifikation oder Weitergabe ist nur mit expliziter Lizenz / gültigem NDA gestattet.  
 > Siehe [LICENSE](./LICENSE) und [ADR-0009](./docs/decisions/0009-repository-public-source-available.md). Unautorisierte kommerzielle Nutzung wird rechtlich verfolgt.
 
@@ -301,7 +301,7 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 
 **PROPRIETARY — INTERNAL USE ONLY**
 
-Dieses Repository und alle darin enthaltenen Artefakte sind ausschließlich für den internen Gebrauch bei Antigravity bestimmt. Siehe [LICENSE](./LICENSE) für die vollständige Lizenz.
+Dieses Repository und alle darin enthaltenen Artefakte sind proprietär. Nutzung nur mit ausdrücklicher Genehmigung des Urhebers (Martin Richardt). Siehe [LICENSE](./LICENSE) für die vollständige Lizenz.
 
 ## Version
 

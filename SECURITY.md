@@ -1,6 +1,6 @@
 # Security Policy — Merle RPA Framework
 
-**⚠️ INTERNAL USE ONLY — Antigravity GmbH**
+**⚠️ INTERNAL USE ONLY — Martin Richardt**
 
 This repository contains **proprietary and confidential** software. It is **not** intended for public disclosure or external contribution without explicit written approval.
 

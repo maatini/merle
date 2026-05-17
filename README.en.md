@@ -41,7 +41,7 @@ See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lin
 | DX                      | ✅         | `justfile`, Devbox + direnv, uv workspace, excellent docs structure |
 
 **📖 Source Available — Proprietary License**  
-This repository is publicly visible (since 2026-05, see [ADR-0009](./docs/decisions/0009-repository-public-source-available.md)). All code remains **copyrighted property of Antigravity GmbH**. Productive use, modification or redistribution requires an explicit license / valid NDA. See [LICENSE](./LICENSE) and [ADR-0009](./docs/decisions/0009-repository-public-source-available.md). Unauthorized commercial use will be prosecuted.
+This repository is publicly visible (since 2026-05, see [ADR-0009](./docs/decisions/0009-repository-public-source-available.md)). All code remains **copyrighted property of Martin Richardt**. Productive use, modification or redistribution requires an explicit license / valid NDA. See [LICENSE](./LICENSE) and [ADR-0009](./docs/decisions/0009-repository-public-source-available.md). Unauthorized commercial use will be prosecuted.
 
 **This repository is ready for authorized internal enterprise RPA teams** building production bots.
 
@@ -96,7 +96,7 @@ copier copy templates/bot python_bots/my_process
 
 ## License & Security
 
-**Proprietary – Internal Use Only (Antigravity GmbH)**
+**Proprietary – Internal Use Only (Martin Richardt)**
 
 - [LICENSE](./LICENSE)
 - [SECURITY.md](./SECURITY.md) — report vulnerabilities privately

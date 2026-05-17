@@ -44,7 +44,7 @@ jobs:
       - name: Generate a fresh test bot from Copier template
         run: |
           mkdir -p /tmp/generated-bots
-          uvx copier copy templates/bot /tmp/generated-bots/test_docker_bot \
+          uvx copier copy --trust templates/bot /tmp/generated-bots/test_docker_bot \
             --data bot_name=test_docker_bot \
             --data bot_description="CI validation bot" \
             --data include_pandas=true \

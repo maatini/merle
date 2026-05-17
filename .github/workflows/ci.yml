@@ -158,7 +158,7 @@ jobs:
       - name: Generate fresh bot + build (monorepo pattern)
         run: |
           mkdir -p /tmp/gen
-          uvx copier copy templates/bot /tmp/gen/ci_bot --data bot_name=ci_bot --data include_playwright=true --defaults --overwrite --quiet
+          uvx copier copy --trust templates/bot /tmp/gen/ci_bot --data bot_name=ci_bot --data include_playwright=true --defaults --overwrite --quiet
           docker build -t merle-ci-bot:test -f /tmp/gen/ci_bot/Dockerfile .
           echo "✅ Generated bot Docker build succeeded"
         # Full matrix + Trivy moved to dedicated docker-build.yml for PRs on template changes

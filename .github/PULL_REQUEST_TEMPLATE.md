@@ -2,7 +2,7 @@
 
 **Merle — Modular Enterprise RPA Lifecycle Engine**
 
-> **⚠️ INTERNAL USE ONLY** — Antigravity GmbH. All changes must follow the [Governance rules](AGENTS.md) and [Python-First Strategy](docs/concepts/strategie.md).
+> **⚠️ INTERNAL USE ONLY** — Martin Richardt. All changes must follow the [Governance rules](AGENTS.md) and [Python-First Strategy](docs/concepts/strategie.md).
 
 ## Summary
 

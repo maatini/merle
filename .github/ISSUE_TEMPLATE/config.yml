@@ -7,11 +7,11 @@ contact_links:
     url: https://github.com/maatini/merle/tree/main/docs
     about: "Please read the docs first (Entscheidungsmatrix, Governance, Architektur)."
   - name: 💬 Internal Slack / Teams
-    url: https://antigravity.example.com/slack
+    url: https://internal.example.com/slack
     about: "For internal questions, please use the #merle-rpa channel."
   - name: 🐛 Security Vulnerability
     url: https://github.com/maatini/merle/security/advisories/new
     about: "Please report security issues privately via GitHub Security Advisories (not public issues)."
   - name: ❓ Questions & Support
-    url: mailto:martin.richardt@antigravity.example.com
+    url: mailto:martin.richardt@example.com
     about: "For usage questions, contact the Merle maintainers directly."

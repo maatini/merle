@@ -22,19 +22,21 @@ Es handelt sich um ein **Source-Available** Modell: Der Quellcode ist frei einse
 - Erhöhte Sichtbarkeit des Merle-Frameworks (Recruiting, Community-Feedback, strategische Transparenz)
 - Vereinfachung der Zusammenarbeit mit externen Partnern und Contractors (kein separater Invite + PAT nötig)
 - Bewusste Akzeptanz, dass die komplette Git-Historie dauerhaft öffentlich wird
-- Die tatsächliche *Nutzung* des Codes bleibt weiterhin stark eingeschränkt (NDA + Lizenzpflicht)
+- Die tatsächliche _Nutzung_ des Codes bleibt weiterhin stark eingeschränkt (NDA + Lizenzpflicht)
 
 Die in ADR-0008 beschriebene Alternative ("bei Open-Sourcing ein komplett neues, bereinigtes Repo anlegen") wird hier **nicht** gewählt. Stattdessen wird das bestehende Repository geöffnet.
 
 ## Konsequenzen
 
 **Positiv:**
+
 - Niedrigere Einstiegshürde für berechtigte externe Entwickler
 - Bessere Auffindbarkeit und Reputation des Projekts
 - GitHub Pages funktioniert ohne GitHub Enterprise Cloud
 - Kein "geheimes" Repo mehr, das misstrauen erwecken könnte
 
 **Negativ / Risiken (bewusst in Kauf genommen):**
+
 - Die komplette Historie inkl. aller ADRs, interner Diskussionen, Code-Beispiele und Architektur-Details ist unwiderruflich öffentlich
 - Mögliche Forks können entstehen (Nutzung unterliegt trotzdem der LICENSE)
 - Die starken internen Warnungen ("STRICTLY CONFIDENTIAL") müssen entfernt werden

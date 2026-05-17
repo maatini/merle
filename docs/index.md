@@ -43,23 +43,23 @@ copier copy templates/bot python_bots/mein_bot
 
 Diese drei Diagramme geben dir den besten Überblick über Merle:
 
-| Visual | Beschreibung | Link |
-|--------|--------------|------|
-| **Python vs. UiPath Entscheidung** | Der zentrale Entscheidungsbaum für alle Automatisierungen | [Entscheidungsmatrix](concepts/entscheidungsmatrix.md) |
-| **Die 10 Governance-Regeln** | Visuelle Übersicht aller verbindlichen Regeln | [Governance](concepts/governance.md) |
-| **Bot Lifecycle** | Kompletter Weg von der Idee bis zum produktiven Bot in AKS | [Entwicklungsleitfaden](concepts/entwicklungsleitfaden.md) |
+| Visual                             | Beschreibung                                               | Link                                                       |
+| ---------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| **Python vs. UiPath Entscheidung** | Der zentrale Entscheidungsbaum für alle Automatisierungen  | [Entscheidungsmatrix](concepts/entscheidungsmatrix.md)     |
+| **Die 10 Governance-Regeln**       | Visuelle Übersicht aller verbindlichen Regeln              | [Governance](concepts/governance.md)                       |
+| **Bot Lifecycle**                  | Kompletter Weg von der Idee bis zum produktiven Bot in AKS | [Entwicklungsleitfaden](concepts/entwicklungsleitfaden.md) |
 
 ---
 
 ## Dokumentation
 
-| Bereich                    | Link |
-|---------------------------|------|
-| Schnellstart              | [Getting Started](getting-started/quickstart.md) |
-| Entscheidungsmatrix       | [Python vs. UiPath](concepts/entscheidungsmatrix.md) |
-| Governance & Best Practices | [Governance-Regeln](concepts/governance.md) |
-| Architektur & NATS Vision | [Architektur](concepts/architecture.md) |
-| Entwicklung               | [Entwicklungsleitfaden](concepts/entwicklungsleitfaden.md) |
+| Bereich                     | Link                                                       |
+| --------------------------- | ---------------------------------------------------------- |
+| Schnellstart                | [Getting Started](getting-started/quickstart.md)           |
+| Entscheidungsmatrix         | [Python vs. UiPath](concepts/entscheidungsmatrix.md)       |
+| Governance & Best Practices | [Governance-Regeln](concepts/governance.md)                |
+| Architektur & NATS Vision   | [Architektur](concepts/architecture.md)                    |
+| Entwicklung                 | [Entwicklungsleitfaden](concepts/entwicklungsleitfaden.md) |
 
 ---
 

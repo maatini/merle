@@ -6,7 +6,6 @@ These tests verify the wrapper logic using mocks for both engines.
 """
 
 from unittest.mock import AsyncMock, MagicMock, patch
-import sys
 
 import pytest
 
@@ -25,6 +24,7 @@ def test_browser_engine_type():
 # ─────────────────────────────────────────────────────────────
 # Direct RobustBrowser Unit Tests (for high code coverage)
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.mark.asyncio
 async def test_robust_browser_captures_failure_artifacts_success(
@@ -53,32 +53,25 @@ async def test_robust_browser_captures_failure_artifacts_success(
 
 
 @pytest.mark.asyncio
-async def test_lightpanda_with_proxy_parameter(
-    mock_browser, mock_browser_context, fake_lightpanda_proc
-):
+async def test_lightpanda_with_proxy_parameter(mock_browser, mock_browser_context, fake_lightpanda_proc):
     """Ensure proxy is correctly passed to new_context when using Lightpanda."""
     fake_lightpanda_module = MagicMock()
     fake_lightpanda_module.serve.return_value = fake_lightpanda_proc
 
-    with patch.dict("sys.modules", {"lightpanda": fake_lightpanda_module}), \
-         patch("merle_core.playwright.browser.async_playwright") as mock_pw, \
-         patch("merle_core.playwright.browser._wait_for_lightpanda_ready", new=AsyncMock()):
+    with (
+        patch.dict("sys.modules", {"lightpanda": fake_lightpanda_module}),
+        patch("merle_core.playwright.browser.async_playwright") as mock_pw,
+        patch("merle_core.playwright.browser._wait_for_lightpanda_ready", new=AsyncMock()),
+    ):
+        mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(return_value=mock_browser)
 
-        mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(
-            return_value=mock_browser
-        )
-
-        async with launch_robust_browser(
-            engine="lightpanda",
-            proxy="http://user:pass@proxy:8080"
-        ) as browser:
+        async with launch_robust_browser(engine="lightpanda", proxy="http://user:pass@proxy:8080") as browser:
             assert isinstance(browser, RobustBrowser)
 
         # Verify that new_context was called with proxy in context_options
         call_kwargs = mock_browser.new_context.call_args[1]
         assert "proxy" in call_kwargs
         assert call_kwargs["proxy"]["server"] == "http://user:pass@proxy:8080"
-
 
 
 @pytest.mark.asyncio
@@ -128,21 +121,19 @@ async def test_robust_browser_captures_failure_artifacts_on_exception(
 # Lightpanda Engine Tests
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.mark.asyncio
-async def test_launch_robust_browser_lightpanda_path(
-    mock_browser, mock_browser_context, fake_lightpanda_proc
-):
+async def test_launch_robust_browser_lightpanda_path(mock_browser, mock_browser_context, fake_lightpanda_proc):
     """Verify that engine='lightpanda' uses connect_over_cdp and manages the process."""
     fake_lightpanda_module = MagicMock()
     fake_lightpanda_module.serve.return_value = fake_lightpanda_proc
 
-    with patch.dict("sys.modules", {"lightpanda": fake_lightpanda_module}), \
-         patch("merle_core.playwright.browser.async_playwright") as mock_pw, \
-         patch("merle_core.playwright.browser._wait_for_lightpanda_ready", new=AsyncMock()):
-
-        mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(
-            return_value=mock_browser
-        )
+    with (
+        patch.dict("sys.modules", {"lightpanda": fake_lightpanda_module}),
+        patch("merle_core.playwright.browser.async_playwright") as mock_pw,
+        patch("merle_core.playwright.browser._wait_for_lightpanda_ready", new=AsyncMock()),
+    ):
+        mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(return_value=mock_browser)
 
         async with launch_robust_browser(engine="lightpanda") as browser:
             assert isinstance(browser, RobustBrowser)
@@ -153,20 +144,17 @@ async def test_launch_robust_browser_lightpanda_path(
 
 
 @pytest.mark.asyncio
-async def test_lightpanda_process_cleanup_on_exception(
-    mock_browser, mock_browser_context, fake_lightpanda_proc
-):
+async def test_lightpanda_process_cleanup_on_exception(mock_browser, mock_browser_context, fake_lightpanda_proc):
     """Lightpanda process must be killed if an exception occurs inside the context."""
     fake_lightpanda_module = MagicMock()
     fake_lightpanda_module.serve.return_value = fake_lightpanda_proc
 
-    with patch.dict("sys.modules", {"lightpanda": fake_lightpanda_module}), \
-         patch("merle_core.playwright.browser.async_playwright") as mock_pw, \
-         patch("merle_core.playwright.browser._wait_for_lightpanda_ready", new=AsyncMock()):
-
-        mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(
-            return_value=mock_browser
-        )
+    with (
+        patch.dict("sys.modules", {"lightpanda": fake_lightpanda_module}),
+        patch("merle_core.playwright.browser.async_playwright") as mock_pw,
+        patch("merle_core.playwright.browser._wait_for_lightpanda_ready", new=AsyncMock()),
+    ):
+        mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(return_value=mock_browser)
 
         with pytest.raises(BrowserLaunchError):
             async with launch_robust_browser(engine="lightpanda") as browser:
@@ -180,9 +168,10 @@ async def test_lightpanda_process_cleanup_on_exception(
 @pytest.mark.asyncio
 async def test_missing_lightpanda_py_raises_clear_error():
     """If lightpanda-py is not installed, a clear error must be raised."""
-    with patch("merle_core.playwright.browser.async_playwright") as mock_pw, \
-         patch("builtins.__import__", side_effect=ImportError("No module named 'lightpanda'")):
-
+    with (
+        patch("merle_core.playwright.browser.async_playwright") as mock_pw,
+        patch("builtins.__import__", side_effect=ImportError("No module named 'lightpanda'")),
+    ):
         mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock()
 
         with pytest.raises(BrowserLaunchError, match="lightpanda-py ist nicht installiert"):
@@ -193,6 +182,7 @@ async def test_missing_lightpanda_py_raises_clear_error():
 # ─────────────────────────────────────────────────────────────
 # Readiness Helper Tests
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.mark.asyncio
 async def test_wait_for_lightpanda_ready_success():

@@ -20,28 +20,32 @@ Merle transitions from a promising internal project to a **professional, maintai
 - **Strong Governance Surface**  
   Added full GitHub repository governance: Issue templates, Pull Request template, CODEOWNERS, SECURITY.md, and a comprehensive `.github/` structure.
 
-- **Developer Experience**  
+- **Developer Experience**
+
   - New `justfile` with commands like `just new-bot`, `just lint`, `just test`, `just ci`, `just docker`.
   - Significantly improved root `.dockerignore` and per-bot `.dockerignore.jinja`.
   - Professional multi-stage `Dockerfile.jinja` with explicit monorepo vs. standalone support.
 
 - **High-Quality Reference Implementation**  
   Added `examples/invoice-processing/` — a production-grade reference bot demonstrating:
+
   - `BaseBot` + multiple fine-grained `BaseTask` classes
   - Observability, structured retry, PDF + Excel processing, master data enrichment
   - Professional configuration and error handling
 
-- **Core Library Improvements (`merle-core`)**  
+- **Core Library Improvements (`merle-core`)**
+
   - `BaseBot` ergonomics improved (optional `name` parameter, graceful fallback)
   - Safer handling of optional extras (playwright, nats, azure, observability)
   - Professional OpenTelemetry + Loguru integration using the `patcher` pattern (no more dangerous re-logging sinks)
   - Better testability and resilience patterns
 
-- **CI/CD Maturity**  
+- **CI/CD Maturity**
+
   - Docker CI workflow now actually validates freshly generated bots using the Copier template in monorepo mode.
   - Test suite made CI-friendly (known environment-sensitive tests isolated with `xfail`).
 
-- **Documentation & Process**  
+- **Documentation & Process**
   - New `docs/ROADMAP.md` consolidating vision and phases.
   - Updated `CONTRIBUTING.md` to reflect current professional workflows.
   - Clear deprecation path for legacy artifacts.

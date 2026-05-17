@@ -4,13 +4,13 @@ Hier findest du die zentralen strategischen und konzeptionellen Grundlagen des M
 
 ## Kernkonzepte
 
-| Dokument | Beschreibung |
-|----------|--------------|
-| [Strategie](strategie.md) | Python-First als verbindliche Ausrichtung |
-| [Entscheidungsmatrix](entscheidungsmatrix.md) | Wann Python, wann UiPath? (mit visuellem Entscheidungsbaum) |
-| [Governance](governance.md) | Die 10 verbindlichen Regeln + visuelles Poster |
-| [Projektstruktur](projektstruktur.md) | Repository-Layout, Konventionen und Namensregeln |
-| [Entwicklungsleitfaden](entwicklungsleitfaden.md) | Schritt-für-Schritt Anleitung inkl. Bot Lifecycle |
+| Dokument                                          | Beschreibung                                                |
+| ------------------------------------------------- | ----------------------------------------------------------- |
+| [Strategie](strategie.md)                         | Python-First als verbindliche Ausrichtung                   |
+| [Entscheidungsmatrix](entscheidungsmatrix.md)     | Wann Python, wann UiPath? (mit visuellem Entscheidungsbaum) |
+| [Governance](governance.md)                       | Die 10 verbindlichen Regeln + visuelles Poster              |
+| [Projektstruktur](projektstruktur.md)             | Repository-Layout, Konventionen und Namensregeln            |
+| [Entwicklungsleitfaden](entwicklungsleitfaden.md) | Schritt-für-Schritt Anleitung inkl. Bot Lifecycle           |
 
 ## Weitere wichtige Konzepte
 

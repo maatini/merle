@@ -45,7 +45,7 @@ def mock_browser_context(mock_page):
     context = MagicMock()
     context.new_page = AsyncMock(return_value=mock_page)
     context.close = AsyncMock()
-    context.add_init_script = AsyncMock()          # Critical for _apply_stealth
+    context.add_init_script = AsyncMock()  # Critical for _apply_stealth
     return context
 
 
@@ -61,6 +61,7 @@ def mock_browser(mock_browser_context):
 # ─────────────────────────────────────────────────────────────
 # Lightpanda-specific fixtures
 # ─────────────────────────────────────────────────────────────
+
 
 class FakeLightpandaProcess:
     """Fake object returned by lightpanda.serve() for testing."""

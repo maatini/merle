@@ -7,18 +7,21 @@
 ## Komponenten (v0.2)
 
 ### Kern
+
 - **BaseBot** + **BaseTask** — Abstrakte Basisklassen mit Lifecycle, Timing, Metriken und Self-Healing-Hooks (`_on_success`, `_on_failure`)
 - **RpaHttpClient** — Resilienter async HTTP-Client
 - **retry** — Starke zentrale Policies + `@with_retry(policy=...)` Dekorator
 - **exceptions** — Professionelle, unterscheidbare Exception-Hierarchie
 
 ### Observability (Extra: `observability`)
+
 - `configure_observability(service_name=...)` — Einmal-Setup
 - Automatisches Tracing in `BaseBot` / `BaseTask` (zukünftig)
 - Loguru-Sink mit automatischer `trace_id` / `span_id` Anreicherung
 - Standard-Metriken (`bot_executions_total`, `task_duration_seconds`, `errors_total` etc.)
 
 ### Weitere Module
+
 - `playwright` (Extra `playwright`) – `launch_robust_browser()` mit Stealth, Auto-Screenshot, Proxy + **zwei Engines**:
   - `chromium` (Default)
   - `lightpanda` (Zig-basiert via CDP – 10–16× weniger RAM)

@@ -5,7 +5,7 @@
 repos:
   # Ruff: Linting + Auto-fix (replaces flake8, isort, pyupgrade, etc.)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.6
+    rev: v0.15.13
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -42,15 +42,14 @@ repos:
               .*\.sql
           )$
 
-# Commitizen: Enforce Conventional Commits (feat, fix, docs, refactor, test, chore, etc.)
-# Local: after `uv sync --group dev`, run `uv run pre-commit install`
-# To commit: `git cz` (interactive) or normal `git commit` (hook validates)
-- repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.29.0
-  hooks:
-    - id: commitizen
-      stages: [commit-msg]
-
+  # Commitizen: Enforce Conventional Commits (feat, fix, docs, refactor, test, chore, etc.)
+  # Local: after `uv sync --group dev`, run `uv run pre-commit install`
+  # To commit: `git cz` (interactive) or normal `git commit` (hook validates)
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.16.2
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
 # Optional: additional useful hooks
 #  - repo: https://github.com/pre-commit/pre-commit-hooks
 #    rev: v4.6.0

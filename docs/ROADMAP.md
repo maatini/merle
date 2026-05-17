@@ -21,15 +21,15 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 
 ## Current State (v0.2 – Professional Foundation) ✅
 
-| Layer                    | Component                          | Maturity | Notes |
-|--------------------------|------------------------------------|----------|-------|
-| **Core**                 | `merle-core` (0.3.x)               | ✅ Good  | BaseBot, BaseTask, tenacity retry, OTel observability, Azure secrets, NATS client, **Playwright wrapper mit Chromium + Lightpanda (ADR-0007)**, self-healing hooks |
-| **Scaffolding**          | Copier Template + `merle` CLI      | ✅ Good  | Feature flags, post-gen hooks, `merle new-bot`, governance enforcement |
-| **DX & Tooling**         | uv workspace, Devbox, justfile, pre-commit | ✅ Good | CI (Ruff + mypy + pytest + Trivy), CODEOWNERS, issue/PR templates |
-| **Agent & Governance**   | `.opencode/` + AGENTS.md           | ✅ Excellent | rpa-hybrid agent, governance-validator skill, rpa-bot-generator, binding rules |
-| **Documentation**        | `docs/`, ADRs (0001–0006), visuals | ✅ Strong | Entscheidungsmatrix, Architektur, secrets, NATS foundation ADR |
-| **Examples**             | `examples/`, `integration_examples/` | 🟡 Growing | Web, Excel, NATS task comm, UiPath hybrid |
-| **Docker Story**         | Template Dockerfile + Trivy        | 🟡 Partial | Works but path-dep on merle-core still limits full independence (known issue) |
+| Layer                  | Component                                  | Maturity     | Notes                                                                                                                                                              |
+| ---------------------- | ------------------------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Core**               | `merle-core` (0.3.x)                       | ✅ Good      | BaseBot, BaseTask, tenacity retry, OTel observability, Azure secrets, NATS client, **Playwright wrapper mit Chromium + Lightpanda (ADR-0007)**, self-healing hooks |
+| **Scaffolding**        | Copier Template + `merle` CLI              | ✅ Good      | Feature flags, post-gen hooks, `merle new-bot`, governance enforcement                                                                                             |
+| **DX & Tooling**       | uv workspace, Devbox, justfile, pre-commit | ✅ Good      | CI (Ruff + mypy + pytest + Trivy), CODEOWNERS, issue/PR templates                                                                                                  |
+| **Agent & Governance** | `.opencode/` + AGENTS.md                   | ✅ Excellent | rpa-hybrid agent, governance-validator skill, rpa-bot-generator, binding rules                                                                                     |
+| **Documentation**      | `docs/`, ADRs (0001–0006), visuals         | ✅ Strong    | Entscheidungsmatrix, Architektur, secrets, NATS foundation ADR                                                                                                     |
+| **Examples**           | `examples/`, `integration_examples/`       | 🟡 Growing   | Web, Excel, NATS task comm, UiPath hybrid                                                                                                                          |
+| **Docker Story**       | Template Dockerfile + Trivy                | 🟡 Partial   | Works but path-dep on merle-core still limits full independence (known issue)                                                                                      |
 
 **Milestone achieved:** Merle is now a **professional, reviewable, internal-enterprise-ready RPA framework**. No longer "just a good first push".
 
@@ -40,6 +40,7 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 ## Near-Term (v0.3 – DX, Hardening & Real Examples) — Q2/Q3 2026
 
 **Goals:**
+
 - At least 3–4 **production-grade reference bots** in `examples/` (Invoice processing with PDF+Excel+Mail, SAP GUI via Playwright or rpaframework, Document classification with KI fallback, HR onboarding with HITL)
 - `merle-core` observability & self-healing patterns hardened (Phase 2 plan in `docs/plans/phase2-merle-core-observability.md`)
 - Docker template for generated bots works **without** workspace path dependencies (multi-stage + proper wheel publishing of merle-core or vendoring strategy)
@@ -66,6 +67,7 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 - First **resource-aware scheduler** prototype (GPU / RAM / UiPath license tags)
 
 **Success Criteria:**
+
 - A complex business process can be split into 5–12 granular tasks that run on different workers with automatic retry, priority, and observability.
 - Task execution history is queryable and visualizable.
 

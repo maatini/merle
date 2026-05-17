@@ -19,6 +19,7 @@ copier copy templates/bot python_bots/mein_bot
 ```
 
 **Die Quelle der Wahrheit ist ausschließlich:**
+
 - `templates/bot/` + `copier.yml` + Jinja-Templates + `hooks/post_gen_project.py`
 - `tools/merle/` (die `merle` CLI, als uv-Workspace-Member installiert)
 
@@ -48,6 +49,7 @@ Die manuelle `cp -r`-Methode wird **nicht mehr supported**.
 ---
 
 **Weiterführend:**
+
 - `just --list` (zeigt `new-bot`)
 - `uv run merle new-bot --help`
 - [templates/bot/README.md](../templates/bot/README.md)

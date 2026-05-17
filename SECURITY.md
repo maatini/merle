@@ -17,14 +17,14 @@ Instead, report security issues **privately** via one of the following channels:
    martin.richardt@maatini.space  
    (PGP key available on request)
 
-3. **Internal escalation**  
+3. **Internal escalation**
    - RPA Core Team via internal Slack / Jira Security ticket
    - For high-severity: immediate page to on-call (see .opencode/ or internal runbook)
 
 ## Supported Versions
 
-| Version | Supported          |
-|---------|--------------------|
+| Version | Supported              |
+| ------- | ---------------------- |
 | 0.2.x   | ✅ Current (Phase 1/2) |
 | < 0.2   | ❌ No longer supported |
 
@@ -38,11 +38,12 @@ Instead, report security issues **privately** via one of the following channels:
 - `merle validate` (governance + basic hygiene)
 
 All findings with CRITICAL/HIGH severity are treated as blocking for production bot deployments.  
-   Use the `#security` or `#merle-rpa` channel in the internal Slack/Teams workspace and tag `@merle-security`.
+ Use the `#security` or `#merle-rpa` channel in the internal Slack/Teams workspace and tag `@merle-security`.
 
 ## Scope
 
 This policy covers:
+
 - `merle-core` (python_bots/shared/src/merle_core)
 - Official Copier bot template (`templates/bot/`)
 - `merle` CLI (`tools/merle/`)

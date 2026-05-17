@@ -20,14 +20,14 @@ uv add merle-core[nats]                     # + NATS Client (Phase 4)
 
 ## Kern-Module
 
-| Modul | Beschreibung | Dokumentation |
-|-------|--------------|---------------|
-| **BaseBot & BaseTask** | Grundgerüst für alle Bots und Tasks | [Base Classes](base-classes.md) |
-| **Retry & Resilienz** | `@with_retry` + vordefinierte Policies | [Retry](retry.md) |
-| **Observability** | Loguru + OpenTelemetry (Traces, Metrics, Logs) | [Observability](observability.md) |
-| **Playwright Wrapper** | Browser-Automatisierung (Chromium + Lightpanda via CDP) | [Playwright](playwright.md) |
-| **Secrets** | Azure Key Vault + pydantic-settings | [Secrets](secrets.md) |
-| **NATS Client** | Publish/Subscribe + Request/Reply (Phase 4) | [NATS](nats.md) |
+| Modul                  | Beschreibung                                            | Dokumentation                     |
+| ---------------------- | ------------------------------------------------------- | --------------------------------- |
+| **BaseBot & BaseTask** | Grundgerüst für alle Bots und Tasks                     | [Base Classes](base-classes.md)   |
+| **Retry & Resilienz**  | `@with_retry` + vordefinierte Policies                  | [Retry](retry.md)                 |
+| **Observability**      | Loguru + OpenTelemetry (Traces, Metrics, Logs)          | [Observability](observability.md) |
+| **Playwright Wrapper** | Browser-Automatisierung (Chromium + Lightpanda via CDP) | [Playwright](playwright.md)       |
+| **Secrets**            | Azure Key Vault + pydantic-settings                     | [Secrets](secrets.md)             |
+| **NATS Client**        | Publish/Subscribe + Request/Reply (Phase 4)             | [NATS](nats.md)                   |
 
 ---
 

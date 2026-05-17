@@ -148,6 +148,6 @@ Neues Projekt
 
 ## Revision
 
-| Version | Datum | Änderung | Autor |
-|---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |
+| Version | Datum      | Änderung         | Autor                      |
+| ------- | ---------- | ---------------- | -------------------------- |
+| 1.0     | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

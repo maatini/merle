@@ -1,11 +1,13 @@
 # Devbox Development Environment (Standard für Merle)
 
 ## Purpose
+
 Stellt die **kanonische, reproduzierbare Entwicklungsumgebung** für das gesamte Merle-Projekt bereit (Python 3.11, uv, pre-commit, Node.js 20, Copier, etc.) mithilfe von [Devbox](https://www.jetify.com/devbox) (Nix-basiert).
 
 **Devbox + direnv ist die offizielle Standard-Entwicklungsumgebung.** Alle Teammitglieder und AI-Agenten (OpenCode, Claude, etc.) **müssen** diese Umgebung standardmäßig verwenden.
 
 ## When to Use (Immer!)
+
 - Beim Start jeder lokalen Entwicklungssession (`cd` ins Projektverzeichnis)
 - Vor jedem `uv sync`, `ruff`, `pytest`, `merle new-bot`, `pre-commit`, `copier`, `mkdocs` etc.
 - Wenn der RPA-Hybrid-Architekt oder ein Sub-Agent Shell-Befehle ausführen soll
@@ -15,6 +17,7 @@ Stellt die **kanonische, reproduzierbare Entwicklungsumgebung** für das gesamte
 ## Aktivierung (Standardmäßig)
 
 ### Empfohlener Weg: direnv (automatisch)
+
 ```bash
 # Einmalig einrichten
 brew install direnv devbox   # macOS / entsprechend für Linux/WSL
@@ -26,6 +29,7 @@ cd /Volumes/SSD2TB/work/antigravity/merle
 ```
 
 ### Alternativer Weg
+
 ```bash
 devbox shell          # Interaktive Shell mit kompletter Env
 # oder

@@ -21,17 +21,20 @@ Despite this, there is a risk that the repository on GitHub (`maatini/merle`) is
 ### Concrete Steps for Maintainer (execute immediately)
 
 1. **GitHub UI (one-time):**
+
    - Go to https://github.com/maatini/merle/settings
    - Under "Danger Zone" → "Change repository visibility" → Select **Private**
    - Confirm. All existing forks/clones of public version must be deleted by owners.
    - Immediately rotate any secrets that might have leaked (Azure keys, NATS creds, etc.) if any were ever committed.
 
 2. **Update all public references (this repo):**
+
    - Badges in README.md / README.en.md must not promise public access.
    - Clone instructions must assume authenticated access (SSH or PAT).
    - No public PyPI / npm / Docker Hub publishing of merle-core or template without explicit approval.
 
 3. **Legal & Compliance:**
+
    - Every contributor (employee/contractor) must have signed NDA + confidentiality agreement before gaining access.
    - Access via GitHub teams: `rpa-core`, `rpa-bots`, `rpa-infra` with least-privilege.
    - Audit log review enabled.

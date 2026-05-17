@@ -44,6 +44,7 @@
 ---
 
 **Reviewer notes for Merle maintainers:**
+
 - Does this change affect the **official template** or **merle-core** contract? → High priority review.
 - Does it introduce new optional extras in `merle-core`? → Update `pyproject.toml` + docs/merle-core/
 - Is a new ADR required? (architectural or governance impact)

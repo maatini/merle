@@ -1,1 +1,6 @@
-{"invoice_id": "INV-2025-0043", "supplier": "Globex AG", "amount": 875.5, "date": "2025-05-11"}
+{
+  "invoice_id": "INV-2025-0043",
+  "supplier": "Globex AG",
+  "amount": 875.5,
+  "date": "2025-05-11"
+}

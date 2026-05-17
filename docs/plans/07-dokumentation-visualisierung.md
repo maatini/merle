@@ -8,15 +8,17 @@
 
 ## 1. Vision: „Docs, die man verstehen will“
 
-Merle-Dokumentation soll **nicht nur korrekt**, sondern **überzeugend und sofort verständlich** sein. 
+Merle-Dokumentation soll **nicht nur korrekt**, sondern **überzeugend und sofort verständlich** sein.
 
 **Zielbild 2026:**
+
 - Neue Entwickler verstehen innerhalb von **15 Minuten**, warum Python-First gilt und wie ein guter Merle-Bot aussieht.
 - Die Entscheidungsmatrix und die 10 Governance-Regeln sind **visuell so stark**, dass man sie ausdrucken und an die Wand hängen möchte.
 - Architektur-Diagramme (C4 + NATS-Vision) sind der Standard für alle internen und externen Reviews.
 - OpenCode + der RPA-Hybrid-Architekt wird durch klare Visuals als echter Produktivitäts-Booster verstanden.
 
 **Leitprinzipien für Visuals:**
+
 - Weniger Text, mehr Bild
 - Ein Diagramm ersetzt oft 3–4 Absätze
 - Mermaid für versionierte, wartbare Diagramme (Architecture, Flows)
@@ -27,17 +29,17 @@ Merle-Dokumentation soll **nicht nur korrekt**, sondern **überzeugend und sofor
 
 ## 2. Aktuelle Schwachstellen (Gap Analysis)
 
-| Bereich                    | Problem                                      | Auswirkung                          | Priorität |
-|---------------------------|----------------------------------------------|-------------------------------------|---------|
-| **Navigation & Struktur** | MkDocs-Nav zeigt viele nicht-existierende Seiten (`concepts/strategie.md`, ganze `merle-core/` Sektion, `development/`) | Verwirrung, hohe Einstiegshürde   | P0 |
-| **Entscheidungsmatrix**   | Nur ASCII-Art Flowchart                      | Wirkt veraltet, schwer lesbar       | P0 |
-| **Governance (10 Regeln)**| Reine Text-Liste, keine visuelle Übersicht   | Regeln werden nicht verinnerlicht   | P0 |
-| **Bot Lifecycle**         | Kein durchgängiges visuelles Modell          | Unklar, wie ein Bot von Idee bis AKS kommt | P1 |
-| **NATS Vision**           | Nur Tabelle in architecture.md               | Komplexe Phase-4-Architektur schwer vorstellbar | P1 |
-| **OpenCode Integration**  | Nur Text in README + AGENTS.md               | Viele verstehen nicht, wie `.opencode/` + Fork zusammenwirken | P1 |
-| **merle-core Komponenten**| Kein Komponenten-Diagramm                    | Schwierig zu erklären, was drin ist | P2 |
-| **Hybrid Patterns**       | Nur Code-Beispiele                           | Integrationsmuster nicht intuitiv   | P2 |
-| **Bilder & Assets**       | Praktisch keine Bilder im `docs/`            | Niedrige visuelle Attraktivität     | P0 |
+| Bereich                    | Problem                                                                                                                 | Auswirkung                                                    | Priorität |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
+| **Navigation & Struktur**  | MkDocs-Nav zeigt viele nicht-existierende Seiten (`concepts/strategie.md`, ganze `merle-core/` Sektion, `development/`) | Verwirrung, hohe Einstiegshürde                               | P0        |
+| **Entscheidungsmatrix**    | Nur ASCII-Art Flowchart                                                                                                 | Wirkt veraltet, schwer lesbar                                 | P0        |
+| **Governance (10 Regeln)** | Reine Text-Liste, keine visuelle Übersicht                                                                              | Regeln werden nicht verinnerlicht                             | P0        |
+| **Bot Lifecycle**          | Kein durchgängiges visuelles Modell                                                                                     | Unklar, wie ein Bot von Idee bis AKS kommt                    | P1        |
+| **NATS Vision**            | Nur Tabelle in architecture.md                                                                                          | Komplexe Phase-4-Architektur schwer vorstellbar               | P1        |
+| **OpenCode Integration**   | Nur Text in README + AGENTS.md                                                                                          | Viele verstehen nicht, wie `.opencode/` + Fork zusammenwirken | P1        |
+| **merle-core Komponenten** | Kein Komponenten-Diagramm                                                                                               | Schwierig zu erklären, was drin ist                           | P2        |
+| **Hybrid Patterns**        | Nur Code-Beispiele                                                                                                      | Integrationsmuster nicht intuitiv                             | P2        |
+| **Bilder & Assets**        | Praktisch keine Bilder im `docs/`                                                                                       | Niedrige visuelle Attraktivität                               | P0        |
 
 ---
 
@@ -48,10 +50,12 @@ Merle-Dokumentation soll **nicht nur korrekt**, sondern **überzeugend und sofor
 **Ziel:** Struktur stabilisieren + erste starke Visuals liefern.
 
 1. **MkDocs Navigation reparieren**
+
    - Entweder flache Struktur beibehalten (01–06) oder echte Ordnerstruktur unter `concepts/`, `merle-core/`, `development/` anlegen.
    - Empfehlung: **Hybride Struktur** — Nummerierte Kern-Docs bleiben, zusätzlich thematische Ordner mit besseren Namen.
 
 2. **Hero Visuals erstellen** (dieser Plan)
+
    - Entscheidungsfluss Python vs. UiPath (professionelles Flowchart)
    - Die 10 Governance-Regeln als visuelle Karte / Icon-Grid
    - Merle Bot Lifecycle (End-to-End)
@@ -78,20 +82,20 @@ Merle-Dokumentation soll **nicht nur korrekt**, sondern **überzeugend und sofor
 
 ### P0 – Sofort umsetzen (nächste 4 Wochen)
 
-| # | Visual | Typ | Wo platziert? | Warum wichtig? | Aufwand |
-|---|--------|-----|---------------|----------------|--------|
-| 1 | **Python vs. UiPath Entscheidungsfluss** | Schönes farbiges Flowchart (mit Icons) | `docs/02_Wann_Python_vs_UiPath.md` + `index.md` | Ersetzt schwaches ASCII, wird am häufigsten gebraucht | Mittel |
-| 2 | **Die 10 Governance-Regeln – Visuelle Übersicht** | Icon-Grid / Poster-Style (10 Karten) | `docs/03_Governance.md` + als eigenes One-Pager | Regeln werden endlich verinnerlicht und diskutiert | Hoch |
-| 3 | **Merle Bot Lifecycle** (Idee → Template → Entwicklung → CI/CD → AKS + Monitoring) | Horizontales Timeline-Diagramm | `docs/05_Entwicklungsleitfaden.md` + Getting Started | Macht den gesamten Prozess greifbar | Mittel |
-| 4 | **C4 Architecture – NATS-Variante** | Erweitertes Mermaid C4 (Level 1–3) | `docs/concepts/architecture.md` | Macht Phase-4-Vision konkret | Mittel |
+| #   | Visual                                                                             | Typ                                    | Wo platziert?                                        | Warum wichtig?                                        | Aufwand |
+| --- | ---------------------------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------- | ------- |
+| 1   | **Python vs. UiPath Entscheidungsfluss**                                           | Schönes farbiges Flowchart (mit Icons) | `docs/02_Wann_Python_vs_UiPath.md` + `index.md`      | Ersetzt schwaches ASCII, wird am häufigsten gebraucht | Mittel  |
+| 2   | **Die 10 Governance-Regeln – Visuelle Übersicht**                                  | Icon-Grid / Poster-Style (10 Karten)   | `docs/03_Governance.md` + als eigenes One-Pager      | Regeln werden endlich verinnerlicht und diskutiert    | Hoch    |
+| 3   | **Merle Bot Lifecycle** (Idee → Template → Entwicklung → CI/CD → AKS + Monitoring) | Horizontales Timeline-Diagramm         | `docs/05_Entwicklungsleitfaden.md` + Getting Started | Macht den gesamten Prozess greifbar                   | Mittel  |
+| 4   | **C4 Architecture – NATS-Variante**                                                | Erweitertes Mermaid C4 (Level 1–3)     | `docs/concepts/architecture.md`                      | Macht Phase-4-Vision konkret                          | Mittel  |
 
 ### P1 – Phase 4 begleitend
 
-| # | Visual | Typ | Wo? | Zweck |
-|---|--------|-----|-----|-------|
-| 5 | **NATS Orchestrierung – Moderne Architektur** | Layered Architecture (Publishers, JetStream, Workers, DLQ, Cobra, Grafana) | Neues Kapitel in `concepts/` oder `merle-core/nats.md` | Verständnis für die größte zukünftige Architekturveränderung |
-| 6 | **OpenCode RPA-Hybrid Integration** | Komponenten-Diagramm (`.opencode/` → Agent/Skills/Tool → rpa-hybrid Persona) | README.md + neuer Abschnitt „KI-gestützte Entwicklung“ | Erklärt den neuen Produktivitätsvorteil klar |
-| 7 | **merle-core Bausteine** | Modular Architecture Diagram | `docs/merle-core/` (wenn aufgebaut) | Zeigt, was man mit `uv add merle-core[...]` wirklich bekommt |
+| #   | Visual                                        | Typ                                                                          | Wo?                                                    | Zweck                                                        |
+| --- | --------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| 5   | **NATS Orchestrierung – Moderne Architektur** | Layered Architecture (Publishers, JetStream, Workers, DLQ, Cobra, Grafana)   | Neues Kapitel in `concepts/` oder `merle-core/nats.md` | Verständnis für die größte zukünftige Architekturveränderung |
+| 6   | **OpenCode RPA-Hybrid Integration**           | Komponenten-Diagramm (`.opencode/` → Agent/Skills/Tool → rpa-hybrid Persona) | README.md + neuer Abschnitt „KI-gestützte Entwicklung“ | Erklärt den neuen Produktivitätsvorteil klar                 |
+| 7   | **merle-core Bausteine**                      | Modular Architecture Diagram                                                 | `docs/merle-core/` (wenn aufgebaut)                    | Zeigt, was man mit `uv add merle-core[...]` wirklich bekommt |
 
 ### P2 – Nice-to-have
 
@@ -159,4 +163,4 @@ docs/
 
 ---
 
-*Erstellt von Grok 4.3 im Rahmen der RPA-Hybrid-Architektur-Unterstützung – Mai 2026*
+_Erstellt von Grok 4.3 im Rahmen der RPA-Hybrid-Architektur-Unterstützung – Mai 2026_

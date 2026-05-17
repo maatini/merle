@@ -11,6 +11,7 @@
 Jeder neue Merle-Bot startet mit einem starken, beobachtbaren, resilienten Fundament aus `merle-core`. Entwickler schreiben fast nur noch Business-Logik, nicht mehr Infrastruktur (Retry, Logging, Secrets, Browser-Steuerung, Monitoring).
 
 **Erfolgsmetriken (Phase 2):**
+
 - `merle-core` v0.2 enthält **mindestens 8–10** hochwertige, getestete Module
 - Jeder Bot kann mit `uv add merle-core[playwright,azure,observability]` ein vollständiges Observability- und Resilience-Stack bekommen
 - Neue Governance-Regel: **„Jeder Bot muss merle-core verwenden“**
@@ -91,6 +92,7 @@ Das ergibt **ca. 10–12 logische Module**, gruppiert in sinnvolle Namespaces.
 Ziel: Kein Bot schreibt mehr rohes Playwright.
 
 Features:
+
 - `RobustBrowser` Context Manager
 - Stealth (playwright-stealth oder eigene Implementierung)
 - Automatisches Screenshot + HTML-Dump bei Fehlern (in `logs/failures/`)
@@ -162,19 +164,14 @@ data = ["pandas>=2.0", "openpyxl>=3.1", "pdfplumber>=0.10"]
 ## 7. Umsetzungsreihenfolge (empfohlen)
 
 **Woche 3 – Fundament & Observability**
+
 1. `exceptions.py` + `retry.py` (zentral)
 2. Erweiterung von `BaseBot` + Einführung von `BaseTask`
 3. `observability/` Paket (Metrics + Tracing)
 4. `logging.py` mit OTEL-Sink
 5. ADR-0005 schreiben
 
-**Woche 4 – Power-Features**
-6. `playwright/` Wrapper (hoher Wert)
-7. `secrets/` + Azure Key Vault + Pydantic Integration
-8. `uipath/` Queue Helpers (basiert auf bestehendem Beispiel)
-9. `data/` (Excel + PDF) – priorisiert nach Bedarf
-10. Neue Governance-Regel + Guideline-Dokument `docs/06_Secrets_Management.md`
-11. Update des Templates (`templates/bot/`) auf `merle-core>=0.2`
+**Woche 4 – Power-Features** 6. `playwright/` Wrapper (hoher Wert) 7. `secrets/` + Azure Key Vault + Pydantic Integration 8. `uipath/` Queue Helpers (basiert auf bestehendem Beispiel) 9. `data/` (Excel + PDF) – priorisiert nach Bedarf 10. Neue Governance-Regel + Guideline-Dokument `docs/06_Secrets_Management.md` 11. Update des Templates (`templates/bot/`) auf `merle-core>=0.2`
 
 ---
 
@@ -182,6 +179,7 @@ data = ["pandas>=2.0", "openpyxl>=3.1", "pdfplumber>=0.10"]
 
 1. **Priorisierung der Module**  
    Welche 3–4 Module sind in den nächsten 2 Wochen **am wichtigsten**?
+
    - Playwright Wrapper?
    - Azure Key Vault + Secrets?
    - OpenTelemetry Observability?

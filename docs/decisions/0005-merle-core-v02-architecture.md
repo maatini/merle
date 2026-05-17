@@ -37,6 +37,7 @@ merle_core/
 ```
 
 **Wichtige Prinzipien:**
+
 - Kern bleibt leicht (`loguru`, `tenacity`, `httpx`, `pydantic-settings`)
 - Alles Weitere kommt über **optionale Extras** (`playwright`, `azure`, `observability`, `data`)
 - Jede neue Basisklasse (`BaseTask`, RobustPlaywright etc.) emittiert automatisch Metriken und Traces
@@ -58,11 +59,13 @@ Manuelles Nachimplementieren von Logging, Retry, Browser-Handling oder Secrets-H
 ## 5. Konsequenzen
 
 **Positiv:**
+
 - Starke Reduktion von Duplizierung und Fehlerquellen
 - Einheitliche Observability über alle Bots (Grafana/Loki/Tempo ready)
 - Bessere Self-Healing-Fähigkeit von Bots
 
 **Negativ / Risiken:**
+
 - Erhöhter Initialaufwand beim Aufbau von `merle-core`
 - Lernkurve für Entwickler (neue Imports und Patterns)
 - Komplexität durch optionale Extras

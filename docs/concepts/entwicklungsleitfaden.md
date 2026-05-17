@@ -15,6 +15,7 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 ## Phase 1: Anforderungsanalyse und Technologieentscheidung
 
 ### Schritt 1: Prozess verstehen
+
 1. Prozessbeschreibung vom Fachbereich einholen
 2. Input-/Output-Daten identifizieren
 3. Systeme und Schnittstellen auflisten
@@ -22,6 +23,7 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 5. Fehlertoleranz und SLAs klären
 
 ### Schritt 2: Technologieentscheidung treffen
+
 1. Entscheidungsmatrix (`entscheidungsmatrix.md`) anwenden
 2. Bei Python-Domäne: Direkt zu Phase 2
 3. Bei unklarem Fall: Scoring-Modell anwenden
@@ -33,6 +35,7 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 ## Phase 2: Bot-Gerüst aufsetzen
 
 ### Schritt 1: Bot mit Copier erzeugen (empfohlen)
+
 ```bash
 # Mit der Merle CLI (beste DX)
 merle new-bot <bot_name> --playwright --pandas
@@ -52,11 +55,13 @@ uv sync --group dev
 > **Browser-Engine (seit 2026-05)**: Bei `--playwright` kannst du mit `--browser-engine lightpanda` die Zig-basierte Lightpanda-Engine wählen (10–16× weniger RAM, 5–11× schneller). Default bleibt `chromium` für maximale Kompatibilität + Screenshot/PDF-Fähigkeit. Siehe ADR-0007.
 
 ### Schritt 2: Konfiguration anpassen
+
 1. `config.py`: Settings-Klasse mit projektspezifischen Feldern
 2. `.env.example`: Alle Konfigurationsvariablen dokumentieren
 3. `.env`: Lokale Entwicklungskonfiguration (in .gitignore)
 
 ### Schritt 3: Abhängigkeiten definieren
+
 1. `requirements.txt`: Nur benötigte Pakete
 2. Version-Pinning nach Konvention (siehe `projektstruktur.md`)
 
@@ -65,6 +70,7 @@ uv sync --group dev
 ## Phase 3: Implementierung
 
 ### Reihenfolge
+
 1. **Datenmodelle** (`models.py`) — Pydantic-Modelle für Input/Output
 2. **Konfiguration** (`config.py`) — Vollständige Settings
 3. **Geschäftslogik** (`tasks/`) — In fokussierte Module aufteilen
@@ -73,6 +79,7 @@ uv sync --group dev
 ### Coding-Standards
 
 #### Logging (loguru)
+
 ```python
 from loguru import logger
 
@@ -81,6 +88,7 @@ logger.error("Fehler bei API-Aufruf: {}", error)
 ```
 
 #### Retry (tenacity)
+
 ```python
 from tenacity import retry, stop_after_attempt, wait_exponential
 
@@ -90,6 +98,7 @@ async def call_external_api(url: str) -> dict:
 ```
 
 #### Konfiguration (pydantic-settings)
+
 ```python
 from pydantic_settings import BaseSettings
 
@@ -102,6 +111,7 @@ class BotSettings(BaseSettings):
 ```
 
 #### HTTP-Client (httpx, async-first)
+
 ```python
 import httpx
 
@@ -116,6 +126,7 @@ async with httpx.AsyncClient(timeout=30.0) as client:
 ## Phase 4: Testing
 
 ### Unit-Tests
+
 ```python
 # tests/test_main.py
 import pytest
@@ -131,6 +142,7 @@ def test_process_data_missing_field():
 ```
 
 ### Integration-Tests mit Mocks
+
 ```python
 from unittest.mock import AsyncMock, patch
 
@@ -143,6 +155,7 @@ async def test_api_integration():
 ```
 
 ### Playwright E2E-Tests
+
 ```python
 from playwright.async_api import async_playwright
 
@@ -160,12 +173,14 @@ async def test_login_flow():
 ## Phase 5: Docker und CI/CD
 
 ### Docker-Build lokal testen
+
 ```bash
 docker build -t bot-name .
 docker run --env-file .env bot-name
 ```
 
 ### CI/CD-Pipeline (GitHub Actions Beispiel)
+
 ```yaml
 name: Bot CI
 on: [push, pull_request]
@@ -176,7 +191,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - run: pip install -r requirements.txt
       - run: pytest tests/ -v
   docker:
@@ -193,36 +208,44 @@ jobs:
 ## Phase 6: Dokumentation und Übergabe
 
 ### README.md Template
-```markdown
+
+````markdown
 # <Bot-Name>
 
 ## Zweck
+
 Kurze Beschreibung, was der Bot macht.
 
 ## Konfiguration
-| Variable | Beschreibung | Default |
-|----------|-------------|---------|
-| `BOT_TARGET_URL` | Ziel-URL | — |
-| `BOT_API_KEY` | API-Key | — |
-| `LOG_LEVEL` | Log-Level | `INFO` |
+
+| Variable         | Beschreibung | Default |
+| ---------------- | ------------ | ------- |
+| `BOT_TARGET_URL` | Ziel-URL     | —       |
+| `BOT_API_KEY`    | API-Key      | —       |
+| `LOG_LEVEL`      | Log-Level    | `INFO`  |
 
 ## Entwicklung
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python main.py
 ```
+````
 
 ## Docker
+
 ```bash
 docker build -t bot-name .
 docker run --env-file .env bot-name
 ```
 
 ## Betrieb
+
 - **Frequenz**: Stündlich
 - **Erwartete Laufzeit**: < 5 Minuten
 - **Fehlerbehandlung**: 3 Retries, dann Alert
+
 ```
 
 ---
@@ -251,3 +274,4 @@ docker run --env-file .env bot-name
 | Version | Datum | Änderung | Autor |
 |---------|-------|----------|-------|
 | 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |
+```

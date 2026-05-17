@@ -1,7 +1,7 @@
 # Merle
 
 **Modular Enterprise RPA Lifecycle Engine**  
-*Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation at enterprise scale.*
+_Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation at enterprise scale._
 
 **80–90 % of automations in modern Python** (Playwright with Chromium or Lightpanda engine, pandas, Prefect 3, NATS, OpenTelemetry) — **UiPath only when it delivers a proven architectural advantage**.
 
@@ -30,15 +30,15 @@ See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lin
 
 ## Professional Status — v0.2 (Foundation Complete)
 
-| Area                    | Status     | Notes |
-|-------------------------|------------|-------|
-| `merle-core`            | ✅ 0.2.0   | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel), secrets (Azure), NATS client, Playwright wrapper (Chromium + Lightpanda) |
-| Copier Template         | ✅         | `templates/bot/` with feature flags (playwright, pandas, pdf, uipath_orchestrator, base_bot) + post-gen hook |
-| CLI                     | ✅         | `merle new-bot`, governance validation via `tools/merle` |
-| OpenCode Integration    | ✅         | `.opencode/` with `rpa-hybrid` agent, `governance-validator`, `rpa-bot-generator`, `/rpa-new-bot` command |
-| CI / Quality            | ✅         | `.github/workflows/ci.yml` + `docker-build.yml` (Ruff, mypy, pytest, pre-commit, Trivy) |
-| Governance              | ✅         | `AGENTS.md`, 6+ ADRs, Entscheidungsmatrix, CODEOWNERS, issue/PR templates, SECURITY.md |
-| DX                      | ✅         | `justfile`, Devbox + direnv, uv workspace, excellent docs structure |
+| Area                 | Status   | Notes                                                                                                                                   |
+| -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `merle-core`         | ✅ 0.2.0 | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel), secrets (Azure), NATS client, Playwright wrapper (Chromium + Lightpanda) |
+| Copier Template      | ✅       | `templates/bot/` with feature flags (playwright, pandas, pdf, uipath_orchestrator, base_bot) + post-gen hook                            |
+| CLI                  | ✅       | `merle new-bot`, governance validation via `tools/merle`                                                                                |
+| OpenCode Integration | ✅       | `.opencode/` with `rpa-hybrid` agent, `governance-validator`, `rpa-bot-generator`, `/rpa-new-bot` command                               |
+| CI / Quality         | ✅       | `.github/workflows/ci.yml` + `docker-build.yml` (Ruff, mypy, pytest, pre-commit, Trivy)                                                 |
+| Governance           | ✅       | `AGENTS.md`, 6+ ADRs, Entscheidungsmatrix, CODEOWNERS, issue/PR templates, SECURITY.md                                                  |
+| DX                   | ✅       | `justfile`, Devbox + direnv, uv workspace, excellent docs structure                                                                     |
 
 **📖 Source Available — Proprietary License**  
 This repository is publicly visible (since 2026-05, see [ADR-0009](./docs/decisions/0009-repository-public-source-available.md)). All code remains **copyrighted property of Martin Richardt**. Productive use, modification or redistribution requires an explicit license / valid NDA. See [LICENSE](./LICENSE) and [ADR-0009](./docs/decisions/0009-repository-public-source-available.md). Unauthorized commercial use will be prosecuted.
@@ -47,14 +47,14 @@ This repository is publicly visible (since 2026-05, see [ADR-0009](./docs/decisi
 
 ## Philosophy (identical to German primary)
 
-| Principle            | Description |
-|----------------------|-------------|
-| **Python-First**     | Python is the default for 80–90 % of all automations (Playwright, pandas, Prefect, loguru, tenacity, NATS) |
+| Principle                 | Description                                                                                                  |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Python-First**          | Python is the default for 80–90 % of all automations (Playwright, pandas, Prefect, loguru, tenacity, NATS)   |
 | **UiPath only justified** | UiPath is used **only** when there is a proven qualitative/architectural advantage (see Entscheidungsmatrix) |
-| **Template-First**   | Every new Python bot **must** be created exclusively via `merle new-bot` / `templates/bot/` (Copier) |
-| **Container-ready**  | Every bot runs in Linux containers (multi-stage Dockerfile.jinja, monorepo pattern) |
-| **Test-driven**      | Unit + integration tests, pre-commit, full CI matrix, `merle validate` |
-| **Governance**       | Binding rules in AGENTS.md, ADRs, decision matrix, CODEOWNERS, strict review process |
+| **Template-First**        | Every new Python bot **must** be created exclusively via `merle new-bot` / `templates/bot/` (Copier)         |
+| **Container-ready**       | Every bot runs in Linux containers (multi-stage Dockerfile.jinja, monorepo pattern)                          |
+| **Test-driven**           | Unit + integration tests, pre-commit, full CI matrix, `merle validate`                                       |
+| **Governance**            | Binding rules in AGENTS.md, ADRs, decision matrix, CODEOWNERS, strict review process                         |
 
 ## Documentation (German primary — English parity in progress)
 
@@ -78,6 +78,7 @@ English docs in `docs/` subdirectories are currently secondary. `README.en.md` i
 See the detailed vision in the German [README.md](./README.md#vision--zukünftige-erweiterungen) and the upcoming `docs/ROADMAP.md`.
 
 **High-level phases:**
+
 - **Foundation (v0.2 – current):** Core library, Copier template, CLI, CI/CD, governance, OpenCode hybrid agent
 - **DX & Hardening (v0.3):** More real-world examples, observability dashboards, self-healing patterns, Docker story for generated bots
 - **Orchestration (v0.4+):** NATS + JetStream as the backbone for granular task distribution, priority scheduling, resource-aware routing
@@ -88,6 +89,7 @@ See the detailed vision in the German [README.md](./README.md#vision--zukünftig
 See [CONTRIBUTING.md](./CONTRIBUTING.md) and the strict [AGENTS.md](./AGENTS.md) (especially "Python is the Default" and "Template-First").
 
 All new bots **must** be created via:
+
 ```bash
 merle new-bot my_process --playwright
 # or

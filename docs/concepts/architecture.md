@@ -47,16 +47,17 @@ C4Container
 
 ## Aktueller Stand: Prefect vs. NATS
 
-| Aspekt                    | Prefect 3 (aktuell)          | NATS + JetStream (Vision)              | Status |
-|---------------------------|------------------------------|----------------------------------------|--------|
-| Orchestrierung            | Zentraler Server             | Dezentral, hochskalierbar              | Phase 4 geplant |
-| State Management          | Prefect DB                   | NATS KV + Streams                      | - |
-| UI / Transparenz          | Prefect UI                   | Cobra-NATS + BPMNinja                  | - |
-| Self-Healing              | Begrenzt                     | Stark (Retry + Circuit Breaker)        | Schon in merle-core |
-| Multi-Tenant / Isolation  | Gut                          | Exzellent (Streams + Consumers)        | - |
-| Kosten / Betrieb          | Server notwendig             | Leichtgewichtig (kann in AKS laufen)   | - |
+| Aspekt                   | Prefect 3 (aktuell) | NATS + JetStream (Vision)            | Status              |
+| ------------------------ | ------------------- | ------------------------------------ | ------------------- |
+| Orchestrierung           | Zentraler Server    | Dezentral, hochskalierbar            | Phase 4 geplant     |
+| State Management         | Prefect DB          | NATS KV + Streams                    | -                   |
+| UI / Transparenz         | Prefect UI          | Cobra-NATS + BPMNinja                | -                   |
+| Self-Healing             | Begrenzt            | Stark (Retry + Circuit Breaker)      | Schon in merle-core |
+| Multi-Tenant / Isolation | Gut                 | Exzellent (Streams + Consumers)      | -                   |
+| Kosten / Betrieb         | Server notwendig    | Leichtgewichtig (kann in AKS laufen) | -                   |
 
 **Aktuelle Empfehlung (2026):**
+
 - Für **komplexe Workflows** mit vielen Abhängigkeiten → Prefect 3
 - Für **hochskalierbare, event-getriebene RPA** → NATS (Zielarchitektur)
 
@@ -67,6 +68,7 @@ Die folgende Architektur zeigt, wie NATS + JetStream als zentrale Orchestrierung
 ![NATS Orchestrierung Vision – Merle Phase 4](../assets/images/architecture/nats-orchestration-vision.jpg)
 
 Diese Architektur ermöglicht:
+
 - Stark entkoppelte, horizontal skalierbare Worker
 - Native Retry + Dead Letter Queues über JetStream
 - Zentrale Observability (Traces, Metrics, Logs über NATS)

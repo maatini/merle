@@ -11,6 +11,7 @@
 Bis Phase 0 wurde ein neuer Python-Bot ausschließlich durch manuelles `cp -r python_bots/template/ python_bots/<name>/` erzeugt (siehe ADR-0002).
 
 Dies führt zu mehreren Problemen:
+
 - Vergessene oder falsch angepasste Dateien (`pyproject.toml`, `.env.example`, Dockerfile)
 - Keine einfache Möglichkeit, optionale Features (Playwright, pandas, UiPath-Orchestrator) sauber einzuschalten
 - Hoher manueller Aufwand und Inkonsistenz
@@ -43,17 +44,20 @@ Der bisherige manuelle Copy-Prozess wird als **deprecated** markiert.
 ## Konsequenzen
 
 ### Positiv
+
 - Drastisch reduzierte Einstiegshürde
 - Garantierte Governance-Konformität ab Sekunde 1
 - Feature-Flags verhindern unnötig schwere Bots
 - Vorbereitung auf zukünftige Template-Updates ohne manuelles Mergen
 
 ### Negativ / Risiken
+
 - Neue Abhängigkeit: `copier` (und optional `typer`)
 - Jinja-Templating muss gepflegt werden
 - Bestehende Bots müssen manuell migriert werden (Phase 2)
 
 ### Migration
+
 - ADR-0002 wird auf "Superseded" gesetzt
 - `python_bots/template/` bleibt für 4–6 Wochen als Fallback bestehen (mit deutlichem Deprecation-Hinweis)
 - Danach wird es entfernt oder als reiner Snapshot markiert
@@ -64,6 +68,7 @@ Der bisherige manuelle Copy-Prozess wird als **deprecated** markiert.
 Siehe Phase-1-Plan und `templates/bot/copier.yml`.
 
 ## Referenzen
+
 - ADR-0002 (verbindliche Template-Architektur) – superseded
 - `templates/bot/copier.yml`
 - `tools/merle/` (CLI)

@@ -19,6 +19,7 @@ Der folgende Entscheidungsfluss ist das **zentrale Steuerungsinstrument** für a
 3. **Vorteil nachweisbar?** → Prototyp + Messung + Begründung erforderlich
 
 **Niemals ausreichend als Begründung:**
+
 - „Das Team kennt nur UiPath“
 - „UiPath hat dafür eine Activity“
 - „Das haben wir schon immer so gemacht“
@@ -31,28 +32,29 @@ Der folgende Entscheidungsfluss ist das **zentrale Steuerungsinstrument** für a
 
 ### Python-Domäne (Default)
 
-| Domäne | Beispiele | Technologie |
-|--------|-----------|-------------|
-| **Web-Automatisierung** | SAP Fiori, Salesforce, beliebige Webportale, Shop-Systeme, Agenten-Workflows | **Playwright** (merle-core.playwright) + Engine-Wahl: `chromium` (Default) oder `lightpanda` (Zig, 10–16× weniger RAM) |
-| **API-Integration** | REST, GraphQL, SOAP, MS Graph, OData | httpx, zeep (SOAP) |
-| **Datenverarbeitung** | Excel-Reports, CSV-Konvertierung, PDF-Extraktion, Datenbank-ETL | pandas, openpyxl, pdfplumber, SQLAlchemy |
-| **E-Mail-Verarbeitung** | Posteingangs-Monitoring, Anhang-Extraktion, Auto-Reply | imaplib, MS Graph API, exchangelib |
-| **Datei-Operationen** | SFTP-Transfer, Dateisystem-Monitoring, Archivierung | paramiko, watchdog, pathlib |
-| **Business-Logik** | Validierungsregeln, Berechnungen, Workflow-Steuerung | Vanilla Python, Prefect |
-| **AI/ML-Integration** | Dokument-Klassifikation, NLP, Bilderkennung | transformers, LangChain, OpenCV |
-| **Reporting** | Excel-Generierung, PDF-Berichte, Dashboards | openpyxl, reportlab, streamlit |
-| **Scheduling/Orchestrierung** | Zeitpläne, Abhängigkeiten, Retries | Prefect 3.x, APScheduler |
+| Domäne                        | Beispiele                                                                    | Technologie                                                                                                            |
+| ----------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Web-Automatisierung**       | SAP Fiori, Salesforce, beliebige Webportale, Shop-Systeme, Agenten-Workflows | **Playwright** (merle-core.playwright) + Engine-Wahl: `chromium` (Default) oder `lightpanda` (Zig, 10–16× weniger RAM) |
+| **API-Integration**           | REST, GraphQL, SOAP, MS Graph, OData                                         | httpx, zeep (SOAP)                                                                                                     |
+| **Datenverarbeitung**         | Excel-Reports, CSV-Konvertierung, PDF-Extraktion, Datenbank-ETL              | pandas, openpyxl, pdfplumber, SQLAlchemy                                                                               |
+| **E-Mail-Verarbeitung**       | Posteingangs-Monitoring, Anhang-Extraktion, Auto-Reply                       | imaplib, MS Graph API, exchangelib                                                                                     |
+| **Datei-Operationen**         | SFTP-Transfer, Dateisystem-Monitoring, Archivierung                          | paramiko, watchdog, pathlib                                                                                            |
+| **Business-Logik**            | Validierungsregeln, Berechnungen, Workflow-Steuerung                         | Vanilla Python, Prefect                                                                                                |
+| **AI/ML-Integration**         | Dokument-Klassifikation, NLP, Bilderkennung                                  | transformers, LangChain, OpenCV                                                                                        |
+| **Reporting**                 | Excel-Generierung, PDF-Berichte, Dashboards                                  | openpyxl, reportlab, streamlit                                                                                         |
+| **Scheduling/Orchestrierung** | Zeitpläne, Abhängigkeiten, Retries                                           | Prefect 3.x, APScheduler                                                                                               |
 
 ### Browser-Engine innerhalb von Python (Chromium vs. Lightpanda)
 
 Seit Mai 2026 unterstützt Merle **zwei Browser-Engines** über den einheitlichen `merle_core.playwright` Wrapper:
 
-| Engine       | Vorteile                                      | Wann verwenden?                                      | Nachteile                              |
-|--------------|-----------------------------------------------|-------------------------------------------------------|----------------------------------------|
-| **chromium** (Default) | Maximale Kompatibilität, Screenshots, PDF, reife Features | Die meisten Bots, Audit-Pflicht, visuelle Verifikation, komplexe SPAs | Höherer RAM/CPU-Verbrauch             |
-| **lightpanda**        | 10–16× weniger RAM, 5–11× höherer Durchsatz, kleinere Images | Hochvolumige Extraktion, parallele Agenten-Workflows, Kosten-sensitiv, reine Datengewinnung | Keine vollwertigen Screenshots/PDFs (Stand 2026) |
+| Engine                 | Vorteile                                                     | Wann verwenden?                                                                             | Nachteile                                        |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| **chromium** (Default) | Maximale Kompatibilität, Screenshots, PDF, reife Features    | Die meisten Bots, Audit-Pflicht, visuelle Verifikation, komplexe SPAs                       | Höherer RAM/CPU-Verbrauch                        |
+| **lightpanda**         | 10–16× weniger RAM, 5–11× höherer Durchsatz, kleinere Images | Hochvolumige Extraktion, parallele Agenten-Workflows, Kosten-sensitiv, reine Datengewinnung | Keine vollwertigen Screenshots/PDFs (Stand 2026) |
 
-**Entscheidungsregel**: 
+**Entscheidungsregel**:
+
 - Default = `chromium`
 - `lightpanda` nur bei nachgewiesenem Ressourcen-/Kosten-Vorteil (Benchmark + ADR-0007)
 
@@ -60,27 +62,28 @@ Siehe auch: [ADR-0007](../decisions/0007-lightpanda-als-optionale-browser-engine
 
 ### UiPath-Ausnahmekategorien (begründungspflichtig)
 
-| Kategorie | Kriterien für UiPath | Nachweis erforderlich |
-|-----------|---------------------|----------------------|
-| **Legacy-Desktop-UI** | Win32-Apps mit dynamischen Controls, Citrix, alte SAP GUI | Prototyp mit pywinauto/pywinctl gescheitert ODER nachgewiesene Selektoren-Probleme |
-| **Document Understanding (High-End)** | >10k Dokumente/Tag, komplexe Layouts, sehr hohe Genauigkeit (>98 %) | Benchmark UiPath DU vs. Python-Lösung (LayoutLM, Donut) |
-| **Enterprise-Orchestrierung + HITL** | Action Center, Attended/Unattended-Queues, komplexe Eskalation | Anforderungsanalyse: Ohne Orchestrator nativ nicht umsetzbar |
-| **Citizen-Developer-Team** | >5 Nicht-Entwickler als Bot-Autoren, nicht-geschäftskritisch | Team-Skills-Assessment |
+| Kategorie                             | Kriterien für UiPath                                                | Nachweis erforderlich                                                              |
+| ------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Legacy-Desktop-UI**                 | Win32-Apps mit dynamischen Controls, Citrix, alte SAP GUI           | Prototyp mit pywinauto/pywinctl gescheitert ODER nachgewiesene Selektoren-Probleme |
+| **Document Understanding (High-End)** | >10k Dokumente/Tag, komplexe Layouts, sehr hohe Genauigkeit (>98 %) | Benchmark UiPath DU vs. Python-Lösung (LayoutLM, Donut)                            |
+| **Enterprise-Orchestrierung + HITL**  | Action Center, Attended/Unattended-Queues, komplexe Eskalation      | Anforderungsanalyse: Ohne Orchestrator nativ nicht umsetzbar                       |
+| **Citizen-Developer-Team**            | >5 Nicht-Entwickler als Bot-Autoren, nicht-geschäftskritisch        | Team-Skills-Assessment                                                             |
 
 ## Bewertungskriterien (Scoring-Modell)
 
 Bei unklaren Fällen: Jedes Kriterium 1 (UiPath) bis 5 (Python) bewerten.
 
-| Kriterium | Gewicht | Beschreibung |
-|-----------|---------|--------------|
-| Wartbarkeit | 30 % | Code-Review, Diff, Refactoring-Fähigkeit |
-| Testbarkeit | 20 % | Unit/Integration/E2E-Tests, CI-Integration |
-| Plattformfreiheit | 15 % | Linux-Container-Fähigkeit |
-| Entwicklungsgeschwindigkeit | 15 % | Time-to-MVP, Iterationsgeschwindigkeit |
-| Kosteneffizienz | 10 % | Lizenzen, Infrastruktur, Wartung |
-| Skills-Verfügbarkeit | 10 % | Verfügbare Entwickler im Team/Markt |
+| Kriterium                   | Gewicht | Beschreibung                               |
+| --------------------------- | ------- | ------------------------------------------ |
+| Wartbarkeit                 | 30 %    | Code-Review, Diff, Refactoring-Fähigkeit   |
+| Testbarkeit                 | 20 %    | Unit/Integration/E2E-Tests, CI-Integration |
+| Plattformfreiheit           | 15 %    | Linux-Container-Fähigkeit                  |
+| Entwicklungsgeschwindigkeit | 15 %    | Time-to-MVP, Iterationsgeschwindigkeit     |
+| Kosteneffizienz             | 10 %    | Lizenzen, Infrastruktur, Wartung           |
+| Skills-Verfügbarkeit        | 10 %    | Verfügbare Entwickler im Team/Markt        |
 
 **Auswertung:**
+
 - Score ≥ 3,5 → **Python**
 - Score 2,5–3,5 → Detaillierte Einzelfallprüfung
 - Score < 2,5 → UiPath (mit Begründung)
@@ -96,14 +99,17 @@ Jede Entscheidung MUSS dokumentiert werden:
 **Score**: X.X / 5.0 (falls Scoring-Modell angewendet)
 
 **Begründung**:
+
 - [Konkreter Grund 1]
 - [Konkreter Grund 2]
 
 **Alternativen geprüft**:
+
 - [Alternative 1]: [Warum verworfen]
 - [Alternative 2]: [Warum verworfen]
 
 **Risiken**:
+
 - [Risiko 1] → [Mitigation]
 
 **Entscheider**: [Name/Rolle]
@@ -145,6 +151,6 @@ Diese Begründungen sind **nicht** ausreichend für UiPath:
 
 ## Revision
 
-| Version | Datum | Änderung | Autor |
-|---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |
+| Version | Datum      | Änderung         | Autor                      |
+| ------- | ---------- | ---------------- | -------------------------- |
+| 1.0     | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

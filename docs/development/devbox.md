@@ -14,13 +14,13 @@ Sie stellt sicher, dass alle Entwickler (und alle AI-Agenten) exakt dieselben To
 
 ## Warum Devbox?
 
-| Problem ohne Devbox                  | Lösung mit Devbox                          |
-|--------------------------------------|--------------------------------------------|
-| "Funktioniert bei mir"               | Exakt gleiche Versionen wie im Team + CI   |
-| Konflikte mit globalem Python/uv     | Vollständig isolierte Umgebung             |
-| Fehlende Tools (copier, pre-commit)  | Alles ist sofort verfügbar                 |
-| Unterschiedliche Node-Versionen      | Node 20 ist fest gepinnt                   |
-| Aufwändiges Onboarding               | `direnv allow .` → alles läuft             |
+| Problem ohne Devbox                 | Lösung mit Devbox                        |
+| ----------------------------------- | ---------------------------------------- |
+| "Funktioniert bei mir"              | Exakt gleiche Versionen wie im Team + CI |
+| Konflikte mit globalem Python/uv    | Vollständig isolierte Umgebung           |
+| Fehlende Tools (copier, pre-commit) | Alles ist sofort verfügbar               |
+| Unterschiedliche Node-Versionen     | Node 20 ist fest gepinnt                 |
+| Aufwändiges Onboarding              | `direnv allow .` → alles läuft           |
 
 Devbox basiert auf Nix und ist deutlich leichter als ein voller Docker-Dev-Container, aber trotzdem reproduzierbar und Linux-Container-kompatibel — perfekt passend zur Merle-Philosophie.
 
@@ -105,12 +105,12 @@ devbox run uv sync --group dev --all-packages
 
 In `devbox.json` sind folgende Skripte vordefiniert:
 
-| Befehl                    | Was passiert                                      |
-|---------------------------|---------------------------------------------------|
-| `devbox run setup`        | `uv sync --group dev --all-packages` + Pre-Commit-Hooks installieren |
-| `devbox run lint`         | `ruff check + ruff format --check`                |
-| `devbox run test`         | `pytest -q`                                       |
-| `devbox run new-bot`      | Kurzbefehl für `uv run merle new-bot ...`         |
+| Befehl               | Was passiert                                                         |
+| -------------------- | -------------------------------------------------------------------- |
+| `devbox run setup`   | `uv sync --group dev --all-packages` + Pre-Commit-Hooks installieren |
+| `devbox run lint`    | `ruff check + ruff format --check`                                   |
+| `devbox run test`    | `pytest -q`                                                          |
+| `devbox run new-bot` | Kurzbefehl für `uv run merle new-bot ...`                            |
 
 Beispiel:
 
@@ -131,6 +131,7 @@ Der **Merle RPA-Hybrid-Architekt** kennt die Devbox-Umgebung als **Regel 0** und
 - Datei: `.opencode/skills/devbox-environment/SKILL.md`
 
 **Verhalten des Agenten:**
+
 - Bevor er Shell-Befehle, `uv`, `ruff`, `pytest` oder `merle` ausführt, stellt er sicher, dass die Devbox aktiv ist.
 - Er verwendet bevorzugt `devbox run <befehl>`, wenn er nicht in einer interaktiven `devbox shell` arbeitet.
 - Du kannst jederzeit `load_skill devbox-environment` aufrufen, wenn du detaillierte Anweisungen brauchst.
@@ -142,13 +143,13 @@ Starte einfach `opencode` im Merle-Root. Der Agent arbeitet automatisch in der k
 
 ## Wichtige Dateien
 
-| Datei                    | Bedeutung                                      |
-|--------------------------|------------------------------------------------|
-| `devbox.json`            | Definition der Pakete, Environment-Variablen, Skripte und Init-Hooks |
-| `devbox.lock`            | Gesperrte exakte Paket-Versionen (muss committet werden) |
-| `.envrc`                 | direnv-Konfiguration (`use devbox`)            |
-| `.opencode/skills/devbox-environment/SKILL.md` | Anleitung für AI-Agenten |
-| `docs/development/devbox.md` | Diese Datei                                    |
+| Datei                                          | Bedeutung                                                            |
+| ---------------------------------------------- | -------------------------------------------------------------------- |
+| `devbox.json`                                  | Definition der Pakete, Environment-Variablen, Skripte und Init-Hooks |
+| `devbox.lock`                                  | Gesperrte exakte Paket-Versionen (muss committet werden)             |
+| `.envrc`                                       | direnv-Konfiguration (`use devbox`)                                  |
+| `.opencode/skills/devbox-environment/SKILL.md` | Anleitung für AI-Agenten                                             |
+| `docs/development/devbox.md`                   | Diese Datei                                                          |
 
 ---
 

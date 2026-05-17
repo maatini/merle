@@ -37,13 +37,13 @@ async with launch_robust_browser(
 
 ### Wichtige Parameter
 
-| Parameter                | Bedeutung                                      | Chromium | Lightpanda |
-|--------------------------|------------------------------------------------|----------|------------|
-| `engine`                 | `"chromium"` (Default) oder `"lightpanda"`     | —        | —          |
-| `stealth`                | Anti-Detection JavaScript-Injection            | ✅       | ✅         |
-| `screenshot_on_failure`  | Automatische Failure-Artifacts                 | ✅       | ⚠️ (nur HTML) |
-| `proxy`                  | HTTP-Proxy                                     | ✅       | ✅         |
-| `lightpanda_*`           | Host/Port/Log-Level für CDP-Server             | —        | ✅         |
+| Parameter               | Bedeutung                                  | Chromium | Lightpanda    |
+| ----------------------- | ------------------------------------------ | -------- | ------------- |
+| `engine`                | `"chromium"` (Default) oder `"lightpanda"` | —        | —             |
+| `stealth`               | Anti-Detection JavaScript-Injection        | ✅       | ✅            |
+| `screenshot_on_failure` | Automatische Failure-Artifacts             | ✅       | ⚠️ (nur HTML) |
+| `proxy`                 | HTTP-Proxy                                 | ✅       | ✅            |
+| `lightpanda_*`          | Host/Port/Log-Level für CDP-Server         | —        | ✅            |
 
 ## RobustBrowser Features
 

@@ -24,6 +24,7 @@ configure_observability(
 ## Export
 
 Standardmäßig wird nach:
+
 - **OTLP** (OpenTelemetry Protocol) → z. B. Grafana Tempo / Loki / Prometheus
 
 ## Nützliche Funktionen

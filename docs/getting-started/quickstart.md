@@ -74,6 +74,7 @@ opencode
 ```
 
 Du erhältst sofort den **Merle RPA-Hybrid-Architekt** als Primary Agent mit:
+
 - Vollständiger Kenntnis der Entscheidungsmatrix und aller 10 Governance-Regeln
 - Skills: `rpa-process-analyzer`, `rpa-bot-generator`, `governance-validator`
 - Commands: `/rpa-new-bot`, `/rpa-validate`

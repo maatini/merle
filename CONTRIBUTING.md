@@ -57,6 +57,7 @@ Siehe `docs/development/setup.md` und Skill `devbox-environment` für Details.
 **Verpflichtend:** Conventional Commits (enforced by pre-commit hook + commitizen).
 
 Beispiele:
+
 - `feat(core): add self-healing retry hooks to BaseTask`
 - `fix(template): correct playwright extra in generated pyproject.toml.jinja`
 - `docs(adr): add ADR-0008 for repository visibility`
@@ -64,6 +65,7 @@ Beispiele:
 - `refactor(shared): move merle-core to packages/ (breaking change — major version)`
 
 **Lokale DX:**
+
 ```bash
 uv sync --group dev
 uv run pre-commit install
@@ -74,6 +76,7 @@ git commit -m "feat(cli): add merle validate command"
 ```
 
 Commitizen + pre-commit Hook sorgen für:
+
 - Konsistente Messages
 - Automatische SemVer-Bumps (`uv run cz bump`)
 - Automatisches CHANGELOG-Update

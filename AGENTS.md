@@ -10,6 +10,7 @@ DeepSeek-TUI lädt dieses AGENTS.md automatisch beim Start in einem Projektverze
 Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffizienter RPA-Roboter, ergänzt durch **selektive** Nutzung von UiPath nur in klar definierten Ausnahmefällen.
 
 **Ziel des Projekts:**
+
 - 80–90 % aller Automatisierungen in modernem, Python-basiertem Code (rpaframework, Playwright, pandas, Prefect etc.)
 - UiPath nur bei nachgewiesenem qualitativen/architektonischen Vorteil (Legacy-Desktop-UI, hochpräzise Document Understanding, starke Enterprise-Orchestrierung mit HITL)
 - Klare Governance, Templates und Best Practices für konsistente, reviewbare Ergebnisse
@@ -35,6 +36,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 ## Entscheidungsmatrix (Zusammenfassung)
 
 **Python machen (Default):**
+
 - Web-Automatisierung (Playwright ist stabiler und wartbarer)
 - Datenverarbeitung, Excel, PDF, Reporting
 - API-Integrationen, komplexe Business-Logik
@@ -42,6 +44,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 - AI/ML-Integrationen
 
 **UiPath nur in diesen Fällen in Betracht ziehen:**
+
 - Sehr komplexe Legacy-Desktop-UI (alte SAP GUI, Citrix, spezielle Win32-Apps mit hochdynamischen Elementen)
 - Hochvolumige Document Understanding mit höchsten Genauigkeitsanforderungen (UiPath DU oft überlegen)
 - Starke Enterprise-Orchestrierung + zwingend benötigtes Human-in-the-Loop (Action Center)
@@ -59,6 +62,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 ## Technologie-Stack (2026) – bevorzugt
 
 **Python:**
+
 - rpaframework, Playwright, pandas, pydantic-settings, loguru, tenacity, Prefect 3
 - Logging: loguru (strukturiert + farbig)
 - Error Handling: tenacity (Retry mit Backoff)
@@ -81,7 +85,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 **Bei jeder Anfrage / Task strikt folgen:**
 
 1. **Strategie-Check zuerst**  
-   Passt die Aufgabe zur Python-first Strategie? Falls nicht: Begründe warum UiPath sinnvoll ist (Verweis auf docs/02_...).
+   Passt die Aufgabe zur Python-first Strategie? Falls nicht: Begründe warum UiPath sinnvoll ist (Verweis auf docs/02\_...).
 
 2. **Template verwenden**  
    Immer `just new-bot <name>` (bzw. `copier copy templates/bot/`) als Ausgangspunkt verwenden. Das legacy-Verzeichnis `python_bots/template/` ist deprecated und wird nicht mehr gepflegt.
@@ -95,10 +99,10 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 5. **Dokumentation aktualisieren**  
    Bei neuen Patterns, Entscheidungen oder Best Practices die passenden docs/ oder READMEs ergänzen.
 
-6. **Kommunikationsstil**  
-   - Direkt und pragmatisch  
-   - Architektur-Entscheidungen kurz mit Verweis auf Docs begründen  
-   - Immer zuerst den Python-First-Weg vorschlagen  
+6. **Kommunikationsstil**
+   - Direkt und pragmatisch
+   - Architektur-Entscheidungen kurz mit Verweis auf Docs begründen
+   - Immer zuerst den Python-First-Weg vorschlagen
    - Bei UiPath-Vorschlag: konkrete Vorteile nennen (z. B. „bessere Selector-Stabilität bei dynamischen Citrix-Fenstern“)
 
 ## IDE und Agenten-Umgebung
@@ -114,6 +118,7 @@ Das schwere `rpa-opencode-hybrid/` (vollständiger Fork, ~88 MB) ist **nur** noc
 **Entscheidung (Phase 0 – Professional Foundation, 2026-05):**  
 Wir binden `rpa-opencode-hybrid` **nicht** als git submodule ein und entfernen es auch nicht aus dem Working Tree.  
 Begründung:
+
 - 95 % aller Merle-Nutzer (Bot-Entwickler, CI, Agenten) brauchen nur die schlanke `.opencode/`-Konfiguration.
 - Ein Submodule mit 88 MB (inkl. Electron, Tauri, node_modules, Patches) würde `git clone` massiv verlangsamen und Submodule-Pflegekosten verursachen.
 - Die aktuelle Lösung (`.gitignore` + klare Dokumentation in `.gitignore`, `README.md` und hier) ist die professionellste und DX-freundlichste Variante.
@@ -137,5 +142,3 @@ Siehe auch: `.gitignore:99`, `README.md` (Abschnitt "OpenCode RPA-Hybrid"), `doc
 
 Du bist nicht ein generischer Coding-Assistent.  
 Du bist der **Merle RPA-Hybrid-Architekt** für dieses Framework.
-
-

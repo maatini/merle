@@ -22,13 +22,13 @@ Er macht immer wieder dieselben langweiligen oder fehleranfälligen Aufgaben am 
 
 ### Warum Merle besonders ist
 
-| Normalerweise...                  | Bei Merle machen wir es so...                          |
-|-----------------------------------|-------------------------------------------------------|
-| Jeder baut irgendwie anders       | Alle Bots sehen gleich aus (dank Template)            |
-| Wenn etwas kaputt geht → Chaos    | Der Bot versucht es automatisch nochmal (Retry)       |
-| Niemand weiß, was im Bot passiert | Alles wird sauber protokolliert (Logging)             |
-| Passwörter stehen im Code         | Passwörter kommen nie in den Code (Config + Secrets)  |
-| "Funktioniert bei mir"            | Funktioniert überall gleich (Devbox + Docker)         |
+| Normalerweise...                  | Bei Merle machen wir es so...                        |
+| --------------------------------- | ---------------------------------------------------- |
+| Jeder baut irgendwie anders       | Alle Bots sehen gleich aus (dank Template)           |
+| Wenn etwas kaputt geht → Chaos    | Der Bot versucht es automatisch nochmal (Retry)      |
+| Niemand weiß, was im Bot passiert | Alles wird sauber protokolliert (Logging)            |
+| Passwörter stehen im Code         | Passwörter kommen nie in den Code (Config + Secrets) |
+| "Funktioniert bei mir"            | Funktioniert überall gleich (Devbox + Docker)        |
 
 **Kurz gesagt:** Merle-Bots sind wie gute Software – nicht wie schnelle Skripte.
 
@@ -179,6 +179,7 @@ mein_erster_bot/
 
 **main.py**  
 Das ist der Dirigent. Er sagt:
+
 > "Zuerst lade ich die Daten, dann verarbeite ich sie, dann schreibe ich einen Bericht."
 
 Er benutzt dafür kleine Helfer-Klassen aus dem `tasks/`-Ordner.
@@ -278,6 +279,7 @@ Wir bauen einen kleinen Bot, der **Zitate von einer Übungs-Webseite** sammelt:
 
 **Warum gerade diese Aufgabe?**  
 Du übst genau die Dinge, die in 80 % aller realen Web-Bots vorkommen:
+
 - Browser starten
 - Auf eine Seite gehen
 - Mehrere Elemente finden
@@ -490,22 +492,26 @@ Die genaue Entscheidungsmatrix findest du in `docs/concepts/entscheidungsmatrix.
 ## 11. Dein Lernplan für die ersten 4 Wochen
 
 ### Woche 1 – Verstehen & Nachmachen
+
 - [x] Devbox einrichten
 - [x] Einen Bot mit `merle new-bot` erzeugen
 - [x] Den Beispiel-Bot starten und Logs anschauen
 - [x] Einen eigenen Task hinzufügen (auch wenn er erstmal nur "Hallo" sagt)
 
 ### Woche 2 – Lesen & Verstehen
+
 - Lies den [Entwicklungsleitfaden](../concepts/entwicklungsleitfaden.md)
 - Schau dir den Referenz-Bot `examples/invoice-processing/` an (sehr gutes Beispiel!)
 - Verstehe, was `BaseBot` und `BaseTask` wirklich tun
 
 ### Woche 3 – Erste echte kleine Aufgabe
+
 - Bekomme eine kleine echte Anforderung (z. B. "Lade diese eine Webseite und speichere den Titel")
 - Baue sie mit einem neuen Task
 - Schreibe einen Test dafür
 
 ### Woche 4 – Qualität & Review
+
 - Lerne `ruff` und `mypy` (die prüfen deinen Code automatisch)
 - Lass dir deinen ersten Bot von einem erfahrenen Kollegen reviewen
 - Lies die Governance-Regeln (`docs/concepts/governance.md`)
@@ -515,6 +521,7 @@ Die genaue Entscheidungsmatrix findest du in `docs/concepts/entscheidungsmatrix.
 ## 12. Wo du immer Hilfe bekommst
 
 ### 1. Der RPA-Hybrid-Architekt (KI-Assistent)
+
 Im Merle-Ordner einfach eingeben:
 
 ```bash
@@ -530,32 +537,34 @@ Dann steht dir sofort ein sehr guter KI-Assistent zur Verfügung, der **alle** R
 Er achtet darauf, dass du die Regeln einhältst.
 
 ### 2. Die Dokumentation
+
 - `docs/getting-started/quickstart.md` – Schnellreferenz
 - `docs/concepts/entwicklungsleitfaden.md` – Der große Entwicklungsleitfaden
 - `examples/invoice-processing/` – Das beste reale Beispiel
 
 ### 3. Dein Team
+
 Stelle Fragen! Bei Merle wird erwartet, dass Juniors Fragen stellen. Besser einmal zu viel gefragt als stundenlang hängen bleiben.
 
 ---
 
 ## 13. Die wichtigsten Befehle auf einen Blick
 
-| Was ich will                     | Befehl (innerhalb Devbox)                          |
-|----------------------------------|----------------------------------------------------|
-| Neuen Bot anlegen                | `devbox run new-bot name --playwright --pandas`   |
-| Bot starten                      | `uv run python main.py`                            |
-| Tests ausführen                  | `uv run pytest -v`                                 |
-| Code prüfen (Linting)            | `uv run ruff check .`                              |
-| Code schön formatieren           | `uv run ruff format .`                             |
-| Typen prüfen                     | `uv run mypy .`                                    |
-| Bot im Docker testen             | `docker build ...` + `docker run ...`              |
+| Was ich will           | Befehl (innerhalb Devbox)                       |
+| ---------------------- | ----------------------------------------------- |
+| Neuen Bot anlegen      | `devbox run new-bot name --playwright --pandas` |
+| Bot starten            | `uv run python main.py`                         |
+| Tests ausführen        | `uv run pytest -v`                              |
+| Code prüfen (Linting)  | `uv run ruff check .`                           |
+| Code schön formatieren | `uv run ruff format .`                          |
+| Typen prüfen           | `uv run mypy .`                                 |
+| Bot im Docker testen   | `docker build ...` + `docker run ...`           |
 
 ---
 
 ## Abschlusswort
 
-Du musst nicht alles sofort verstehen.  
+Du musst nicht alles sofort verstehen.
 
 Merle ist so aufgebaut, dass du **schrittweise** besser wirst:
 
@@ -578,4 +587,4 @@ Viel Spaß beim Bauen deiner ersten richtig guten RPA-Bots mit Merle!
 
 ---
 
-*Dieser Guide wurde mit Liebe zum Detail für Junior-Entwickler und Quereinsteiger geschrieben. Feedback gerne an das Merle-Team.*
+_Dieser Guide wurde mit Liebe zum Detail für Junior-Entwickler und Quereinsteiger geschrieben. Feedback gerne an das Merle-Team._

@@ -68,6 +68,7 @@ python_bots/<bot_name>/
 ## Namenskonventionen
 
 ### Python
+
 - **Dateien**: snake_case (`invoice_processor.py`)
 - **Klassen**: PascalCase (`InvoiceProcessor`)
 - **Funktionen**: snake_case (`process_invoice()`)
@@ -75,17 +76,20 @@ python_bots/<bot_name>/
 - **Private**: Prefix `_` (`_internal_method()`)
 
 ### Verzeichnisse für Bots
+
 - **Bot-Name**: snake_case, beschreibend (`invoice_approval`, `hr_onboarding`)
 - **Pattern**: `<domain>_<action>` oder `<domain>_<process>`
 
 ## Abhängigkeitsmanagement
 
 ### Python
+
 - `requirements.txt` für direkte Abhängigkeiten mit Version-Pinning
 - Optional: `pyproject.toml` für moderne Projekte
 - Kein pipenv/poetry ohne Absprache (Vereinfachung)
 
 ### Version-Pinning-Strategie
+
 ```
 # requirements.txt
 rpaframework>=28.0,<29.0
@@ -100,12 +104,14 @@ httpx>=0.25,<1.0
 ## Git-Workflow
 
 ### Branch-Strategie
+
 - `main` — Produktionsreife Bots
 - `develop` — Integration
 - `feature/<bot-name>` — Neue Bots
 - `fix/<issue>` — Bugfixes
 
 ### Commit-Konventionen
+
 ```
 feat(bot-name): Kurze Beschreibung
 fix(bot-name): Kurze Beschreibung
@@ -117,12 +123,14 @@ test(bot-name): Test-Ergänzung
 ## Konfigurationsmanagement
 
 ### 12-Factor-App-Prinzipien
+
 1. Konfiguration über Umgebungsvariablen
 2. `.env.example` im Repository (ohne Secrets)
 3. `.env` in `.gitignore`
 4. Keine Konfiguration im Code
 
 ### Beispiel `.env.example`
+
 ```bash
 # Bot: invoice_processor
 LOG_LEVEL=INFO
@@ -136,17 +144,20 @@ ORCHESTRATOR_API_URL=https://orchestrator.example.com
 ## Testing-Konventionen
 
 ### Test-Typen
+
 - `tests/unit/` — Isolierte Unit-Tests
 - `tests/integration/` — Tests mit externen Abhängigkeiten (gemockt)
 - `tests/e2e/` — End-to-End-Tests (mit Playwright)
 
 ### Test-Naming
+
 - `test_<was_getestet_wird>.py`
 - Test-Funktionen: `test_<funktion>_<szenario>_<erwartung>()`
 
 ## Docker-Konventionen
 
 ### Dockerfile (Template)
+
 ```dockerfile
 FROM python:3.11-slim
 WORKDIR /app
@@ -158,6 +169,6 @@ CMD ["python", "main.py"]
 
 ## Revision
 
-| Version | Datum | Änderung | Autor |
-|---------|-------|----------|-------|
-| 1.0 | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |
+| Version | Datum      | Änderung         | Autor                      |
+| ------- | ---------- | ---------------- | -------------------------- |
+| 1.0     | 2026-05-10 | Initiale Version | Merle RPA-Hybrid-Architekt |

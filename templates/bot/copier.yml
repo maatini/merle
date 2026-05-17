@@ -68,8 +68,8 @@ location:
   help: "In welchem Verzeichnis soll der Bot erzeugt werden? (beeinflusst merle-core Referenz)"
   default: "python_bots"
   choices:
-    - "python_bots"      # Standard: relativer Pfad zu ../shared funktioniert
-    - "standalone"       # Später: normales merle-core>=0.1.0 (internes PyPI)
+    - "python_bots" # Standard: relativer Pfad zu ../shared funktioniert
+    - "standalone" # Später: normales merle-core>=0.1.0 (internes PyPI)
 
 # ─────────────────────────────────────────────────────────────
 # Tasks nach der Generierung
@@ -78,6 +78,5 @@ location:
 _tasks:
   - "echo '✅ Bot {{ bot_name }} wurde erfolgreich generiert.'"
   - "echo 'Nächste Schritte: cd {{ _copier_conf.answers.location }}/{{ bot_name }} && uv sync --group dev'"
-
 # Optional: spätere Erweiterung mit post-generation Hook
 # _tasks kann auch Python-Hooks aufrufen (siehe hooks/post_gen_project.py)

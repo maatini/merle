@@ -19,7 +19,7 @@
 </p>
 
 **Modular Enterprise RPA Lifecycle Engine**  
-*Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation.*
+_Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation._
 
 **80–90 % Python (Playwright mit Chromium/Lightpanda, pandas, Prefect, loguru, tenacity, NATS) — UiPath only when it delivers a proven architectural advantage.**  
 **Vision: Granular, NATS-based orchestration with intelligent executors (Python / KI / UiPath) and BPMN-grade transparency.**
@@ -60,6 +60,7 @@ docker build -t invoice-processor python_bots/invoice_processor
 > `merle-core` (SSOT in `python_bots/shared/`) wird **nur** als Dependency referenziert — keine Code-Duplikation in generierten Bots.
 
 **Alternative ohne just:**
+
 ```bash
 uv sync --group dev --all-packages
 uv run merle new-bot my_bot --playwright
@@ -70,14 +71,14 @@ copier copy templates/bot python_bots/my_bot   # direkter Copier-Aufruf
 
 ## Philosophie
 
-| Prinzip | Beschreibung |
-|----------|-------------|
-| **Python-First** | Python ist der Default für alle Automatisierungen |
+| Prinzip                  | Beschreibung                                            |
+| ------------------------ | ------------------------------------------------------- |
+| **Python-First**         | Python ist der Default für alle Automatisierungen       |
 | **UiPath nur begründet** | UiPath kommt nur bei nachgewiesenem Vorteil zum Einsatz |
-| **Template-First** | Alle Bots entstehen aus dem professionellen Template |
-| **Container-Fähig** | Jeder Bot läuft im Linux-Container |
-| **Testgetrieben** | Unit-Tests, Integration-Tests, CI/CD |
-| **Governance** | Klare Regeln, Entscheidungsmatrix, ADRs |
+| **Template-First**       | Alle Bots entstehen aus dem professionellen Template    |
+| **Container-Fähig**      | Jeder Bot läuft im Linux-Container                      |
+| **Testgetrieben**        | Unit-Tests, Integration-Tests, CI/CD                    |
+| **Governance**           | Klare Regeln, Entscheidungsmatrix, ADRs                 |
 
 ---
 
@@ -96,9 +97,10 @@ Merle entwickelt sich schrittweise zu einer hochskalierbaren, intelligenten und 
 
 - **Anforderungsprofile für Tasks (UiPath, Python, GPU, RAM+HDD etc.)**  
   Jeder Task und Teil-Task kann ein detailliertes Anforderungsprofil deklarieren:
+
   - Technologie-Stack: `UiPath`, `Python`, `Path` (andere RPA-Tools)
   - Hardware-Ressourcen: GPU (für ML/CV), CPU-Kerne, RAM, HDD/SSD-Kapazität, Netzwerk-Bandbreite
-  Der Orchestrator matched diese Anforderungen automatisch an passende Worker-Nodes (z. B. dedizierte UiPath-Lizenz-Worker oder GPU-beschleunigte Nodes).
+    Der Orchestrator matched diese Anforderungen automatisch an passende Worker-Nodes (z. B. dedizierte UiPath-Lizenz-Worker oder GPU-beschleunigte Nodes).
 
 - **Prioritäten für Tasks**  
   Tasks und Teil-Tasks erhalten Prioritäten (z. B. `critical`, `high`, `normal`, `low` oder numerisch). Der Orchestrator berücksichtigt diese Prioritäten bei der Scheduling-Entscheidung, um geschäftskritische Prozesse bevorzugt und termingerecht auszuführen (SLA-Support).
@@ -125,6 +127,7 @@ Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Prefect 3.x, 
 Merle bringt eine **projekt-lokale OpenCode-Konfiguration** mit (`/.opencode/`). Sobald du `opencode` im Root des Merle-Repositories startest, ist automatisch der **RPA-Hybrid-Architekt** als Primary Agent aktiv. Er kennt die Entscheidungsmatrix, alle Governance-Regeln, Templates und die Cloud-Native-Architektur im Detail.
 
 ### Einfache Nutzung
+
 ```bash
 # Im Merle-Root
 opencode
@@ -135,6 +138,7 @@ opencode
 ```
 
 ### Cloud-Native RPA im Azure AKS
+
 Da unsere Software-Roboter nicht lokal auf Desktops, sondern **zentral und hochskalierbar in der Cloud (z. B. Azure AKS Cluster)** ausgeführt werden, gelten besondere Anforderungen an den Code. Der RPA-Hybrid-Architekt unterstützt das Entwicklungsteam gezielt bei der Umsetzung dieser Cloud-Native-Paradigmen:
 
 - **Container-Readiness:** Automatisierte Erstellung von Headless-fähigem Code (Playwright, Linux-kompatible Bibliotheken), der ohne Windows-Abhängigkeiten in Docker-Containern und Pods läuft.
@@ -142,6 +146,7 @@ Da unsere Software-Roboter nicht lokal auf Desktops, sondern **zentral und hochs
 - **NATS & Orchestrierung:** Direkte Unterstützung bei der Anbindung an unseren NATS Message Broker für ereignisgesteuerte, verteilte Task-Bearbeitung.
 
 ### Integrierte Governance & Tools
+
 Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Python_vs_UiPath.md) und der Projekt-Governance. Dazu stehen folgende Erweiterungen im `.opencode/`-Verzeichnis zur Verfügung:
 
 1. **`rpa-context` (MCP Tool):** Lädt Projekt-Dokumentationen dynamisch (`load_rpa_context strategy`, `dev-guide`, `governance` …).
@@ -150,7 +155,7 @@ Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Py
 4. **Commands:** `/rpa-new-bot` und `/rpa-validate` für schnelle Workflows.
 
 **Hinweis zur Fork-Version (Professional Foundation Decision):**  
-Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork (~88 MB) und ist **ausschließlich** für die Entwicklung von OpenCode-Core-Patches und angepassten Desktop-Builds relevant.  
+Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork (~88 MB) und ist **ausschließlich** für die Entwicklung von OpenCode-Core-Patches und angepassten Desktop-Builds relevant.
 
 **Für die tägliche RPA-Bot-Entwicklung genügt die schlanke `.opencode/`-Integration** im Repository-Root (Agent `rpa-hybrid`, Skills `governance-validator` + `rpa-bot-generator`, Commands `/rpa-new-bot`).
 
@@ -210,6 +215,7 @@ Die vollständige Dokumentation findest du unter:
 - Online (geplant): docs.merle.example.com
 
 Wichtige Dokumente:
+
 - [Architektur](docs/concepts/architecture.md) (inkl. C4-Diagramme)
 - [Governance](docs/03_Governance.md)
 - [merle-core](docs/merle-core/index.md) (ab v0.2)
@@ -220,6 +226,7 @@ Wichtige Dokumente:
 ## Technologie-Stack
 
 ### Python (Default)
+
 - **RPA**: rpaframework ≥ 28.0
 - **Web**: Playwright (Chromium + Lightpanda via CDP)
 - **Daten**: pandas, openpyxl, pdfplumber
@@ -232,6 +239,7 @@ Wichtige Dokumente:
 - **Container**: Docker
 
 ### UiPath (Ausnahme)
+
 - Integration über Orchestrator REST API
 - Lose Kopplung (APIs, Queues, Dateien)
 
@@ -240,6 +248,7 @@ Wichtige Dokumente:
 ## Governance
 
 **10 Regeln für jeden Bot:**
+
 1. Python-First (Default)
 2. Template verwenden
 3. Keine hartcodierten Werte
@@ -258,6 +267,7 @@ Details: [Governance-Regeln](docs/03_Governance.md)
 ## Für AI-Agenten
 
 Wenn du als AI-Agent (Claude, DeepSeek, etc.) in diesem Repository arbeitest:
+
 - Lies `AGENTS.md` für deinen System-Kontext
 - Lies `agent/CLAUDE.md` für deine Persona als Merle RPA-Hybrid-Architekt
 - Befolge die Governance-Regeln strikt
@@ -308,5 +318,6 @@ Dieses Repository und alle darin enthaltenen Artefakte sind proprietär. Nutzung
 **0.2.0** — Phase 0 Foundations (uv + merle-core + CI/CD + pre-commit) — Mai 2026
 
 Frühere Versionen:
+
 - 1.1 — Mai 2026 (initiale Vision & Template)
 - 1.0 — Initiales Python-First Framework

@@ -14,12 +14,12 @@ async def call_external_api(url: str):
 
 ## Verfügbare Policies
 
-| Policy | Zweck | Empfohlene Anwendung |
-|--------|-------|----------------------|
-| `default_http_retry` | HTTP 5xx + Timeouts | API-Aufrufe |
-| `browser_retry` | Playwright-spezifisch | Browser-Automatisierung |
-| `sensitive_operation_retry` | Konservativ | Finanz- oder Compliance-kritische Operationen |
-| `aggressive_retry` | Viele Versuche | Hintergrund-Jobs |
+| Policy                      | Zweck                 | Empfohlene Anwendung                          |
+| --------------------------- | --------------------- | --------------------------------------------- |
+| `default_http_retry`        | HTTP 5xx + Timeouts   | API-Aufrufe                                   |
+| `browser_retry`             | Playwright-spezifisch | Browser-Automatisierung                       |
+| `sensitive_operation_retry` | Konservativ           | Finanz- oder Compliance-kritische Operationen |
+| `aggressive_retry`          | Viele Versuche        | Hintergrund-Jobs                              |
 
 ## Eigene Policies definieren
 

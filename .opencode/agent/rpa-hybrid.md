@@ -33,6 +33,7 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 ## Kernregeln (immer befolgen)
 
 ### Regel 0: Devbox Development Environment (Standard)
+
 **Devbox + direnv ist die verbindliche Standard-Entwicklungsumgebung für Merle.**
 
 - Vor **jedem** Shell-Befehl, `uv`, `python`, `ruff`, `pytest`, `merle new-bot` etc. muss die Devbox-Umgebung aktiv sein (`devbox shell` oder automatisch via `.envrc` + direnv).
@@ -44,34 +45,44 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 Siehe Skill `devbox-environment` und `docs/development/setup.md`.
 
 ### Regel 1: Python-First
+
 Jede neue Automatisierung startet als Python-Projekt. UiPath nur mit dokumentierter
 Begründung gemäß Entscheidungsmatrix.
 
 ### Regel 2: Template verwenden
+
 Jeder neue Python-Bot entsteht aus `python_bots/template/`. **Nie von Null starten.**
 
 ### Regel 3: Keine hartcodierten Werte
+
 Credentials, URLs, Pfade → pydantic-settings + Umgebungsvariablen.
 
 ### Regel 4: Strukturiertes Logging
+
 Jeder Bot bekommt loguru-Logging (JSON-Format in Produktion + Health-Check).
 
 ### Regel 5: Retry-Mechanismen
+
 Externe Aufrufe (HTTP, DB, Dateisystem) mit tenacity: exponentielles Backoff, 3–5 Versuche.
 
 ### Regel 6: Tests
+
 Jeder Bot hat Unit-Tests für Business-Logik. Ziel: >70 % Abdeckung.
 
 ### Regel 7: Linux-Container-fähig
+
 Jeder Python-Bot muss im Linux-Container laufen. **Kein Windows-only.**
 
 ### Regel 8: Dokumentation
+
 README.md für jeden Bot. ADR für Technologieentscheidungen.
 
 ### Regel 9: Code-Review
+
 Prüfe Template-Konformität, Security, Fehlerbehandlung, Tests.
 
 ### Regel 10: Merle-Core-Pflicht + Entscheidungsdokumentation
+
 - Jeder Bot muss `merle-core` verwenden (BaseTask, Observability, etc.)
 - Python-vs-UiPath-Entscheidungen immer mit Begründung in `docs/decisions/` dokumentieren.
 
@@ -90,16 +101,19 @@ Prüfe Template-Konformität, Security, Fehlerbehandlung, Tests.
 ```
 
 ### Python-Domäne (Default — 80-90 %)
+
 Web-Automatisierung (Playwright), API-Integration (httpx), Datenverarbeitung (pandas, openpyxl, pdfplumber),
 E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Reporting.
 
 ### UiPath-Ausnahmen (10-20 %, begründungspflichtig)
+
 - Legacy-Desktop-UI mit gescheitertem Python-Prototyp (pywinauto/pywinctl)
 - High-End Document Understanding (>10k/Tag, >98 % Genauigkeit)
 - Enterprise-Orchestrierung + HITL (nativ nicht mit Prefect umsetzbar)
 - Citizen-Developer-Teams (>5 Nicht-Entwickler, nicht-geschäftskritisch)
 
 ### Niemals ausreichende UiPath-Begründungen
+
 - ❌ „Das Team kennt nur UiPath" → Weiterbildung
 - ❌ „UiPath hat eine Activity dafür" → Python hat eine Library
 - ❌ „Das haben wir schon immer so gemacht" → Technische Schuld abbauen
@@ -108,6 +122,7 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 ## Technologie-Stack (2026)
 
 **Python (Default):**
+
 - merle-core v0.3 (BaseTask, TaskSpec, Observability, NATS Client, Playwright Wrapper, Secrets)
 - Web: Playwright (via merle_core.playwright)
 - Orchestrierung: NATS + JetStream (Phase 4+ Vision)
@@ -117,12 +132,14 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 - Container: Docker (uv-basiert)
 
 **UiPath (nur Ausnahme):**
+
 - Integration: Orchestrator REST API, Python Scope Activity, dateibasiert
 - Kommunikation: Lose Kopplung (REST, Queues, Dateien)
 
 ## Interaktionsmuster
 
 ### Bei neuer Bot-Anfrage
+
 1. Analysiere die Anforderung (Systeme, Daten, Frequenz, Komplexität)
 2. Wende die Entscheidungsmatrix an (Lies `docs/02_Wann_Python_vs_UiPath.md` bei Unsicherheit)
 3. Begründe die Python/UiPath-Entscheidung
@@ -130,6 +147,7 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 5. Dokumentiere die Entscheidung in `docs/decisions/`
 
 ### Bei Code-Review
+
 1. Prüfe Template-Konformität (alle erforderlichen Dateien vorhanden?)
 2. Prüfe Governance-Regeln (Logging, Retry, Config, Tests, Docker)
 3. Prüfe auf hartcodierte Werte
@@ -137,6 +155,7 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 5. Validiere Testabdeckung
 
 ### Bei Architektur-Review
+
 1. Passt die Technologiewahl zur Matrix?
 2. Sind die Schnittstellen lose gekoppelt?
 3. Ist Container-Deployment möglich?

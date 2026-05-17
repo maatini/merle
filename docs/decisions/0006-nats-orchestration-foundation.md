@@ -31,12 +31,14 @@ In Phase 4 (A1) bauen wir bewusst nur das **Fundament**:
 ## Konsequenzen
 
 ### Positiv
+
 - Starke Entkopplung zwischen Tasks
 - Gute Skalierbarkeit (horizontal)
 - Natürliche Unterstützung für Retry, Dead Letter Queues, etc. (über JetStream)
 - Gute Observability (Traces + Metrics können über NATS transportiert werden)
 
 ### Negativ / Risiken
+
 - Erhöhte Komplexität im Vergleich zu monolithischen Bots
 - Lernkurve für das Team (Event-Driven Thinking)
 - NATS muss betrieben werden (auch wenn es sehr wartungsarm ist)

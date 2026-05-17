@@ -4,18 +4,18 @@ This directory contains **production-grade reference implementations** and small
 
 ## Reference Implementation (Start Here)
 
-| Example                        | Status       | Description |
-|--------------------------------|--------------|-------------|
-| **`invoice-processing/`**      | ✅ **Gold Standard** | Full end-to-end invoice bot using `BaseBot` + 4 `BaseTask`s, PDF parsing (`pdfplumber`), master data enrichment, professional Excel reporting, observability, retry policies, self-healing hooks. **This is the example you show new developers and auditors.** |
+| Example                   | Status               | Description                                                                                                                                                                                                                                                     |
+| ------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`invoice-processing/`** | ✅ **Gold Standard** | Full end-to-end invoice bot using `BaseBot` + 4 `BaseTask`s, PDF parsing (`pdfplumber`), master data enrichment, professional Excel reporting, observability, retry policies, self-healing hooks. **This is the example you show new developers and auditors.** |
 
 ## Smaller Demonstrations
 
-| Example                | Technologies                          | Purpose |
-|------------------------|---------------------------------------|---------|
-| `web-automation/`      | Playwright + `launch_robust_browser` + `BaseTask` | Stealth browser automation, failure artifacts, retry |
-| `excel-processing/`    | pandas + openpyxl                     | Data transformation patterns |
-| `nats-task-communication/` | `merle_core.nats` + JetStream     | Early NATS / task queue patterns (Phase 4 foundation) |
-| `uipath-hybrid/`       | UiPath Orchestrator API               | When UiPath is justified — Python ↔ UiPath integration |
+| Example                    | Technologies                                      | Purpose                                                 |
+| -------------------------- | ------------------------------------------------- | ------------------------------------------------------- |
+| `web-automation/`          | Playwright + `launch_robust_browser` + `BaseTask` | Stealth browser automation, failure artifacts, retry    |
+| `excel-processing/`        | pandas + openpyxl                                 | Data transformation patterns                            |
+| `nats-task-communication/` | `merle_core.nats` + JetStream                     | Early NATS / task queue patterns (Phase 4 foundation)   |
+| `uipath-hybrid/`           | UiPath Orchestrator API                           | When UiPath is justified — Python ↔ UiPath integration |
 
 ## Quick Start — Reference Bot
 
@@ -26,6 +26,7 @@ uv run python main.py
 ```
 
 You will get:
+
 - 3 synthetic invoices processed
 - Structured data + master data enrichment
 - A beautifully formatted Excel report in `data/reports/`
@@ -40,6 +41,7 @@ You will get:
 ## Governance Note
 
 All examples in this directory follow the Merle rules:
+
 - Python is the default
 - Every complex process is decomposed into `BaseTask` units
 - Full observability + resilience

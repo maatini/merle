@@ -44,7 +44,7 @@ jobs:
       - name: Generate a fresh test bot from Copier template
         run: |
           mkdir -p /tmp/generated-bots
-          uvx copier copy --trust templates/bot /tmp/generated-bots/test_docker_bot \
+          uvx copier copy --trust templates/bot /tmp/generated-bots/test_docker_bot_project \
             --data bot_name=test_docker_bot \
             --data bot_description="CI validation bot" \
             --data include_pandas=true \
@@ -53,7 +53,7 @@ jobs:
             --defaults \
             --overwrite \
             --quiet
-          echo "Generated bot at /tmp/generated-bots/test_docker_bot"
+          echo "Generated bot at /tmp/generated-bots/test_docker_bot_project"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: /tmp/generated-bots/test_docker_bot/Dockerfile
+          file: /tmp/generated-bots/test_docker_bot_project/Dockerfile
           build-args: |
             BUILD_MODE=monorepo
           load: true

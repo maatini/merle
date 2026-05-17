@@ -38,7 +38,7 @@ Instead, report security issues **privately** via one of the following channels:
 - `merle validate` (governance + basic hygiene)
 
 All findings with CRITICAL/HIGH severity are treated as blocking for production bot deployments.  
-   Use the `#security` or `#merle-rpa` channel in the Antigravity Slack/Teams and tag `@merle-security`.
+   Use the `#security` or `#merle-rpa` channel in the internal Slack/Teams workspace and tag `@merle-security`.
 
 ## Scope
 

@@ -86,7 +86,7 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 - Formal **Merle Certification Program** for bots (governance-validator as gate in CI + PR)
 - **BPMNinja** deep integration: every NATS-orchestrated process can be exported/visualized as BPMN with full audit trail
 - Multi-tenant / multi-customer support patterns (isolation, secrets scoping, quota)
-- Commercial packaging options (if Antigravity decides to productize parts of Merle)
+- Commercial packaging options (if the author decides to productize parts of Merle)
 
 ---
 

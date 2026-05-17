@@ -302,5 +302,5 @@ python_bots/tmp_*/
 python_bots/*-test/
 # Any local bot clones
 bots/
-
+kladde.md
 # Keep this file minimal but explicit — explicit > implicit for enterprise repos.

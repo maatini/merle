@@ -12,13 +12,14 @@ Verwendung:
     from merle_core.secrets import AzureKeyVaultProvider, AzureKeyVaultSettings
 """
 
-from .base import SecretProvider, SecretNotFoundError as SecretsSecretNotFoundError
+from .base import SecretProvider
 from .azure import AzureKeyVaultProvider
 from .pydantic import AzureKeyVaultSettings
+from merle_core.exceptions import SecretNotFoundError
 
 __all__ = [
     "SecretProvider",
     "AzureKeyVaultProvider",
     "AzureKeyVaultSettings",
-    "SecretsSecretNotFoundError",
+    "SecretNotFoundError",
 ]

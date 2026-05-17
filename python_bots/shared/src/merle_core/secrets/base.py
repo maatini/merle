@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
+from merle_core.exceptions import SecretNotFoundError
+
 
 class SecretProvider(ABC):
     """Interface für alle Secret-Backends (Key Vault, HashiCorp, etc.)."""
@@ -19,9 +21,3 @@ class SecretProvider(ABC):
     async def get_secret_or_default(self, name: str, default: str) -> str:
         """Holt ein Secret oder gibt den Default zurück."""
         ...
-
-
-class SecretNotFoundError(Exception):
-    """Wird geworfen, wenn ein Secret nicht gefunden wurde."""
-
-    pass

@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Proprietary"}
 authors = [
-    { name = "Martin Richardt", email = "martin.richardt@gmail.com" },
+    { name = "Martin Richardt", email = "martin.richardt@maatini.space" },
 ]
 
 dependencies = [

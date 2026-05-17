@@ -14,7 +14,7 @@ Instead, report security issues **privately** via one of the following channels:
    → https://github.com/maatini/merle/security/advisories/new
 
 2. **Direct email to maintainers**  
-   martin.richardt@gmail.com  
+   martin.richardt@maatini.space  
    (PGP key available on request)
 
 3. **Internal escalation**  

@@ -8,11 +8,11 @@
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
 [![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](docs/ROADMAP.md)
 
-> **⛔️ STRICTLY CONFIDENTIAL — INTERNAL USE ONLY**  
-> Dieses Repository enthält **proprietären, urheberrechtlich geschützten Code** der Antigravity GmbH (RPA-Framework, Governance, ADRs, interne Patterns).  
-> **Jede unautorisierte Nutzung, Weitergabe, Fork oder externe Verwendung ist strengstens untersagt und wird zivil- sowie strafrechtlich verfolgt.**  
-> Siehe [LICENSE](./LICENSE) und [ADR-0008](./docs/decisions/0008-repository-visibility-and-internal-governance.md).  
-> **Repository ist und bleibt PRIVAT.** Nie public machen! Bei versehentlichem Public-Status: sofort auf Private stellen + Secrets rotieren.
+> **📖 Source Available — Proprietary License**  
+> Dieses Repository ist öffentlich einsehbar (seit 2026-05, siehe [ADR-0009](./docs/decisions/0009-repository-public-source-available.md)).  
+> Der gesamte Code bleibt **urheberrechtlich geschütztes Eigentum der Antigravity GmbH**.  
+> Eine produktive Nutzung, Modifikation oder Weitergabe ist nur mit expliziter Lizenz / gültigem NDA gestattet.  
+> Siehe [LICENSE](./LICENSE) und [ADR-0009](./docs/decisions/0009-repository-public-source-available.md). Unautorisierte kommerzielle Nutzung wird rechtlich verfolgt.
 
 <p align="center">
   <img src="merle.png" alt="Merle — Modular Enterprise RPA Lifecycle Engine" width="600">

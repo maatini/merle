@@ -1,9 +1,12 @@
 # ADR 0008: Repository Visibility and Internal Governance
 
-**Status:** Accepted  
-**Date:** 2026-05-16  
+> **⚠️ SUPERSEDED** — Diese Entscheidung wurde durch [ADR-0009](./0009-repository-public-source-available.md) revidiert.  
+> Das Repository `maatini/merle` ist seit 2026-05-17 **public** (Source-Available). Die strenge "MUST be private"-Regel gilt nicht mehr.
+
+**Status:** Superseded (by ADR-0009)  
+**Date:** 2026-05-16 (original)  
 **Deciders:** Martin Richardt (Antigravity GmbH)  
-**Related:** ADR-0001 (Python-First), ADR-0002 (Template Architecture), LICENSE, AGENTS.md
+**Related:** ADR-0001, ADR-0002, ADR-0009, LICENSE
 
 ## Context
 

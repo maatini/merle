@@ -3,8 +3,8 @@
 # =============================================================================
 # Deploys the professional documentation (German + English parity) to GitHub Pages.
 # Trigger: push to main that touches docs/, mkdocs.yml or AGENTS.md.
-# For private repos: requires GitHub Pages enabled in repo settings (source = GitHub Actions).
-# Public URL example: https://maatini.github.io/merle/ (adjust org/user).
+# For public repos: GitHub Pages works out of the box (GitHub Actions source).
+# Public URL: https://maatini.github.io/merle/
 # =============================================================================
 
 name: Docs (GitHub Pages)

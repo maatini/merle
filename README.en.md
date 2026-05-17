@@ -40,9 +40,8 @@ See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lin
 | Governance              | ✅         | `AGENTS.md`, 6+ ADRs, Entscheidungsmatrix, CODEOWNERS, issue/PR templates, SECURITY.md |
 | DX                      | ✅         | `justfile`, Devbox + direnv, uv workspace, excellent docs structure |
 
-**⛔️ STRICTLY CONFIDENTIAL — INTERNAL USE ONLY**  
-This repository contains **proprietary, copyrighted** code of Antigravity GmbH. Unauthorized use, distribution, forking or external deployment is strictly prohibited and will be prosecuted. See [LICENSE](./LICENSE) and [ADR-0008](./docs/decisions/0008-repository-visibility-and-internal-governance.md).  
-**Repository MUST remain private.** Never make public. If accidentally public: set to private immediately + rotate any leaked secrets.
+**📖 Source Available — Proprietary License**  
+This repository is publicly visible (since 2026-05, see [ADR-0009](./docs/decisions/0009-repository-public-source-available.md)). All code remains **copyrighted property of Antigravity GmbH**. Productive use, modification or redistribution requires an explicit license / valid NDA. See [LICENSE](./LICENSE) and [ADR-0009](./docs/decisions/0009-repository-public-source-available.md). Unauthorized commercial use will be prosecuted.
 
 **This repository is ready for authorized internal enterprise RPA teams** building production bots.
 

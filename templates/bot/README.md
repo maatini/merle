@@ -49,7 +49,7 @@ Der Post-Hook führt automatisch `uv sync` + Linting aus (wenn aktiviert).
 Jeder über dieses Template erzeugte Bot erfüllt automatisch:
 
 - ADR-0004 + ADR-0002
-- Merle Governance (docs/03_Governance.md)
+- Merle Governance (docs/concepts/governance.md)
 - uv + merle-core + strukturierte Qualität
 
 ---

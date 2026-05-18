@@ -153,12 +153,16 @@ versions:
     @echo "Mypy:   $(uv run mypy --version)"
     @echo "Copier: $(uv run copier --version 2>/dev/null || echo 'not installed via uv')"
 
-# Clean Python caches (safe)
+# Clean Python caches + example artifacts (safe, rebuildable)
 clean:
     find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
+    find examples -type d -name "reports" -exec rm -rf {} + 2>/dev/null || true
+    find examples -type d -name "logs" -exec rm -rf {} + 2>/dev/null || true
+    find examples -type d -name "archive" -exec rm -rf {} + 2>/dev/null || true
+    echo "✅ Clean complete"
     @echo "🧹 Python caches cleaned"
 
 # Remove all generated test bots (use with caution)

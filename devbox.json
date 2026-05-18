@@ -11,7 +11,7 @@
   "env": {
     "UV_PYTHON": "python3.11",
     "UV_PROJECT_ENVIRONMENT": ".venv",
-    "PYTHONPATH": ".:python_bots/shared/src",
+    "PYTHONPATH": ".:packages/merle-core/src",
     "PRE_COMMIT_ALLOW_NO_CONFIG": "1"
   },
   "shell": {

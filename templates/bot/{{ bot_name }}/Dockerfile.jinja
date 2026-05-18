@@ -37,7 +37,7 @@ COPY pyproject.toml uv.lock ./
 # === Monorepo support for merle-core ===
 # When building with BUILD_MODE=monorepo (from repo root), we copy the core package
 # so that the path dependency in pyproject.toml works inside the container.
-COPY python_bots/shared ./python_bots/shared
+COPY packages/merle-core ./packages/merle-core
 
 # Install production dependencies
 RUN --mount=type=cache,target=/root/.cache/uv \

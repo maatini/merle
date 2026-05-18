@@ -47,12 +47,12 @@ jobs:
 
       - name: Mypy (merle-core, strict where possible)
         run: |
-          uv run mypy python_bots/shared/src/merle_core --strict || true
+          uv run mypy packages/merle-core/src/merle_core --strict || true
           echo "Mypy completed (non-blocking during heavy NATS/Phase 4 work)"
 
       - name: Pytest (merle-core + examples skeleton)
         run: |
-          uv run pytest python_bots/shared -q --tb=short || true
+          uv run pytest packages/merle-core -q --tb=short || true
           echo "Core tests executed (expand in Phase 3+)"
 
       - name: Run merle validate (governance)
@@ -82,7 +82,7 @@ jobs:
       - name: Bandit (Python SAST)
         run: |
           uv pip install bandit[toml] --quiet
-          uv run bandit -c pyproject.toml -r python_bots/shared/src/merle_core -ll || true
+          uv run bandit -c pyproject.toml -r packages/merle-core/src/merle_core -ll || true
           echo "Bandit scan completed (HIGH+ only for now)"
 
       - name: Trivy filesystem scan (IaC + deps)

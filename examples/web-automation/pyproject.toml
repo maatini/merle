@@ -8,4 +8,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-merle-core = { path = "../../python_bots/shared" }
+merle-core = { path = "../../packages/merle-core" }

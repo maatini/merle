@@ -73,7 +73,7 @@ fmt:
 
 # Type check merle-core (strict)
 mypy:
-    uv run mypy python_bots/shared/src/merle_core --strict
+    uv run mypy packages/merle-core/src/merle_core --strict
 
 # Run pre-commit on all files (same as CI)
 pre-commit:
@@ -89,11 +89,11 @@ test *ARGS:
 
 # Test only merle-core
 test-core *ARGS:
-    uv run pytest python_bots/shared -q {{ARGS}}
+    uv run pytest packages/merle-core -q {{ARGS}}
 
 # Test with coverage
 test-cov:
-    uv run pytest --cov=merle_core --cov-report=term-missing python_bots/shared
+    uv run pytest --cov=merle_core --cov-report=term-missing packages/merle-core
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Docker (Template + Examples)

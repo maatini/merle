@@ -39,7 +39,7 @@ dependencies = [
 [tool.uv.sources]
 {% if location == "python_bots" %}
 # Entwicklung innerhalb des Merle-Monorepos
-merle-core = { path = "../shared" }
+merle-core = { path = "../../packages/merle-core" }
 {% else %}
 # Standalone-Modus (später internes PyPI oder git+...)
 merle-core = ">=0.1.0"

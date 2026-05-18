@@ -74,5 +74,5 @@ justfile
 {% if location == "python_bots" %}
 # When building a python_bots/ bot, the parent context usually excludes other bots
 python_bots/!(shared)/
-!python_bots/shared/
+!packages/merle-core/
 {% endif %}

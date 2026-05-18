@@ -1030,7 +1030,7 @@ wheels = [
 
 [[package]]
 name = "merle"
-version = "0.2.0"
+version = "0.3.0"
 source = { virtual = "." }
 
 [package.dev-dependencies]
@@ -1059,7 +1059,7 @@ dev = [
 
 [[package]]
 name = "merle-cli"
-version = "0.2.0"
+version = "0.3.0"
 source = { virtual = "tools/merle" }
 dependencies = [
     { name = "copier" },
@@ -1076,7 +1076,7 @@ requires-dist = [
 
 [[package]]
 name = "merle-core"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "packages/merle-core" }
 dependencies = [
     { name = "httpx" },

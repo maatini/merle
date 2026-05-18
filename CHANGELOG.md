@@ -76,3 +76,37 @@ Initial public structure of the Merle framework (pre-professionalization).
 
 [Unreleased]: https://github.com/maatini/merle/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/maatini/merle/releases/tag/v0.2.0-professional-foundation
+
+## v0.3.0 (2026-05-18)
+
+### Feat
+
+- extend just clean to remove example outputs (reports, logs, archive)
+- **browser**: integrate Lightpanda as optional engine in merle-core
+- Professional Foundation v0.2 — Enterprise-ready Merle RPA Framework
+- **dev**: Add official Devbox + direnv development environment as standard
+- **merle-core**: NATS + Task-Modell als Fundament für Phase 4 Orchestrierung
+- **opencode**: Leichte projekt-lokale .opencode/ Integration für RPA-Hybrid-Architekt
+- **agents**: extend rpa-context tool with new documentation topics
+- **agents**: update rpa-validate command for current framework
+- **agents**: extend governance-validator with Rule 10 + merle-core checks
+- **agents**: modernize rpa-bot-generator skill for Phase 3+
+- **agents**: update rpa-new-bot command to use Copier + merle CLI
+- **docs**: introduce official Copier template and merle CLI
+- **core**: restructure shared into merle-core v0.2 with src-layout
+
+### Fix
+
+- **ci**: Dockerfile template - remove uv.lock copy + --frozen
+- **ci**: copier template _subdirectory + broken links in docs
+- use canonical SecretNotFoundError from merle_core.exceptions in azure.py (was importing duplicate from .base)
+- letzte 'Antigravity' / 'Antigravity GmbH' Referenzen in GitHub Templates entfernt
+- Entferne fiktive 'Antigravity GmbH' – tatsächlicher Urheber ist Martin Richardt (persönlich)
+- Rename tools/merle package to 'merle-cli' to avoid workspace name conflict with root
+- Resolve last Ruff warnings (F841, RUF013)
+- **nats**: clean up duplicate __aexit__ and improve typing
+
+### Refactor
+
+- move merle-core from python_bots/shared/ to packages/merle-core/ (config paths)
+- **secrets**: remove duplicate SecretNotFoundError definition

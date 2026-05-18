@@ -129,5 +129,5 @@ Formatiere die Ausgabe als:
 
 ## References
 
-- `docs/02_Wann_Python_vs_UiPath.md` — Vollständige Entscheidungsmatrix
-- `docs/01_Strategie.md` — Strategie und Architekturprinzipien
+- `docs/concepts/entscheidungsmatrix.md` — Vollständige Entscheidungsmatrix
+- `docs/concepts/strategie.md` — Strategie und Architekturprinzipien

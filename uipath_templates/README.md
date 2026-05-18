@@ -1,6 +1,6 @@
 # UiPath Templates
 
-Dieses Verzeichnis enthält UiPath-Templates für die **Ausnahmefälle**, in denen UiPath nachweislich die bessere Wahl ist (siehe `docs/02_Wann_Python_vs_UiPath.md`).
+Dieses Verzeichnis enthält UiPath-Templates für die **Ausnahmefälle**, in denen UiPath nachweislich die bessere Wahl ist (siehe `docs/concepts/entscheidungsmatrix.md`).
 
 ## Wichtiger Hinweis
 

@@ -72,4 +72,4 @@ Siehe Phase-1-Plan und `templates/bot/copier.yml`.
 - ADR-0002 (verbindliche Template-Architektur) – superseded
 - `templates/bot/copier.yml`
 - `tools/merle/` (CLI)
-- `docs/03_Governance.md` (wird aktualisiert)
+- `docs/concepts/governance.md` (wird aktualisiert)

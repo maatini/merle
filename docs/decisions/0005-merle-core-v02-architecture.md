@@ -9,7 +9,7 @@
 ## 1. Kontext
 
 Nach Phase 0/1 ist `merle-core` noch sehr schlank (BaseBot, RpaHttpClient, setup_logging).  
-Die Vision des Projekts (siehe `docs/01_Strategie.md`) fordert jedoch starke Observability, einheitliche Resilienz und Vermeidung von Boilerplate in den Bots.
+Die Vision des Projekts (siehe `docs/concepts/strategie.md`) fordert jedoch starke Observability, einheitliche Resilienz und Vermeidung von Boilerplate in den Bots.
 
 In Phase 2 soll `merle-core` zum echten wiederverwendbaren Framework ausgebaut werden, das:
 

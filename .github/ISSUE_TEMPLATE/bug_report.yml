@@ -24,7 +24,7 @@ body:
       label: Affected Component
       options:
         - merle-core (python_bots/shared)
-        - Bot Template (templates/bot or python_bots/template)
+        - Bot Template (templates/bot/)
         - merle CLI (tools/merle)
         - Copier Template
         - CI / Docker / Devbox

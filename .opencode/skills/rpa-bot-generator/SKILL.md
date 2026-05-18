@@ -68,7 +68,7 @@ copier copy templates/bot python_bots/<bot_name>
 ## References
 
 - `templates/bot/` — Offizielles Copier-Template
-- `docs/05_Entwicklungsleitfaden.md`
-- `docs/03_Governance.md` (inkl. Rule 10)
+- `docs/concepts/entwicklungsleitfaden.md`
+- `docs/concepts/governance.md` (inkl. Rule 10)
 - `merle_core/task.py` — TaskSpec & TaskResult
 - `merle_core/nats/` — NATS-Integration (ab Phase 4)

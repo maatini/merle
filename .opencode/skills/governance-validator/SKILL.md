@@ -90,6 +90,6 @@ Governance-Regeln des Merle RPA Frameworks (inkl. Rule 10: Merle-Core-Pflicht).
 
 ## References
 
-- `docs/03_Governance.md`
-- `docs/05_Entwicklungsleitfaden.md`
+- `docs/concepts/governance.md`
+- `docs/concepts/entwicklungsleitfaden.md`
 - `merle_core/` (v0.3+)

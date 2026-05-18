@@ -190,16 +190,7 @@ def validate(
         errors.append("Mypy type errors in merle-core")
         console.print("[yellow]⚠[/yellow] Mypy reported issues (allowed in early phases)")
 
-    # 3. Legacy template deprecated check
-    legacy = root / "python_bots" / "template"
-    if legacy.exists():
-        console.print(
-            "[yellow]⚠[/yellow] Legacy template (python_bots/template/) detected — deprecated since Phase 1. Use templates/bot/ + 'merle new-bot'"
-        )
-        if strict:
-            errors.append("Legacy template still present")
-
-    # 4. Template integrity (Copier + post-hook)
+    # 3. Template integrity (Copier + post-hook)
     tpl = _get_template_path()
     if not (tpl / "copier.yml").exists() or not (tpl / "hooks" / "post_gen_project.py").exists():
         errors.append("Copier template incomplete")
@@ -216,7 +207,6 @@ def validate(
     table.add_column("Result")
     table.add_row("Ruff + Format", "PASS" if not any("Ruff" in e for e in errors) else "FAIL")
     table.add_row("Mypy (core)", "PASS (with notes)" if not any("Mypy" in e for e in errors) else "FAIL")
-    table.add_row("Legacy Template", "DEPRECATED WARNING" if legacy.exists() else "CLEAN")
     table.add_row("Copier Template", "OK" if not any("Copier" in e for e in errors) else "BROKEN")
     table.add_row("Repo Visibility", "PRIVATE (ADR-0008)")
     console.print(table)
@@ -273,7 +263,6 @@ def info() -> None:
     table.add_column("Status / Path")
     table.add_row("merle-core", "python_bots/shared/src/merle_core (uv workspace member)")
     table.add_row("Official Template", "templates/bot/ (Copier + post-hook)")
-    table.add_row("Legacy Template", "python_bots/template/ ⚠️ DEPRECATED — do not use")
     table.add_row("CLI", "tools/merle/ (this binary)")
     table.add_row("Docs", "docs/ (MkDocs) + AGENTS.md (binding)")
     table.add_row("ADRs", "docs/decisions/ (7+ records)")

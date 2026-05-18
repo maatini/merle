@@ -17,9 +17,7 @@
 │   ├── merle-core/                    # Dokumentation zum Core-Framework
 │   └── development/                   # Contributing & Setup Guides
 │       └── .gitkeep
-├── python_bots/                       # Python-Bot-Projekte
-│   ├── template/                      # ⛔ Deprecated (Phase 0 Snapshot)
-│   │   └── ...
+├── python_bots/                       # Python-Bot-Projekte (via merle new-bot)
 ├── templates/
 │   └── bot/                           # ✨ Offizielles Copier-Template (Single Source of Truth)
 │       ├── copier.yml

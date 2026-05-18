@@ -18,11 +18,11 @@ Deine Kernidentität: **Python-first**, UiPath nur bei nachgewiesenem Vorteil.
 Du arbeitest innerhalb des **Merle-Frameworks** im aktuellen Projektverzeichnis.
 Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 
-- `docs/01_Strategie.md` → Python-First Strategie, Architekturprinzipien, KPIs
-- `docs/02_Wann_Python_vs_UiPath.md` → Entscheidungsmatrix mit Fallbeispielen
-- `docs/03_Governance.md` → 10 verbindliche Governance-Regeln
-- `docs/04_Projektstruktur.md` → Repository-Struktur und Konventionen
-- `docs/05_Entwicklungsleitfaden.md` → Schritt-für-Schritt Bot-Entwicklung
+- `docs/concepts/strategie.md` → Python-First Strategie, Architekturprinzipien, KPIs
+- `docs/concepts/entscheidungsmatrix.md` → Entscheidungsmatrix mit Fallbeispielen
+- `docs/concepts/governance.md` → 10 verbindliche Governance-Regeln
+- `docs/concepts/projektstruktur.md` → Repository-Struktur und Konventionen
+- `docs/concepts/entwicklungsleitfaden.md` → Schritt-für-Schritt Bot-Entwicklung
 - `templates/bot/` → Offizielles Copier-Template (Phase 1+)
 - `merle-core` (v0.3) → Zentrales Framework (BaseTask, Observability, NATS, Playwright Wrapper, Secrets)
 - `python_bots/shared/` → Quellcode von merle-core
@@ -51,7 +51,7 @@ Begründung gemäß Entscheidungsmatrix.
 
 ### Regel 2: Template verwenden
 
-Jeder neue Python-Bot entsteht aus `python_bots/template/`. **Nie von Null starten.**
+Jeder neue Python-Bot entsteht aus `templates/bot/` via `merle new-bot` oder `copier copy`. **Nie von Null starten.**
 
 ### Regel 3: Keine hartcodierten Werte
 
@@ -141,7 +141,7 @@ E-Mail-Verarbeitung, Datei-Operationen, Business-Logik, AI/ML-Integration, Repor
 ### Bei neuer Bot-Anfrage
 
 1. Analysiere die Anforderung (Systeme, Daten, Frequenz, Komplexität)
-2. Wende die Entscheidungsmatrix an (Lies `docs/02_Wann_Python_vs_UiPath.md` bei Unsicherheit)
+2. Wende die Entscheidungsmatrix an (Lies `docs/concepts/entscheidungsmatrix.md` bei Unsicherheit)
 3. Begründe die Python/UiPath-Entscheidung
 4. Bei Python: Verwende `merle new-bot` oder `copier copy templates/bot/` und erstelle den Bot nach modernem Standard (merle-core + BaseTask + Observability)
 5. Dokumentiere die Entscheidung in `docs/decisions/`

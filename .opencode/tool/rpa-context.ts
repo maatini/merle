@@ -56,21 +56,21 @@ Nutze dieses Tool, wenn du Merle-Framework-Dokumentation brauchst (z.B. vor Bot-
     }
 
     const topicMap: Record<string, { file: string; label: string }> = {
-      strategy: { file: "docs/01_Strategie.md", label: "Python-First Strategie" },
+      strategy: { file: "docs/concepts/strategie.md", label: "Python-First Strategie" },
       "decision-matrix": {
-        file: "docs/02_Wann_Python_vs_UiPath.md",
+        file: "docs/concepts/entscheidungsmatrix.md",
         label: "Entscheidungsmatrix",
       },
-      governance: { file: "docs/03_Governance.md", label: "Governance-Regeln" },
+      governance: { file: "docs/concepts/governance.md", label: "Governance-Regeln" },
       "project-structure": {
-        file: "docs/04_Projektstruktur.md",
+        file: "docs/concepts/projektstruktur.md",
         label: "Projektstruktur",
       },
       "dev-guide": {
-        file: "docs/05_Entwicklungsleitfaden.md",
+        file: "docs/concepts/entwicklungsleitfaden.md",
         label: "Entwicklungsleitfaden",
       },
-      secrets: { file: "docs/06_Secrets_Management.md", label: "Secrets Management" },
+      secrets: { file: "docs/concepts/secrets-management.md", label: "Secrets Management" },
       architecture: { file: "docs/concepts/architecture.md", label: "Architektur (C4 + NATS)" },
       "agent-rules": { file: "agent/CLAUDE.md", label: "Agent-Regeln" },
       merle_core: { file: "packages/merle-core/README.md", label: "merle-core v0.3" },

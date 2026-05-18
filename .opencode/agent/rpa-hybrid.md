@@ -51,7 +51,7 @@ Begründung gemäß Entscheidungsmatrix.
 
 ### Regel 2: Template verwenden
 
-Jeder neue Python-Bot entsteht aus `python_bots/template/`. **Nie von Null starten.**
+Jeder neue Python-Bot entsteht aus `templates/bot/` via `merle new-bot` oder `copier copy`. **Nie von Null starten.**
 
 ### Regel 3: Keine hartcodierten Werte
 

@@ -56,7 +56,7 @@ docker build -t invoice-processor python_bots/invoice_processor
 ```
 
 > **Hinweis**: Der `merle` CLI (via `tools/merle/`) und `just new-bot` / `merle new-bot` sind der **offizielle** One-Command-Flow (Template-First).  
-> Das legacy `python_bots/template/` (manuelles `cp -r`) ist seit Phase 1 **deprecated** (siehe `python_bots/template/DEPRECATED.md`).  
+> Das legacy `python_bots/template/` wurde in Phase 3 (PR 1) entfernt. Alle neuen Bots starten über das Copier-Template (`templates/bot/`).  
 > `merle-core` (SSOT in `python_bots/shared/`) wird **nur** als Dependency referenziert — keine Code-Duplikation in generierten Bots.
 
 **Alternative ohne just:**
@@ -181,8 +181,6 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 │   └── entwicklungsleitfaden.md   # Entwicklungsleitfaden (concepts/)
 │   └── decisions/            # ADR-Archiv
 ├── python_bots/
-│   ├── template/             # Legacy Template (nur noch für alte Bots)
-│   └── shared/               # merle-core (installierbares Package, src-layout)
 ├── templates/
 │   └── bot/                  # ✨ Offizielles Copier-Template (merle new-bot)
 │       ├── pyproject.toml
@@ -296,7 +294,7 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 
 ### Wichtige Regeln
 
-- **Kein Code ohne Template**: Jeder neue Bot startet **ausschließlich** via `just new-bot` / `merle new-bot` (Copier-Template in `templates/bot/`). Das legacy-Verzeichnis `python_bots/template/` ist deprecated.
+- **Kein Code ohne Template**: Jeder neue Bot startet **ausschließlich** via `just new-bot` / `merle new-bot` (Copier-Template in `templates/bot/`).
 - **merle-core** (`python_bots/shared/`) nur bei echter Wiederverwendbarkeit erweitern
 - **Keine hartcodierten Secrets/Pfade**
 - **Linux-Container-Kompatibilität** ist Pflicht

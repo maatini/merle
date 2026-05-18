@@ -23,7 +23,7 @@ Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln ent
 
 **Regel**: Jeder neue Python-Bot wird **ausschließlich** über das offizielle Copier-Template (`templates/bot/`) oder den Befehl `merle new-bot` erzeugt.  
 **Umfang**: pyproject.toml (uv), merle-core, BaseBot, Logging, Retry, Testing, Dockerfile, .dockerignore.  
-**Verboten**: Manuelles `cp -r python_bots/template/` (deprecated seit Phase 1).  
+**Verboten**: Manuelles `cp -r python_bots/template/` (seit PR 1 2026-05 nicht mehr vorhanden).  
 **Durchsetzung**: `governance-validator` + Code-Review.
 
 ## Regel 3: Keine hartcodierten Werte

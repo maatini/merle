@@ -100,9 +100,11 @@ test-cov:
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Build the official bot template image (for validation / Trivy scan)
-# NOTE: Uses legacy snapshot for comparison only. Real validation uses generated bot from templates/bot/
+# NOTE: Legacy template (python_bots/template/) was removed in PR 1
 docker-template:
-    docker build -t merle-bot-template:latest -f python_bots/template/Dockerfile python_bots/template || echo "⚠️ Legacy template build (deprecated — see python_bots/template/DEPRECATED.md)"
+    @echo "❌ Legacy template (python_bots/template/) wurde in PR 1 entfernt."
+    @echo "   Verwende stattdessen: just new-bot <name>  oder  uv run merle new-bot <name>"
+    @exit 1
 
 # Build a specific generated bot (after copier)
 docker-bot BOT:

@@ -50,7 +50,7 @@ cd python_bots/<bot_name>
 uv sync --group dev
 ```
 
-> **Hinweis**: Das alte `cp -r python_bots/template/` ist seit Phase 1 deprecated.
+> **Hinweis**: Das alte `cp -r python_bots/template/` wurde mit PR 1 (2026-05) entfernt. Neue Bots immer via `merle new-bot` / Copier.
 
 > **Browser-Engine (seit 2026-05)**: Bei `--playwright` kannst du mit `--browser-engine lightpanda` die Zig-basierte Lightpanda-Engine wählen (10–16× weniger RAM, 5–11× schneller). Default bleibt `chromium` für maximale Kompatibilität + Screenshot/PDF-Fähigkeit. Siehe ADR-0007.
 

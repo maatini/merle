@@ -21,7 +21,7 @@ repos:
   #         - "--strict"
   #         - "--no-error-summary"
   #         - "--show-error-codes"
-  #       files: ^python_bots/shared/src/
+  #       files: ^packages/merle-core/src/
   #       additional_dependencies:
   #         - "loguru>=0.7"
   #         - "tenacity>=8.0"

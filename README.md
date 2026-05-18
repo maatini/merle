@@ -4,7 +4,7 @@
 [![Version](https://img.shields.io/badge/version-0.2.0-blue)](https://github.com/maatini/merle)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![uv](https://img.shields.io/badge/uv-0.11+-8A2BE2?logo=python)](https://docs.astral.sh/uv/)
-[![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/01_Strategie.md)
+[![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/concepts/strategie.md)
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/maatini/merle)
 [![Roadmap](https://img.shields.io/badge/roadmap-orchestration--vision-orange)](docs/ROADMAP.md)
 
@@ -147,7 +147,7 @@ Da unsere Software-Roboter nicht lokal auf Desktops, sondern **zentral und hochs
 
 ### Integrierte Governance & Tools
 
-Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/02_Wann_Python_vs_UiPath.md) und der Projekt-Governance. Dazu stehen folgende Erweiterungen im `.opencode/`-Verzeichnis zur Verfügung:
+Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/concepts/entscheidungsmatrix.md) und der Projekt-Governance. Dazu stehen folgende Erweiterungen im `.opencode/`-Verzeichnis zur Verfügung:
 
 1. **`rpa-context` (MCP Tool):** Lädt Projekt-Dokumentationen dynamisch (`load_rpa_context strategy`, `dev-guide`, `governance` …).
 2. **`rpa-bot-generator` (Skill):** Erzeugt neue Python-Bots **ausschließlich** auf Basis des verbindlichen Copier-Templates (`templates/bot/`) via `merle new-bot` oder Copier.
@@ -174,11 +174,11 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 ```
 .
 ├── docs/                     # Strategie, Governance, Leitfäden
-│   ├── 01_Strategie.md       # Python-First Strategie
-│   ├── 02_Wann_Python_vs_UiPath.md  # Entscheidungsmatrix
-│   ├── 03_Governance.md      # Governance-Regeln
-│   ├── 04_Projektstruktur.md # Projektstruktur & Konventionen
-│   ├── 05_Entwicklungsleitfaden.md  # Entwicklungsleitfaden
+│   ├── strategie.md              # Python-First Strategie (concepts/)
+│   ├── entscheidungsmatrix.md    # Entscheidungsmatrix (concepts/)
+│   ├── governance.md             # Governance-Regeln (concepts/)
+│   ├── projektstruktur.md        # Projektstruktur & Konventionen (concepts/)
+│   └── entwicklungsleitfaden.md   # Entwicklungsleitfaden (concepts/)
 │   └── decisions/            # ADR-Archiv
 ├── python_bots/
 │   ├── template/             # Legacy Template (nur noch für alte Bots)
@@ -217,7 +217,7 @@ Die vollständige Dokumentation findest du unter:
 Wichtige Dokumente:
 
 - [Architektur](docs/concepts/architecture.md) (inkl. C4-Diagramme)
-- [Governance](docs/03_Governance.md)
+- [Governance](docs/concepts/governance.md)
 - [merle-core](docs/merle-core/index.md) (ab v0.2)
 - [Beispiele](examples/README.md) (Web, Excel, UiPath-Hybrid)
 
@@ -260,7 +260,7 @@ Wichtige Dokumente:
 9. Code-Review
 10. Entscheidungen dokumentieren
 
-Details: [Governance-Regeln](docs/03_Governance.md)
+Details: [Governance-Regeln](docs/concepts/governance.md)
 
 ---
 
@@ -305,7 +305,7 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 ### Fragen?
 
 - Technische Fragen → `#rpa-engineering` (Slack/Teams)
-- Architektur-Entscheidungen → `docs/03_Governance.md` + `agent/CLAUDE.md`
+- Architektur-Entscheidungen → `docs/concepts/governance.md` + `agent/CLAUDE.md`
 
 ## Lizenz
 

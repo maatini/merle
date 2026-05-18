@@ -32,16 +32,17 @@ ENV UV_COMPILE_BYTECODE=1 \
 WORKDIR /app
 
 # Copy dependency specification
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml ./
 
 # === Monorepo support for merle-core ===
 # When building with BUILD_MODE=monorepo (from repo root), we copy the core package
 # so that the path dependency in pyproject.toml works inside the container.
 COPY packages/merle-core ./packages/merle-core
 
-# Install production dependencies
+# Install production dependencies (no --frozen: lockfile is generated on-the-fly for CI validation;
+# for production, commit a uv.lock and set --frozen)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --no-cache
+    uv sync --no-dev --no-cache
 
 # =============================================================================
 # Runtime (distroless-like, non-root)

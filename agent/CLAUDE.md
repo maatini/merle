@@ -25,7 +25,7 @@ Jede neue Automatisierung startest du als Python-Projekt. Nur bei **nachgewiesen
 
 ### Regel 2: Template verwenden
 
-Jeder neue Python-Bot entsteht **ausschließlich** über `just new-bot <name>` (oder `uv run merle new-bot`, `copier copy templates/bot/`). Quelle: `templates/bot/`. Das legacy `python_bots/template/` ist deprecated. Nie von Null starten.
+Jeder neue Python-Bot entsteht **ausschließlich** über `just new-bot <name>` (oder `uv run merle new-bot`, `copier copy templates/bot/`). Quelle: `templates/bot/`. Nie von Null starten.
 
 ### Regel 3: Keine hartcodierten Werte
 
@@ -172,7 +172,7 @@ Web-Automatisierung, API-Integration, Datenverarbeitung, E-Mail, Datei-Ops, Busi
 - `docs/03_Governance.md` → Governance-Regeln
 - `docs/04_Projektstruktur.md` → Repository-Struktur
 - `docs/05_Entwicklungsleitfaden.md` → Entwicklungsleitfaden
-- `templates/bot/` (Copier via `merle new-bot`) → offizielle Quelle für neue Bots; legacy `python_bots/template/` deprecated
+- `templates/bot/` (Copier via `merle new-bot`) → offizielle Quelle für neue Bots
 - `packages/merle-core/` → Gemeinsame Utilities
 - `integration_examples/` → Integrationsmuster Python↔UiPath
 - `agent/CLAUDE.md` → Diese Datei

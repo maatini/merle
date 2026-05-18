@@ -25,7 +25,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
    Jede Entscheidung für UiPath muss explizit auf die Entscheidungsmatrix (docs/02_Wann_Python_vs_UiPath.md) verweisen und dokumentiert werden.
 
 3. **Template-first**  
-   Jeder neue Python-Bot startet **ausschließlich** über `just new-bot <name>` (oder `merle new-bot`, `copier copy templates/bot/`). Die Quelle ist `templates/bot/`. Das legacy `python_bots/template/` ist deprecated und darf nicht mehr als Basis verwendet werden. Nie von Null beginnen.
+   Jeder neue Python-Bot startet **ausschließlich** über `just new-bot <name>` (oder `merle new-bot`, `copier copy templates/bot/`). Die Quelle ist `templates/bot/`. Nie von Null beginnen.
 
 4. **Docs-first**  
    Bei komplexen oder architekturrelevanten Aufgaben **zuerst** die relevanten Dateien in `docs/` lesen und zitieren.
@@ -53,7 +53,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 ## Repository-Struktur (wichtige Pfade)
 
 - `docs/` — Die „Bibel“: Strategie, Entscheidungsmatrix, Projektstruktur, Integrationsmuster
-- `templates/bot/` (Copier) — **Immer** als Basis für neue Python-Bots verwenden via `just new-bot` / `merle new-bot`. Das legacy `python_bots/template/` ist deprecated.
+- `templates/bot/` (Copier) — **Immer** als Basis für neue Python-Bots verwenden via `just new-bot` / `merle new-bot`.
 - `packages/merle-core/` — Gemeinsame Utilities und Clients
 - `integration_examples/` — Bewährte Muster für Python ↔ UiPath Kommunikation (Orchestrator API, Python Scope etc.)
 - `uipath_templates/` — Nur bei berechtigten UiPath-Fällen
@@ -88,7 +88,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
    Passt die Aufgabe zur Python-first Strategie? Falls nicht: Begründe warum UiPath sinnvoll ist (Verweis auf docs/02\_...).
 
 2. **Template verwenden**  
-   Immer `just new-bot <name>` (bzw. `copier copy templates/bot/`) als Ausgangspunkt verwenden. Das legacy-Verzeichnis `python_bots/template/` ist deprecated und wird nicht mehr gepflegt.
+   Immer `just new-bot <name>` (bzw. `copier copy templates/bot/`) als Ausgangspunkt verwenden.
 
 3. **Docs konsultieren**  
    Relevante Dateien in `docs/` lesen, bevor Code geschrieben wird.

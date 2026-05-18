@@ -22,7 +22,7 @@ Jeder neue Merle-Bot startet mit einem starken, beobachtbaren, resilienten Funda
 
 ## 2. Aktueller Stand (nach Phase 0 + 1)
 
-- `merle-core` (in `python_bots/shared/src/merle_core/`) hat derzeit nur:
+- `merle-core` (in `packages/merle-core/src/merle_core/`) hat derzeit nur:
   - `BaseBot`
   - `RpaHttpClient`
   - `setup_logging`

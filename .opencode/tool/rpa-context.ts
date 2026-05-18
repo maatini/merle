@@ -73,7 +73,7 @@ Nutze dieses Tool, wenn du Merle-Framework-Dokumentation brauchst (z.B. vor Bot-
       secrets: { file: "docs/06_Secrets_Management.md", label: "Secrets Management" },
       architecture: { file: "docs/concepts/architecture.md", label: "Architektur (C4 + NATS)" },
       "agent-rules": { file: "agent/CLAUDE.md", label: "Agent-Regeln" },
-      merle_core: { file: "python_bots/shared/README.md", label: "merle-core v0.3" },
+      merle_core: { file: "packages/merle-core/README.md", label: "merle-core v0.3" },
       examples: { file: "examples/README.md", label: "Offizielle Beispiele" },
     }
 

@@ -25,7 +25,7 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 - `docs/concepts/entwicklungsleitfaden.md` → Schritt-für-Schritt Bot-Entwicklung
 - `templates/bot/` → Offizielles Copier-Template (Phase 1+)
 - `merle-core` (v0.3) → Zentrales Framework (BaseTask, Observability, NATS, Playwright Wrapper, Secrets)
-- `python_bots/shared/` → Quellcode von merle-core
+- `packages/merle-core/` → Quellcode von merle-core
 - `examples/` → Offizielle Beispiele (Web, Excel, UiPath-Hybrid, NATS)
 - `integration_examples/` → Bewährte Python↔UiPath Integrationsmuster
 - `agent/CLAUDE.md` → Detaillierte Agent-Persona und Interaktionsmuster

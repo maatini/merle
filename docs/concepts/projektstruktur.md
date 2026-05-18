@@ -18,16 +18,19 @@
 │   └── development/                   # Contributing & Setup Guides
 │       └── .gitkeep
 ├── python_bots/                       # Python-Bot-Projekte (via merle new-bot)
+├── packages/
+│   └── merle-core/                     # ✨ Zentrales Core-Framework (BaseBot, Retry, Observability, ...)
+│       ├── pyproject.toml
+│       ├── src/merle_core/
+│       │   ├── __init__.py
+│       │   ├── base_bot.py
+│       │   ├── logging_config.py
+│       │   └── ...
+│       └── tests/
 ├── templates/
 │   └── bot/                           # ✨ Offizielles Copier-Template (Single Source of Truth)
 │       ├── copier.yml
 │       └── {{ bot_name }}/...         # Jinja2-Templates + Hooks
-│   │       └── test_main.py
-│   └── shared/                        # Gemeinsame Utilities
-│       ├── __init__.py
-│       ├── base_bot.py                # Basisklasse für Bots
-│       ├── logging_config.py          # Logging-Konfiguration
-│       └── http_client.py             # Vorkonfigurierter HTTP-Client
 ├── integration_examples/              # Python ↔ UiPath Integrationsmuster
 │   ├── orchestrator_api/              # UiPath Orchestrator REST API
 │   │   └── example.py

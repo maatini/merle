@@ -5,8 +5,8 @@
 *                                    @maatini/merle-architects
 
 # Core Python framework (highest impact on all bots)
-python_bots/shared/                  @maatini/merle-core-maintainers
-python_bots/shared/src/merle_core/   @maatini/merle-core-maintainers
+packages/merle-core/                  @maatini/merle-core-maintainers
+packages/merle-core/src/merle_core/   @maatini/merle-core-maintainers
 
 # Official Copier template + CLI (every new bot starts here)
 templates/bot/                       @maatini/merle-template-maintainers

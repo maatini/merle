@@ -66,7 +66,7 @@ from merle_core import BaseBot, RpaHttpClient, setup_logging
 ## Development
 
 ```bash
-cd python_bots/shared
+cd packages/merle-core
 uv run ruff check .
 uv run mypy src/merle_core
 ```

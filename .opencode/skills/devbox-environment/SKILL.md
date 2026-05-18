@@ -74,7 +74,7 @@ devbox run new-bot rechnungsverarbeitung --playwright
 - `devbox.lock` — Gesperrte exakte Nix-Pakete (committen!)
 - `docs/development/setup.md` — Offizielle Setup-Anleitung (Devbox zuerst)
 - `CONTRIBUTING.md` — Entwickler-Workflow
-- `uv.lock` + Workspace-Mitglieder (`python_bots/shared`, `tools/merle`)
+- `uv.lock` + Workspace-Mitglieder (`packages/merle-core`, `tools/merle`)
 
 ## Onboarding-Hinweis
 

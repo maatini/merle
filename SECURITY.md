@@ -44,7 +44,7 @@ All findings with CRITICAL/HIGH severity are treated as blocking for production 
 
 This policy covers:
 
-- `merle-core` (python_bots/shared/src/merle_core)
+- `merle-core` (packages/merle-core/src/merle_core)
 - Official Copier bot template (`templates/bot/`)
 - `merle` CLI (`tools/merle/`)
 - `.opencode/` agent, skills, and commands

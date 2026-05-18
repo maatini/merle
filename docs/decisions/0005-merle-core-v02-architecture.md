@@ -2,7 +2,7 @@
 
 **Status:** Akzeptiert  
 **Datum:** 2026-05-16  
-**Betroffene Komponente:** `merle-core` (python_bots/shared)
+**Betroffene Komponente:** `merle-core` (packages/merle-core)
 
 ---
 

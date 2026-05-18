@@ -303,4 +303,10 @@ python_bots/*-test/
 # Any local bot clones
 bots/
 kladde.md
+
+# Example outputs (never commit generated data)
+examples/**/reports/
+examples/**/logs/
+examples/**/data/archive/
+examples/**/data/reports/
 # Keep this file minimal but explicit — explicit > implicit for enterprise repos.

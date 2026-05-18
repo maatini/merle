@@ -23,7 +23,7 @@ body:
     attributes:
       label: Affected Component
       options:
-        - merle-core (python_bots/shared)
+        - merle-core (packages/merle-core)
         - Bot Template (templates/bot/)
         - merle CLI (tools/merle)
         - Copier Template

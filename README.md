@@ -56,8 +56,7 @@ docker build -t invoice-processor python_bots/invoice_processor
 ```
 
 > **Hinweis**: Der `merle` CLI (via `tools/merle/`) und `just new-bot` / `merle new-bot` sind der **offizielle** One-Command-Flow (Template-First).  
-> Das legacy `python_bots/template/` wurde in Phase 3 (PR 1) entfernt. Alle neuen Bots starten über das Copier-Template (`templates/bot/`).  
-> `merle-core` (SSOT in `python_bots/shared/`) wird **nur** als Dependency referenziert — keine Code-Duplikation in generierten Bots.
+> `merle-core` (SSOT in `packages/merle-core/`) wird **nur** als Dependency referenziert — keine Code-Duplikation in generierten Bots.
 
 **Alternative ohne just:**
 
@@ -174,13 +173,15 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 ```
 .
 ├── docs/                     # Strategie, Governance, Leitfäden
-│   ├── strategie.md              # Python-First Strategie (concepts/)
-│   ├── entscheidungsmatrix.md    # Entscheidungsmatrix (concepts/)
+│   ├── 01_Strategie.md       # Python-First Strategie
+│   ├── 02_Wann_Python_vs_UiPath.md  # Entscheidungsmatrix
 │   ├── governance.md             # Governance-Regeln (concepts/)
-│   ├── projektstruktur.md        # Projektstruktur & Konventionen (concepts/)
-│   └── entwicklungsleitfaden.md   # Entwicklungsleitfaden (concepts/)
+│   ├── 04_Projektstruktur.md # Projektstruktur & Konventionen
+│   ├── 05_Entwicklungsleitfaden.md  # Entwicklungsleitfaden
 │   └── decisions/            # ADR-Archiv
 ├── python_bots/
+│   ├── template/             # Legacy Template (nur noch für alte Bots)
+│   └── shared/               # merle-core (installierbares Package, src-layout)
 ├── templates/
 │   └── bot/                  # ✨ Offizielles Copier-Template (merle new-bot)
 │       ├── pyproject.toml
@@ -283,7 +284,7 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 1. **Branch erstellen**: `feature/<kurzbeschreibung>` oder `fix/<issue>`
 2. **Code-Qualität**:
    - `uv run ruff check --fix . && uv run ruff format .`
-   - `uv run mypy python_bots/shared/src/merle_core`
+   - `uv run mypy packages/merle-core/src/merle_core`
    - `uv run pytest python_bots -v`
 3. **pre-commit Hooks** (empfohlen):
    ```bash
@@ -295,7 +296,7 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 ### Wichtige Regeln
 
 - **Kein Code ohne Template**: Jeder neue Bot startet **ausschließlich** via `just new-bot` / `merle new-bot` (Copier-Template in `templates/bot/`).
-- **merle-core** (`python_bots/shared/`) nur bei echter Wiederverwendbarkeit erweitern
+- **merle-core** (`packages/merle-core/`) nur bei echter Wiederverwendbarkeit erweitern
 - **Keine hartcodierten Secrets/Pfade**
 - **Linux-Container-Kompatibilität** ist Pflicht
 - Änderungen an der Architektur oder Governance → ADR in `docs/decisions/`

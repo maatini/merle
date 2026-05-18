@@ -78,5 +78,5 @@ async with launch_robust_browser(
 ---
 
 **Hinweis für Contributor**: Der Wrapper lebt in  
-`python_bots/shared/src/merle_core/playwright/browser.py`  
+`packages/merle-core/src/merle_core/playwright/browser.py`  
 Alle Änderungen an der Engine-Logik müssen im zugehörigen ADR und in den Template-Dateien nachgezogen werden.

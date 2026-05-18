@@ -45,7 +45,7 @@ Siehe `docs/development/setup.md` und Skill `devbox-environment` für Details.
    just test
    # oder manuell:
    uv run ruff check --fix . && uv run ruff format .
-   uv run pytest python_bots/shared -q
+   uv run pytest packages/merle-core -q
    ```
 4. Bei Template-Änderungen: Einen Test-Bot mit `merle new-bot` oder Copier generieren und prüfen
 5. PR mit guter Beschreibung + Referenz zu Issue/ADR erstellen

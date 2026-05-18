@@ -31,4 +31,4 @@ uv add merle-core[nats]                     # + NATS Client (Phase 4)
 
 ---
 
-**Aktuelle Version**: Wird aus `python_bots/shared/` als installierbares Package gebaut.
+**Aktuelle Version**: Wird aus `packages/merle-core/` als installierbares Package gebaut.

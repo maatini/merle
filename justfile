@@ -73,7 +73,7 @@ fmt:
 
 # Type check merle-core (strict)
 mypy:
-    uv run mypy python_bots/shared/src/merle_core --strict
+    uv run mypy packages/merle-core/src/merle_core --strict
 
 # Run pre-commit on all files (same as CI)
 pre-commit:
@@ -89,11 +89,11 @@ test *ARGS:
 
 # Test only merle-core
 test-core *ARGS:
-    uv run pytest python_bots/shared -q {{ARGS}}
+    uv run pytest packages/merle-core -q {{ARGS}}
 
 # Test with coverage
 test-cov:
-    uv run pytest --cov=merle_core --cov-report=term-missing python_bots/shared
+    uv run pytest --cov=merle_core --cov-report=term-missing packages/merle-core
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Docker (Template + Examples)
@@ -153,12 +153,16 @@ versions:
     @echo "Mypy:   $(uv run mypy --version)"
     @echo "Copier: $(uv run copier --version 2>/dev/null || echo 'not installed via uv')"
 
-# Clean Python caches (safe)
+# Clean Python caches + example artifacts (safe, rebuildable)
 clean:
     find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
+    find examples -type d -name "reports" -exec rm -rf {} + 2>/dev/null || true
+    find examples -type d -name "logs" -exec rm -rf {} + 2>/dev/null || true
+    find examples -type d -name "archive" -exec rm -rf {} + 2>/dev/null || true
+    echo "✅ Clean complete"
     @echo "🧹 Python caches cleaned"
 
 # Remove all generated test bots (use with caution)

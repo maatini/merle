@@ -34,7 +34,7 @@ tools/
 
 # Do not send other bots when building one specific bot
 python_bots/*/
-!python_bots/shared/
+!packages/merle-core/
 
 # Large binary assets
 *.png

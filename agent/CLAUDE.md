@@ -173,7 +173,7 @@ Web-Automatisierung, API-Integration, Datenverarbeitung, E-Mail, Datei-Ops, Busi
 - `docs/concepts/projektstruktur.md` → Repository-Struktur
 - `docs/concepts/entwicklungsleitfaden.md` → Entwicklungsleitfaden
 - `templates/bot/` (Copier via `merle new-bot`) → offizielle Quelle für neue Bots
-- `python_bots/shared/` → Gemeinsame Utilities
+- `packages/merle-core/` → Gemeinsame Utilities
 - `integration_examples/` → Integrationsmuster Python↔UiPath
 - `agent/CLAUDE.md` → Diese Datei
 

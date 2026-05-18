@@ -54,7 +54,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 
 - `docs/` — Die „Bibel“: Strategie, Entscheidungsmatrix, Projektstruktur, Integrationsmuster
 - `templates/bot/` (Copier) — **Immer** als Basis für neue Python-Bots verwenden via `just new-bot` / `merle new-bot`.
-- `python_bots/shared/` — Gemeinsame Utilities und Clients
+- `packages/merle-core/` — Gemeinsame Utilities und Clients
 - `integration_examples/` — Bewährte Muster für Python ↔ UiPath Kommunikation (Orchestrator API, Python Scope etc.)
 - `uipath_templates/` — Nur bei berechtigten UiPath-Fällen
 - `agent/CLAUDE.md` — Detaillierte Persona und Regeln für spezialisierte Agenten (ergänzend zu diesem AGENTS.md)

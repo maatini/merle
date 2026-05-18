@@ -14,7 +14,7 @@
 
 ## Changes
 
-- [ ] New or modified code in `merle-core` (python_bots/shared)
+- [ ] New or modified code in `merle-core` (packages/merle-core)
 - [ ] Changes to the official **Copier template** (`templates/bot/`)
 - [ ] CLI update in `tools/merle/`
 - [ ] Documentation / ADR added or updated
@@ -23,7 +23,7 @@
 ## Checklist (required)
 
 - [ ] `uv run ruff check --fix . && uv run ruff format .` passed
-- [ ] `uv run mypy python_bots/shared/src/merle_core --strict` (or relevant package) passes or has justified ignores
+- [ ] `uv run mypy packages/merle-core/src/merle_core --strict` (or relevant package) passes or has justified ignores
 - [ ] `uv run pytest` (relevant tests) passes
 - [ ] If template changed: `copier copy templates/bot /tmp/test-bot && uv run python /tmp/test-bot/main.py` works
 - [ ] `uv run pre-commit run --all-files` (or at least the relevant hooks)

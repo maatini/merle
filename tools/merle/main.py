@@ -180,7 +180,7 @@ def validate(
         console.print("[red]✗[/red] Ruff failed")
 
     # 2. Mypy (merle-core)
-    mypy_cmd = ["uv", "run", "mypy", "python_bots/shared/src/merle_core"]
+    mypy_cmd = ["uv", "run", "mypy", "packages/merle-core/src/merle_core"]
     if strict:
         mypy_cmd.append("--strict")
     try:
@@ -261,7 +261,7 @@ def info() -> None:
     table = Table(title=f"Merle Framework Info — v{version}")
     table.add_column("Component", style="bold cyan")
     table.add_column("Status / Path")
-    table.add_row("merle-core", "python_bots/shared/src/merle_core (uv workspace member)")
+    table.add_row("merle-core", "packages/merle-core/src/merle_core (uv workspace member)")
     table.add_row("Official Template", "templates/bot/ (Copier + post-hook)")
     table.add_row("CLI", "tools/merle/ (this binary)")
     table.add_row("Docs", "docs/ (MkDocs) + AGENTS.md (binding)")

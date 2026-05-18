@@ -22,7 +22,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
    Bei Unsicherheit oder fehlender klarer Begründung **immer Python** wählen.
 
 2. **UiPath nur mit Begründung**  
-   Jede Entscheidung für UiPath muss explizit auf die Entscheidungsmatrix (docs/02_Wann_Python_vs_UiPath.md) verweisen und dokumentiert werden.
+   Jede Entscheidung für UiPath muss explizit auf die Entscheidungsmatrix (docs/concepts/entscheidungsmatrix.md) verweisen und dokumentiert werden.
 
 3. **Template-first**  
    Jeder neue Python-Bot startet **ausschließlich** über `just new-bot <name>` (oder `merle new-bot`, `copier copy templates/bot/`). Die Quelle ist `templates/bot/`. Das legacy `python_bots/template/` ist deprecated und darf nicht mehr als Basis verwendet werden. Nie von Null beginnen.

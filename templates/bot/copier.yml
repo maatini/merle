@@ -4,7 +4,6 @@
 #   oder über die merle CLI: merle new-bot mein_bot
 
 _min_copier_version: "9.3"
-_subdirectory: "{{ bot_name }}"
 
 # ─────────────────────────────────────────────────────────────
 # Fragen an den Benutzer
@@ -77,6 +76,6 @@ location:
 
 _tasks:
   - "echo '✅ Bot {{ bot_name }} wurde erfolgreich generiert.'"
-  - "echo 'Nächste Schritte: cd {{ _copier_conf.answers.location }}/{{ bot_name }} && uv sync --group dev'"
+  - "echo 'Nächste Schritte: cd {{ location }}/{{ bot_name }} && uv sync --group dev'"
 # Optional: spätere Erweiterung mit post-generation Hook
 # _tasks kann auch Python-Hooks aufrufen (siehe hooks/post_gen_project.py)

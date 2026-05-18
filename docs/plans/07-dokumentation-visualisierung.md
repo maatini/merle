@@ -84,9 +84,9 @@ Merle-Dokumentation soll **nicht nur korrekt**, sondern **überzeugend und sofor
 
 | #   | Visual                                                                             | Typ                                    | Wo platziert?                                        | Warum wichtig?                                        | Aufwand |
 | --- | ---------------------------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------- | ------- |
-| 1   | **Python vs. UiPath Entscheidungsfluss**                                           | Schönes farbiges Flowchart (mit Icons) | `docs/02_Wann_Python_vs_UiPath.md` + `index.md`      | Ersetzt schwaches ASCII, wird am häufigsten gebraucht | Mittel  |
-| 2   | **Die 10 Governance-Regeln – Visuelle Übersicht**                                  | Icon-Grid / Poster-Style (10 Karten)   | `docs/03_Governance.md` + als eigenes One-Pager      | Regeln werden endlich verinnerlicht und diskutiert    | Hoch    |
-| 3   | **Merle Bot Lifecycle** (Idee → Template → Entwicklung → CI/CD → AKS + Monitoring) | Horizontales Timeline-Diagramm         | `docs/05_Entwicklungsleitfaden.md` + Getting Started | Macht den gesamten Prozess greifbar                   | Mittel  |
+| 1   | **Python vs. UiPath Entscheidungsfluss**                                           | Schönes farbiges Flowchart (mit Icons) | `docs/concepts/entscheidungsmatrix.md` (früher 02_Wann_Python_vs_UiPath.md) | Ersetzt schwaches ASCII, wird am häufigsten gebraucht | Mittel  |
+| 2   | **Die 10 Governance-Regeln – Visuelle Übersicht**                                  | Icon-Grid / Poster-Style (10 Karten)   | `docs/concepts/governance.md` (früher 03_Governance.md)                    | Regeln werden endlich verinnerlicht und diskutiert    | Hoch    |
+| 3   | **Merle Bot Lifecycle** (Idee → Template → Entwicklung → CI/CD → AKS + Monitoring) | Horizontales Timeline-Diagramm         | `docs/concepts/entwicklungsleitfaden.md` (früher 05_Entwicklungsleitfaden.md) | Macht den gesamten Prozess greifbar                   | Mittel  |
 | 4   | **C4 Architecture – NATS-Variante**                                                | Erweitertes Mermaid C4 (Level 1–3)     | `docs/concepts/architecture.md`                      | Macht Phase-4-Vision konkret                          | Mittel  |
 
 ### P1 – Phase 4 begleitend

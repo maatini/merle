@@ -107,7 +107,7 @@ Features:
 - Neuer `AzureKeyVaultProvider`
 - Integration in `pydantic-settings` via custom `AzureKeyVaultSettings` Base-Klasse
 - Fallback-Kette: Key Vault → .env → Umgebungsvariable
-- Guideline-Dokument (`docs/06_Secrets_Management.md`)
+- Guideline-Dokument (`docs/concepts/secrets-management.md`)
 
 **Extra:** `azure`
 
@@ -171,7 +171,7 @@ data = ["pandas>=2.0", "openpyxl>=3.1", "pdfplumber>=0.10"]
 4. `logging.py` mit OTEL-Sink
 5. ADR-0005 schreiben
 
-**Woche 4 – Power-Features** 6. `playwright/` Wrapper (hoher Wert) 7. `secrets/` + Azure Key Vault + Pydantic Integration 8. `uipath/` Queue Helpers (basiert auf bestehendem Beispiel) 9. `data/` (Excel + PDF) – priorisiert nach Bedarf 10. Neue Governance-Regel + Guideline-Dokument `docs/06_Secrets_Management.md` 11. Update des Templates (`templates/bot/`) auf `merle-core>=0.2`
+**Woche 4 – Power-Features** 6. `playwright/` Wrapper (hoher Wert) 7. `secrets/` + Azure Key Vault + Pydantic Integration 8. `uipath/` Queue Helpers (basiert auf bestehendem Beispiel) 9. `data/` (Excel + PDF) – priorisiert nach Bedarf 10. Neue Governance-Regel + Guideline-Dokument `docs/concepts/secrets-management.md` 11. Update des Templates (`templates/bot/`) auf `merle-core>=0.2`
 
 ---
 

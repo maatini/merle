@@ -12,8 +12,6 @@ Dieser Leitfaden beschreibt den vollständigen Prozess zur Entwicklung eines neu
 
 ## Phase 1: Anforderungsanalyse und Technologieentscheidung
 
-## Phase 1: Anforderungsanalyse und Technologieentscheidung
-
 ### Schritt 1: Prozess verstehen
 
 1. Prozessbeschreibung vom Fachbereich einholen
@@ -62,7 +60,7 @@ uv sync --group dev
 
 ### Schritt 3: Abhängigkeiten definieren
 
-1. `requirements.txt`: Nur benötigte Pakete
+1. `pyproject.toml`: Nur benötigte Pakete (via `uv add`)
 2. Version-Pinning nach Konvention (siehe `projektstruktur.md`)
 
 ---

@@ -14,4 +14,4 @@ Diese Sektion beschreibt, wie du zum Merle-Framework beiträgst und deine Entwic
 
 ---
 
-**Hinweis**: Bis die dedizierten Seiten fertig sind, findest du die wichtigsten Informationen im [Haupt-README](../../README.md) und in [AGENTS.md](../../AGENTS.md).
+Die wichtigsten Themen sind auf diese Seiten verteilt. Für einen schnellen Einstieg siehe [Schnellstart](../getting-started/quickstart.md) und [Junior-Guide](../getting-started/junior-guide.md).

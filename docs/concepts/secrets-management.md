@@ -43,7 +43,7 @@ async def main():
     ...
 ```
 
-## Governance (Regel 10 + Secrets)
+## Governance (Regel 3 + 10 + 11)
 
 - **Nie** Secrets in Git committen.
 - **Nie** `api_key = "..."` im Code.

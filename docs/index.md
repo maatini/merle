@@ -46,7 +46,7 @@ Diese drei Diagramme geben dir den besten Überblick über Merle:
 | Visual                             | Beschreibung                                               | Link                                                       |
 | ---------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
 | **Python vs. UiPath Entscheidung** | Der zentrale Entscheidungsbaum für alle Automatisierungen  | [Entscheidungsmatrix](concepts/entscheidungsmatrix.md)     |
-| **Die 10 Governance-Regeln**       | Visuelle Übersicht aller verbindlichen Regeln              | [Governance](concepts/governance.md)                       |
+| **Die 11 Governance-Regeln**       | Visuelle Übersicht aller verbindlichen Regeln              | [Governance](concepts/governance.md)                       |
 | **Bot Lifecycle**                  | Kompletter Weg von der Idee bis zum produktiven Bot in AKS | [Entwicklungsleitfaden](concepts/entwicklungsleitfaden.md) |
 
 ---

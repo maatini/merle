@@ -150,7 +150,7 @@ Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/concepts/e
 
 1. **`rpa-context` (MCP Tool):** Lädt Projekt-Dokumentationen dynamisch (`load_rpa_context strategy`, `dev-guide`, `governance` …).
 2. **`rpa-bot-generator` (Skill):** Erzeugt neue Python-Bots **ausschließlich** auf Basis des verbindlichen Copier-Templates (`templates/bot/`) via `merle new-bot` oder Copier.
-3. **`governance-validator` (Skill):** Prüft Code auf Einhaltung aller 10 Governance-Regeln (inkl. Rule 10: merle-core + BaseTask).
+3. **`governance-validator` (Skill):** Prüft Code auf Einhaltung aller 11 Governance-Regeln (inkl. Rule 10: merle-core + BaseTask).
 4. **Commands:** `/rpa-new-bot` und `/rpa-validate` für schnelle Workflows.
 
 **Hinweis zur Fork-Version (Professional Foundation Decision):**  
@@ -173,26 +173,33 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 ```
 .
 ├── docs/                     # Strategie, Governance, Leitfäden
-│   ├── 01_Strategie.md       # Python-First Strategie
-│   ├── 02_Wann_Python_vs_UiPath.md  # Entscheidungsmatrix
-│   ├── governance.md             # Governance-Regeln (concepts/)
-│   ├── 04_Projektstruktur.md # Projektstruktur & Konventionen
-│   ├── 05_Entwicklungsleitfaden.md  # Entwicklungsleitfaden
-│   └── decisions/            # ADR-Archiv
-├── python_bots/
-│   ├── template/             # Legacy Template (nur noch für alte Bots)
-│   └── shared/               # merle-core (installierbares Package, src-layout)
+│   ├── concepts/             # Kernkonzepte
+│   │   ├── strategie.md      # Python-First Strategie
+│   │   ├── entscheidungsmatrix.md  # Entscheidungsmatrix
+│   │   ├── governance.md     # Governance-Regeln
+│   │   ├── projektstruktur.md # Projektstruktur & Konventionen
+│   │   ├── entwicklungsleitfaden.md  # Entwicklungsleitfaden
+│   │   ├── architecture.md   # C4-Architektur + NATS-Vision
+│   │   └── secrets-management.md  # Secrets Management
+│   ├── decisions/            # ADR-Archiv (0001–0009)
+│   ├── merle-core/           # merle-core Dokumentation
+│   ├── development/          # Setup & Contributing
+│   ├── getting-started/      # Quickstart & Junior-Guide
+│   └── plans/                # Implementierungspläne
+├── packages/
+│   └── merle-core/           # ✨ Zentrales Core-Framework (SSOT)
+│       ├── pyproject.toml
+│       └── src/merle_core/   # BaseBot, BaseTask, Retry, Observability, Playwright (Chromium+Lightpanda), Secrets, NATS
 ├── templates/
 │   └── bot/                  # ✨ Offizielles Copier-Template (merle new-bot)
-│       ├── pyproject.toml
-│       ├── src/merle_core/
-│       │   ├── __init__.py   # BaseBot, RpaHttpClient, setup_logging
-│       │   └── ...
-│       └── README.md
+│       ├── copier.yml
+│       └── {{ bot_name }}/   # Jinja2-Templates + Hooks
+├── examples/                 # Referenz-Bots (Invoice Processing, Web, Excel, NATS, UiPath Hybrid)
 ├── integration_examples/     # Python ↔ UiPath Muster
 ├── uipath_templates/         # UiPath-Templates (nur Ausnahmen)
+├── tools/merle/              # merle CLI (merle new-bot)
 ├── agent/
-│   └── CLAUDE.md             # Merle RPA-Hybrid-Architekt
+│   └── CLAUDE.md             # Merle RPA-Hybrid-Architekt Persona
 ├── .opencode/                # OpenCode RPA-Erweiterungen (rpa-hybrid Agent, Skills, rpa-context Tool)
 │   ├── agent/rpa-hybrid.md   # Primary Agent (automatisch aktiv bei `opencode`)
 │   ├── skills/               # rpa-process-analyzer, rpa-bot-generator, governance-validator
@@ -202,7 +209,8 @@ Durch diese tiefe Integration verringert OpenCode nicht nur die Entwicklungszeit
 └── README.md                 # Diese Datei
 ```
 
-> **Hinweis zur Roadmap**: Zukünftige Verzeichnisse wie `orchestrator/`, `workers/`, `nats/`, `scheduler/` und `dashboards/` werden bei der Umsetzung der Vision ergänzt.
+> **Hinweis**: Das alte `python_bots/template/` wurde mit PR 1 (2026-05) entfernt. Neue Bots ausschließlich via `merle new-bot` oder `copier copy templates/bot`.  
+> Zukünftige Verzeichnisse wie `orchestrator/`, `workers/`, `nats/`, `scheduler/` und `dashboards/` werden bei der Umsetzung der NATS-Vision (Phase 4) ergänzt.
 
 ---
 
@@ -246,7 +254,7 @@ Wichtige Dokumente:
 
 ## Governance
 
-**10 Regeln für jeden Bot:**
+**11 Regeln für jeden Bot:**
 
 1. Python-First (Default)
 2. Template verwenden
@@ -257,7 +265,8 @@ Wichtige Dokumente:
 7. Linux-Container-fähig
 8. Dokumentation
 9. Code-Review
-10. Entscheidungen dokumentieren
+10. merle-core nutzen (BaseBot/BaseTask)
+11. Entscheidungen dokumentieren
 
 Details: [Governance-Regeln](docs/concepts/governance.md)
 

@@ -5,9 +5,9 @@
 Dieses Dokument definiert die **verbindlichen Governance-Regeln** für das Merle RPA-Framework.  
 Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln entsprechen. Die Einhaltung wird durch Code-Reviews, den `governance-validator` Skill und den RPA-Hybrid-Architekten sichergestellt.
 
-## Visuelle Übersicht – Die 10 Governance-Regeln
+## Visuelle Übersicht – Die 11 Governance-Regeln
 
-![Die 10 Governance-Regeln von Merle](assets/images/governance/governance-rules-overview.jpg)
+![Die 11 Governance-Regeln von Merle](assets/images/governance/governance-rules-overview.jpg)
 
 > Dieses Poster kannst du ausdrucken und im Team verteilen. Es fasst alle verbindlichen Regeln auf einen Blick zusammen.
 
@@ -67,17 +67,16 @@ Jeder Bot, jedes Projekt und jede Architekturentscheidung muss diesen Regeln ent
 
 **Regel**: Jede Änderung durchläuft ein Code-Review durch mindestens einen anderen Entwickler.
 
-## Regel 10: Merle-Core-Pflicht (ab Phase 2)
+## Regel 10: Merle-Core-Pflicht
 
 **Regel**: Jeder neue Python-Bot **muss** `merle-core` als Abhängigkeit verwenden und die zentralen Basisklassen (`BaseBot`, `BaseTask`) sowie Utilities (`retry`, `exceptions`, Observability) nutzen.
 
 **Begründung**: Vermeidung von Duplizierung, garantierte Observability, einheitliche Resilienz und Secrets-Handhabung über alle Bots hinweg.
 
-**Durchsetzung**: `governance-validator` + `rpa-bot-generator` Skill + Code-Review.
-**Fokus**: Template-Konformität, Security, Fehlerbehandlung, Tests.  
-**Durchsetzung**: Branch-Protection in Git.
+**Durchsetzung**: `governance-validator` + `rpa-bot-generator` Skill + Code-Review.  
+**Fokus**: Template-Konformität, Security, Fehlerbehandlung, Tests.
 
-## Regel 10: Entscheidungsdokumentation
+## Regel 11: Entscheidungsdokumentation
 
 **Regel**: Jede Technologieentscheidung (insbesondere Python vs. UiPath) wird dokumentiert.  
 **Format**: Siehe `entscheidungsmatrix.md`, Abschnitt „Entscheidungsdokumentation".  
@@ -138,6 +137,7 @@ Neues Projekt
 - [ ] Dockerfile vorhanden und baubar?
 - [ ] README.md mit Dokumentation?
 - [ ] Keine Windows-only-Abhängigkeiten?
+- [ ] merle-core verwendet (BaseBot/BaseTask)?
 - [ ] Einhaltung der Projektstruktur-Konventionen?
 
 ## Compliance und Auditing

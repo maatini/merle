@@ -105,7 +105,7 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 
 - [docs/concepts/strategie.md](concepts/strategie.md) — Python-First Strategy (binding)
 - [docs/concepts/entscheidungsmatrix.md](concepts/entscheidungsmatrix.md) — When to use UiPath (binding)
-- [docs/concepts/governance.md](concepts/governance.md) — The 10 Governance Rules
+- [docs/concepts/governance.md](concepts/governance.md) — The 11 Governance Rules
 - [docs/decisions/0005-merle-core-v02-architecture.md](decisions/0005-merle-core-v02-architecture.md)
 - [docs/decisions/0006-nats-orchestration-foundation.md](decisions/0006-nats-orchestration-foundation.md)
 - [docs/plans/phase2-merle-core-observability.md](plans/phase2-merle-core-observability.md)

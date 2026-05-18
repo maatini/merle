@@ -56,7 +56,7 @@ python_bots/<bot_name>/
 ├── tasks/                   # Geschäftslogik-Module
 │   ├── __init__.py
 │   └── example_task.py
-├── requirements.txt         # Abhängigkeiten
+├── pyproject.toml            # Abhängigkeiten (uv)
 ├── Dockerfile               # Container-Definition
 ├── docker-compose.yml       # Lokale Entwicklungsumgebung (optional)
 ├── README.md                # Bot-Dokumentation
@@ -83,23 +83,25 @@ python_bots/<bot_name>/
 
 ## Abhängigkeitsmanagement
 
-### Python
+### Python (uv + pyproject.toml)
 
-- `requirements.txt` für direkte Abhängigkeiten mit Version-Pinning
-- Optional: `pyproject.toml` für moderne Projekte
-- Kein pipenv/poetry ohne Absprache (Vereinfachung)
+- `pyproject.toml` für alle Abhängigkeiten mit Version-Pinning
+- `uv` als Package-Manager (siehe [Devbox](../development/devbox.md))
+- Kein pipenv/poetry ohne Absprache (Standard: uv)
 
 ### Version-Pinning-Strategie
 
-```
-# requirements.txt
-rpaframework>=28.0,<29.0
-playwright>=1.40,<2.0
-pandas>=2.0,<3.0
-pydantic-settings>=2.0,<3.0
-loguru>=0.7,<1.0
-tenacity>=8.0,<9.0
-httpx>=0.25,<1.0
+```toml
+# pyproject.toml (Auszug dependencies)
+dependencies = [
+    "rpaframework>=28.0,<29.0",
+    "playwright>=1.40,<2.0",
+    "pandas>=2.0,<3.0",
+    "pydantic-settings>=2.0,<3.0",
+    "loguru>=0.7,<1.0",
+    "tenacity>=8.0,<9.0",
+    "httpx>=0.25,<1.0",
+]
 ```
 
 ## Git-Workflow

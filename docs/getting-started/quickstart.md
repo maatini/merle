@@ -60,7 +60,7 @@ uv run pytest -v
 Bevor du startest, solltest du dir diese drei Diagramme anschauen — sie ersetzen viele Seiten Text:
 
 - [Python vs. UiPath Entscheidungsfluss](../concepts/entscheidungsmatrix.md)
-- [Die 10 Governance-Regeln (Poster)](../concepts/governance.md)
+- [Die 11 Governance-Regeln (Poster)](../concepts/governance.md)
 - [Merle Bot Lifecycle](../concepts/entwicklungsleitfaden.md)
 
 ---
@@ -75,7 +75,7 @@ opencode
 
 Du erhältst sofort den **Merle RPA-Hybrid-Architekt** als Primary Agent mit:
 
-- Vollständiger Kenntnis der Entscheidungsmatrix und aller 10 Governance-Regeln
+- Vollständiger Kenntnis der Entscheidungsmatrix und aller 11 Governance-Regeln
 - Skills: `rpa-process-analyzer`, `rpa-bot-generator`, `governance-validator`
 - Commands: `/rpa-new-bot`, `/rpa-validate`
 - Tool: `load_rpa_context` für On-Demand-Dokumentation

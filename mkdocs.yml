@@ -64,6 +64,9 @@ nav:
       - Copier Scaffolding: decisions/0004-copier-bot-scaffolding.md
       - merle-core v0.2: decisions/0005-merle-core-v02-architecture.md
       - NATS Orchestrierung: decisions/0006-nats-orchestration-foundation.md
+      - Lightpanda Browser-Engine: decisions/0007-lightpanda-als-optionale-browser-engine.md
+      - Repository Visibility (superseded): decisions/0008-repository-visibility-and-internal-governance.md
+      - Public / Source-Available: decisions/0009-repository-public-source-available.md
 
 plugins:
   - search

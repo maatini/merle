@@ -28,11 +28,11 @@ uv run python main.py
 
 See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lint`, `just test`, `just docker`, `just ci`.
 
-## Professional Status — v0.2 (Foundation Complete)
+## Professional Status — v0.4 (Foundation Complete)
 
 | Area                 | Status   | Notes                                                                                                                                   |
 | -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `merle-core`         | ✅ 0.2.0 | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel), secrets (Azure), NATS client, Playwright wrapper (Chromium + Lightpanda) |
+| `merle-core`         | ✅ 0.4.0 | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel), secrets (Azure), NATS client, Playwright wrapper (Chromium + Lightpanda) |
 | Copier Template      | ✅       | `templates/bot/` with feature flags (playwright, pandas, pdf, uipath_orchestrator, base_bot) + post-gen hook                            |
 | CLI                  | ✅       | `merle new-bot`, governance validation via `tools/merle`                                                                                |
 | OpenCode Integration | ✅       | `.opencode/` with `rpa-hybrid` agent, `governance-validator`, `rpa-bot-generator`, `/rpa-new-bot` command                               |
@@ -79,7 +79,7 @@ See the detailed vision in the German [README.md](./README.md#vision--zukünftig
 
 **High-level phases:**
 
-- **Foundation (v0.2 – current):** Core library, Copier template, CLI, CI/CD, governance, OpenCode hybrid agent
+- **Foundation (v0.4 – current):** Core library, Copier template, CLI, CI/CD, governance, OpenCode hybrid agent
 - **DX & Hardening (v0.3):** More real-world examples, observability dashboards, self-healing patterns, Docker story for generated bots
 - **Orchestration (v0.4+):** NATS + JetStream as the backbone for granular task distribution, priority scheduling, resource-aware routing
 - **Intelligence (future):** KI executors (LLM agents + vision), Prefect 3 integration, BPMN-grade transparency via BPMNinja

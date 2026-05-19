@@ -1,7 +1,7 @@
 # Merle
 
 [![License](https://img.shields.io/badge/license-proprietary-red)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-0.2.0-blue)](https://github.com/maatini/merle)
+[![Version](https://img.shields.io/badge/version-0.4.0-blue)](https://github.com/maatini/merle)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![uv](https://img.shields.io/badge/uv-0.11+-8A2BE2?logo=python)](https://docs.astral.sh/uv/)
 [![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/concepts/strategie.md)
@@ -24,7 +24,7 @@ _Python-first hybrid RPA framework for maintainable, testable, and cost-efficien
 **80–90 % Python (Playwright mit Chromium/Lightpanda, pandas, Prefect, loguru, tenacity, NATS) — UiPath only when it delivers a proven architectural advantage.**  
 **Vision: Granular, NATS-based orchestration with intelligent executors (Python / KI / UiPath) and BPMN-grade transparency.**
 
-> **Current Status (v0.2 – Professional Foundation):**  
+> **Current Status (v0.4 – Professional Foundation):**  
 > Production-ready `merle-core`, official Copier template, `merle` CLI, strong CI + pre-commit, `.opencode/` RPA agent, and full governance. Ready for internal enterprise use and scaling.
 
 **Zukünftig (Roadmap):** Granulare NATS-Orchestrierung, KI-Executor, Prefect 3 Patterns, Self-Healing auf Task-Ebene.
@@ -323,9 +323,12 @@ Dieses Repository und alle darin enthaltenen Artefakte sind proprietär. Nutzung
 
 ## Version
 
-**0.2.0** — Phase 0 Foundations (uv + merle-core + CI/CD + pre-commit) — Mai 2026
+**0.4.0** — Phase 1 CLI Restructuring & Agent Command Integration — Mai 2026
 
 Frühere Versionen:
+
+- 0.3.0 — Mai 2026 (NATS & Task-Modell)
+- 0.2.0 — Phase 0 Foundations (uv + merle-core + CI/CD + pre-commit) — Mai 2026
 
 - 1.1 — Mai 2026 (initiale Vision & Template)
 - 1.0 — Initiales Python-First Framework

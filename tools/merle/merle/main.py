@@ -284,7 +284,7 @@ def info() -> None:
 def version_cmd() -> None:
     """Version (SemVer + Phase)."""
     v = _get_version()
-    console.print(f"[bold green]merle[/bold green] CLI v{v}  |  Merle Framework v0.2.0 (Professional Foundation)")
+    console.print(f"[bold green]merle[/bold green] CLI v{v}  |  Merle Framework v0.4.0 (Professional Foundation)")
     console.print("Phase 1 complete — ready for bot development & internal enterprise use.")
 
 

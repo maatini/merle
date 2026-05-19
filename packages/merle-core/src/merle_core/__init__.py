@@ -95,6 +95,10 @@ except ImportError:
     nats = None  # type: ignore
     _has_nats = False
 
+# Data and UiPath modules (always importable, optional dependencies inside)
+from . import data
+from . import uipath
+
 __all__ += [
     "configure_observability",
     "get_tracer",
@@ -104,6 +108,9 @@ __all__ += [
     "secrets",
     "nats",
     "task",
+    "data",
+    "uipath",
 ]
+
 
 __version__ = "0.4.0"  # Phase 4: NATS + Task Model

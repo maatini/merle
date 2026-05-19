@@ -111,7 +111,7 @@ Python-first Framework für die Entwicklung wartbarer, testbarer und kosteneffiz
 - **Primary Agent**: `rpa-hybrid` (`.opencode/agent/rpa-hybrid.md`) — wird automatisch aktiv, sobald du `opencode` im Merle-Root startest.
 - **Skills**: `rpa-process-analyzer`, `rpa-bot-generator`, `governance-validator` (`.opencode/skills/`)
 - **MCP-Tool**: `rpa-context` (`.opencode/tool/rpa-context.ts`) — `load_rpa_context` für On-Demand-Dokumentation
-- **Commands**: `/rpa-new-bot`, `/rpa-validate` (`.opencode/command/`)
+- **Commands**: `/rpa-new-bot`, `/rpa-validate`, `/rpa-analyze` (`.opencode/command/`)
 
 Das schwere `rpa-opencode-hybrid/` (vollständiger Fork, ~88 MB) ist **nur** noch für die Entwicklung von OpenCode-Core-Patches relevant.
 

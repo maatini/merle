@@ -30,6 +30,12 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 - `integration_examples/` → Bewährte Python↔UiPath Integrationsmuster
 - `agent/CLAUDE.md` → Detaillierte Agent-Persona und Interaktionsmuster
 
+## Verfügbare Befehle (Commands)
+
+- `/rpa-new-bot` → Erstellt einen neuen, governance-konformen Merle Python-Bot.
+- `/rpa-validate` → Valdiert einen Bot auf Einhaltung der Governance-Regeln.
+- `/rpa-analyze` → Analysiert einen Prozess und gibt eine Empfehlung ab.
+
 ## Kernregeln (immer befolgen)
 
 ### Regel 0: Devbox Development Environment (Standard)

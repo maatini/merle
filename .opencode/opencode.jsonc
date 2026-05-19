@@ -14,10 +14,16 @@
       "python_bots/*/README.md": "allow",
       "python_bots/*/.env.example": "allow",
       "python_bots/*/requirements.txt": "allow",
+      "python_bots/*/.dockerignore": "allow",
+      "python_bots/*/.gitignore": "allow",
       // Copier template (modern source of truth)
       "templates/bot/*": "ask",
       // Architecture decisions & governance
       "docs/decisions/*": "allow",
+      "docs/*": "ask",
+      // Merle-core and tools (framework developers)
+      "packages/*": "ask",
+      "tools/*": "ask",
       // Agent persona (CLAUDE.md + AGENTS.md)
       "agent/*": "ask",
       ".opencode/*": "ask"
@@ -27,6 +33,8 @@
       "python_bots/*": "allow",
       "docs/*": "allow",
       "templates/*": "allow",
+      "packages/*": "allow",
+      "tools/*": "allow",
       // Allow running the Merle CLI and uv
       ".": "allow"
     }

@@ -472,6 +472,38 @@ Du hast gerade **deinen ersten echten Merle-Web-Bot** gebaut. Das ist genau das 
 
 ---
 
+## 9b. Best Practices für E-Mail, PDF und Excel (Wie es die Profis machen)
+
+Wenn du im Team an echten Enterprise-Bots arbeitest, wirst du fast immer mit E-Mails, PDFs und Excel-Tabellen zu tun haben. Der Bot `examples/invoice-processing/` zeigt dir als "Gold Standard", wie man diese drei typischen RPA-Muster hochprofessionell umsetzt.
+
+Hier sind die drei wichtigsten Best Practices, die du direkt in deine eigenen Bots übernehmen solltest:
+
+### 1. E-Mails: Der lokale Simulations-Modus
+In der echten Welt liest dein Bot E-Mails von einem Server (z. B. Outlook/Exchange via IMAP). Wenn du deinen Bot aber lokal auf deinem Laptop entwickelst oder testest, hast du oft keine echten Login-Daten oder Internetverbindung.
+* **Die Lösung:** Baue immer einen **Simulationsmodus** ein (gesteuert über `simulated_mode: bool = True` in deiner Config).
+* **Wie es funktioniert:** Ist der Simulationsmodus aktiv, erzeugt der Bot im E-Mail-Task automatisch temporäre `.eml`-Dateien auf der Festplatte (mit Base64-kodierten PDF-Rechnungen darin) und liest diese ein, genau wie er es mit echten IMAP-Mails tun würde.
+* **Vorteil:** Du und deine Kollegen können den Bot jederzeit sofort lokal starten und testen (`pytest`), ohne echte Zugangsdaten konfigurieren zu müssen.
+
+### 2. PDFs: Robustes Layout-Parsing mit `pdfplumber`
+Rechnungs-PDFs sehen fast immer unterschiedlich aus. Manchmal steht die Rechnungsnummer direkt neben dem Wort "Rechnungsnummer:", manchmal ist ein Leerzeichen dazwischen, und manchmal steht es in der nächsten Zeile.
+* **Die Lösung:** Nutze `pdfplumber` zum Auslesen des Texts und baue **robuste Reguläre Ausdrücke (Regex)** mit sogenannten *Lookaheads*.
+* **Beispiel:**
+  ```python
+  # Schlecht: Erkennt den Namen nicht, wenn ein Doppelpunkt oder Sonderzeichen folgt
+  re.search(r"Supplier:\s*([A-Za-z0-9 ]+)", text)
+
+  # Profi-Muster: Liest alles ab "Supplier:" bis zum Wort "Invoice ID" oder dem Zeilenende
+  re.search(r"Supplier:\s*(.*?)(?=\s+Invoice ID|\n|$)", text)
+  ```
+* **Vorteil:** Dein Bot stürzt nicht sofort ab, wenn ein Lieferant sein Rechnungs-Layout minimal ändert.
+
+### 3. Excel: Echte Formeln statt statischer Zahlen
+Wenn dein Bot Excel-Berichte schreibt, berechne Summen oder Durchschnitte niemals direkt in Python, um sie dann als feste Zahlen in die Zellen zu schreiben.
+* **Die Lösung:** Nutze `openpyxl` und schreibe **echte Excel-Formeln** in die Zellen (z. B. `=SUM(E2:E10)` für die Spaltensumme oder `=AVERAGE(Invoices!E2:E10)` für den Durchschnitt auf einem anderen Tabellenblatt).
+* **Vorteil:** Wenn der Business-User die Excel-Datei öffnet und Zahlen anpasst, rechnen sich alle Summen und KPI-Sheets automatisch neu durch. Nutze zudem das offizielle Farbschema (`#1F4E79` für Merle) und richte Spaltenbreiten automatisch an der Textlänge aus. Highlighte wichtige Zeilen (z.B. Beträge > 10.000 €) mit farbigen Regeln (`CellIsRule` für bedingte Formatierung).
+
+---
+
 ## 10. Python oder UiPath? Die einfache Entscheidung
 
 Du wirst früher oder später gefragt: "Warum machen wir das nicht mit UiPath?"

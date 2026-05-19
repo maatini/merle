@@ -43,15 +43,16 @@ uv run python main.py
 
 Expected output:
 
-- 3 synthetic invoices "downloaded" into `data/invoices/`
-- Structured data extracted and enriched
-- Professional Excel report in `data/reports/invoice_report_....xlsx`
+- 3 simulated emails are created and their PDF attachments are extracted to `data/invoices/`
+- Real text is extracted from the PDFs, parsed, and enriched with supplier master data
+- A beautifully styled Excel report containing native Excel formulas and conditional formatting is generated in `data/reports/`
 
-## Running with Real PDFs
+## Running with Real IMAP E-Mail & PDFs
 
-1. Place real invoice PDFs into `data/invoices/`
-2. (Optional) Add sidecar `.json` metadata files with `invoice_id`, `supplier`, `amount`, `date`
-3. The `ParsePdfInvoicesTask` will automatically use `pdfplumber` when available
+1. Configure your IMAP settings in `config.py` (or set corresponding environment variables).
+2. Set `simulated_mode = False` in `config.py`.
+3. Send emails with subject prefix `Invoice` and an attached invoice PDF to your mailbox.
+4. Run the bot: `uv run python main.py`. The bot will fetch the emails via SSL, download the attachments, mark them as read, and process them.
 
 ## How This Was Created
 
@@ -76,12 +77,10 @@ Then copy the task patterns from this reference implementation.
 
 ## Next-Level Enhancements (for real projects)
 
-- Replace synthetic download with real IMAP + attachment handling or S3/SFTP
 - Add LLM-based extraction fallback when pdfplumber confidence is low
 - Persist `TaskResult` / `TaskSpec` to NATS JetStream (see Phase 4)
 - Add human approval step for invoices > €10.000 via ServiceNow / Action Center
 - Write results to ERP (SAP IDoc, Navision, DATEV, etc.)
-- Add unit + integration tests with `pytest` + `respx` for HTTP mocks
 
 ## Governance Compliance
 

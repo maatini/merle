@@ -27,9 +27,11 @@ uv run python main.py
 
 You will get:
 
-- 3 synthetic invoices processed
+- 3 simulated emails fetched and their attachments extracted
+- Real PDF extraction using `pdfplumber`
 - Structured data + master data enrichment
-- A beautifully formatted Excel report in `data/reports/`
+- A beautifully formatted Excel report in `data/reports/` containing native formulas and conditional rules
+- You can also run the pytest suite: `uv run pytest`
 
 ## How to Use These Examples
 

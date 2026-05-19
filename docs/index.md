@@ -66,7 +66,7 @@ Diese drei Diagramme geben dir den besten Überblick über Merle:
 ## Status
 
 - **Aktuelle Version**: `merle-core` 0.2 + Copier Template
-- **Phase**: 3 – Documentation & Polish
+- **Phase**: 3 – Documentation & Polish (Referenz-Beispiel `invoice-processing/` vollständig ausgebaut)
 - **Nächstes großes Ziel**: NATS-basierte Orchestrierung (Vision)
 
 ---

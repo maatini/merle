@@ -1,6 +1,6 @@
 [project]
 name = "merle-core"
-version = "0.3.0"
+version = "0.4.0"
 description = "Core utilities, resilience patterns and observability for Merle RPA bots"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -46,6 +46,7 @@ lightpanda = [
 azure = [
     "azure-identity>=1.16,<2.0",
     "azure-keyvault-secrets>=4.8,<5.0",
+    "pydantic-settings>=2.0,<3.0",
 ]
 observability = [
     "opentelemetry-api>=1.25,<2.0",

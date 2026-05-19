@@ -77,6 +77,17 @@ Initial public structure of the Merle framework (pre-professionalization).
 [Unreleased]: https://github.com/maatini/merle/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/maatini/merle/releases/tag/v0.2.0-professional-foundation
 
+## v0.4.0 (2026-05-19)
+
+### Feat
+
+- **opencode**: add /rpa-analyze command and optimize agent permissions
+- **examples**: expand invoice-processing bot with real email, pdf, and excel tasks
+
+### Fix
+
+- **cli**: restructure merle CLI as a package and configure hatchling build
+
 ## v0.3.0 (2026-05-18)
 
 ### Feat
@@ -98,13 +109,13 @@ Initial public structure of the Merle framework (pre-professionalization).
 ### Fix
 
 - **ci**: Dockerfile template - remove uv.lock copy + --frozen
-- **ci**: copier template _subdirectory + broken links in docs
+- **ci**: copier template \_subdirectory + broken links in docs
 - use canonical SecretNotFoundError from merle_core.exceptions in azure.py (was importing duplicate from .base)
 - letzte 'Antigravity' / 'Antigravity GmbH' Referenzen in GitHub Templates entfernt
 - Entferne fiktive 'Antigravity GmbH' – tatsächlicher Urheber ist Martin Richardt (persönlich)
 - Rename tools/merle package to 'merle-cli' to avoid workspace name conflict with root
 - Resolve last Ruff warnings (F841, RUF013)
-- **nats**: clean up duplicate __aexit__ and improve typing
+- **nats**: clean up duplicate **aexit** and improve typing
 
 ### Refactor
 

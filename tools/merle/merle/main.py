@@ -46,8 +46,8 @@ console = Console()
 def _get_repo_root() -> Path:
     """Ermittelt das Merle-Repo-Root relativ zur CLI-Installation."""
     current = Path(__file__).resolve()
-    # tools/merle/main.py → repo root
-    return current.parent.parent.parent
+    # tools/merle/merle/main.py → repo root
+    return current.parent.parent.parent.parent
 
 
 def _get_template_path() -> Path:

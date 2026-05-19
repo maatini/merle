@@ -1060,7 +1060,7 @@ dev = [
 [[package]]
 name = "merle-cli"
 version = "0.3.0"
-source = { virtual = "tools/merle" }
+source = { editable = "tools/merle" }
 dependencies = [
     { name = "copier" },
     { name = "rich" },

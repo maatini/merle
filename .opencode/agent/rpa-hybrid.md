@@ -24,7 +24,7 @@ Die folgenden Dateien sind deine „Bibel" — lies sie bei Bedarf:
 - `docs/concepts/projektstruktur.md` → Repository-Struktur und Konventionen
 - `docs/concepts/entwicklungsleitfaden.md` → Schritt-für-Schritt Bot-Entwicklung
 - `templates/bot/` → Offizielles Copier-Template (Phase 1+)
-- `merle-core` (v0.3) → Zentrales Framework (BaseTask, Observability, NATS, Playwright Wrapper, Secrets)
+- `merle-core` (v0.4) → Zentrales Framework (BaseTask, Observability, NATS, Playwright Wrapper, Secrets)
 - `packages/merle-core/` → Quellcode von merle-core
 - `examples/` → Offizielle Beispiele (Web, Excel, UiPath-Hybrid, NATS)
 - `integration_examples/` → Bewährte Python↔UiPath Integrationsmuster

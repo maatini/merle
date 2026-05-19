@@ -199,8 +199,8 @@ def validate(
     # 5. Check for accidental secrets / .env in git (simple heuristic)
     # (real check would be in pre-commit / gitleaks)
 
-    # 6. Repo visibility reminder (from ADR-0008)
-    console.print("[green]✓[/green] ADR-0008 (Private Repo) reminder active")
+    # 6. Repo visibility reminder (from ADR-0009)
+    console.print("[green]✓[/green] ADR-0009 (Public Source-Available Repo) active")
 
     table = Table(title="Validation Summary")
     table.add_column("Check", style="cyan")
@@ -208,7 +208,7 @@ def validate(
     table.add_row("Ruff + Format", "PASS" if not any("Ruff" in e for e in errors) else "FAIL")
     table.add_row("Mypy (core)", "PASS (with notes)" if not any("Mypy" in e for e in errors) else "FAIL")
     table.add_row("Copier Template", "OK" if not any("Copier" in e for e in errors) else "BROKEN")
-    table.add_row("Repo Visibility", "PRIVATE (ADR-0008)")
+    table.add_row("Repo Visibility", "PUBLIC (Source-Available, ADR-0009)")
     console.print(table)
 
     if errors:
@@ -267,7 +267,7 @@ def info() -> None:
     table.add_row("Docs", "docs/ (MkDocs) + AGENTS.md (binding)")
     table.add_row("ADRs", "docs/decisions/ (7+ records)")
     table.add_row("Examples", "examples/ + integration_examples/")
-    table.add_row("Governance", "AGENTS.md + CODEOWNERS + ADR-0008 (Private)")
+    table.add_row("Governance", "AGENTS.md + CODEOWNERS + ADR-0009 (Public)")
     console.print(table)
 
     console.print(

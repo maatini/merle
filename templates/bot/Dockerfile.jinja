@@ -37,7 +37,9 @@ COPY pyproject.toml ./
 # === Monorepo support for merle-core ===
 # When building with BUILD_MODE=monorepo (from repo root), we copy the core package
 # so that the path dependency in pyproject.toml works inside the container.
+{% if location == "python_bots" %}
 COPY packages/merle-core ./packages/merle-core
+{% endif %}
 
 # Install production dependencies (no --frozen: lockfile is generated on-the-fly for CI validation;
 # for production, commit a uv.lock and set --frozen)

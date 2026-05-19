@@ -62,7 +62,7 @@ class BaseBot(ABC):
         )
 
         # Optional: OTEL Metrics (wenn configure_observability() aufgerufen wurde)
-        _record_bot_start(self.settings.bot_name)
+        _record_bot_start(self.name)
 
         try:
             result = await self.execute()

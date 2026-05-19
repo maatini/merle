@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import email
 import imaplib
-import os
 from email.message import Message
 from pathlib import Path
 from typing import Any

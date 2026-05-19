@@ -39,8 +39,15 @@ class WriteExcelReportTask(BaseTask):
         # Build DataFrame with explicit columns
         df = pd.DataFrame(self.invoices)
         columns_order = [
-            "invoice_id", "supplier", "supplier_id", "invoice_date",
-            "amount_gross", "amount_net", "vat_rate", "cost_center", "payment_terms"
+            "invoice_id",
+            "supplier",
+            "supplier_id",
+            "invoice_date",
+            "amount_gross",
+            "amount_net",
+            "vat_rate",
+            "cost_center",
+            "payment_terms",
         ]
         # Ensure all columns exist
         for col in columns_order:
@@ -51,8 +58,15 @@ class WriteExcelReportTask(BaseTask):
 
         # Map to user-friendly column headers
         df.columns = [
-            "Invoice ID", "Supplier", "Supplier ID", "Invoice Date",
-            "Amount Gross", "Amount Net", "VAT Rate", "Cost Center", "Payment Terms"
+            "Invoice ID",
+            "Supplier",
+            "Supplier ID",
+            "Invoice Date",
+            "Amount Gross",
+            "Amount Net",
+            "VAT Rate",
+            "Cost Center",
+            "Payment Terms",
         ]
 
         # Create workbook
@@ -79,11 +93,11 @@ class WriteExcelReportTask(BaseTask):
         tot_row = num_rows + 2
         ws_detail.cell(row=tot_row, column=4, value="Total:").font = Font(bold=True)
 
-        cell_gross = ws_detail.cell(row=tot_row, column=5, value=f"=SUM(E2:E{num_rows+1})")
+        cell_gross = ws_detail.cell(row=tot_row, column=5, value=f"=SUM(E2:E{num_rows + 1})")
         cell_gross.font = Font(bold=True)
         cell_gross.number_format = '#,##0.00" €"'
 
-        cell_net = ws_detail.cell(row=tot_row, column=6, value=f"=SUM(F2:F{num_rows+1})")
+        cell_net = ws_detail.cell(row=tot_row, column=6, value=f"=SUM(F2:F{num_rows + 1})")
         cell_net.font = Font(bold=True)
         cell_net.number_format = '#,##0.00" €"'
 
@@ -99,15 +113,14 @@ class WriteExcelReportTask(BaseTask):
             cell_n.alignment = Alignment(horizontal="right")
             # VAT Rate
             cell_v = ws_detail.cell(row=r, column=7)
-            cell_v.number_format = '0.0%'
+            cell_v.number_format = "0.0%"
             cell_v.alignment = Alignment(horizontal="right")
 
         # Add Conditional Formatting to highlight high-value invoices (> 10,000 €)
         red_fill = PatternFill(start_color="FFC7CE", end_color="FFC7CE", fill_type="solid")
         red_font = Font(color="9C0006")
         ws_detail.conditional_formatting.add(
-            f"E2:E{num_rows+1}",
-            CellIsRule(operator='greaterThan', formula=['10000'], fill=red_fill, font=red_font)
+            f"E2:E{num_rows + 1}", CellIsRule(operator="greaterThan", formula=["10000"], fill=red_fill, font=red_font)
         )
 
         # Summary sheet
@@ -120,9 +133,9 @@ class WriteExcelReportTask(BaseTask):
 
         # Use formulas pointing back to detail sheet
         summary = {
-            "Total Invoices": f"=COUNTA(Invoices!A2:A{num_rows+1})",
-            "Total Gross Amount (EUR)": f"=SUM(Invoices!E2:E{num_rows+1})",
-            "Average Gross Amount (EUR)": f"=AVERAGE(Invoices!E2:E{num_rows+1})",
+            "Total Invoices": f"=COUNTA(Invoices!A2:A{num_rows + 1})",
+            "Total Gross Amount (EUR)": f"=SUM(Invoices!E2:E{num_rows + 1})",
+            "Average Gross Amount (EUR)": f"=AVERAGE(Invoices!E2:E{num_rows + 1})",
         }
 
         row = 5
@@ -135,10 +148,12 @@ class WriteExcelReportTask(BaseTask):
             row += 1
 
         # Apply borders & auto-fit columns
-        thin_border = Border(left=Side(style="thin", color="D3D3D3"),
-                             right=Side(style="thin", color="D3D3D3"),
-                             top=Side(style="thin", color="D3D3D3"),
-                             bottom=Side(style="thin", color="D3D3D3"))
+        thin_border = Border(
+            left=Side(style="thin", color="D3D3D3"),
+            right=Side(style="thin", color="D3D3D3"),
+            top=Side(style="thin", color="D3D3D3"),
+            bottom=Side(style="thin", color="D3D3D3"),
+        )
 
         for ws in [ws_detail, ws_summary]:
             for row_cells in ws.iter_rows():
@@ -146,7 +161,7 @@ class WriteExcelReportTask(BaseTask):
                     cell.border = thin_border
             # Auto-fit widths
             for col in ws.columns:
-                max_len = max(len(str(cell.value or '')) for cell in col)
+                max_len = max(len(str(cell.value or "")) for cell in col)
                 col_letter = get_column_letter(col[0].column)
                 ws.column_dimensions[col_letter].width = max(max_len + 3, 12)
 

@@ -100,12 +100,9 @@ class ParsePdfInvoicesTask(BaseTask):
                     unit_price = float(item_match.group(3))
                     total_price = float(item_match.group(4))
 
-                    line_items.append({
-                        "description": desc,
-                        "qty": qty,
-                        "unit_price": unit_price,
-                        "total_price": total_price
-                    })
+                    line_items.append(
+                        {"description": desc, "qty": qty, "unit_price": unit_price, "total_price": total_price}
+                    )
                 else:
                     self.logger.warning("Could not parse line item row: '{}'", line)
 
@@ -134,8 +131,12 @@ class ParsePdfInvoicesTask(BaseTask):
             try:
                 data = await self._parse_single_pdf(pdf)
                 parsed_invoices.append(data)
-                self.logger.info("Parsed {} — Supplier: {}, Gross Total: {} EUR",
-                                 data["invoice_id"], data["supplier"], data["amount_gross"])
+                self.logger.info(
+                    "Parsed {} — Supplier: {}, Gross Total: {} EUR",
+                    data["invoice_id"],
+                    data["supplier"],
+                    data["amount_gross"],
+                )
             except Exception as exc:
                 self.logger.error("Failed to parse {}: {}", pdf.name, exc)
                 await self._attempt_self_healing(pdf, exc)

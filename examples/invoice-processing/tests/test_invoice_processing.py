@@ -7,6 +7,7 @@ from __future__ import annotations
 import shutil
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest
@@ -55,17 +56,14 @@ async def test_pdf_parsing():
     pdf_path = invoices_dir / "INV-2025-9999.pdf"
 
     # Create a test PDF with reportlab
-    items = [
-        ("Cloud Infrastructure", 2, 500.00),
-        ("Support Plan", 1, 100.00)
-    ]
+    items = [("Cloud Infrastructure", 2, 500.00), ("Support Plan", 1, 100.00)]
     create_invoice_pdf(
         filename=pdf_path,
         invoice_id="INV-2025-9999",
         supplier="Test Supplier Ltd",
         date="2025-06-01",
         items=items,
-        vat_rate=0.19
+        vat_rate=0.19,
     )
 
     task = ParsePdfInvoicesTask(MockSettings(), invoices_dir)
@@ -120,7 +118,7 @@ async def test_write_excel_report():
             "amount_net": 12605.04,
             "vat_rate": 0.19,
             "cost_center": "CC-100",
-            "payment_terms": "30 days"
+            "payment_terms": "30 days",
         }
     ]
 

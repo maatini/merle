@@ -58,13 +58,15 @@ class InvoiceProcessingBot(BaseBot):
         # 2. Parse PDFs
         pr = ParsePdfInvoicesTask(settings, settings.input_dir)
         p_res = await pr.run()
+        parsed_invoices = p_res.get("invoices", [])
 
         # 3. Enrich with master data
-        en = EnrichWithMasterDataTask(settings)
+        en = EnrichWithMasterDataTask(settings, raw_invoices=parsed_invoices)
         e_res = await en.run()
+        enriched_invoices = e_res.get("invoices", [])
 
         # 4. Write professional Excel report
-        rp = WriteExcelReportTask(settings, settings.output_dir)
+        rp = WriteExcelReportTask(settings, settings.output_dir, invoices=enriched_invoices)
         r_res = await rp.run()
 
         summary = {

@@ -42,6 +42,13 @@ class InvoiceBotSettings(BaseSettings):
     # Email / Notification (example)
     notification_email: str | None = Field(default=None, validation_alias="NOTIFICATION_EMAIL")
 
+    # IMAP / Email settings
+    imap_host: str = Field(default="", validation_alias="IMAP_HOST")
+    imap_port: int = Field(default=993, validation_alias="IMAP_PORT")
+    imap_username: str = Field(default="", validation_alias="IMAP_USERNAME")
+    imap_password: str = Field(default="", validation_alias="IMAP_PASSWORD")
+    simulated_mode: bool = Field(default=True, validation_alias="SIMULATED_MODE")
+
     model_config = {
         "env_file": ".env",
         "env_file_encoding": "utf-8",

@@ -1,18 +1,21 @@
 """
-Task: Download / Fetch new invoices.
+Task: Fetch and download new invoice PDFs from an email inbox.
 
-In a real implementation this would:
-- Connect to an SFTP server, email inbox (IMAP), or ERP API
-- Download PDF files
-- Store them in the input directory with proper naming + metadata
+Demonstrates:
+- IMAP email connection with SSL
+- Extraction of PDF attachments using python's email library
+- Local simulation mode reading raw email (.eml) files
+- Robust error handling and logging
 """
 
 from __future__ import annotations
 
-import asyncio
+import email
+import imaplib
+import os
+from email.message import Message
 from pathlib import Path
 from typing import Any
-
 
 from merle_core import BaseTask
 from merle_core.retry import with_retry, default_http_retry
@@ -20,10 +23,9 @@ from merle_core.retry import with_retry, default_http_retry
 
 class DownloadInvoicesTask(BaseTask):
     """
-    Fetches new invoices from source systems.
+    Downloads invoice PDFs from an email inbox.
 
-    This is a synthetic implementation for the reference example.
-    Replace the `_fetch_from_source` method with real integration logic.
+    Supports both simulated local execution and real IMAP integration.
     """
 
     def __init__(self, settings: Any, input_dir: Path) -> None:
@@ -31,75 +33,161 @@ class DownloadInvoicesTask(BaseTask):
         self.input_dir = input_dir
         self.input_dir.mkdir(parents=True, exist_ok=True)
 
-    @with_retry(policy=default_http_retry)
-    async def _fetch_from_source(self) -> list[dict[str, Any]]:
-        """
-        Simulate fetching 3 invoices from an upstream system.
-
-        Real version would do IMAP, SFTP, REST, etc.
-        """
-        self.logger.info("Fetching invoices from source system (simulated)...")
-        await asyncio.sleep(0.2)  # Simulate network latency
-
-        # Synthetic invoice metadata (in real life this comes from the source)
-        invoices = [
-            {
-                "invoice_id": "INV-2025-0042",
-                "supplier": "ACME GmbH",
-                "amount": 12450.00,
-                "currency": "EUR",
-                "date": "2025-05-10",
-                "pdf_bytes": self._create_minimal_pdf("INV-2025-0042", "ACME GmbH", 12450.00),
-            },
-            {
-                "invoice_id": "INV-2025-0043",
-                "supplier": "Globex AG",
-                "amount": 875.50,
-                "currency": "EUR",
-                "date": "2025-05-11",
-                "pdf_bytes": self._create_minimal_pdf("INV-2025-0043", "Globex AG", 875.50),
-            },
-            {
-                "invoice_id": "INV-2025-0044",
-                "supplier": "Initech Ltd.",
-                "amount": 2340.00,
-                "currency": "EUR",
-                "date": "2025-05-12",
-                "pdf_bytes": self._create_minimal_pdf("INV-2025-0044", "Initech Ltd.", 2340.00),
-            },
-        ]
-        return invoices
-
-    def _create_minimal_pdf(self, invoice_id: str, supplier: str, amount: float) -> bytes:
-        """
-        Return placeholder PDF bytes.
-
-        In a real implementation this would download actual PDFs from email, SFTP,
-        or an ERP system. The placeholder keeps the example fully self-contained.
-        """
-        return f"PDF-BYTES-FOR-{invoice_id}".encode("utf-8")
+        # Local simulated inbox directory
+        self.simulated_inbox = Path(getattr(settings, "simulated_inbox_dir", "./data/simulated_mail_inbox"))
+        self.simulated_inbox.mkdir(parents=True, exist_ok=True)
 
     async def execute(self) -> dict[str, Any]:
-        invoices = await self._fetch_from_source()
+        if self.settings.simulated_mode:
+            self.logger.info("Running in Local Simulation Mode")
+            # Populate simulated inbox if empty
+            self._ensure_simulated_emails()
+            downloaded = await self._fetch_local_emails()
+        else:
+            self.logger.info("Running in Real IMAP Mode (Host: {})", self.settings.imap_host)
+            downloaded = await self._fetch_imap_emails()
 
-        saved_files: list[Path] = []
-        for inv in invoices:
-            filename = f"{inv['invoice_id']}.pdf"
-            target = self.input_dir / filename
-
-            # In real life: write inv["pdf_bytes"] to disk
-            # For this reference example we write a small marker file + metadata sidecar
-            target.write_bytes(inv.get("pdf_bytes", b"PLACEHOLDER-PDF"))
-            (target.with_suffix(".json")).write_text(
-                f'{{"invoice_id": "{inv["invoice_id"]}", "supplier": "{inv["supplier"]}", '
-                f'"amount": {inv["amount"]}, "date": "{inv["date"]}"}}'
-            )
-            saved_files.append(target)
-            self.logger.info("Saved invoice {}", filename)
-
-        self.logger.success("Downloaded {} invoices", len(saved_files))
+        self.logger.success("Downloaded {} invoices to {}", len(downloaded), self.input_dir)
         return {
-            "count": len(saved_files),
-            "files": [str(f) for f in saved_files],
-            "invoices": invoices,
+            "count": len(downloaded),
+            "files": downloaded,
         }
+
+    def _ensure_simulated_emails(self) -> None:
+        """Create mock .eml files if simulated inbox is empty."""
+        eml_files = list(self.simulated_inbox.glob("*.eml"))
+        if eml_files:
+            return
+
+        self.logger.info("Populating simulated inbox with mock .eml files")
+
+        # We need sample PDF files to embed.
+        pdf_names = ["INV-2025-0042.pdf", "INV-2025-0043.pdf", "INV-2025-0044.pdf"]
+
+        for name in pdf_names:
+            pdf_path = self.input_dir / name
+            # If the PDF does not exist, write a simple placeholder
+            if not pdf_path.exists():
+                pdf_path.write_bytes(f"PDF-CONTENT-FOR-{name}".encode("utf-8"))
+
+            pdf_bytes = pdf_path.read_bytes()
+
+            # Construct a basic email message with attachment using email.mime
+            from email.mime.multipart import MIMEMultipart
+            from email.mime.text import MIMEText
+            from email.mime.base import MIMEBase
+            from email import encoders
+
+            msg = MIMEMultipart()
+            msg["From"] = "billing@supplier.com"
+            msg["To"] = "accounting@company.com"
+            msg["Subject"] = f"Invoice {name.split('.')[0]}"
+            msg.attach(MIMEText(f"Please find attached your invoice {name}.", "plain"))
+
+            part = MIMEBase("application", "octet-stream")
+            part.set_payload(pdf_bytes)
+            encoders.encode_base64(part)
+            part.add_header("Content-Disposition", f'attachment; filename="{name}"')
+            msg.attach(part)
+
+            eml_path = self.simulated_inbox / f"{name.split('.')[0]}.eml"
+            eml_path.write_bytes(msg.as_bytes())
+            self.logger.debug("Created simulated email: {}", eml_path.name)
+
+    async def _fetch_local_emails(self) -> list[str]:
+        """Simulates IMAP download by reading local .eml files."""
+        saved_files: list[str] = []
+        eml_files = sorted(self.simulated_inbox.glob("*.eml"))
+
+        for eml_path in eml_files:
+            self.logger.debug("Processing local email: {}", eml_path.name)
+            raw_bytes = eml_path.read_bytes()
+            msg = email.message_from_bytes(raw_bytes)
+
+            extracted = self._extract_attachments(msg)
+            saved_files.extend(extracted)
+
+            # Archive processed email
+            archive_path = self.simulated_inbox / "archive"
+            archive_path.mkdir(exist_ok=True)
+            eml_path.rename(archive_path / eml_path.name)
+
+        return saved_files
+
+    @with_retry(policy=default_http_retry)
+    async def _fetch_imap_emails(self) -> list[str]:
+        """Fetches real emails via IMAP protocol and downloads attachments."""
+        saved_files: list[str] = []
+
+        if not self.settings.imap_host or not self.settings.imap_username:
+            raise ValueError("IMAP credentials and host must be set for Real IMAP Mode")
+
+        # Connect with timeout/retry policy
+        self.logger.debug("Connecting to IMAP server {}:{}", self.settings.imap_host, self.settings.imap_port)
+        mail = imaplib.IMAP4_SSL(self.settings.imap_host, self.settings.imap_port)
+
+        try:
+            mail.login(self.settings.imap_username, self.settings.imap_password)
+            mail.select("inbox")
+
+            # Search for unread emails with "Invoice" in subject
+            status, messages = mail.search(None, '(UNSEEN SUBJECT "Invoice")')
+            if status != "OK":
+                self.logger.warning("Failed to search email inbox")
+                return []
+
+            mail_ids = messages[0].split()
+            self.logger.info("Found {} unread invoice emails", len(mail_ids))
+
+            for mail_id in mail_ids:
+                status, data = mail.fetch(mail_id, "(RFC822)")
+                if status != "OK":
+                    self.logger.error("Failed to fetch email ID: {}", mail_id.decode())
+                    continue
+
+                raw_email = data[0][1]  # type: ignore
+                msg = email.message_from_bytes(raw_email)
+
+                # Extract
+                extracted = self._extract_attachments(msg)
+                saved_files.extend(extracted)
+
+                # Mark as read (SEEN)
+                mail.store(mail_id, "+FLAGS", "\\Seen")
+
+        finally:
+            try:
+                mail.close()
+                mail.logout()
+            except Exception:
+                pass
+
+        return saved_files
+
+    def _extract_attachments(self, msg: Message) -> list[str]:
+        """Extracts PDF attachments from email message object."""
+        saved: list[str] = []
+        subject = msg.get("Subject", "No Subject")
+        self.logger.info("Extracting attachments from email: '{}'", subject)
+
+        for part in msg.walk():
+            # Skip multipart containers
+            if part.get_content_maintype() == "multipart":
+                continue
+
+            filename = part.get_filename()
+            if not filename:
+                continue
+
+            # Ensure we only process PDF attachments
+            if filename.lower().endswith(".pdf"):
+                payload = part.get_payload(decode=True)
+                if not payload:
+                    continue
+
+                target_path = self.input_dir / filename
+                target_path.write_bytes(payload)
+                self.logger.info("Saved email attachment: {}", filename)
+                saved.append(str(target_path))
+
+        return saved

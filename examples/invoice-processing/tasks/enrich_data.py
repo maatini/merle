@@ -9,7 +9,6 @@ from __future__ import annotations
 
 from typing import Any
 
-
 from merle_core import BaseTask
 from merle_core.retry import sensitive_operation_retry
 
@@ -17,8 +16,9 @@ from merle_core.retry import sensitive_operation_retry
 class EnrichWithMasterDataTask(BaseTask):
     """Enriches raw invoice data with internal master data."""
 
-    def __init__(self, settings: Any) -> None:
+    def __init__(self, settings: Any, raw_invoices: list[dict[str, Any]]) -> None:
         super().__init__(settings, name="EnrichWithMasterData")
+        self.raw_invoices = raw_invoices
 
     @sensitive_operation_retry
     async def _lookup_supplier(self, supplier_name: str) -> dict[str, Any]:
@@ -35,16 +35,12 @@ class EnrichWithMasterDataTask(BaseTask):
         )
 
     async def execute(self) -> dict[str, Any]:
-        # In a real bot the previous task would pass the list of parsed invoices.
-        # For this reference example we demonstrate the enrichment pattern on synthetic data.
-        raw_invoices = [
-            {"invoice_id": "INV-2025-0042", "supplier": "ACME GmbH", "amount_gross": 12450.00},
-            {"invoice_id": "INV-2025-0043", "supplier": "Globex AG", "amount_gross": 875.50},
-            {"invoice_id": "INV-2025-0044", "supplier": "Initech Ltd.", "amount_gross": 2340.00},
-        ]
+        if not self.raw_invoices:
+            self.logger.warning("No invoices provided for enrichment")
+            return {"enriched": 0, "invoices": []}
 
         enriched: list[dict[str, Any]] = []
-        for inv in raw_invoices:
+        for inv in self.raw_invoices:
             master = await self._lookup_supplier(inv["supplier"])
             enriched.append({**inv, **master})
             self.logger.debug("Enriched {} with master data", inv["invoice_id"])

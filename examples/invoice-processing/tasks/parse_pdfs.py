@@ -1,26 +1,26 @@
 """
-Task: Parse PDF invoices using pdfplumber.
+Task: Parse PDF invoices using pdfplumber and layout heuristics.
 
 Demonstrates:
 - Robust PDF text extraction
-- Handling of slightly different invoice layouts
-- Structured output (line items, totals, metadata)
-- Graceful degradation + self-healing hook example
+- Regular Expression parsing for invoice metadata
+- Line item table extraction
+- Unit price and totals validation
 """
 
 from __future__ import annotations
 
-import json
+import re
 from pathlib import Path
 from typing import Any
 
-
 from merle_core import BaseTask
+from merle_core.exceptions import PdfError
 from merle_core.retry import with_retry, default_http_retry
 
 
 class ParsePdfInvoicesTask(BaseTask):
-    """Extracts structured data from invoice PDFs."""
+    """Extracts structured data from invoice PDFs using pdfplumber."""
 
     def __init__(self, settings: Any, input_dir: Path) -> None:
         super().__init__(settings, name="ParsePdfInvoices")
@@ -29,61 +29,97 @@ class ParsePdfInvoicesTask(BaseTask):
     @with_retry(policy=default_http_retry)
     async def _parse_single_pdf(self, pdf_path: Path) -> dict[str, Any]:
         """
-        Real PDF parsing with pdfplumber.
+        Parses a single invoice PDF file.
 
-        This is the production-grade pattern you would use.
+        Uses pdfplumber to extract text and regular expressions to extract structured data.
         """
         try:
             import pdfplumber  # type: ignore
         except ImportError:
-            # Fallback for the reference example when pdfplumber is not installed
-            return self._parse_synthetic_invoice(pdf_path)
+            raise PdfError("pdfplumber is required but not installed")
 
-        self.logger.debug("Parsing PDF with pdfplumber: {}", pdf_path.name)
+        self.logger.debug("Opening PDF: {}", pdf_path.name)
 
-        with pdfplumber.open(pdf_path) as pdf:
-            text = ""
-            for page in pdf.pages:
-                page_text = page.extract_text() or ""
-                text += page_text + "\n"
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                text = ""
+                for page in pdf.pages:
+                    page_text = page.extract_text() or ""
+                    text += page_text + "\n"
+        except Exception as exc:
+            raise PdfError(f"Failed to open or read PDF file {pdf_path.name}: {exc}") from exc
 
-            # In a real bot you would use more sophisticated extraction
-            # (regex, layout analysis, ML-based NER, or LLM extraction).
-            # Here we demonstrate the structure with a realistic mock.
-            return self._parse_synthetic_invoice(pdf_path, raw_text=text)
+        return self._extract_invoice_data(text, pdf_path)
 
-    def _parse_synthetic_invoice(self, pdf_path: Path, raw_text: str = "") -> dict[str, Any]:
-        """
-        Fallback / synthetic parser used in this reference example.
+    def _extract_invoice_data(self, text: str, pdf_path: Path) -> dict[str, Any]:
+        """Parse raw PDF text using regular expressions and heuristics."""
+        lines = [line.strip() for line in text.split("\n") if line.strip()]
 
-        In production this would be replaced by real pdfplumber + domain logic.
-        """
-        # Try to read sidecar JSON written by download task
-        meta_file = pdf_path.with_suffix(".json")
-        if meta_file.exists():
-            meta = json.loads(meta_file.read_text())
-            return {
-                "invoice_id": meta["invoice_id"],
-                "supplier": meta["supplier"],
-                "amount_gross": meta["amount"],
-                "currency": meta.get("currency", self.settings.default_currency),
-                "invoice_date": meta["date"],
-                "line_items": [{"description": "Consulting services", "qty": 10, "unit_price": meta["amount"] / 10}],
-                "vat_rate": 0.19,
-                "source_file": str(pdf_path),
-            }
+        # 1. Extract Invoice ID
+        invoice_id_match = re.search(r"Invoice ID:\s*(INV-\d{4}-\d{4})", text)
+        if not invoice_id_match:
+            invoice_id_match = re.search(r"INV-\d{4}-\d{4}", text)
+        invoice_id = invoice_id_match.group(1) if invoice_id_match else pdf_path.stem
 
-        # Last resort
+        # 2. Extract Supplier
+        supplier_match = re.search(r"Supplier:\s*(.*?)(?=\s+Invoice ID|\n|$)", text)
+        supplier = supplier_match.group(1).strip() if supplier_match else "Unknown Supplier"
+
+        # 3. Extract Invoice Date
+        date_match = re.search(r"Date:\s*(\d{4}-\d{2}-\d{2})", text)
+        invoice_date = date_match.group(1) if date_match else "1970-01-01"
+
+        # 4. Extract Totals
+        net_total_match = re.search(r"Net Total:\s*([\d\.]+)\s*EUR", text)
+        net_total = float(net_total_match.group(1)) if net_total_match else 0.0
+
+        vat_match = re.search(r"VAT\s*\((\d+)%\):\s*([\d\.]+)\s*EUR", text)
+        vat_rate = float(vat_match.group(1)) / 100.0 if vat_match else 0.19
+        vat_amount = float(vat_match.group(2)) if vat_match else 0.0
+
+        gross_total_match = re.search(r"Gross Total:\s*([\d\.]+)\s*EUR", text)
+        gross_total = float(gross_total_match.group(1)) if gross_total_match else net_total * (1 + vat_rate)
+
+        # 5. Extract Line Items
+        line_items: list[dict[str, Any]] = []
+        in_table = False
+
+        for line in lines:
+            if "Description" in line and "Quantity" in line and "Total" in line:
+                in_table = True
+                continue
+            if "Net Total:" in line:
+                in_table = False
+                break
+
+            if in_table:
+                item_match = re.match(r"^(.*?)\s+(\d+)\s+([\d\.]+)\s*EUR\s+([\d\.]+)\s*EUR$", line)
+                if item_match:
+                    desc = item_match.group(1).strip()
+                    qty = int(item_match.group(2))
+                    unit_price = float(item_match.group(3))
+                    total_price = float(item_match.group(4))
+
+                    line_items.append({
+                        "description": desc,
+                        "qty": qty,
+                        "unit_price": unit_price,
+                        "total_price": total_price
+                    })
+                else:
+                    self.logger.warning("Could not parse line item row: '{}'", line)
+
         return {
-            "invoice_id": pdf_path.stem,
-            "supplier": "Unknown Supplier",
-            "amount_gross": 0.0,
-            "currency": self.settings.default_currency,
-            "invoice_date": "1970-01-01",
-            "line_items": [],
-            "vat_rate": 0.19,
+            "invoice_id": invoice_id,
+            "supplier": supplier,
+            "amount_gross": gross_total,
+            "amount_net": net_total,
+            "currency": "EUR",
+            "invoice_date": invoice_date,
+            "line_items": line_items,
+            "vat_rate": vat_rate,
+            "vat_amount": vat_amount,
             "source_file": str(pdf_path),
-            "warning": "Synthetic fallback used",
         }
 
     async def execute(self) -> dict[str, Any]:
@@ -98,11 +134,12 @@ class ParsePdfInvoicesTask(BaseTask):
             try:
                 data = await self._parse_single_pdf(pdf)
                 parsed_invoices.append(data)
-                self.logger.info("Parsed {} — {} €", data["invoice_id"], data["amount_gross"])
+                self.logger.info("Parsed {} — Supplier: {}, Gross Total: {} EUR",
+                                 data["invoice_id"], data["supplier"], data["amount_gross"])
             except Exception as exc:
                 self.logger.error("Failed to parse {}: {}", pdf.name, exc)
-                # Self-healing hook example (Phase 3+ pattern)
                 await self._attempt_self_healing(pdf, exc)
+                raise
 
         self.logger.success("Successfully parsed {} / {} invoices", len(parsed_invoices), len(pdf_files))
         return {"parsed": len(parsed_invoices), "invoices": parsed_invoices}
@@ -110,5 +147,4 @@ class ParsePdfInvoicesTask(BaseTask):
     async def _attempt_self_healing(self, pdf_path: Path, error: Exception) -> None:
         """Example self-healing hook — in real bots this could trigger LLM repair, fallback OCR, etc."""
         self.logger.warning("Self-healing triggered for {}: {}", pdf_path.name, type(error).__name__)
-        # In a real implementation you might move the file to a "needs_review" queue
-        # or call an LLM to extract data from a screenshot of the PDF.
+        # E.g. move to needs_review folder or log for admin intervention

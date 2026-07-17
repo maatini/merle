@@ -109,21 +109,20 @@ def with_retry(
     """
 
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
-        @policy
+        @policy  # type: ignore[untyped-decorator]
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
             try:
                 return func(*args, **kwargs)
             except Exception as exc:
                 op_name = operation_name or func.__name__
-                # Letzter Fehler nach Ausschöpfung der Retries
                 raise RetryExhaustedError(
                     operation=op_name,
-                    attempts=getattr(policy, "stop", "unknown"),
+                    attempts=getattr(policy, "stop", "unknown"),  # type: ignore[arg-type]
                     last_error=exc,
                 ) from exc
 
-        return wrapper
+        return wrapper  # type: ignore[no-any-return]
 
     return decorator
 

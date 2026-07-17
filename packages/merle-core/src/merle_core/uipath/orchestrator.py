@@ -82,7 +82,7 @@ class UiPathOrchestratorClient:
             async with httpx.AsyncClient() as client:
                 response = await client.post(url, json=payload, headers=await self.get_headers(), timeout=15.0)
                 response.raise_for_status()
-                result = response.json()
+                result: dict[str, Any] = response.json()
                 self.logger.info("Job successfully started: {}", result)
                 return result
         except Exception as exc:
@@ -97,9 +97,9 @@ class UiPathOrchestratorClient:
             async with httpx.AsyncClient() as client:
                 response = await client.get(url, headers=await self.get_headers(), timeout=10.0)
                 response.raise_for_status()
-                job_data = response.json()
+                job_data: dict[str, Any] = response.json()
                 state = job_data.get("State", "Unknown")
                 self.logger.info("Job {} status: {}", job_id, state)
-                return state
+                return str(state)
         except Exception as exc:
             raise UiPathError(f"Failed to get status for job {job_id}: {exc}") from exc

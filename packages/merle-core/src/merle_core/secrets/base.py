@@ -6,8 +6,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from merle_core.exceptions import SecretNotFoundError
-
 
 class SecretProvider(ABC):
     """Interface für alle Secret-Backends (Key Vault, HashiCorp, etc.)."""

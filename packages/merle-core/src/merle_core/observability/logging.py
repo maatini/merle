@@ -10,11 +10,13 @@ performanteste Variante ist (kein Re-Logging, keine Deadlocks).
 
 from __future__ import annotations
 
+from typing import Any
+
 from loguru import logger
 from opentelemetry import trace
 
 
-def _inject_otel_context(record: dict) -> None:
+def _inject_otel_context(record: dict[str, Any]) -> None:
     """Patch-Funktion: Injiziert Trace/Span IDs in jedes Log-Record."""
     span = trace.get_current_span()
     if span and span.is_recording():
@@ -40,7 +42,7 @@ def configure_loguru_otel_sink() -> None:
         return
 
     # Wende den Patch global an — das ist der professionelle Weg
-    logger.configure(patcher=_inject_otel_context)
+    logger.configure(patcher=_inject_otel_context)  # type: ignore[arg-type]
 
     # Markiere als konfiguriert (idempotent)
     logger._merle_otel_configured = True  # type: ignore[attr-defined]

@@ -56,7 +56,9 @@ class EmailClient:
                 if status != "OK" or not msg_data:
                     continue
 
-                raw_email = msg_data[0][1]
+                raw_email = msg_data[0]
+                if isinstance(raw_email, tuple):
+                    raw_email = raw_email[1]
                 if isinstance(raw_email, bytes):
                     msg = email.message_from_bytes(raw_email)
                 else:
@@ -83,7 +85,9 @@ class EmailClient:
                         file_path = output_path / filename_str
                         # Save attachment
                         with open(file_path, "wb") as f:
-                            f.write(part.get_payload(decode=True))
+                            payload = part.get_payload(decode=True)
+                        if isinstance(payload, bytes):
+                            f.write(payload)
                         downloaded_files.append(file_path)
 
             mail.logout()

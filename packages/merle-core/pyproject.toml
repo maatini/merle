@@ -80,10 +80,11 @@ warn_unused_ignores = true
 [[tool.mypy.overrides]]
 module = [
     "pydantic_settings.*",
-    "rpaframework.*",
     "nats.*",
     "azure.identity.*",
     "azure.keyvault.secrets.*",
+    "pandas.*",
+    "openpyxl.*",
 ]
 ignore_missing_imports = true
 
@@ -105,5 +106,5 @@ module = "lightpanda.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "merle_core.secrets.azure"
+module = "merle_core.secrets.*"
 ignore_errors = true

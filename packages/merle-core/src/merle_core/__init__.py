@@ -58,41 +58,41 @@ __all__ = [
 # Observability (extra: "observability")
 try:
     from . import observability
-    from .observability import configure_observability, get_tracer, get_meter  # type: ignore
+    from .observability import configure_observability, get_tracer, get_meter
 
     _has_observability = True
 except ImportError:
-    observability = None  # type: ignore
-    configure_observability = None  # type: ignore
-    get_tracer = None  # type: ignore
-    get_meter = None  # type: ignore
+    observability = None  # type: ignore[assignment]
+    configure_observability = None  # type: ignore[assignment]
+    get_tracer = None  # type: ignore[assignment]
+    get_meter = None  # type: ignore[assignment]
     _has_observability = False
 
 # Playwright (extra: "playwright")
 try:
-    from . import playwright  # type: ignore
+    from . import playwright
 
     _has_playwright = True
 except ImportError:
-    playwright = None  # type: ignore
+    playwright = None  # type: ignore[assignment]
     _has_playwright = False
 
 # Secrets / Azure (extra: "azure")
 try:
-    from . import secrets  # type: ignore
+    from . import secrets
 
     _has_azure = True
 except ImportError:
-    secrets = None  # type: ignore
+    secrets = None  # type: ignore[assignment]
     _has_azure = False
 
 # NATS (extra: "nats") — Phase 4 foundation
 try:
-    from . import nats  # type: ignore
+    from . import nats
 
     _has_nats = True
 except ImportError:
-    nats = None  # type: ignore
+    nats = None  # type: ignore[assignment]
     _has_nats = False
 
 # Data and UiPath modules (always importable, optional dependencies inside)

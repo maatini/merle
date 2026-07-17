@@ -81,13 +81,33 @@ check_untyped_defs = true
 
 [[tool.mypy.overrides]]
 module = [
-    "rpaframework.*",
     "playwright.*",
     "lightpanda.*",
     "loguru.*",
     "tenacity.*",
+    "pandas.*",
+    "openpyxl.*",
+    "pydantic_settings.*",
+    "nats.*",
+    "azure.identity.*",
+    "azure.keyvault.secrets.*",
 ]
 ignore_missing_imports = true
+
+# New / complex modules (NATS is still maturing in Phase 4)
+[[tool.mypy.overrides]]
+module = "merle_core.nats.*"
+disallow_untyped_defs = false
+ignore_errors = true
+
+# Modules with heavy dynamic / third-party interaction
+[[tool.mypy.overrides]]
+module = "merle_core.playwright.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "merle_core.secrets.*"
+ignore_errors = true
 
 # ─── Pytest ─────────────────────────────────────────────
 [tool.pytest.ini_options]

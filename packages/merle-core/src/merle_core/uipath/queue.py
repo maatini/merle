@@ -45,7 +45,7 @@ class UiPathQueueHelper:
                     timeout=10.0,
                 )
                 response.raise_for_status()
-                result = response.json()
+                result: dict[str, Any] = response.json()
                 self.logger.info("Successfully added item to queue '{}'", queue_name)
                 return result
         except Exception as exc:
@@ -73,7 +73,8 @@ class UiPathQueueHelper:
                     timeout=10.0,
                 )
                 response.raise_for_status()
-                data = response.json()
-                return data.get("value", [])
+                data: dict[str, Any] = response.json()
+                value: list[dict[str, Any]] = data.get("value", [])
+                return value
         except Exception as exc:
             raise QueueItemError(f"Failed to retrieve items from queue {queue_name}: {exc}") from exc

@@ -89,32 +89,26 @@ async def test_launch_robust_browser_yields_robust_browser(mock_browser, mock_br
 
 
 @pytest.mark.asyncio
-@pytest.mark.xfail(reason="Flaky in current test environment (Playwright + async teardown). Needs improved isolation.")
 async def test_robust_browser_captures_failure_artifacts_on_exception(
     mock_browser, mock_browser_context, mock_page, tmp_path
 ):
-    """When an exception occurs inside the context, failure artifacts should be created."""
+    """RobustBrowser.__aexit__ captures artifacts when an exception escapes the CM."""
+    failure_dir = tmp_path / "failures"
+    browser = RobustBrowser(
+        mock_browser,
+        mock_browser_context,
+        screenshot_on_failure=True,
+        failure_dir=str(failure_dir),
+    )
+    browser._pages = [mock_page]
 
-    with patch("merle_core.playwright.browser.async_playwright") as mock_pw:
-        mock_pw.return_value.__aenter__.return_value.chromium.launch = AsyncMock(return_value=mock_browser)
-        mock_browser.new_context = AsyncMock(return_value=mock_browser_context)
-        mock_browser_context.new_page = AsyncMock(return_value=mock_page)
+    with pytest.raises(ValueError, match="Simulated bot failure"):
+        async with browser:
+            raise ValueError("Simulated bot failure")
 
-        failure_dir = tmp_path / "failures"
-
-        with pytest.raises(ValueError):
-            async with launch_robust_browser(
-                headless=True,
-                stealth=False,
-                screenshot_on_failure=True,
-                failure_dir=str(failure_dir),
-            ) as browser:
-                _page = await browser.new_page()
-                # Simulate a real failure inside user code
-                raise ValueError("Simulated bot failure")
-
-        # Check that a failure directory was created
-        assert any(failure_dir.iterdir()), "No failure artifacts were created"
+    assert any(failure_dir.iterdir()), "No failure artifacts were created"
+    mock_page.screenshot.assert_called()
+    mock_page.content.assert_called()
 
 
 # ─────────────────────────────────────────────────────────────

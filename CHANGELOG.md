@@ -17,11 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional/UiPath-Scope — nicht Default-Install (`README.md`, `README.en.md`, `AGENTS.md`, `agent/CLAUDE.md`)
 - `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
 
+### Added
+
+- **merle-core (PR-D / M1):** unit tests for `logging_config`, `http_client`, `data.email`; extended mocked `nats` client coverage (no real network)
+- **merle-core (PR-D / M6):** session-scoped OTEL MeterProvider/TracerProvider force_flush + shutdown in test conftest (avoids ConsoleMetricExporter I/O on closed streams)
+
 ### Fixed
 
 - **template (Q2):** `templates/bot/main.py.jinja` uses `typing.Any` instead of lowercase `any` in `dict[str, Any]` annotations
 - **pytest (Q3):** root `testpaths` now discovers `packages/merle-core` and `examples` (removed empty sole `python_bots` path)
 - **merle-core (M7):** replace deprecated `datetime.utcnow` with timezone-aware `datetime.now(timezone.utc)` in `TaskSpec` / `TaskResult`
+- **merle-core (PR-D / M2):** remove `xfail` on self-healing recovery test (fast `wait_none` policy + async-aware `with_retry`); unit-path artifact capture test for `RobustBrowser.__aexit__` without flaky browser launch
+- **merle-core (PR-D):** `with_retry` applies tenacity to the original (async) function so retries see real exception types; email attachment write uses open file handle correctly
 
 ---
 

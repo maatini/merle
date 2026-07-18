@@ -1,6 +1,6 @@
 [project]
 name = "merle-cli"
-version = "0.5.1"
+version = "0.6.0"
 description = "Merle RPA CLI – Schnellstart für neue Bots"
 authors = [
     { name = "Martin Richardt", email = "martin.richardt@maatini.space" },

@@ -68,7 +68,7 @@ def _get_version() -> str:
 
         return importlib.metadata.version("merle-cli")
     except Exception:
-        return "0.5.1-dev"
+        return "0.6.0-dev"
 
 
 def _get_framework_version() -> str:
@@ -84,7 +84,7 @@ def _get_framework_version() -> str:
 
         return importlib.metadata.version("merle-core")
     except Exception:
-        return "0.5.1"
+        return "0.6.0"
 
 
 # =============================================================================

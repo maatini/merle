@@ -9,19 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [0.6.0] - 2026-07-18 — Quality Hardening
+
+Quality Hardening release: honest docs/version SSOT, hard CI gates, ≥70% merle-core coverage, gold examples, and stricter mypy (Q1–Q7 + M1–M7).
+
 ### Docs
 
-- **PR-A (Q1, Q5, Q6, Q7):** Version-SSOT auf **0.5.1** (README DE/EN Badge & Status, ROADMAP Current State, CLI `version`/`info` ohne Hardcode 0.4.0)
+- **Q1 / Q5–Q7:** Version-SSOT **0.6.0** (README DE/EN, ROADMAP Current State, CLI `version`/`info` via package metadata)
 - Neu: `docs/merle-core/secrets.md` (Azure Key Vault + pydantic-settings, Extras, Gotchas)
-- Neu: `docs/merle-core/nats.md` (kurze Phase-4 Client-Foundation, kein Orchestrator)
-- Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional/UiPath-Scope — nicht Default-Install (`README.md`, `README.en.md`, `AGENTS.md`, `agent/CLAUDE.md`)
+- Neu: `docs/merle-core/nats.md` (Phase-4 Client-Foundation, kein Orchestrator)
+- Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional — nicht Default-Install
 - `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
 
-- **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Mypy remains soft with `continue-on-error` until M5 (PR-E). Bandit `-ll` is blocking on the security job.
+### CI / CLI
 
-- **ci (M5 / PR-E):** Mypy on `packages/merle-core` is now **blocking** (`--strict`); removed `continue-on-error` soft gate from PR-C.
-- **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Bandit `-ll` is blocking on the security job.
-- **cli (M3 / PR-C):** `merle validate` always fails on Ruff or Pytest failures; mypy (and optional bandit) hard-fail only with `--strict`. Summary table reports honest PASS/FAIL only. `merle version` reads framework version from `merle_core.__version__` / package metadata (no hardcoded 0.4.0).
+- **Q4:** Blocking gates for Ruff, Pytest (`packages/merle-core`), pre-commit, `merle validate`, Bandit `-ll`, and Mypy `--strict`
+- **M3:** `merle validate` hard-fails on Ruff/Pytest; honest PASS/FAIL summary; framework version from `merle_core` metadata
 
 ### Added
 

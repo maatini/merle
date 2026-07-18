@@ -28,11 +28,11 @@ uv run python main.py
 
 See the [justfile](./justfile) for ergonomic commands: `just new-bot`, `just lint`, `just test`, `just docker`, `just ci`.
 
-## Professional Status — v0.5.1
+## Professional Status — v0.6.0
 
 | Area                 | Status   | Notes                                                                                                                                                         |
 | -------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `merle-core`         | ✅ 0.5.1 | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel, extra), secrets (Azure, extra), NATS client (extra), Playwright wrapper (Chromium + Lightpanda) |
+| `merle-core`         | ✅ 0.6.0 | `BaseBot`, `BaseTask`, retry (tenacity), observability (OTel, extra), secrets (Azure, extra), NATS client (extra), Playwright wrapper (Chromium + Lightpanda) |
 | Copier Template      | ✅       | `templates/bot/` with feature flags (playwright, pandas, pdf, uipath_orchestrator, base_bot) + post-gen hook                                                  |
 | CLI                  | ✅       | `merle new-bot`, governance validation via `tools/merle`                                                                                                      |
 | OpenCode Integration | ✅       | `.opencode/` with `rpa-hybrid` agent, `governance-validator`, `rpa-bot-generator`, `/rpa-new-bot` command                                                     |
@@ -93,7 +93,7 @@ English docs in `docs/` subdirectories are currently secondary. `README.en.md` i
 
 See the detailed vision in the German [README.md](./README.md#vision--zukünftige-erweiterungen) and [`docs/ROADMAP.md`](./docs/ROADMAP.md).
 
-**High-level (current = v0.5.1):**
+**High-level (current = v0.6.0):**
 
 - **Foundation (complete through v0.5.x):** Core library, Copier template, CLI, CI/CD, governance, `.opencode/` hybrid agent
 - **DX & Hardening (ongoing):** More real-world examples, observability, self-healing patterns, Docker story for generated bots

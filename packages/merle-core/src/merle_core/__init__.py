@@ -113,4 +113,4 @@ __all__ += [
 ]
 
 
-__version__ = "0.4.0"  # Phase 4: NATS + Task Model
+__version__ = "0.5.0"  # Phase 4: NATS + Task Model

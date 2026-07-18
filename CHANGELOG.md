@@ -77,6 +77,17 @@ Initial public structure of the Merle framework (pre-professionalization).
 [Unreleased]: https://github.com/maatini/merle/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/maatini/merle/releases/tag/v0.2.0-professional-foundation
 
+## v0.5.0 (2026-07-18)
+
+### Feat
+
+- add karpathy-guidelines skill for coding agents
+- implement data and uipath core modules and tests
+
+### Fix
+
+- repair all CI workflow checks — mypy strict, ruff, pytest, bandit, pre-commit
+
 ## v0.4.0 (2026-05-19)
 
 ### Feat

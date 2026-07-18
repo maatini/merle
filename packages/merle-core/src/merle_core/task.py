@@ -13,7 +13,7 @@ Kern-Idee:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -74,7 +74,7 @@ class TaskSpec:
     payload: dict[str, Any]
     metadata: dict[str, Any] = field(default_factory=dict)
     retry_policy: str | None = None
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -94,7 +94,9 @@ class TaskSpec:
             payload=data.get("payload", {}),
             metadata=data.get("metadata", {}),
             retry_policy=data.get("retry_policy"),
-            created_at=datetime.fromisoformat(data["created_at"]) if "created_at" in data else datetime.utcnow(),
+            created_at=(
+                datetime.fromisoformat(data["created_at"]) if "created_at" in data else datetime.now(timezone.utc)
+            ),
         )
 
 
@@ -117,7 +119,7 @@ class TaskResult:
     result: dict[str, Any] | None = None
     error: TaskError | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
-    completed_at: datetime = field(default_factory=datetime.utcnow)
+    completed_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -146,7 +148,9 @@ class TaskResult:
             result=data.get("result"),
             error=error,
             metadata=data.get("metadata", {}),
-            completed_at=datetime.fromisoformat(data["completed_at"]) if "completed_at" in data else datetime.utcnow(),
+            completed_at=(
+                datetime.fromisoformat(data["completed_at"]) if "completed_at" in data else datetime.now(timezone.utc)
+            ),
         )
 
     @classmethod

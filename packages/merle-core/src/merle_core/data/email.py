@@ -84,11 +84,11 @@ class EmailClient:
 
                         file_path = output_path / filename_str
                         # Save attachment
-                        with open(file_path, "wb") as f:
-                            payload = part.get_payload(decode=True)
+                        payload = part.get_payload(decode=True)
                         if isinstance(payload, bytes):
-                            f.write(payload)
-                        downloaded_files.append(file_path)
+                            with open(file_path, "wb") as f:
+                                f.write(payload)
+                            downloaded_files.append(file_path)
 
             mail.logout()
             return downloaded_files

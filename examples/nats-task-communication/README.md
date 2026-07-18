@@ -1,34 +1,60 @@
-# NATS Task Communication Example (Phase 4 - A1)
+# NATS Task Communication — Merle Gold Example
 
-Dieses Beispiel zeigt die grundlegende, entkoppelte Kommunikation zwischen Tasks über NATS.
+Shows decoupled task communication over NATS using Merle's `TaskSpec` /
+`TaskResult` model and `NatsClient`.
 
-## Was wird demonstriert?
+## What This Example Shows
 
-- Verwendung von `TaskSpec` und `TaskResult`
-- Publish/Subscribe Pattern via `merle_core.nats`
-- Trennung von Producer (WebScraper) und Consumer (DataProcessor)
+| Pattern                   | Implementation                            | Why It Matters                 |
+| ------------------------- | ----------------------------------------- | ------------------------------ |
+| **TaskSpec / TaskResult** | `build_scrape_spec`, `handle_scrape_spec` | JSON-safe NATS payloads        |
+| **Publish / Subscribe**   | `NatsClient.publish` + `subscribe`        | Fire-and-forget task routing   |
+| **Pure processor logic**  | `tasks/processor.py`                      | Unit-testable without a broker |
+| **Configuration**         | `NatsExampleSettings`                     | Env-driven NATS URL / subject  |
 
-## Voraussetzung
+## Architecture
 
-Du brauchst eine laufende NATS-Instanz:
-
-```bash
-docker run -p 4222:4222 nats:latest
+```
+WebScraper (producer)  --publish TaskSpec-->  NATS subject
+DataProcessor (consumer) <--subscribe---------  NATS subject
+                         --reply TaskResult-->  (optional inbox)
 ```
 
-## Starten
+## Unit Tests (no NATS server)
 
 ```bash
 cd examples/nats-task-communication
+uv sync --group dev
+uv run pytest tests/ -q
+```
+
+These cover TaskSpec/TaskResult roundtrips and a mocked `NatsClient`.
+
+## Live Demo (needs NATS)
+
+```bash
+# Terminal 1 — start NATS
+docker run --rm -p 4222:4222 nats:latest
+
+# Terminal 2 — run example
+cd examples/nats-task-communication
 uv sync
+export NATS_URL=nats://localhost:4222
 uv run python main.py
 ```
 
-## Nächste Schritte (spätere Phasen)
+Without a reachable server, `main.py` exits with a clear error message.
 
-- JetStream für persistente Tasks
-- Request/Reply für synchrone Task-Ausführung
-- Echter Orchestrator, der Tasks routed
-- Task State Management über NATS KV
+## Key Files
 
-Dieses Beispiel ist bewusst einfach gehalten, um das Grundprinzip zu vermitteln.
+- `main.py` — Live producer + consumer over NATS
+- `config.py` — `NatsExampleSettings`
+- `tasks/scraper.py` — TaskSpec builder
+- `tasks/processor.py` — Pure TaskSpec → TaskResult
+- `tests/` — Mocked unit tests (CI-safe)
+
+## Next Steps (later phases)
+
+- JetStream durable consumers
+- Request/Reply for synchronous tasks
+- Orchestrator routing + KV state

@@ -17,7 +17,9 @@ Verwendung:
 
 from __future__ import annotations
 
+import asyncio
 import functools
+import inspect
 from typing import Any, Callable, TypeVar
 
 from tenacity import (
@@ -109,20 +111,43 @@ def with_retry(
     """
 
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
-        @policy  # type: ignore[untyped-decorator]
+        # Apply tenacity to the original function first so retries see the real
+        # exception types (and async functions stay awaitable).
+        retried = policy(func)
+        op_name = operation_name or func.__name__
+
+        def _wrap_exhausted(exc: Exception) -> RetryExhaustedError:
+            stop = getattr(policy, "stop", None)
+            attempts: int = getattr(stop, "max_attempt_number", 0) if stop is not None else 0
+            return RetryExhaustedError(
+                operation=op_name,
+                attempts=attempts,
+                last_error=exc,
+            )
+
+        if inspect.iscoroutinefunction(func) or asyncio.iscoroutinefunction(func):
+
+            @functools.wraps(func)
+            async def async_wrapper(*args: Any, **kwargs: Any) -> T:
+                try:
+                    return await retried(*args, **kwargs)  # type: ignore[no-any-return]
+                except RetryExhaustedError:
+                    raise
+                except Exception as exc:
+                    raise _wrap_exhausted(exc) from exc
+
+            return async_wrapper  # type: ignore[return-value]
+
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
             try:
-                return func(*args, **kwargs)
+                return retried(*args, **kwargs)  # type: ignore[no-any-return]
+            except RetryExhaustedError:
+                raise
             except Exception as exc:
-                op_name = operation_name or func.__name__
-                raise RetryExhaustedError(
-                    operation=op_name,
-                    attempts=getattr(policy, "stop", "unknown"),  # type: ignore[arg-type]
-                    last_error=exc,
-                ) from exc
+                raise _wrap_exhausted(exc) from exc
 
-        return wrapper  # type: ignore[no-any-return]
+        return wrapper
 
     return decorator
 

@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Docs
+
+- **PR-A (Q1, Q5, Q6, Q7):** Version-SSOT auf **0.5.1** (README DE/EN Badge & Status, ROADMAP Current State, CLI `version`/`info` ohne Hardcode 0.4.0)
+- Neu: `docs/merle-core/secrets.md` (Azure Key Vault + pydantic-settings, Extras, Gotchas)
+- Neu: `docs/merle-core/nats.md` (kurze Phase-4 Client-Foundation, kein Orchestrator)
+- Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional/UiPath-Scope — nicht Default-Install (`README.md`, `README.en.md`, `AGENTS.md`, `agent/CLAUDE.md`)
+- `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
+
+- **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Mypy remains soft with `continue-on-error` until M5 (PR-E). Bandit `-ll` is blocking on the security job.
+
+- **ci (M5 / PR-E):** Mypy on `packages/merle-core` is now **blocking** (`--strict`); removed `continue-on-error` soft gate from PR-C.
+- **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Bandit `-ll` is blocking on the security job.
+- **cli (M3 / PR-C):** `merle validate` always fails on Ruff or Pytest failures; mypy (and optional bandit) hard-fail only with `--strict`. Summary table reports honest PASS/FAIL only. `merle version` reads framework version from `merle_core.__version__` / package metadata (no hardcoded 0.4.0).
+
+### Added
+
+- **examples (M4 / PR-E):** Gold upgrades for `web-automation` (BaseBot, BaseTasks, WebBotSettings, mocked page tests) and `nats-task-communication` (TaskSpec/TaskResult roundtrip, mocked NatsClient tests, live-NATS README). Light upgrade for `excel-processing` (settings + simulated/injected tests).
+- **merle-core (PR-D / M1):** unit tests for `logging_config`, `http_client`, `data.email`; extended mocked `nats` client coverage (no real network)
+- **merle-core (PR-D / M6):** session-scoped OTEL MeterProvider/TracerProvider force_flush + shutdown in test conftest (avoids ConsoleMetricExporter I/O on closed streams)
+
+### Changed
+
+- **mypy (M5 / PR-E):** Removed pauschales `ignore_errors` for `merle_core.secrets.*` and `merle_core.playwright.*`. NATS remains relaxed with `ignore_errors` (`Phase 4 maturing`). Surgical typing fixes in secrets, playwright, and `retry` tenacity wrappers.
+
+### Fixed
+
+- **template (Q2):** `templates/bot/main.py.jinja` uses `typing.Any` instead of lowercase `any` in `dict[str, Any]` annotations
+- **pytest (Q3):** root `testpaths` now discovers `packages/merle-core` and `examples` (removed empty sole `python_bots` path)
+- **merle-core (M7):** replace deprecated `datetime.utcnow` with timezone-aware `datetime.now(timezone.utc)` in `TaskSpec` / `TaskResult`
+- **merle-core (PR-D / M2):** remove `xfail` on self-healing recovery test (fast `wait_none` policy + async-aware `with_retry`); unit-path artifact capture test for `RobustBrowser.__aexit__` without flaky browser launch
+- **merle-core (PR-D):** `with_retry` applies tenacity to the original (async) function so retries see real exception types; email attachment write uses open file handle correctly
+
+---
+
 ## [0.2.0] - 2026-05-16 — Professional Foundation
 
 **This is the first major milestone release after the initial push.**  

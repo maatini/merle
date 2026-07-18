@@ -5,9 +5,18 @@ Demonstrates how BaseTask + retry can be combined for resilient behavior.
 """
 
 import pytest
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_none
 
 from merle_core import BaseTask
-from merle_core.retry import with_retry, browser_retry
+from merle_core.retry import with_retry
+
+# Deterministic, no-wait policy so recovery tests are fast and non-flaky.
+fast_connection_retry = retry(
+    stop=stop_after_attempt(5),
+    wait=wait_none(),
+    retry=retry_if_exception_type((ConnectionError, TimeoutError)),
+    reraise=True,
+)
 
 
 class UnstableExternalServiceTask(BaseTask):
@@ -21,7 +30,7 @@ class UnstableExternalServiceTask(BaseTask):
         self.attempt = 0
         self.max_failures = max_failures
 
-    @with_retry(policy=browser_retry)
+    @with_retry(policy=fast_connection_retry)
     async def execute(self) -> dict:
         self.attempt += 1
         if self.attempt <= self.max_failures:
@@ -34,9 +43,6 @@ class TestSelfHealingPatterns:
     """Tests that show realistic Self-Healing behavior using our framework."""
 
     @pytest.mark.asyncio
-    @pytest.mark.xfail(
-        reason="Flaky in current test environment - self-healing timing and retry interaction needs better isolation."
-    )
     async def test_task_recovers_after_temporary_failures(self, fake_settings):
         task = UnstableExternalServiceTask(fake_settings, max_failures=2)
 
@@ -45,6 +51,7 @@ class TestSelfHealingPatterns:
         assert result["status"] == "recovered"
         assert result["attempts"] == 3
         assert task.status == "success"
+        assert task.attempt == 3
 
     @pytest.mark.asyncio
     async def test_on_failure_hook_can_trigger_fallback(self, fake_settings):

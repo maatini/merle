@@ -10,6 +10,7 @@ Recommended architecture:
 """
 
 import asyncio
+from typing import Any
 
 from loguru import logger
 
@@ -40,11 +41,11 @@ class {{ bot_name | replace("_", " ") | title | replace(" ", "") }}Bot(BaseBot):
         # Use the new ergonomic BaseBot API (name= is optional but recommended)
         super().__init__(settings, name="{{ bot_name }}")
 
-    async def execute(self) -> dict[str, any]:
+    async def execute(self) -> dict[str, Any]:
         """High-level pipeline. Called by BaseBot.run()."""
         self.logger.info("Starting {{ bot_name }} pipeline (env={})", self.settings.environment)
 
-        results: dict[str, any] = {}
+        results: dict[str, Any] = {}
 
         {% if include_playwright or include_pandas or include_pdf %}
         # Example: run one or more tasks (extend this in real bots)
@@ -59,7 +60,7 @@ class {{ bot_name | replace("_", " ") | title | replace(" ", "") }}Bot(BaseBot):
         self.logger.success("Pipeline completed")
         return results
 
-    def _on_success(self, result: dict[str, any]) -> None:
+    def _on_success(self, result: dict[str, Any]) -> None:
         """Hook: runs after successful execution (metrics, notifications, etc.)."""
         self.logger.success("{{ bot_name }} finished successfully")
 

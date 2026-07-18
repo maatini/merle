@@ -38,27 +38,22 @@ jobs:
         run: uv lock --check
 
       - name: Sync dev workspace
-        run: uv sync --group dev --all-packages
+        # --all-extras: merle-core tests import optional modules (pandas, otel, secrets, …)
+        run: uv sync --group dev --all-packages --all-extras
 
       - name: Ruff (lint + format check)
         run: |
           uv run ruff check .
           uv run ruff format --check .
 
-      - name: Mypy (merle-core, strict where possible)
-        run: |
-          uv run mypy packages/merle-core/src/merle_core --strict || true
-          echo "Mypy completed (non-blocking during heavy NATS/Phase 4 work)"
+      - name: Mypy (merle-core, strict)
+        run: uv run mypy packages/merle-core/src/merle_core --strict
 
-      - name: Pytest (merle-core + examples skeleton)
-        run: |
-          uv run pytest packages/merle-core -q --tb=short || true
-          echo "Core tests executed (expand in Phase 3+)"
+      - name: Pytest (merle-core)
+        run: uv run pytest packages/merle-core -q --tb=short
 
       - name: Run merle validate (governance)
-        run: |
-          uv run merle validate || true
-          echo "Governance validation executed via new CLI"
+        run: uv run merle validate
 
   # ---------------------------------------------------------------------------
   # Security (Bandit + Trivy FS + basic secret scan)
@@ -77,13 +72,13 @@ jobs:
           python-version: "3.11"
 
       - name: Sync (dev + security tools)
-        run: uv sync --group dev --all-packages
+        run: uv sync --group dev --all-packages --all-extras
 
+      # Bandit -ll (medium+): blocking when clean; High/Medium findings fail the job
       - name: Bandit (Python SAST)
         run: |
           uv pip install bandit[toml] --quiet
-          uv run bandit -c pyproject.toml -r packages/merle-core/src/merle_core -ll || true
-          echo "Bandit scan completed (HIGH+ only for now)"
+          uv run bandit -c pyproject.toml -r packages/merle-core/src/merle_core -ll
 
       - name: Trivy filesystem scan (IaC + deps)
         uses: aquasecurity/trivy-action@master
@@ -124,7 +119,7 @@ jobs:
           enable-cache: true
 
       - name: Sync + pre-commit cache
-        run: uv sync --group dev --all-packages
+        run: uv sync --group dev --all-packages --all-extras
 
       - name: Cache pre-commit
         uses: actions/cache@v6
@@ -133,7 +128,7 @@ jobs:
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run full pre-commit suite
-        run: uv run pre-commit run --all-files --show-diff-on-failure || true
+        run: uv run pre-commit run --all-files --show-diff-on-failure
 
       - name: Prettier on changed non-Python files
         run: |

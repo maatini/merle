@@ -221,11 +221,13 @@ class NatsClient:
         timeout: float = 60.0,
     ) -> "TaskResult":
         """Führt eine Task via Request/Reply aus und gibt TaskResult zurück."""
-        if not isinstance(task_spec, TaskSpec):  # type: ignore[name-defined]
+        from ..task import TaskResult, TaskSpec
+
+        if not isinstance(task_spec, TaskSpec):
             raise TypeError("Erwarte TaskSpec")
 
         response = await self.request(subject, task_spec.to_dict(), timeout=timeout)
-        return TaskResult.from_dict(response.data)  # type: ignore[attr-defined]
+        return TaskResult.from_dict(response.data)
 
     # ─────────────────────────────────────────────────────────────
     # Callbacks

@@ -11,11 +11,13 @@ Es kapselt wiederkehrende Infrastruktur (Resilienz, Observability, Secrets, Brow
 ## Schnellstart
 
 ```bash
-uv add merle-core                           # Basis (BaseTask, Retry, Logging, Secrets)
+uv add merle-core                           # Basis (BaseTask, Retry, Logging, HTTP)
 uv add merle-core[playwright]               # + Playwright + Chromium
 uv add merle-core[lightpanda]               # + Lightpanda (Zig, CDP, ressourcenschonend)
-uv add merle-core[observability]            # + OpenTelemetry + Logging
-uv add merle-core[nats]                     # + NATS Client (Phase 4)
+uv add merle-core[observability]            # + OpenTelemetry
+uv add merle-core[azure]                    # + Azure Key Vault + pydantic-settings
+uv add merle-core[nats]                     # + NATS Client (Phase-4 Foundation)
+uv add merle-core[data]                     # + pandas, openpyxl, pdfplumber
 ```
 
 ## Kern-Module

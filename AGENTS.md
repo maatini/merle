@@ -52,7 +52,8 @@ Diese Prinzipien gelten bei **jeder** Code-Interaktion — von Bugfix bis Archit
 ## Stack
 
 - **Devbox + direnv** ist die Standard-Entwicklungsumgebung (siehe `devbox.json`, `.envrc`)
-- Python 3.11+, rpaframework ≥ 28.0, Playwright, pandas, pydantic-settings, loguru, tenacity, Prefect 3
+- **Default (merle-core):** Python 3.11+, loguru, tenacity, httpx, pydantic; Extras: Playwright/Lightpanda, pandas/openpyxl/pdfplumber, pydantic-settings + Azure Key Vault, OpenTelemetry, nats-py
+- **Optional / Roadmap (nicht Default-Install):** Prefect 3 (geplante DAG/HITL-Schicht), rpaframework (UiPath-Scope / Integrationsbeispiele)
 - pytest, ruff, mypy
 - UiPath nur über Orchestrator API oder Python Scope Activity
 

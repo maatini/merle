@@ -94,20 +94,13 @@ module = [
 ]
 ignore_missing_imports = true
 
-# New / complex modules (NATS is still maturing in Phase 4)
+# NATS client is still maturing (Phase 4) — keep relaxed until stable API
 [[tool.mypy.overrides]]
 module = "merle_core.nats.*"
 disallow_untyped_defs = false
-ignore_errors = true
-
-# Modules with heavy dynamic / third-party interaction
-[[tool.mypy.overrides]]
-module = "merle_core.playwright.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = "merle_core.secrets.*"
-ignore_errors = true
+disallow_untyped_calls = false
+warn_unreachable = false
+ignore_errors = true  # Phase 4 maturing
 
 # ─── Pytest ─────────────────────────────────────────────
 [tool.pytest.ini_options]
@@ -117,7 +110,7 @@ addopts = [
     "--strict-config",
     "-ra",
 ]
-testpaths = ["python_bots"]
+testpaths = ["packages/merle-core", "examples"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 markers = [

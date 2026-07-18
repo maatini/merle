@@ -26,12 +26,12 @@ class AzureKeyVaultProvider(SecretProvider):
         api_key = await provider.get_secret("my-api-key")
     """
 
-    def __init__(self, vault_url: str, credential: Any | None = None):
+    def __init__(self, vault_url: str, credential: Any | None = None) -> None:
         self.vault_url = vault_url.rstrip("/")
         self._credential = credential
-        self._client = None
+        self._client: Any | None = None
 
-    async def _get_client(self):
+    async def _get_client(self) -> Any:
         if self._client is not None:
             return self._client
 
@@ -48,11 +48,16 @@ class AzureKeyVaultProvider(SecretProvider):
         return self._client
 
     async def get_secret(self, name: str) -> str:
-        client = await self._get_client()  # type: ignore[no-untyped-call]
+        client = await self._get_client()
         try:
             secret = await client.get_secret(name)
             logger.debug("Secret '{}' erfolgreich aus Key Vault geladen", name)
-            return secret.value  # type: ignore[no-any-return]
+            value: str | None = secret.value
+            if value is None:
+                raise SecretNotFoundError(f"Secret '{name}' hat keinen Wert in Key Vault")
+            return value
+        except SecretNotFoundError:
+            raise
         except Exception as exc:
             logger.error("Secret '{}' konnte nicht aus Key Vault geladen werden: {}", name, exc)
             raise SecretNotFoundError(f"Secret '{name}' nicht in Key Vault gefunden") from exc
@@ -63,8 +68,8 @@ class AzureKeyVaultProvider(SecretProvider):
         except SecretNotFoundError:
             return default
 
-    async def close(self):  # type: ignore[no-untyped-def]
+    async def close(self) -> None:
         """Schließt den Client (wichtig bei async)."""
-        if self._client:
+        if self._client is not None:
             await self._client.close()
-            self._client = None  # type: ignore[unreachable]
+            self._client = None

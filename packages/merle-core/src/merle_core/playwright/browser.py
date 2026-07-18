@@ -10,6 +10,8 @@ import asyncio
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
+from collections.abc import AsyncIterator
+from types import TracebackType
 from typing import Any, Literal
 
 from loguru import logger
@@ -39,7 +41,7 @@ class RobustBrowser:
         *,
         screenshot_on_failure: bool = True,
         failure_dir: str | Path = "logs/failures",
-    ):
+    ) -> None:
         self.browser = browser
         self.context = context
         self.screenshot_on_failure = screenshot_on_failure
@@ -71,16 +73,21 @@ class RobustBrowser:
         except Exception:
             pass
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> RobustBrowser:
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
         if exc_type is not None and self.screenshot_on_failure:
             await self._capture_failure_artifacts(exc_val)
 
         await self.close()
 
-    async def _capture_failure_artifacts(self, exception: Exception) -> None:
+    async def _capture_failure_artifacts(self, exception: BaseException | None) -> None:
         """Erstellt bei Fehlern automatisch Screenshots und HTML-Dumps."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         failure_path = self.failure_dir / timestamp
@@ -130,7 +137,7 @@ async def launch_robust_browser(
     lightpanda_port: int = 9222,
     lightpanda_log_level: str = "error",
     **launch_kwargs: Any,
-):
+) -> AsyncIterator[RobustBrowser]:
     """
     Launcht einen robusten Playwright Browser (Chromium oder Lightpanda via CDP).
 
@@ -153,7 +160,7 @@ async def launch_robust_browser(
     )
     default_viewport = viewport or {"width": 1920, "height": 1080}
 
-    lp_proc = None
+    lp_proc: Any | None = None
     browser: Browser | None = None
     context: BrowserContext | None = None
 
@@ -270,7 +277,7 @@ async def _launch_chromium(
     """Startet einen lokalen Chromium-Prozess (bisheriges Verhalten)."""
     proxy_config = {"server": proxy} if proxy else None
     try:
-        return await playwright.chromium.launch(
+        browser: Browser = await playwright.chromium.launch(
             headless=headless,
             slow_mo=slow_mo,
             proxy=proxy_config,
@@ -281,6 +288,7 @@ async def _launch_chromium(
             ],
             **launch_kwargs,
         )
+        return browser
     except Exception as exc:
         raise BrowserLaunchError(f"Chromium konnte nicht gestartet werden: {exc}") from exc
 
@@ -311,7 +319,7 @@ async def _connect_lightpanda(
 
     endpoint = f"http://{host}:{port}"
     try:
-        browser = await playwright.chromium.connect_over_cdp(endpoint)
+        browser: Browser = await playwright.chromium.connect_over_cdp(endpoint)
         logger.info("Lightpanda CDP erfolgreich verbunden: {}", endpoint)
         return browser, lp_proc
     except Exception as exc:

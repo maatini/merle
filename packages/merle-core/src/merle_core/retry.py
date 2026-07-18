@@ -113,13 +113,15 @@ def with_retry(
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         # Apply tenacity to the original function first so retries see the real
         # exception types (and async functions stay awaitable).
-        retried = policy(func)  # type: ignore[untyped-decorator]
+        retried = policy(func)
         op_name = operation_name or func.__name__
 
         def _wrap_exhausted(exc: Exception) -> RetryExhaustedError:
+            stop = getattr(policy, "stop", None)
+            attempts: int = getattr(stop, "max_attempt_number", 0) if stop is not None else 0
             return RetryExhaustedError(
                 operation=op_name,
-                attempts=getattr(policy, "stop", "unknown"),  # type: ignore[arg-type]
+                attempts=attempts,
                 last_error=exc,
             )
 
@@ -128,7 +130,7 @@ def with_retry(
             @functools.wraps(func)
             async def async_wrapper(*args: Any, **kwargs: Any) -> T:
                 try:
-                    return await retried(*args, **kwargs)  # type: ignore[misc]
+                    return await retried(*args, **kwargs)  # type: ignore[no-any-return]
                 except RetryExhaustedError:
                     raise
                 except Exception as exc:
@@ -139,13 +141,13 @@ def with_retry(
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
             try:
-                return retried(*args, **kwargs)  # type: ignore[return-value]
+                return retried(*args, **kwargs)  # type: ignore[no-any-return]
             except RetryExhaustedError:
                 raise
             except Exception as exc:
                 raise _wrap_exhausted(exc) from exc
 
-        return wrapper  # type: ignore[return-value]
+        return wrapper
 
     return decorator
 

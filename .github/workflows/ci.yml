@@ -46,12 +46,8 @@ jobs:
           uv run ruff check .
           uv run ruff format --check .
 
-      # TODO: enable blocking after M5 (PR-E) — drop continue-on-error once mypy ignore_errors is removed
-      - name: Mypy (merle-core, strict where possible)
-        continue-on-error: true
-        run: |
-          uv run mypy packages/merle-core/src/merle_core --strict
-          echo "Mypy completed (soft gate until M5/PR-E)"
+      - name: Mypy (merle-core, strict)
+        run: uv run mypy packages/merle-core/src/merle_core --strict
 
       - name: Pytest (merle-core)
         run: uv run pytest packages/merle-core -q --tb=short

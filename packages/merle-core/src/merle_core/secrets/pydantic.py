@@ -7,17 +7,17 @@ geladen werden können, mit sauberer Fallback-Kette.
 
 from __future__ import annotations
 
-from typing import Any, TypeVar
+from typing import Any, ClassVar, TypeVar, cast
 
 from loguru import logger
-from pydantic_settings import BaseSettings  # type: ignore[import-not-found]
+from pydantic_settings import BaseSettings
 
 from .azure import AzureKeyVaultProvider
 
 T = TypeVar("T", bound="AzureKeyVaultSettings")
 
 
-class AzureKeyVaultSettings(BaseSettings):  # type: ignore[misc]
+class AzureKeyVaultSettings(BaseSettings):
     """
     Mixin für pydantic-settings, das Azure Key Vault als Secret-Quelle unterstützt.
 
@@ -36,23 +36,27 @@ class AzureKeyVaultSettings(BaseSettings):  # type: ignore[misc]
             target_url: str
     """
 
-    model_config = {
-        "azure_keyvault_url": None,
-        "azure_keyvault_credential": None,
-    }
+    # Custom keys are read via getattr on model_config; stored as ClassVars
+    # so they do not collide with SettingsConfigDict TypedDict keys.
+    azure_keyvault_url: ClassVar[str | None] = None
+    azure_keyvault_credential: ClassVar[Any | None] = None
 
-    _keyvault_provider: AzureKeyVaultProvider | None = None
+    _keyvault_provider: ClassVar[AzureKeyVaultProvider | None] = None
 
     @classmethod
     def _get_keyvault_provider(cls) -> AzureKeyVaultProvider | None:
-        vault_url = cls.model_config.get("azure_keyvault_url")
+        vault_url = cast(
+            str | None,
+            cls.model_config.get("azure_keyvault_url", cls.azure_keyvault_url),
+        )
         if not vault_url:
             return None
 
         if cls._keyvault_provider is None:
+            credential = cls.model_config.get("azure_keyvault_credential", cls.azure_keyvault_credential)
             cls._keyvault_provider = AzureKeyVaultProvider(
-                vault_url=vault_url,
-                credential=cls.model_config.get("azure_keyvault_credential"),
+                vault_url=str(vault_url),
+                credential=credential,
             )
         return cls._keyvault_provider
 

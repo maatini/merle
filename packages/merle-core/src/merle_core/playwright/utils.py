@@ -4,17 +4,21 @@ Hilfsfunktionen für robuste Playwright-Operationen.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from loguru import logger
 from playwright.async_api import Page, TimeoutError as PlaywrightTimeout
 
 from merle_core.exceptions import ElementNotFoundError
+
+WaitUntilState = Literal["commit", "domcontentloaded", "load", "networkidle"]
 
 
 async def robust_goto(
     page: Page,
     url: str,
     *,
-    wait_until: str = "domcontentloaded",
+    wait_until: WaitUntilState = "domcontentloaded",
     timeout: int = 60000,
     retries: int = 2,
 ) -> None:

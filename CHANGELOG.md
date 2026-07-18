@@ -18,12 +18,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
 
 - **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Mypy remains soft with `continue-on-error` until M5 (PR-E). Bandit `-ll` is blocking on the security job.
+
+- **ci (M5 / PR-E):** Mypy on `packages/merle-core` is now **blocking** (`--strict`); removed `continue-on-error` soft gate from PR-C.
+- **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Bandit `-ll` is blocking on the security job.
 - **cli (M3 / PR-C):** `merle validate` always fails on Ruff or Pytest failures; mypy (and optional bandit) hard-fail only with `--strict`. Summary table reports honest PASS/FAIL only. `merle version` reads framework version from `merle_core.__version__` / package metadata (no hardcoded 0.4.0).
 
 ### Added
 
+- **examples (M4 / PR-E):** Gold upgrades for `web-automation` (BaseBot, BaseTasks, WebBotSettings, mocked page tests) and `nats-task-communication` (TaskSpec/TaskResult roundtrip, mocked NatsClient tests, live-NATS README). Light upgrade for `excel-processing` (settings + simulated/injected tests).
 - **merle-core (PR-D / M1):** unit tests for `logging_config`, `http_client`, `data.email`; extended mocked `nats` client coverage (no real network)
 - **merle-core (PR-D / M6):** session-scoped OTEL MeterProvider/TracerProvider force_flush + shutdown in test conftest (avoids ConsoleMetricExporter I/O on closed streams)
+
+### Changed
+
+- **mypy (M5 / PR-E):** Removed pauschales `ignore_errors` for `merle_core.secrets.*` and `merle_core.playwright.*`. NATS remains relaxed with `ignore_errors` (`Phase 4 maturing`). Surgical typing fixes in secrets, playwright, and `retry` tenacity wrappers.
 
 ### Fixed
 

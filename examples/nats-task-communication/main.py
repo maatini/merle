@@ -1,71 +1,81 @@
+#!/usr/bin/env python3
 """
-Beispiel: Einfache NATS-basierte Task-Kommunikation (Phase 4 - A1)
+Merle NATS Task Communication — Gold Reference Example
 
-Szenario:
-- Ein "WebScraper" Task sammelt Daten und veröffentlicht sie via NATS.
-- Ein "DataProcessor" Task abonniert die Daten und verarbeitet sie.
+Demonstrates:
+- TaskSpec / TaskResult serialisation for NATS transport
+- Publish + subscribe via merle_core.nats.NatsClient
+- Separation of producer (scraper) and consumer (processor)
 
-Dies zeigt das grundlegende Fire-and-Forget + Request/Reply Pattern.
+**Live NATS required for main.py.** Unit tests mock the client (no server).
 """
+
+from __future__ import annotations
 
 import asyncio
-import uuid
 
 from loguru import logger
 
-from merle_core import TaskResult, TaskSpec
-from merle_core.nats import NatsClient
+from merle_core import TaskSpec
+from merle_core.nats import NatsClient, NatsMessage
+
+from config import settings
+from tasks import build_scrape_spec, handle_scrape_spec
 
 
-async def run_web_scraper(client: NatsClient):
-    """Simuliert einen Web-Scraper, der Ergebnisse per NATS veröffentlicht."""
-    task_spec = TaskSpec(
-        task_id=str(uuid.uuid4()),
-        task_type="web_scrape",
-        payload={"url": "https://example.com", "selectors": [".title", ".price"]},
-        metadata={"source": "web-scraper-bot"},
-    )
-
-    logger.info("WebScraper: Sende Task {}", task_spec.task_id)
-    await client.publish("tasks.web_scrape", task_spec.to_dict())
+async def run_web_scraper(client: NatsClient, subject: str) -> TaskSpec:
+    """Publish a scrape TaskSpec onto NATS."""
+    task_spec = build_scrape_spec("https://example.com")
+    logger.info("WebScraper: publishing task {}", task_spec.task_id)
+    await client.publish(subject, task_spec.to_dict())
+    return task_spec
 
 
-async def run_data_processor(client: NatsClient):
-    """Verarbeitet eingehende Web-Daten via NATS."""
+async def run_data_processor(client: NatsClient, subject: str) -> None:
+    """Subscribe and process incoming scrape tasks."""
 
-    async def handle_message(msg):
+    async def handle_message(msg: NatsMessage) -> None:
         spec = TaskSpec.from_dict(msg.data)
-        logger.info("DataProcessor: Verarbeite Task {} vom Typ {}", spec.task_id, spec.task_type)
-
-        # Simuliere Verarbeitung
-        await asyncio.sleep(0.5)
-
-        result = TaskResult.success(
-            task_id=spec.task_id, result={"processed": True, "records": 12}, processor="data-processor-bot"
+        logger.info(
+            "DataProcessor: handling task {} type={}",
+            spec.task_id,
+            spec.task_type,
         )
-
-        logger.info("DataProcessor: Task {} fertig", spec.task_id)
+        result = handle_scrape_spec(spec)
+        logger.info("DataProcessor: done task {}", spec.task_id)
         if msg.reply:
             await client.reply(msg.reply, result.to_dict())
 
-    await client.subscribe("tasks.web_scrape", handle_message)
-    logger.info("DataProcessor läuft und wartet auf Tasks...")
+    await client.subscribe(subject, handle_message)
+    logger.info("DataProcessor subscribed to {}", subject)
 
 
-async def main():
-    # In der Realität würde hier eine echte NATS-Instanz laufen
-    # Für das Beispiel nutzen wir localhost (muss gestartet sein)
-    nats_url = "nats://localhost:4222"
+async def main() -> None:
+    nats_url = settings.nats_url
+    subject = settings.subject
+
+    logger.info(
+        "NATS demo starting (url={}, subject={}). Live server required.",
+        nats_url,
+        subject,
+    )
 
     try:
-        async with NatsClient(nats_url, name="phase4-demo") as client:
-            # Starte beide Rollen parallel (in der Praxis wären das separate Prozesse)
-            await asyncio.gather(
-                run_web_scraper(client),
-                run_data_processor(client),
-            )
+        async with NatsClient(nats_url, name=settings.nats_name) as client:
+            # Subscribe first so we do not miss the publish
+            await run_data_processor(client, subject)
+            await asyncio.sleep(0.2)
+            await run_web_scraper(client, subject)
+            # Allow handler to run
+            await asyncio.sleep(1.0)
+            logger.success("NATS demo finished (check logs above)")
     except Exception as e:
-        logger.error("NATS Demo fehlgeschlagen (läuft NATS auf localhost:4222?): {}", e)
+        logger.error(
+            "NATS demo failed — is NATS running at {}? Start with: docker run -p 4222:4222 nats:latest  | error={}",
+            nats_url,
+            e,
+        )
+        raise SystemExit(1) from e
 
 
 if __name__ == "__main__":

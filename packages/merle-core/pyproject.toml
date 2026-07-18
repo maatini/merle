@@ -88,23 +88,14 @@ module = [
 ]
 ignore_missing_imports = true
 
-# New / complex modules (NATS is still maturing in Phase 4)
+# NATS client is still maturing (Phase 4) — keep relaxed until stable API
 [[tool.mypy.overrides]]
 module = "merle_core.nats.*"
 disallow_untyped_defs = false
 disallow_untyped_calls = false
 warn_unreachable = false
-ignore_errors = true  # NATS client is still in early Phase 4 development
-
-# Modules with heavy dynamic / third-party interaction
-[[tool.mypy.overrides]]
-module = "merle_core.playwright.*"
-ignore_errors = true
+ignore_errors = true  # Phase 4 maturing
 
 [[tool.mypy.overrides]]
 module = "lightpanda.*"
 ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = "merle_core.secrets.*"
-ignore_errors = true

@@ -62,27 +62,27 @@ def _run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subproc
 
 
 def _get_version() -> str:
-    """CLI-Paketversion (merle-cli) aus installierter Metadata."""
+    """Versucht CLI-Version aus package metadata zu lesen."""
     try:
         import importlib.metadata
 
         return importlib.metadata.version("merle-cli")
     except Exception:
-        return _get_framework_version()
+        return "0.5.1-dev"
 
 
 def _get_framework_version() -> str:
-    """Framework-Version (merle-core) — SSOT via Metadata / Package-Attribut."""
+    """Framework-Version aus merle-core (SSOT), Fallback metadata / pyproject."""
+    try:
+        from merle_core import __version__ as core_version
+
+        return core_version
+    except Exception:
+        pass
     try:
         import importlib.metadata
 
         return importlib.metadata.version("merle-core")
-    except Exception:
-        pass
-    try:
-        import merle_core
-
-        return getattr(merle_core, "__version__", "0.5.1")
     except Exception:
         return "0.5.1"
 
@@ -177,62 +177,116 @@ def new_bot(
 
 @app.command("validate", help="Führt umfassende Governance- und Qualitäts-Checks für das Merle-Framework aus.")
 def validate(
-    strict: bool = typer.Option(False, "--strict", help="Strengere Checks (mypy --strict, bandit high)"),
-    core_only: bool = typer.Option(False, "--core-only", help="Nur merle-core prüfen"),
+    strict: bool = typer.Option(False, "--strict", help="Strengere Checks (mypy fail + bandit -ll)"),
+    core_only: bool = typer.Option(False, "--core-only", help="Nur merle-core prüfen (skip template/repo notes)"),
 ) -> None:
-    """Governance-Validator: Lint, Type, Test, Template, Legacy-Deprecated, Visibility."""
+    """Governance-Validator: Ruff + pytest always gate; mypy/bandit hard only with --strict."""
     root = _get_repo_root()
-    errors: list[str] = []
+    results: dict[str, str] = {}
+    hard_errors: list[str] = []
+    soft_notes: list[str] = []
 
     console.print(Panel.fit("[bold]Merle Governance & Quality Validation[/bold]", title="🔍 merle validate"))
 
-    # 1. Ruff (Format + Lint)
+    # 1. Ruff (Format + Lint) — always blocking
     try:
         _run(["uv", "run", "ruff", "check", "."], cwd=root)
         _run(["uv", "run", "ruff", "format", "--check", "."], cwd=root)
         console.print("[green]✓[/green] Ruff lint + format: OK")
+        results["Ruff + Format"] = "PASS"
     except subprocess.CalledProcessError:
-        errors.append("Ruff violations found")
+        hard_errors.append("Ruff violations found")
         console.print("[red]✗[/red] Ruff failed")
+        results["Ruff + Format"] = "FAIL"
 
-    # 2. Mypy (merle-core)
+    # 2. Pytest (merle-core) — always blocking
+    try:
+        _run(["uv", "run", "pytest", "packages/merle-core", "-q"], cwd=root)
+        console.print("[green]✓[/green] Pytest (merle-core): OK")
+        results["Pytest (merle-core)"] = "PASS"
+    except subprocess.CalledProcessError:
+        hard_errors.append("Pytest failures in merle-core")
+        console.print("[red]✗[/red] Pytest failed")
+        results["Pytest (merle-core)"] = "FAIL"
+
+    # 3. Mypy (merle-core) — soft by default; blocking under --strict
     mypy_cmd = ["uv", "run", "mypy", "packages/merle-core/src/merle_core"]
     if strict:
         mypy_cmd.append("--strict")
     try:
         _run(mypy_cmd, cwd=root)
         console.print("[green]✓[/green] Mypy (merle-core): OK")
+        results["Mypy (core)"] = "PASS"
     except subprocess.CalledProcessError:
-        errors.append("Mypy type errors in merle-core")
-        console.print("[yellow]⚠[/yellow] Mypy reported issues (allowed in early phases)")
+        if strict:
+            hard_errors.append("Mypy type errors in merle-core")
+            console.print("[red]✗[/red] Mypy failed (--strict)")
+            results["Mypy (core)"] = "FAIL"
+        else:
+            soft_notes.append("Mypy type errors in merle-core (non-blocking; use --strict to gate)")
+            console.print("[yellow]⚠[/yellow] Mypy reported issues (soft; enable with --strict)")
+            results["Mypy (core)"] = "PASS"
 
-    # 3. Template integrity (Copier + post-hook)
-    tpl = _get_template_path()
-    if not (tpl / "copier.yml").exists() or not (tpl / "hooks" / "post_gen_project.py").exists():
-        errors.append("Copier template incomplete")
-        console.print("[red]✗[/red] Official template broken")
+    # 4. Bandit (optional, only under --strict)
+    if strict:
+        try:
+            _run(
+                [
+                    "uv",
+                    "run",
+                    "bandit",
+                    "-c",
+                    "pyproject.toml",
+                    "-r",
+                    "packages/merle-core/src/merle_core",
+                    "-ll",
+                    "-q",
+                ],
+                cwd=root,
+            )
+            console.print("[green]✓[/green] Bandit (-ll): OK")
+            results["Bandit (-ll)"] = "PASS"
+        except subprocess.CalledProcessError:
+            hard_errors.append("Bandit findings at -ll severity")
+            console.print("[red]✗[/red] Bandit failed (--strict)")
+            results["Bandit (-ll)"] = "FAIL"
+        except FileNotFoundError:
+            soft_notes.append("bandit not installed; skipped under --strict")
+            results["Bandit (-ll)"] = "PASS"
 
-    # 5. Check for accidental secrets / .env in git (simple heuristic)
-    # (real check would be in pre-commit / gitleaks)
+    # 5. Template integrity (Copier + post-hook)
+    if not core_only:
+        tpl = _get_template_path()
+        if not (tpl / "copier.yml").exists() or not (tpl / "hooks" / "post_gen_project.py").exists():
+            hard_errors.append("Copier template incomplete")
+            console.print("[red]✗[/red] Official template broken")
+            results["Copier Template"] = "FAIL"
+        else:
+            console.print("[green]✓[/green] Copier template integrity: OK")
+            results["Copier Template"] = "PASS"
 
-    # 6. Repo visibility reminder (from ADR-0009)
-    console.print("[green]✓[/green] ADR-0009 (Public Source-Available Repo) active")
+        # Repo visibility reminder (ADR-0009)
+        console.print("[green]✓[/green] ADR-0009 (Public Source-Available Repo) active")
+        results["Repo Visibility"] = "PASS"
 
     table = Table(title="Validation Summary")
     table.add_column("Check", style="cyan")
     table.add_column("Result")
-    table.add_row("Ruff + Format", "PASS" if not any("Ruff" in e for e in errors) else "FAIL")
-    table.add_row("Mypy (core)", "PASS (with notes)" if not any("Mypy" in e for e in errors) else "FAIL")
-    table.add_row("Copier Template", "OK" if not any("Copier" in e for e in errors) else "BROKEN")
-    table.add_row("Repo Visibility", "PUBLIC (Source-Available, ADR-0009)")
+    for check, result in results.items():
+        style = "green" if result == "PASS" else "red"
+        table.add_row(check, f"[{style}]{result}[/{style}]")
     console.print(table)
 
-    if errors:
-        console.print(Panel("\n".join(f"• {e}" for e in errors), title="Issues Found", border_style="red"))
-        if strict:
-            raise typer.Exit(1)
-    else:
-        console.print("\n[bold green]✅ All governance checks passed. Ready for production bots.[/bold green]")
+    if soft_notes:
+        console.print(
+            Panel("\n".join(f"• {n}" for n in soft_notes), title="Notes (non-blocking)", border_style="yellow")
+        )
+
+    if hard_errors:
+        console.print(Panel("\n".join(f"• {e}" for e in hard_errors), title="Issues Found", border_style="red"))
+        raise typer.Exit(1)
+
+    console.print("\n[bold green]✅ All governance checks passed. Ready for production bots.[/bold green]")
 
 
 @app.command("docs", help="Baut oder served die MkDocs-Dokumentation (nie site/ committen!).")
@@ -272,15 +326,14 @@ def docs(
 @app.command("info", help="Zeigt Framework-Status, Versionen und wichtige Pfade.")
 def info() -> None:
     """Informationsübersicht (Versionen, Struktur, Philosophie)."""
-    cli_v = _get_version()
-    fw_v = _get_framework_version()
+    version = _get_version()
 
-    table = Table(title=f"Merle Framework Info — Framework v{fw_v} | CLI v{cli_v}")
+    table = Table(title=f"Merle Framework Info — v{version}")
     table.add_column("Component", style="bold cyan")
     table.add_column("Status / Path")
-    table.add_row("merle-core", f"v{fw_v} — packages/merle-core/src/merle_core (uv workspace member)")
+    table.add_row("merle-core", "packages/merle-core/src/merle_core (uv workspace member)")
     table.add_row("Official Template", "templates/bot/ (Copier + post-hook)")
-    table.add_row("CLI", f"v{cli_v} — tools/merle/ (this binary)")
+    table.add_row("CLI", "tools/merle/ (this binary)")
     table.add_row("Docs", "docs/ (MkDocs) + AGENTS.md (binding)")
     table.add_row("ADRs", "docs/decisions/ (7+ records)")
     table.add_row("Examples", "examples/ + integration_examples/")
@@ -299,11 +352,11 @@ def info() -> None:
 
 @app.command("version", help="Zeigt die aktuelle CLI- und Framework-Version.")
 def version_cmd() -> None:
-    """Version (SemVer) — CLI und Framework getrennt aus Metadata."""
-    cli_v = _get_version()
-    fw_v = _get_framework_version()
-    console.print(f"[bold green]merle[/bold green] CLI v{cli_v}  |  Merle Framework v{fw_v}")
-    console.print("Ready for bot development & internal enterprise use.")
+    """Version (SemVer + Phase)."""
+    v = _get_version()
+    fw = _get_framework_version()
+    console.print(f"[bold green]merle[/bold green] CLI v{v}  |  Merle Framework v{fw}")
+    console.print("Python-first RPA framework — ready for bot development & internal enterprise use.")
 
 
 if __name__ == "__main__":

@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional/UiPath-Scope — nicht Default-Install (`README.md`, `README.en.md`, `AGENTS.md`, `agent/CLAUDE.md`)
 - `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
 
+### Fixed
+
+- **template (Q2):** `templates/bot/main.py.jinja` uses `typing.Any` instead of lowercase `any` in `dict[str, Any]` annotations
+- **pytest (Q3):** root `testpaths` now discovers `packages/merle-core` and `examples` (removed empty sole `python_bots` path)
+- **merle-core (M7):** replace deprecated `datetime.utcnow` with timezone-aware `datetime.now(timezone.utc)` in `TaskSpec` / `TaskResult`
+
 ---
 
 ## [0.2.0] - 2026-05-16 — Professional Foundation

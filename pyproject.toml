@@ -117,7 +117,7 @@ addopts = [
     "--strict-config",
     "-ra",
 ]
-testpaths = ["python_bots"]
+testpaths = ["packages/merle-core", "examples"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 markers = [

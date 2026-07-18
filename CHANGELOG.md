@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional/UiPath-Scope — nicht Default-Install (`README.md`, `README.en.md`, `AGENTS.md`, `agent/CLAUDE.md`)
 - `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
 
+- **ci (Q4 / PR-C):** Quality gates are now blocking for Ruff, Pytest (`packages/merle-core`), pre-commit, and `merle validate`. Mypy remains soft with `continue-on-error` until M5 (PR-E). Bandit `-ll` is blocking on the security job.
+- **cli (M3 / PR-C):** `merle validate` always fails on Ruff or Pytest failures; mypy (and optional bandit) hard-fail only with `--strict`. Summary table reports honest PASS/FAIL only. `merle version` reads framework version from `merle_core.__version__` / package metadata (no hardcoded 0.4.0).
+
 ### Added
 
 - **merle-core (PR-D / M1):** unit tests for `logging_config`, `http_client`, `data.email`; extended mocked `nats` client coverage (no real network)

@@ -77,6 +77,12 @@ Initial public structure of the Merle framework (pre-professionalization).
 [Unreleased]: https://github.com/maatini/merle/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/maatini/merle/releases/tag/v0.2.0-professional-foundation
 
+## v0.5.1 (2026-07-18)
+
+### Fix
+
+- **ci**: sync uv.lock package versions after 0.5.0 bump
+
 ## v0.5.0 (2026-07-18)
 
 ### Feat

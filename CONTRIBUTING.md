@@ -81,6 +81,17 @@ Commitizen + pre-commit Hook sorgen für:
 - Automatische SemVer-Bumps (`uv run cz bump`)
 - Automatisches CHANGELOG-Update
 
+Nach einem Version-Bump **immer** den Workspace-Lockfile synchronisieren und mit committen
+(sonst schlägt CI bei `uv lock --check` fehl):
+
+```bash
+uv run cz bump
+uv lock
+git add uv.lock && git commit --amend --no-edit
+# Tag nur force-moven, wenn er noch nicht gepusht wurde:
+git tag -f "v$(uv run cz version -p)"
+```
+
 Siehe `pyproject.toml` → `[tool.commitizen]` und `.pre-commit-config.yaml`.
 
 ## Code of Conduct

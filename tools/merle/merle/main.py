@@ -62,13 +62,29 @@ def _run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subproc
 
 
 def _get_version() -> str:
-    """Versucht Version aus pyproject oder metadata zu lesen."""
+    """CLI-Paketversion (merle-cli) aus installierter Metadata."""
     try:
         import importlib.metadata
 
         return importlib.metadata.version("merle-cli")
     except Exception:
-        return "0.2.0-dev"
+        return _get_framework_version()
+
+
+def _get_framework_version() -> str:
+    """Framework-Version (merle-core) — SSOT via Metadata / Package-Attribut."""
+    try:
+        import importlib.metadata
+
+        return importlib.metadata.version("merle-core")
+    except Exception:
+        pass
+    try:
+        import merle_core
+
+        return getattr(merle_core, "__version__", "0.5.1")
+    except Exception:
+        return "0.5.1"
 
 
 # =============================================================================
@@ -256,14 +272,15 @@ def docs(
 @app.command("info", help="Zeigt Framework-Status, Versionen und wichtige Pfade.")
 def info() -> None:
     """Informationsübersicht (Versionen, Struktur, Philosophie)."""
-    version = _get_version()
+    cli_v = _get_version()
+    fw_v = _get_framework_version()
 
-    table = Table(title=f"Merle Framework Info — v{version}")
+    table = Table(title=f"Merle Framework Info — Framework v{fw_v} | CLI v{cli_v}")
     table.add_column("Component", style="bold cyan")
     table.add_column("Status / Path")
-    table.add_row("merle-core", "packages/merle-core/src/merle_core (uv workspace member)")
+    table.add_row("merle-core", f"v{fw_v} — packages/merle-core/src/merle_core (uv workspace member)")
     table.add_row("Official Template", "templates/bot/ (Copier + post-hook)")
-    table.add_row("CLI", "tools/merle/ (this binary)")
+    table.add_row("CLI", f"v{cli_v} — tools/merle/ (this binary)")
     table.add_row("Docs", "docs/ (MkDocs) + AGENTS.md (binding)")
     table.add_row("ADRs", "docs/decisions/ (7+ records)")
     table.add_row("Examples", "examples/ + integration_examples/")
@@ -282,10 +299,11 @@ def info() -> None:
 
 @app.command("version", help="Zeigt die aktuelle CLI- und Framework-Version.")
 def version_cmd() -> None:
-    """Version (SemVer + Phase)."""
-    v = _get_version()
-    console.print(f"[bold green]merle[/bold green] CLI v{v}  |  Merle Framework v0.4.0 (Professional Foundation)")
-    console.print("Phase 1 complete — ready for bot development & internal enterprise use.")
+    """Version (SemVer) — CLI und Framework getrennt aus Metadata."""
+    cli_v = _get_version()
+    fw_v = _get_framework_version()
+    console.print(f"[bold green]merle[/bold green] CLI v{cli_v}  |  Merle Framework v{fw_v}")
+    console.print("Ready for bot development & internal enterprise use.")
 
 
 if __name__ == "__main__":

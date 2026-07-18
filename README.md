@@ -1,7 +1,7 @@
 # Merle
 
 [![License](https://img.shields.io/badge/license-proprietary-red)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-0.4.0-blue)](https://github.com/maatini/merle)
+[![Version](https://img.shields.io/badge/version-0.5.1-blue)](https://github.com/maatini/merle)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![uv](https://img.shields.io/badge/uv-0.11+-8A2BE2?logo=python)](https://docs.astral.sh/uv/)
 [![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/concepts/strategie.md)
@@ -21,13 +21,13 @@
 **Modular Enterprise RPA Lifecycle Engine**  
 _Python-first hybrid RPA framework for maintainable, testable, and cost-efficient automation._
 
-**80–90 % Python (Playwright mit Chromium/Lightpanda, pandas, Prefect, loguru, tenacity, NATS) — UiPath only when it delivers a proven architectural advantage.**  
+**80–90 % Python** (Playwright mit Chromium/Lightpanda, pandas, loguru, tenacity, httpx, pydantic; optional NATS / OTel / Azure Key Vault) — **UiPath only when it delivers a proven architectural advantage.**  
 **Vision: Granular, NATS-based orchestration with intelligent executors (Python / KI / UiPath) and BPMN-grade transparency.**
 
-> **Current Status (v0.4 – Professional Foundation):**  
-> Production-ready `merle-core`, official Copier template, `merle` CLI, strong CI + pre-commit, `.opencode/` RPA agent, and full governance. Ready for internal enterprise use and scaling.
+> **Current Status (v0.5.1):**  
+> Production-ready `merle-core`, official Copier template, `merle` CLI, CI + pre-commit, `.opencode/` RPA agent, and full governance. Ready for internal enterprise use and scaling.
 
-**Zukünftig (Roadmap):** Granulare NATS-Orchestrierung, KI-Executor, Prefect 3 Patterns, Self-Healing auf Task-Ebene.
+**Zukünftig (Roadmap):** Granulare NATS-Orchestrierung (Orchestrator-PoC), KI-Executor, optionale Prefect-3-Patterns, Self-Healing auf Task-Ebene.
 
 ---
 
@@ -117,7 +117,7 @@ Merle entwickelt sich schrittweise zu einer hochskalierbaren, intelligenten und 
   - Bessere Zusammenarbeit zwischen Citizen Developers und RPA-Experten
   - Visuelle Dashboards und Drill-Down-Analysen
 
-Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Prefect 3.x, Docker und der bestehenden Governance auf. Sie führen Merle schrittweise in Richtung einer vollständig hybriden, KI-gestützten, kostenoptimierten und vollständig transparenten Enterprise-RPA-Plattform.
+Diese Erweiterungen bauen auf dem bestehenden Python-First-Ansatz, Docker und der bestehenden Governance auf. Optionale Orchestrierungs-Schichten (NATS-Orchestrator, ggf. Prefect 3 für komplexe DAGs) sind Roadmap — nicht Teil des installierten Default-Stacks. Sie führen Merle schrittweise in Richtung einer vollständig hybriden, KI-gestützten, kostenoptimierten und vollständig transparenten Enterprise-RPA-Plattform.
 
 ---
 
@@ -153,12 +153,12 @@ Der Agent agiert als strikter Wächter der [Entscheidungsmatrix](docs/concepts/e
 3. **`governance-validator` (Skill):** Prüft Code auf Einhaltung aller 11 Governance-Regeln (inkl. Rule 10: merle-core + BaseTask).
 4. **Commands:** `/rpa-new-bot` und `/rpa-validate` für schnelle Workflows.
 
-**Hinweis zur Fork-Version (Professional Foundation Decision):**  
-Das Verzeichnis `rpa-opencode-hybrid/` enthält einen vollständigen OpenCode-Fork (~88 MB) und ist **ausschließlich** für die Entwicklung von OpenCode-Core-Patches und angepassten Desktop-Builds relevant.
+**Hinweis zu `rpa-opencode-hybrid/` (lokal optional, nicht produktiv):**  
+Das Verzeichnis `rpa-opencode-hybrid/` ist **gitignored**, lokal optional und **ausschließlich** für OpenCode-Core-Patches bzw. angepasste Desktop-Builds gedacht (Patch-only). Es ist **kein** Teil des produktiven Merle-Stacks und wird nicht mit `git clone` ausgeliefert.
 
-**Für die tägliche RPA-Bot-Entwicklung genügt die schlanke `.opencode/`-Integration** im Repository-Root (Agent `rpa-hybrid`, Skills `governance-validator` + `rpa-bot-generator`, Commands `/rpa-new-bot`).
+**Für die tägliche und produktive RPA-Bot-Entwicklung gilt ausschließlich die schlanke `.opencode/`-Integration** im Repository-Root (Agent `rpa-hybrid`, Skills `governance-validator` + `rpa-bot-generator`, Commands `/rpa-new-bot`).
 
-Wir haben bewusst **kein git submodule** für den Fork eingebunden (siehe Begründung in [AGENTS.md](AGENTS.md) und `.gitignore`). Dies hält `git clone` schnell und die Einstiegshürde niedrig. Bei Bedarf wird `maatini/merle-opencode-hybrid` als eigenständiges privates Repository geführt.
+Wir haben bewusst **kein git submodule** für den Fork eingebunden (siehe `.gitignore`: `rpa-opencode-hybrid/`). Dies hält `git clone` schnell und die Einstiegshürde niedrig. Bei Bedarf wird `maatini/merle-opencode-hybrid` als eigenständiges privates Repository geführt.
 
 ### Wie die RPA-Hybrid-Integration funktioniert
 
@@ -232,23 +232,33 @@ Wichtige Dokumente:
 
 ## Technologie-Stack
 
-### Python (Default)
+### Python (Default — installiert / merle-core)
 
-- **RPA**: rpaframework ≥ 28.0
-- **Web**: Playwright (Chromium + Lightpanda via CDP)
-- **Daten**: pandas, openpyxl, pdfplumber
-- **HTTP**: httpx (async)
-- **Config**: pydantic-settings
+Core-Dependencies von `merle-core` (siehe `packages/merle-core/pyproject.toml`):
+
 - **Logging**: loguru
 - **Retry**: tenacity
-- **Orchestrierung**: Prefect 3.x (aktuell) → zukünftig NATS + eigener Orchestrator
-- **Testing**: pytest
+- **HTTP**: httpx (async)
+- **Models**: pydantic ≥ 2
+- **Web** (Extra `playwright` / `lightpanda`): Playwright (Chromium + Lightpanda via CDP)
+- **Daten** (Extra `data`): pandas, openpyxl, pdfplumber
+- **Config / Secrets** (Extra `azure`): pydantic-settings + Azure Key Vault
+- **Observability** (Extra `observability`): OpenTelemetry
+- **Messaging** (Extra `nats`): nats-py — Client-Foundation für Phase-4-Orchestrierung
+- **Testing**: pytest, pytest-asyncio
 - **Container**: Docker
+
+### Optional / Roadmap (nicht Default-Install)
+
+- **Prefect 3**: geplant als optionale höhere Orchestrierungs-Schicht (komplexe DAGs, HITL) — **nicht** im merle-core Default-Stack
+- **rpaframework**: optional in UiPath-Scope-/Integrationsbeispielen — **nicht** Default-Dependency für Python-Bots
+- **NATS Orchestrator / Worker-Runtime**: Roadmap (Phase 4), Client-API in merle-core bereits vorhanden
 
 ### UiPath (Ausnahme)
 
 - Integration über Orchestrator REST API
 - Lose Kopplung (APIs, Queues, Dateien)
+- Optional: rpaframework in UiPath Python Scope (siehe `integration_examples/`)
 
 ---
 
@@ -323,12 +333,11 @@ Dieses Repository und alle darin enthaltenen Artefakte sind proprietär. Nutzung
 
 ## Version
 
-**0.4.0** — Phase 1 CLI Restructuring & Agent Command Integration — Mai 2026
+**0.5.1** — Docs & Truth Hardening (Version-SSOT, ehrliche Stack-Claims) — Juli 2026
 
 Frühere Versionen:
 
+- 0.5.0 — Juli 2026 (data/uipath modules, CI repair, karpathy guidelines)
+- 0.4.0 — Mai 2026 (CLI Restructuring & Agent Command Integration)
 - 0.3.0 — Mai 2026 (NATS & Task-Modell)
-- 0.2.0 — Phase 0 Foundations (uv + merle-core + CI/CD + pre-commit) — Mai 2026
-
-- 1.1 — Mai 2026 (initiale Vision & Template)
-- 1.0 — Initiales Python-First Framework
+- 0.2.0 — Mai 2026 (Phase 0 Foundations: uv + merle-core + CI/CD + pre-commit)

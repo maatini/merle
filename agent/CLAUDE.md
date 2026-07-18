@@ -106,23 +106,29 @@ Web-Automatisierung, API-Integration, Datenverarbeitung, E-Mail, Datei-Ops, Busi
 - Alle Befehle laufen in der isolierten Devbox (Python 3.11, uv 0.11.8, Node 20, Copier, pre-commit).
 - AI-Agenten: `devbox run <cmd>` oder `devbox shell` vor jedem Aufruf von `uv`, `ruff`, `pytest`, `merle` etc.
 
-**Python-Bots (Default):**
+**Python-Bots (Default — merle-core + Extras):**
 
 - Runtime: Python 3.11+
-- RPA: rpaframework ≥ 28.0
-- Web: Playwright (via rpaframework oder direkt)
-- Daten: pandas, openpyxl, pdfplumber
-- HTTP: httpx (async-first)
-- Config: pydantic-settings
 - Logging: loguru
 - Retry: tenacity
-- Orchestrierung: Prefect 3.x
+- HTTP: httpx (async-first)
+- Models: pydantic ≥ 2
+- Web (Extra): Playwright direkt (Chromium + Lightpanda via CDP) — **nicht** via rpaframework
+- Daten (Extra): pandas, openpyxl, pdfplumber
+- Config / Secrets (Extra `azure`): pydantic-settings + Azure Key Vault
+- Messaging (Extra `nats`): nats-py — Client-Foundation, kein vollständiger Orchestrator
 - Testing: pytest, pytest-asyncio, pytest-playwright
+
+**Optional / Roadmap (nicht Default-Stack):**
+
+- Prefect 3.x — geplante optionale Orchestrierungs-Schicht (komplexe DAGs, HITL), **nicht** installierte merle-core Dependency
+- rpaframework — optional in UiPath Python Scope / `integration_examples/`, **nicht** Default für Python-Bots
 
 **UiPath (nur Ausnahme):**
 
 - Integration: Orchestrator API, Python Scope Activity
 - Kommunikation: Lose Kopplung (APIs, Queues, Dateien)
+- Optional: rpaframework im UiPath Python Scope
 
 ---
 

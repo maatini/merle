@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Docs
+
+- **PR-A (Q1, Q5, Q6, Q7):** Version-SSOT auf **0.5.1** (README DE/EN Badge & Status, ROADMAP Current State, CLI `version`/`info` ohne Hardcode 0.4.0)
+- Neu: `docs/merle-core/secrets.md` (Azure Key Vault + pydantic-settings, Extras, Gotchas)
+- Neu: `docs/merle-core/nats.md` (kurze Phase-4 Client-Foundation, kein Orchestrator)
+- Stack-Claims ehrlich: Prefect 3 & rpaframework als Roadmap/optional/UiPath-Scope — nicht Default-Install (`README.md`, `README.en.md`, `AGENTS.md`, `agent/CLAUDE.md`)
+- `rpa-opencode-hybrid/`: lokal optional, gitignored, patch-only; produktiv `.opencode/`
+
+---
+
 ## [0.2.0] - 2026-05-16 — Professional Foundation
 
 **This is the first major milestone release after the initial push.**  

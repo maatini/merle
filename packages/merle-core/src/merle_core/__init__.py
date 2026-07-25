@@ -113,4 +113,4 @@ __all__ += [
 ]
 
 
-__version__ = "0.6.0"  # Phase 4: NATS + Task Model
+__version__ = "0.7.0"  # Deploy, Hybrid Gold & Security Hardening

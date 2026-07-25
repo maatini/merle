@@ -11,6 +11,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.7.0] - 2026-07-25 — Deploy, Hybrid Gold & Security Hardening
+
+Post-0.6.0 hardening: reliable monorepo/standalone Docker deploy path, coverage
+gates, UiPath hybrid gold example, and blocking security scanners in CI.
+
+### Added
+
+- **examples (uipath-hybrid):** Gold rewrite around `merle_core.uipath` (settings, `ProcessQueueTask`, mocked unit tests, lockfile)
+- **merle-core tests:** expanded coverage for playwright utils, secrets, UiPath orchestrator client
+- **CI:** merle-core coverage gate; Trivy (CRITICAL+HIGH, `ignore-unfixed`) + TruffleHog as hard fails
+
+### Changed
+
+- **template / Docker:** monorepo vs. standalone builds from repo root; `.dockerignore` + `Dockerfile.jinja` + `docker-build.yml` + `just` helpers
+- **integration_examples/orchestrator_api:** aligned with current UiPath client API
+- **SECURITY.md + knowledge-base:** public source-available (ADR-0009) and live CI truth
+
+### Fixed
+
+- **ci:** pin `aquasecurity/trivy-action@v0.36.0` (valid v-prefixed tag)
+- **examples:** refresh `invoice-processing` lock (Pillow / cryptography HIGH CVEs blocking Trivy)
+- **ci:** sync `uv.lock` after commitizen constraint bump (Dependabot PR #34)
+
+---
+
 ## [0.6.0] - 2026-07-18 — Quality Hardening
 
 Quality Hardening release: honest docs/version SSOT, hard CI gates, ≥70% merle-core coverage, gold examples, and stricter mypy (Q1–Q7 + M1–M7).
@@ -115,7 +140,9 @@ Initial public structure of the Merle framework (pre-professionalization).
 
 ---
 
-[Unreleased]: https://github.com/maatini/merle/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/maatini/merle/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/maatini/merle/releases/tag/v0.7.0
+[0.6.0]: https://github.com/maatini/merle/releases/tag/v0.6.0
 [0.2.0]: https://github.com/maatini/merle/releases/tag/v0.2.0-professional-foundation
 
 ## v0.5.1 (2026-07-18)

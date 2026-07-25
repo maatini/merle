@@ -10,13 +10,13 @@ Demonstrates:
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
+import re
 from typing import Any
 
 from merle_core import BaseTask
 from merle_core.exceptions import PdfError
-from merle_core.retry import with_retry, default_http_retry
+from merle_core.retry import default_http_retry, with_retry
 
 
 class ParsePdfInvoicesTask(BaseTask):
@@ -35,8 +35,8 @@ class ParsePdfInvoicesTask(BaseTask):
         """
         try:
             import pdfplumber  # type: ignore
-        except ImportError:
-            raise PdfError("pdfplumber is required but not installed")
+        except ImportError as err:
+            raise PdfError("pdfplumber is required but not installed") from err
 
         self.logger.debug("Opening PDF: {}", pdf_path.name)
 

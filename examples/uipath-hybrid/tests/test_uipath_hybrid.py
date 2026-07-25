@@ -7,8 +7,8 @@ Unit tests for the UiPath hybrid example (no real Orchestrator).
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
+import sys
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
@@ -176,8 +176,8 @@ async def test_bot_pipeline_with_injected_helper(
 def test_build_orchestrator_client_requires_credentials(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    import main as main_mod
     from config import UiPathHybridSettings
+    import main as main_mod
 
     empty = UiPathHybridSettings(
         simulate=False,

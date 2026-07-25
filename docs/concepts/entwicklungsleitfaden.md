@@ -90,15 +90,16 @@ logger.error("Fehler bei API-Aufruf: {}", error)
 ```python
 from tenacity import retry, stop_after_attempt, wait_exponential
 
+
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
-async def call_external_api(url: str) -> dict:
-    ...
+async def call_external_api(url: str) -> dict: ...
 ```
 
 #### Konfiguration (pydantic-settings)
 
 ```python
 from pydantic_settings import BaseSettings
+
 
 class BotSettings(BaseSettings):
     target_url: str
@@ -130,9 +131,11 @@ async with httpx.AsyncClient(timeout=30.0) as client:
 import pytest
 from main import process_data
 
+
 def test_process_data_valid_input():
     result = process_data({"id": 1, "value": "test"})
     assert result["status"] == "processed"
+
 
 def test_process_data_missing_field():
     with pytest.raises(ValueError):
@@ -143,6 +146,7 @@ def test_process_data_missing_field():
 
 ```python
 from unittest.mock import AsyncMock, patch
+
 
 @pytest.mark.asyncio
 async def test_api_integration():
@@ -156,6 +160,7 @@ async def test_api_integration():
 
 ```python
 from playwright.async_api import async_playwright
+
 
 @pytest.mark.asyncio
 async def test_login_flow():

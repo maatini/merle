@@ -25,13 +25,15 @@ class MyBot(BaseBot):
     def _on_failure(self, exception):
         self.logger.error(f"❌ {exception}")
 
+
 # 3. Starten
 async def main():
     configure_observability(service_name="my-bot")
     setup_logging(level="INFO")
     bot = MyBot(settings)
-    result = await bot.run()           # run() wrappt execute()
+    result = await bot.run()  # run() wrappt execute()
     health = await bot.health_check()  # Post-Mortem
+
 
 asyncio.run(main())
 ```
@@ -50,6 +52,7 @@ asyncio.run(main())
 
 ```python
 from pydantic_settings import BaseSettings
+
 
 class BotSettings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -81,11 +84,12 @@ class BotSettings(BaseSettings):
 ```python
 from merle_core import with_retry, default_http_retry, sensitive_operation_retry
 
+
 class FetchDataTask(BaseTask):
-    @with_retry(policy=default_http_retry)      # HTTP: 3 Versuche, 1s→4s Backoff
+    @with_retry(policy=default_http_retry)  # HTTP: 3 Versuche, 1s→4s Backoff
     async def fetch_api(self) -> dict: ...
 
-    @with_retry(policy=sensitive_operation_retry) # Kritisch: 5 Versuche, 2s→16s
+    @with_retry(policy=sensitive_operation_retry)  # Kritisch: 5 Versuche, 2s→16s
     async def process_payment(self) -> dict: ...
 ```
 
@@ -106,10 +110,11 @@ class FetchDataTask(BaseTask):
 ```python
 from merle_core import configure_observability
 
+
 async def main():
     configure_observability(
         service_name="my-bot",
-        otlp_endpoint="localhost:4317",   # OTEL Collector
+        otlp_endpoint="localhost:4317",  # OTEL Collector
     )
     # Ab hier: alle BaseBot/BaseTask.run()-Aufrufe sind getraced
     # HTTP-Calls via RpaHttpClient sind getraced (wenn OTEL-instrumentiert)

@@ -16,6 +16,7 @@ Kein Secret (API-Keys, Passwörter, Connection Strings, Tokens) darf jemals im C
 from merle_core.secrets import AzureKeyVaultProvider, AzureKeyVaultSettings
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class BotSettings(AzureKeyVaultSettings, BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="BOT_",
@@ -33,6 +34,7 @@ class BotSettings(AzureKeyVaultSettings, BaseSettings):
 import asyncio
 from merle_core.secrets import AzureKeyVaultProvider
 from config import BotSettings
+
 
 async def main():
     # Optional: Secrets vorab laden

@@ -16,10 +16,9 @@ import asyncio
 
 from loguru import logger
 
+from config import settings
 from merle_core import TaskSpec
 from merle_core.nats import NatsClient, NatsMessage
-
-from config import settings
 from tasks import build_scrape_spec, handle_scrape_spec
 
 

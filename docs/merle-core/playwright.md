@@ -23,7 +23,7 @@ uv add "merle-core[lightpanda]"
 from merle_core.playwright import launch_robust_browser
 
 async with launch_robust_browser(
-    engine="lightpanda",           # oder "chromium"
+    engine="lightpanda",  # oder "chromium"
     headless=True,
     stealth=True,
     screenshot_on_failure=True,

@@ -7,7 +7,8 @@ from __future__ import annotations
 from typing import Literal
 
 from loguru import logger
-from playwright.async_api import Page, TimeoutError as PlaywrightTimeout
+from playwright.async_api import Page
+from playwright.async_api import TimeoutError as PlaywrightTimeout
 
 from merle_core.exceptions import ElementNotFoundError
 

@@ -35,19 +35,17 @@ Keine Cross-Workflow-Abhängigkeiten. Jeder Workflow ist unabhängig.
 
 ## Externe Actions
 
-| Action                             | Verwendet in     | Zweck                    |
-| ---------------------------------- | ---------------- | ------------------------ |
-| `actions/checkout@v4`              | Alle             | Code auschecken          |
-| `actions/setup-python@v5`          | ci.yml           | Python installieren      |
-| `astral-sh/setup-uv@v5`            | ci.yml, docs.yml | uv installieren          |
-| `docker/setup-buildx-action@v3`    | docker-build.yml | Docker Buildx            |
-| `docker/build-push-action@v6`      | docker-build.yml | Docker Build             |
-| `actions/cache@v4`                 | ci.yml           | uv-Cache                 |
-| `actions/upload-artifact@v4`       | docs.yml         | Build-Artefakt hochladen |
-| `actions/deploy-pages@v4`          | docs.yml         | GitHub Pages deployen    |
-| `aquasecurity/trivy-action@0.36.0` | ci.yml           | Trivy Security Scan      |
-| `trufflesecurity/trufflehog@main`  | ci.yml           | Secrets Detection        |
-| `pre-commit/action@v3`             | ci.yml           | Pre-commit ausführen     |
+| Action                               | Verwendet in                       | Zweck                                        |
+| ------------------------------------ | ---------------------------------- | -------------------------------------------- |
+| `actions/checkout@v7`                | Alle                               | Code auschecken (Security: `fetch-depth: 0`) |
+| `astral-sh/setup-uv@v7`              | ci.yml, docs.yml, docker-build.yml | uv installieren                              |
+| `docker/setup-buildx-action@v4`      | docker-build.yml                   | Docker Buildx                                |
+| `docker/build-push-action@v7`        | docker-build.yml                   | Docker Build                                 |
+| `actions/cache@v6`                   | ci.yml                             | pre-commit-Cache                             |
+| `actions/upload-pages-artifact@v5`   | docs.yml                           | Pages-Artefakt hochladen                     |
+| `actions/deploy-pages@v5`            | docs.yml                           | GitHub Pages deployen                        |
+| `aquasecurity/trivy-action@v0.36.0`  | ci.yml                             | Trivy Security Scan                          |
+| `trufflesecurity/trufflehog@v3.95.9` | ci.yml                             | Secrets Detection (event-aware)              |
 
 ## Tools (via `uv run`)
 

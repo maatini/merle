@@ -7,9 +7,9 @@ Merle verwendet **tenacity** als Basis und stellt vordefinierte, RPA-freundliche
 ```python
 from merle_core.retry import with_retry, default_http_retry
 
+
 @with_retry(policy=default_http_retry)
-async def call_external_api(url: str):
-    ...
+async def call_external_api(url: str): ...
 ```
 
 ## Verfügbare Policies
@@ -26,11 +26,7 @@ async def call_external_api(url: str):
 ```python
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-custom_retry = retry(
-    stop=stop_after_attempt(5),
-    wait=wait_exponential(multiplier=1, min=2, max=30),
-    reraise=True
-)
+custom_retry = retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=2, max=30), reraise=True)
 ```
 
 ---

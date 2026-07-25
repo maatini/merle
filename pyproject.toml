@@ -48,6 +48,13 @@ select = [
 ignore = [
     "E501",   # Line too long (handled by formatter)
     "B008",   # Do not perform function calls in argument defaults
+    "B027",   # Empty optional hooks on BaseBot/BaseTask (intentional overridable no-ops)
+    "RUF001", # Ambiguous unicode in strings (German docs use en-dash)
+    "RUF002", # Ambiguous unicode in docstrings
+    "RUF003", # Ambiguous unicode in comments
+    "SIM105", # try/except/pass preferred over contextlib.suppress in cleanup paths
+    "SIM117", # Nested with is clearer in some tests/fixtures
+    "UP042",  # str, Enum still fine; StrEnum migration optional
 ]
 
 [tool.ruff.lint.per-file-ignores]

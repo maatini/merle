@@ -47,7 +47,7 @@ class TestBaseTaskLifecycle:
 
         task = FailingTaskWithHook(fake_settings)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Something went wrong"):
             await task.run()
 
         assert task.status == "failed"

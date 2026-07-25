@@ -6,11 +6,11 @@ import pytest
 
 from merle_core.exceptions import RetryExhaustedError
 from merle_core.retry import (
-    with_retry,
-    default_http_retry,
-    browser_retry,
-    sensitive_operation_retry,
     aggressive_retry,
+    browser_retry,
+    default_http_retry,
+    sensitive_operation_retry,
+    with_retry,
 )
 
 
@@ -70,5 +70,5 @@ class TestWithRetryDecorator:
         async def failing_payment():
             raise TimeoutError("Timeout")
 
-        with pytest.raises(Exception):
+        with pytest.raises(RetryExhaustedError, match="critical_payment"):
             await failing_payment()

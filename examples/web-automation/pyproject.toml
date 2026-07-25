@@ -21,6 +21,7 @@ dev = [
 ]
 
 [tool.ruff]
+extend = "../../pyproject.toml"
 target-version = "py311"
 line-length = 120
 

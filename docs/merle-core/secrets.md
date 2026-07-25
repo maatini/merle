@@ -30,6 +30,7 @@ Ohne Extra: `ImportError` mit Hinweis auf `merle-core[azure]` beim ersten Key-Va
 ```python
 from merle_core.secrets import AzureKeyVaultProvider
 
+
 async def load_api_key() -> str:
     provider = AzureKeyVaultProvider(
         vault_url="https://my-vault.vault.azure.net/",
@@ -49,6 +50,7 @@ async def load_api_key() -> str:
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from merle_core.secrets import AzureKeyVaultSettings
 
+
 class BotSettings(AzureKeyVaultSettings, BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="BOT_",
@@ -57,6 +59,7 @@ class BotSettings(AzureKeyVaultSettings, BaseSettings):
 
     api_key: str
     target_url: str
+
 
 # Empfohlener Boot (async):
 settings = await BotSettings.from_keyvault()

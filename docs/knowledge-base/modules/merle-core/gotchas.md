@@ -20,6 +20,7 @@ browser = await launch_robust_browser()  # NameError, wenn Optional-Extra fehlt!
 
 ```python
 from merle_core import launch_robust_browser
+
 if launch_robust_browser is None:
     raise RuntimeError("merle-core[playwright] nicht installiert")
 ```
@@ -120,6 +121,7 @@ docker run -d -p 4222:4222 nats:latest
 # ❌ Falsch:
 @with_retry(policy=default_http_retry)
 def sync_function(): ...  # Wird nicht funktionieren
+
 
 # ✅ Richtig:
 result = await retry_with_policy(default_http_retry, some_async_func, arg1, arg2)

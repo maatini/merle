@@ -57,7 +57,7 @@ merle validate
 merle validate --strict
 ```
 
-Der CI-Workflow (`ci.yml`) nutzt `merle validate` derzeit **ohne** `--strict` und verlässt sich auf explizite `ruff`/`mypy`-Aufrufe. Das ist inkonsistent und sollte vereinheitlicht werden.
+Der CI-Workflow (`ci.yml`) nutzt `merle validate --strict`. Lokal ohne `--strict` bleibt Exit 0 für iterative Entwicklung.
 
 ## `merle validate` — mypy nur auf merle-core
 
@@ -93,8 +93,10 @@ Das ist akzeptabel, da die CLI ein Entwickler-Tool ist und nicht unter hoher Las
 def _get_version() -> str:
     return importlib.metadata.version("merle-cli")  # Fallback: "0.6.0-dev"
 
+
 def _get_framework_version() -> str:
     from merle_core import __version__ as core_version  # SSOT, derzeit "0.6.0"
+
     return core_version
 ```
 

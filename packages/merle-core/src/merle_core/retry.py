@@ -18,18 +18,19 @@ Verwendung:
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Callable
 import functools
 import inspect
-from typing import Any, Callable, TypeVar
+from typing import Any, TypeVar
 
+from loguru import logger
 from tenacity import (
+    RetryCallState,
     retry,
     retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
-    RetryCallState,
 )
-from loguru import logger
 
 from .exceptions import RetryExhaustedError
 

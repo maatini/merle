@@ -4,8 +4,8 @@ Producer-side helpers: build TaskSpec payloads for web-scrape work.
 
 from __future__ import annotations
 
-import uuid
 from typing import Any
+import uuid
 
 from merle_core import TaskSpec
 

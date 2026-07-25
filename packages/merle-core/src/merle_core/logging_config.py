@@ -5,6 +5,7 @@ Kann von Bots importiert werden, die kein eigenes Logging-Setup benötigen.
 """
 
 import sys
+
 from loguru import logger
 
 

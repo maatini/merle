@@ -93,7 +93,7 @@ class AzureKeyVaultSettings(BaseSettings):
             return instance
 
         # Für alle Felder, die noch leer sind, aus Key Vault versuchen
-        for field_name, field_info in instance.model_fields.items():
+        for field_name, _field_info in instance.model_fields.items():
             current_value = getattr(instance, field_name, None)
             if current_value in (None, "", "CHANGE_ME"):
                 try:

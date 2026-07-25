@@ -7,10 +7,7 @@ Merle integriert **OpenTelemetry** + **loguru** für strukturierte Logs, Traces 
 ```python
 from merle_core.observability import configure_observability
 
-configure_observability(
-    service_name="rechnungsverarbeitung",
-    environment="production"
-)
+configure_observability(service_name="rechnungsverarbeitung", environment="production")
 ```
 
 ## Was wird automatisch erfasst?

@@ -12,12 +12,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-import pandas as pd
 from openpyxl import Workbook
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-from openpyxl.utils import get_column_letter
 from openpyxl.formatting.rule import CellIsRule
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.utils import get_column_letter
 from openpyxl.utils.dataframe import dataframe_to_rows
+import pandas as pd
 
 from merle_core import BaseTask
 

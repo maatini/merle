@@ -100,11 +100,14 @@ Die aufgerufenen Subprozesse (`uv`, `ruff`, `mypy`, `mkdocs`) nutzen die Umgebun
 def _get_repo_root() -> Path:
     """Repo-Root = 4 Ebenen über dieser Datei (tools/merle/merle/main.py)"""
 
+
 def _get_template_path() -> Path:
     """_get_repo_root() / "templates" / "bot" """
 
+
 def _run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
     """Führt Shell-Befehl aus, loggt dimmed, gibt CompletedProcess zurück"""
+
 
 def _get_version() -> str:
     """Version via importlib.metadata, Fallback '0.2.0-dev'"""

@@ -7,8 +7,8 @@ No live NATS server required — TaskSpec/TaskResult roundtrips and mocked clien
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
+import sys
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -22,7 +22,6 @@ sys.path.insert(0, str(_EXAMPLE_ROOT))
 
 from merle_core import TaskResult, TaskSpec, TaskStatus  # noqa: E402
 from merle_core.nats import NatsClient, NatsMessage  # noqa: E402
-
 from tasks import build_scrape_spec, build_success_result, handle_scrape_spec  # noqa: E402
 
 

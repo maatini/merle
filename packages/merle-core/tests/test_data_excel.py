@@ -4,9 +4,10 @@ Unit tests for the Excel utilities (ExcelReader and ExcelWriter).
 
 from __future__ import annotations
 
-import pytest
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
+import pytest
 
 from merle_core.data import ExcelReader, ExcelWriter
 from merle_core.exceptions import ExcelError

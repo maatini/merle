@@ -5,10 +5,11 @@ Unit tests for the UiPath integration utilities (Orchestrator client and Queue h
 from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
 
+from merle_core.exceptions import QueueItemError, UiPathError
 from merle_core.uipath import UiPathOrchestratorClient, UiPathQueueHelper
-from merle_core.exceptions import UiPathError, QueueItemError
 
 
 @pytest.mark.asyncio

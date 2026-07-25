@@ -4,14 +4,14 @@ Email utilities using standard library imaplib, smtplib and email modules.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 import email
-import imaplib
-import smtplib
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import imaplib
 from pathlib import Path
-from typing import Sequence
+import smtplib
 
 from ..exceptions import DataProcessingError
 

@@ -49,19 +49,19 @@ graph LR
 
 ## Quality Gates — Status
 
-| Gate               | Tool                  | Fatal?       | Anmerkung                                             |
-| ------------------ | --------------------- | ------------ | ----------------------------------------------------- |
-| Lockfile Integrity | `uv lock --check`     | ✅ Ja (HARD) | Quality-Job                                           |
-| Lint               | ruff check            | ✅ Ja (HARD) | Kein `\|\| true`                                      |
-| Format             | ruff format --check   | ✅ Ja (HARD) | Kein `\|\| true`                                      |
-| Type Check         | mypy --strict         | ✅ Ja (HARD) | Scope: `packages/merle-core`                          |
-| Tests              | pytest + coverage     | ✅ Ja (HARD) | Scope: `packages/merle-core`; `--cov-fail-under=70`   |
-| CLI Validate       | merle validate        | ✅ Ja (HARD) | Governance; derzeit ohne `--strict` (exit via tools)  |
-| SAST               | Bandit (`-ll`)        | ✅ Ja (HARD) | Medium+ auf `merle-core` + `tools/merle`              |
-| FS Vuln            | Trivy (CRITICAL+HIGH) | ✅ Ja (HARD) | `exit-code: "1"`, `ignore-unfixed: true`              |
-| Secrets            | TruffleHog            | ✅ Ja (HARD) | PR-diff vs `main`, `--fail`, kein `continue-on-error` |
-| Pre-commit         | pre-commit run        | ✅ Ja (HARD) | Full suite + Prettier auf geänderte Non-Python-Files  |
-| Docker Build       | docker build          | ✅ Ja (HARD) | Template-Validierung (Copier → monorepo Docker build) |
+| Gate               | Tool                    | Fatal?       | Anmerkung                                                   |
+| ------------------ | ----------------------- | ------------ | ----------------------------------------------------------- |
+| Lockfile Integrity | `uv lock --check`       | ✅ Ja (HARD) | Quality-Job                                                 |
+| Lint               | ruff check              | ✅ Ja (HARD) | Kein `\|\| true`                                            |
+| Format             | ruff format --check     | ✅ Ja (HARD) | Kein `\|\| true`                                            |
+| Type Check         | mypy --strict           | ✅ Ja (HARD) | Scope: `packages/merle-core`                                |
+| Tests              | pytest + coverage       | ✅ Ja (HARD) | Scope: `packages/merle-core`; `--cov-fail-under=70`         |
+| CLI Validate       | merle validate --strict | ✅ Ja (HARD) | Governance; Exit 1 bei Ruff/Mypy/Pytest-Fehlern             |
+| SAST               | Bandit (`-ll`)          | ✅ Ja (HARD) | Medium+ auf `merle-core` + `tools/merle`                    |
+| FS Vuln            | Trivy (CRITICAL+HIGH)   | ✅ Ja (HARD) | `exit-code: "1"`, `ignore-unfixed: true`                    |
+| Secrets            | TruffleHog              | ✅ Ja (HARD) | Event-aware (kein fixed `base: main`); `extra_args: --fail` |
+| Pre-commit         | pre-commit run          | ✅ Ja (HARD) | Full suite + Prettier auf geänderte Non-Python-Files        |
+| Docker Build       | docker build            | ✅ Ja (HARD) | Template-Validierung (Copier → monorepo Docker build)       |
 
 **Branch Protection (intended Required Checks):** Quality (py3.11 + py3.12), Security Scan, pre-commit + Formatters, Docker Template Validation.
 

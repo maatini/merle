@@ -7,8 +7,8 @@ Mark live browser scenarios with @pytest.mark.integration.
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
+import sys
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest

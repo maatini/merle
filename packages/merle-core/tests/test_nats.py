@@ -14,7 +14,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from merle_core import TaskSpec, TaskResult, TaskStatus
+from merle_core import TaskResult, TaskSpec, TaskStatus
 from merle_core.nats import NatsClient, NatsMessage, PullConsumer
 
 
@@ -77,7 +77,7 @@ class TestNatsClientBehavior:
 
         client = NatsClient()
         # publish is @with_retry — non-connection RuntimeError becomes RetryExhaustedError
-        with pytest.raises((RuntimeError, RetryExhaustedError), match="nicht verbunden|Retry exhausted"):
+        with pytest.raises((RuntimeError, RetryExhaustedError), match=r"nicht verbunden|Retry exhausted"):
             await client.publish("test.subject", {"hello": "world"})
 
     @pytest.mark.asyncio
@@ -85,7 +85,7 @@ class TestNatsClientBehavior:
         from merle_core.exceptions import RetryExhaustedError
 
         client = NatsClient()
-        with pytest.raises((RuntimeError, RetryExhaustedError), match="nicht verbunden|Retry exhausted"):
+        with pytest.raises((RuntimeError, RetryExhaustedError), match=r"nicht verbunden|Retry exhausted"):
             await client.request("test.subject", {"hello": "world"})
 
     @pytest.mark.asyncio
@@ -291,9 +291,8 @@ class TestPullConsumer:
 
         consumer = PullConsumer(mock_js_consumer, MagicMock())
         # asyncio.TimeoutError is alias of TimeoutError in 3.11+
-        import asyncio
 
-        mock_js_consumer.fetch = AsyncMock(side_effect=asyncio.TimeoutError())
+        mock_js_consumer.fetch = AsyncMock(side_effect=TimeoutError())
         messages = await consumer.fetch(batch=1, timeout=0.1)
         assert messages == []
 

@@ -348,7 +348,7 @@ class QuotesScraperTask(BaseTask):
         async with launch_robust_browser(
             headless=True,
             stealth=True,
-            screenshot_on_failure=True,   # bei Fehler wird automatisch ein Screenshot gemacht
+            screenshot_on_failure=True,  # bei Fehler wird automatisch ein Screenshot gemacht
         ) as browser:
             page = await browser.new_page()
 
@@ -370,10 +370,12 @@ class QuotesScraperTask(BaseTask):
                 text = await quote_element.locator(".text").inner_text()
                 author = await quote_element.locator(".author").inner_text()
 
-                quotes.append({
-                    "text": text.replace("“", "").replace("”", ""),  # Anführungszeichen weg
-                    "author": author
-                })
+                quotes.append(
+                    {
+                        "text": text.replace("“", "").replace("”", ""),  # Anführungszeichen weg
+                        "author": author,
+                    }
+                )
 
                 self.logger.info("Zitat {} von {}: {} - {}", i + 1, limit, text[:60], author)
 

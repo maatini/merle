@@ -3,9 +3,9 @@ Tests for the merle_core exception hierarchy.
 """
 
 from merle_core.exceptions import (
+    ElementNotFoundError,
     MerleError,
     RetryExhaustedError,
-    ElementNotFoundError,
     SecretNotFoundError,
 )
 

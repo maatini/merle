@@ -53,7 +53,11 @@ jobs:
         run: uv run pytest packages/merle-core -q --tb=short --cov=merle_core --cov-fail-under=70 --cov-report=term-missing
 
       - name: Run merle validate (governance)
-        run: uv run merle validate
+        # --strict gates mypy + bandit; bandit is also in Security job but validate
+        # needs it on PATH under --strict (uv run bandit → exit 1 if missing).
+        run: |
+          uv pip install "bandit[toml]" --quiet
+          uv run merle validate --strict
 
   # ---------------------------------------------------------------------------
   # Security (Bandit + Trivy FS + basic secret scan)
@@ -64,6 +68,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # Full history so TruffleHog can resolve push before/after and PR base
+          fetch-depth: 0
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -91,14 +98,15 @@ jobs:
           severity: "CRITICAL,HIGH"
           ignore-unfixed: true
 
-      # HARD: PR-diff secret scan (base..HEAD); --fail exits non-zero on verified secrets
-      - name: Detect secrets (basic)
-        uses: trufflesecurity/trufflehog@main
+      # HARD: event-aware secret scan. Do NOT set base/head to main/HEAD — on push
+      # to main that makes BASE==HEAD and the action fails without scanning.
+      # Omit base/head so the action picks PR base/head or push before/after.
+      # Pin version (not @main) for supply-chain stability; extra_args (underscore).
+      - name: Detect secrets
+        uses: trufflesecurity/trufflehog@v3.95.9
         with:
           path: ./
-          base: main
-          head: HEAD
-          extra-args: --fail
+          extra_args: --fail
 
   # ---------------------------------------------------------------------------
   # Pre-commit (full) + changed-file prettier
@@ -147,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
           python-version: "3.11"

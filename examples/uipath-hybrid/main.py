@@ -24,10 +24,9 @@ from typing import Any
 
 from loguru import logger
 
+from config import settings
 from merle_core import BaseBot, configure_observability
 from merle_core.uipath import UiPathOrchestratorClient, UiPathQueueHelper
-
-from config import settings
 from tasks import ProcessUiPathQueueTask
 
 

@@ -21,15 +21,15 @@ from __future__ import annotations
 
 from typing import Any
 
-from .tracing import get_tracer, init_tracing
-from .metrics import get_meter, init_metrics
 from .logging import configure_loguru_otel_sink
+from .metrics import get_meter, init_metrics
+from .tracing import get_tracer, init_tracing
 
 __all__ = [
-    "configure_observability",
-    "get_tracer",
-    "get_meter",
     "configure_loguru_otel_sink",
+    "configure_observability",
+    "get_meter",
+    "get_tracer",
 ]
 
 

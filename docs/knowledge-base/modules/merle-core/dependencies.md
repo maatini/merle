@@ -120,6 +120,7 @@ except ImportError:
 # In base_bot.py:
 try:
     from merle_core.observability.metrics import create_bot_metrics
+
     _METRICS_AVAILABLE = True
 except ImportError:
     _METRICS_AVAILABLE = False

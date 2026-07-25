@@ -13,6 +13,7 @@
 from merle_core import BaseTask, TaskResult
 from merle_core.retry import with_retry
 
+
 class InvoiceProcessingTask(BaseTask):
     async def execute(self, invoice_id: str) -> TaskResult:
         self.logger.info("Verarbeite Rechnung {}", invoice_id)
@@ -23,8 +24,7 @@ class InvoiceProcessingTask(BaseTask):
         return TaskResult.success(data=result)
 
     @with_retry
-    async def fetch_invoice(self, invoice_id: str):
-        ...
+    async def fetch_invoice(self, invoice_id: str): ...
 ```
 
 ### Wichtige Methoden
@@ -37,6 +37,7 @@ class InvoiceProcessingTask(BaseTask):
 
 ```python
 from merle_core import BaseBot, configure_observability
+
 
 class MyBot(BaseBot):
     async def run(self):

@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock
 
-import pytest
 from playwright.async_api import TimeoutError as PlaywrightTimeout
+import pytest
 
 from merle_core.exceptions import ElementNotFoundError
 from merle_core.playwright.utils import robust_goto, safe_click, safe_fill

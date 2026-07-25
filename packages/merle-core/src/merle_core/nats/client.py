@@ -8,9 +8,10 @@ Retry- und Task-System.
 from __future__ import annotations
 
 import asyncio
-import json
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Awaitable, Callable
+import json
+from typing import TYPE_CHECKING, Any
 
 from loguru import logger
 
@@ -96,7 +97,7 @@ class NatsClient:
             await self._nc.close()
             logger.info("NATS Verbindung geschlossen")
 
-    async def __aenter__(self) -> "NatsClient":
+    async def __aenter__(self) -> NatsClient:
         await self.connect()
         return self
 
@@ -188,7 +189,7 @@ class NatsClient:
     # Task-spezifische Convenience-Methoden (Phase 4)
     # ─────────────────────────────────────────────────────────────
 
-    async def publish_task(self, subject: str, task_spec: "TaskSpec") -> None:
+    async def publish_task(self, subject: str, task_spec: TaskSpec) -> None:
         """Veröffentlicht eine TaskSpec auf einem Subject."""
         from ..task import TaskSpec
 
@@ -217,9 +218,9 @@ class NatsClient:
     async def request_task(
         self,
         subject: str,
-        task_spec: "TaskSpec",
+        task_spec: TaskSpec,
         timeout: float = 60.0,
-    ) -> "TaskResult":
+    ) -> TaskResult:
         """Führt eine Task via Request/Reply aus und gibt TaskResult zurück."""
         from ..task import TaskResult, TaskSpec
 
@@ -257,7 +258,7 @@ class NatsClient:
         ack_wait: int = 60,
         filter_subject: str | None = None,
         description: str | None = None,
-    ) -> "PullConsumer":
+    ) -> PullConsumer:
         """
         Erstellt (oder holt) einen Pull-Consumer für einen JetStream Stream.
 
@@ -352,7 +353,7 @@ class PullConsumer:
                     logger.exception("Fehler beim Parsen einer NATS-Nachricht: {}", e)
                     await msg.nak()
             return result
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return []
 
     async def ack(self, message: NatsMessage) -> None:

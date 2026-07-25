@@ -2,7 +2,7 @@
 Mocked tests for the observability module.
 """
 
-from merle_core.observability import configure_observability, get_tracer, get_meter
+from merle_core.observability import configure_observability, get_meter, get_tracer
 
 
 def test_configure_observability_does_not_crash_without_otlp():
@@ -28,8 +28,8 @@ def test_configure_observability_does_not_crash_and_enables_tracing():
     """Integration-style test: configure_observability should work without crashing
     and make get_tracer / get_meter return valid objects."""
     # Reset global state
-    import merle_core.observability.tracing as tracing_mod
     import merle_core.observability.metrics as metrics_mod
+    import merle_core.observability.tracing as tracing_mod
 
     tracing_mod._tracer_provider = None  # type: ignore[attr-defined]
     metrics_mod._meter_provider = None  # type: ignore[attr-defined]

@@ -29,6 +29,7 @@ Produktive Bots **müssen** heute nicht von NATS abhängen. Referenz: `examples/
 ```python
 from merle_core.nats import NatsClient
 
+
 async def demo() -> None:
     async with NatsClient("nats://localhost:4222") as client:
         await client.publish("tasks.web", {"url": "https://example.com"})

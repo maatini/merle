@@ -2,10 +2,11 @@
 # Code comments in English.
 
 from pathlib import Path
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
 from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 def create_invoice_pdf(
@@ -126,7 +127,7 @@ def main() -> None:
 
     for inv in invoices:
         create_invoice_pdf(**inv)
-        print(f"Generated sample PDF invoice: {inv['filename'].name}")
+        print(f"Generated sample PDF invoice: {inv['filename'].name}")  # noqa: T201
 
 
 if __name__ == "__main__":

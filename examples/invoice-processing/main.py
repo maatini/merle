@@ -20,13 +20,12 @@ from typing import Any
 
 from loguru import logger
 
-from merle_core import BaseBot, configure_observability
-
 from config import settings
+from merle_core import BaseBot, configure_observability
 from tasks import (
     DownloadInvoicesTask,
-    ParsePdfInvoicesTask,
     EnrichWithMasterDataTask,
+    ParsePdfInvoicesTask,
     WriteExcelReportTask,
 )
 

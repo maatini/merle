@@ -8,6 +8,7 @@ import pytest
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_none
 
 from merle_core import BaseTask
+from merle_core.exceptions import RetryExhaustedError
 from merle_core.retry import with_retry
 
 # Deterministic, no-wait policy so recovery tests are fast and non-flaky.
@@ -72,7 +73,7 @@ class TestSelfHealingPatterns:
 
         task = TaskWithFallback(fake_settings)
 
-        with pytest.raises(Exception):  # RetryExhaustedError oder ähnlich
+        with pytest.raises(RetryExhaustedError):
             await task.run()
 
         assert fallback_executed is True

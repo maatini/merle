@@ -11,13 +11,13 @@ Demonstrates:
 from __future__ import annotations
 
 import email
-import imaplib
 from email.message import Message
+import imaplib
 from pathlib import Path
 from typing import Any
 
 from merle_core import BaseTask
-from merle_core.retry import with_retry, default_http_retry
+from merle_core.retry import default_http_retry, with_retry
 
 
 class DownloadInvoicesTask(BaseTask):
@@ -67,15 +67,15 @@ class DownloadInvoicesTask(BaseTask):
             pdf_path = self.input_dir / name
             # If the PDF does not exist, write a simple placeholder
             if not pdf_path.exists():
-                pdf_path.write_bytes(f"PDF-CONTENT-FOR-{name}".encode("utf-8"))
+                pdf_path.write_bytes(f"PDF-CONTENT-FOR-{name}".encode())
 
             pdf_bytes = pdf_path.read_bytes()
 
             # Construct a basic email message with attachment using email.mime
+            from email import encoders
+            from email.mime.base import MIMEBase
             from email.mime.multipart import MIMEMultipart
             from email.mime.text import MIMEText
-            from email.mime.base import MIMEBase
-            from email import encoders
 
             msg = MIMEMultipart()
             msg["From"] = "billing@supplier.com"

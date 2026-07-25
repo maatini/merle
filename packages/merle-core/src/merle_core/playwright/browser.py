@@ -7,15 +7,14 @@ Bietet einen sicheren, stealth-fähigen und fehlertoleranten Browser-Kontext fü
 from __future__ import annotations
 
 import asyncio
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
-from collections.abc import AsyncIterator
 from types import TracebackType
 from typing import Any, Literal
 
 from loguru import logger
-
 from playwright.async_api import Browser, BrowserContext, Page, async_playwright
 
 from merle_core.exceptions import BrowserLaunchError

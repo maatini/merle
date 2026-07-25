@@ -5,11 +5,12 @@ UiPath Queue Helper for queue management.
 from __future__ import annotations
 
 from typing import Any
+
 import httpx
 from loguru import logger
 
-from .orchestrator import UiPathOrchestratorClient
 from ..exceptions import QueueItemError
+from .orchestrator import UiPathOrchestratorClient
 
 
 class UiPathQueueHelper:

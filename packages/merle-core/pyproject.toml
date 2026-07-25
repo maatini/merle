@@ -31,7 +31,8 @@ include = [
 ]
 
 [tool.ruff]
-# Ruff config inherited from root workspace via uv, but local overrides possible
+# Inherit workspace lint select/ignore — without extend, ruff ≥0.16 uses all defaults.
+extend = "../../pyproject.toml"
 target-version = "py311"
 line-length = 120
 

@@ -69,17 +69,19 @@ class TestDownloadAttachments:
                 )
 
     def test_download_attachments_connection_error(self, tmp_path: Path):
-        with patch(
-            "merle_core.data.email.imaplib.IMAP4_SSL",
-            side_effect=OSError("connection refused"),
+        with (
+            patch(
+                "merle_core.data.email.imaplib.IMAP4_SSL",
+                side_effect=OSError("connection refused"),
+            ),
+            pytest.raises(DataProcessingError, match="IMAP email fetch"),
         ):
-            with pytest.raises(DataProcessingError, match="IMAP email fetch"):
-                EmailClient.download_attachments(
-                    host="imap.example.com",
-                    username="u",
-                    password="p",
-                    output_dir=tmp_path,
-                )
+            EmailClient.download_attachments(
+                host="imap.example.com",
+                username="u",
+                password="p",
+                output_dir=tmp_path,
+            )
 
     def test_download_attachments_non_ssl(self, tmp_path: Path):
         mock_mail = MagicMock()

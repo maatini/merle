@@ -4,21 +4,21 @@ Tests for the Invoice Processing Bot tasks.
 
 from __future__ import annotations
 
+from pathlib import Path
 import shutil
 import sys
-from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import pytest
 from openpyxl import load_workbook
+import pytest
 
+from scripts.generate_sample_pdfs import create_invoice_pdf
 from tasks import (
     DownloadInvoicesTask,
     ParsePdfInvoicesTask,
     WriteExcelReportTask,
 )
-from scripts.generate_sample_pdfs import create_invoice_pdf
 
 # Setup directories for testing
 TEST_DIR = Path(__file__).resolve().parent / "test_data"

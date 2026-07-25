@@ -5,7 +5,7 @@ Excel utilities wrapping pandas and openpyxl with dynamic imports and error hand
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from ..exceptions import ExcelError
 
@@ -61,11 +61,10 @@ class ExcelWriter:
         Optionally format headers and auto-fit column widths.
         """
         try:
-            from openpyxl import load_workbook
+            from openpyxl import Workbook, load_workbook
             from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
             from openpyxl.utils import get_column_letter
             from openpyxl.utils.dataframe import dataframe_to_rows
-            from openpyxl import Workbook
         except ImportError as exc:
             raise ExcelError(
                 "pandas and openpyxl are required for writing Excel files but not installed. "

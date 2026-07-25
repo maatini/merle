@@ -4,53 +4,49 @@ merle-core — Shared core utilities for Merle RPA bots.
 Phase 2: Erweiterte Resilienz, Observability und zentrale Patterns.
 """
 
-from .base_bot import BaseBot
-from .base_task import BaseTask
-from .http_client import RpaHttpClient
-from .logging_config import setup_logging
-from .exceptions import (
-    MerleError,
-    RetryExhaustedError,
-    PlaywrightError,
-    ElementNotFoundError,
-    SecretsError,
-    SecretNotFoundError,
-)
-from .retry import (
-    with_retry,
-    default_http_retry,
-    browser_retry,
-    sensitive_operation_retry,
-    aggressive_retry,
-)
-from .task import TaskSpec, TaskResult, TaskStatus, TaskError
-
 # Task Model (available as submodule)
 from . import task
+from .base_bot import BaseBot
+from .base_task import BaseTask
+from .exceptions import (
+    ElementNotFoundError,
+    MerleError,
+    PlaywrightError,
+    RetryExhaustedError,
+    SecretNotFoundError,
+    SecretsError,
+)
+from .http_client import RpaHttpClient
+from .logging_config import setup_logging
+from .retry import (
+    aggressive_retry,
+    browser_retry,
+    default_http_retry,
+    sensitive_operation_retry,
+    with_retry,
+)
+from .task import TaskError, TaskResult, TaskSpec, TaskStatus
 
 __all__ = [
     "BaseBot",
     "BaseTask",
-    "RpaHttpClient",
-    "setup_logging",
-    # Task Model (Phase 4)
-    "TaskSpec",
-    "TaskResult",
-    "TaskStatus",
-    "TaskError",
-    # Exceptions
-    "MerleError",
-    "RetryExhaustedError",
-    "PlaywrightError",
     "ElementNotFoundError",
-    "SecretsError",
+    "MerleError",
+    "PlaywrightError",
+    "RetryExhaustedError",
+    "RpaHttpClient",
     "SecretNotFoundError",
-    # Retry
-    "with_retry",
-    "default_http_retry",
-    "browser_retry",
-    "sensitive_operation_retry",
+    "SecretsError",
+    "TaskError",
+    "TaskResult",
+    "TaskSpec",
+    "TaskStatus",
     "aggressive_retry",
+    "browser_retry",
+    "default_http_retry",
+    "sensitive_operation_retry",
+    "setup_logging",
+    "with_retry",
 ]
 
 # --- Optional submodules (only imported when the corresponding extra is installed) ---
@@ -58,7 +54,7 @@ __all__ = [
 # Observability (extra: "observability")
 try:
     from . import observability
-    from .observability import configure_observability, get_tracer, get_meter
+    from .observability import configure_observability, get_meter, get_tracer
 
     _has_observability = True
 except ImportError:
@@ -96,19 +92,18 @@ except ImportError:
     _has_nats = False
 
 # Data and UiPath modules (always importable, optional dependencies inside)
-from . import data
-from . import uipath
+from . import data, uipath
 
 __all__ += [
     "configure_observability",
-    "get_tracer",
+    "data",
     "get_meter",
+    "get_tracer",
+    "nats",
     "observability",
     "playwright",
     "secrets",
-    "nats",
     "task",
-    "data",
     "uipath",
 ]
 

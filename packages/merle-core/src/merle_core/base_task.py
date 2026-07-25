@@ -11,8 +11,8 @@ Dies ermöglicht:
 
 from __future__ import annotations
 
-import time
 from abc import ABC, abstractmethod
+import time
 from typing import Any
 
 from loguru import logger

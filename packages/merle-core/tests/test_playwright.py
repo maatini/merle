@@ -9,9 +9,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from merle_core.playwright import launch_robust_browser, RobustBrowser, BrowserEngine
-from merle_core.playwright.browser import _wait_for_lightpanda_ready
 from merle_core.exceptions import BrowserLaunchError
+from merle_core.playwright import BrowserEngine, RobustBrowser, launch_robust_browser
+from merle_core.playwright.browser import _wait_for_lightpanda_ready
 
 
 def test_browser_engine_type():
@@ -150,10 +150,13 @@ async def test_lightpanda_process_cleanup_on_exception(mock_browser, mock_browse
     ):
         mock_pw.return_value.__aenter__.return_value.chromium.connect_over_cdp = AsyncMock(return_value=mock_browser)
 
-        with pytest.raises(BrowserLaunchError):
+        async def _use_browser() -> None:
             async with launch_robust_browser(engine="lightpanda") as browser:
                 await browser.new_page()
                 raise RuntimeError("Simulated failure in bot logic")
+
+        with pytest.raises(BrowserLaunchError):
+            await _use_browser()
 
         # Process must have been killed during exception handling
         assert fake_lightpanda_proc.kill_called or fake_lightpanda_proc.terminate_called

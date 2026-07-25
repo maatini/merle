@@ -4,12 +4,12 @@
 
 **Owns:** Zentrale Qualitätsgates für alle Code-Änderungen.
 
-| Job                 | Zweck                                   | Wichtige Details                                                                                                                                                                                                                    |
-| ------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Quality**         | Lint + Type-Check + Test + CLI-Validate | Matrix Python 3.11 + 3.12. `uv lock --check`, Ruff, mypy (strict), pytest, `merle validate`. **Alle HARD** — kein `\|\| true`.                                                                                                      |
-| **Security**        | SAST + Vuln-Scan + Secrets-Detection    | **Bandit HARD** (Medium+, `merle-core` + `tools/merle`). **Trivy HARD** (CRITICAL+HIGH, `exit-code: "1"`, `ignore-unfixed`). **TruffleHog HARD** (event-aware base/head, pinned `v3.95.9`, `extra_args: --fail`, `fetch-depth: 0`). |
-| **Pre-commit**      | Format-Enforcement                      | `pre-commit run --all-files` (**HARD**) + Prettier-Check auf geänderten Non-Python-Dateien. Commitizen-Check via pre-commit Hook.                                                                                                   |
-| **Docker Template** | Template-Validierung                    | Generiert Test-Bot aus Template, baut Docker-Image im Monorepo-Modus (**HARD**, kein `\|\| true`). Fast Smoke-Test.                                                                                                                 |
+| Job                 | Zweck                                   | Wichtige Details                                                                                                                                                                                                       |
+| ------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Quality**         | Lint + Type-Check + Test + CLI-Validate | Matrix Python 3.11 + 3.12. `uv lock --check`, Ruff, mypy (strict), pytest, `merle validate`. **Alle HARD** — kein `\|\| true`.                                                                                         |
+| **Security**        | SAST + Vuln-Scan + Secrets-Detection    | **Bandit HARD** (Medium+, `merle-core` + `tools/merle`). **Trivy HARD** (CRITICAL+HIGH, `exit-code: "1"`, `ignore-unfixed`). **TruffleHog HARD** (event-aware, pinned `v3.95.9`, built-in `--fail`, `fetch-depth: 0`). |
+| **Pre-commit**      | Format-Enforcement                      | `pre-commit run --all-files` (**HARD**) + Prettier-Check auf geänderten Non-Python-Dateien. Commitizen-Check via pre-commit Hook.                                                                                      |
+| **Docker Template** | Template-Validierung                    | Generiert Test-Bot aus Template, baut Docker-Image im Monorepo-Modus (**HARD**, kein `\|\| true`). Fast Smoke-Test.                                                                                                    |
 
 **Intended als Required Status Checks** für Branch Protection auf `main` (siehe Kommentarblock in `ci.yml`).
 

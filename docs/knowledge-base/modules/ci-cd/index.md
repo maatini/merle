@@ -59,7 +59,7 @@ graph LR
 | CLI Validate       | merle validate --strict | ✅ Ja (HARD) | Governance; Exit 1 bei Ruff/Mypy/Pytest-Fehlern             |
 | SAST               | Bandit (`-ll`)          | ✅ Ja (HARD) | Medium+ auf `merle-core` + `tools/merle`                    |
 | FS Vuln            | Trivy (CRITICAL+HIGH)   | ✅ Ja (HARD) | `exit-code: "1"`, `ignore-unfixed: true`                    |
-| Secrets            | TruffleHog              | ✅ Ja (HARD) | Event-aware (kein fixed `base: main`); `extra_args: --fail` |
+| Secrets            | TruffleHog              | ✅ Ja (HARD) | Event-aware (kein fixed `base: main`); action pins `--fail` |
 | Pre-commit         | pre-commit run          | ✅ Ja (HARD) | Full suite + Prettier auf geänderte Non-Python-Files        |
 | Docker Build       | docker build            | ✅ Ja (HARD) | Template-Validierung (Copier → monorepo Docker build)       |
 

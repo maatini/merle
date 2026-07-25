@@ -98,15 +98,15 @@ jobs:
           severity: "CRITICAL,HIGH"
           ignore-unfixed: true
 
-      # HARD: event-aware secret scan. Do NOT set base/head to main/HEAD — on push
-      # to main that makes BASE==HEAD and the action fails without scanning.
-      # Omit base/head so the action picks PR base/head or push before/after.
-      # Pin version (not @main) for supply-chain stability; extra_args (underscore).
+      # HARD: event-aware secret scan. Do NOT set base/head — on push to main that
+      # makes BASE==HEAD and the action fails without scanning. Omit base/head so
+      # the action picks PR base/head or push before/after. --fail is already set
+      # by the action; do not pass it again via extra_args (duplicate flag error).
       - name: Detect secrets
         uses: trufflesecurity/trufflehog@v3.95.9
         with:
           path: ./
-          extra_args: --fail
+          version: v3.95.9
 
   # ---------------------------------------------------------------------------
   # Pre-commit (full) + changed-file prettier

@@ -33,7 +33,7 @@ Configured in `.github/workflows/ci.yml`:
 | ----------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
 | **Bandit** (SAST, medium+)                | Python static analysis on `merle-core` + `tools/merle` | **HARD** — fails the Security job                                          |
 | **Trivy** (fs, CRITICAL+HIGH)             | Dependency / IaC vulnerability scan                    | **HARD** — `exit-code: "1"`; `ignore-unfixed: true` (only fixed CVEs fail) |
-| **TruffleHog**                            | Secret scanning (event-aware PR/push diff)             | **HARD** — `extra_args: --fail`; pinned action version                     |
+| **TruffleHog**                            | Secret scanning (event-aware PR/push diff)             | **HARD** — action built-in `--fail`; pinned `v3.95.9`                      |
 | **Ruff / mypy / pytest / merle validate** | Quality gates                                          | **HARD** (Quality job)                                                     |
 | **pre-commit**                            | Hook suite + formatters                                | **HARD**                                                                   |
 | **Dependabot**                            | Dependency update PRs                                  | Advisory / PR-based                                                        |

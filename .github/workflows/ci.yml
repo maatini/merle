@@ -100,13 +100,13 @@ jobs:
 
       # HARD: event-aware secret scan. Do NOT set base/head — on push to main that
       # makes BASE==HEAD and the action fails without scanning. Omit base/head so
-      # the action picks PR base/head or push before/after. --fail is already set
-      # by the action; do not pass it again via extra_args (duplicate flag error).
+      # the action picks PR base/head or push before/after.
+      # --fail is already set by the action (do not pass via extra_args).
+      # Action code pinned; docker image uses default "latest" (GHCR has no v3.x tags).
       - name: Detect secrets
         uses: trufflesecurity/trufflehog@v3.95.9
         with:
           path: ./
-          version: v3.95.9
 
   # ---------------------------------------------------------------------------
   # Pre-commit (full) + changed-file prettier

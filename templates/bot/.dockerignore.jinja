@@ -1,5 +1,6 @@
 # Merle Bot Docker ignore (generated)
-# Keep this tight for fast, secure builds
+# Used when the Docker build context is this bot directory (standalone).
+# Monorepo builds use the repository root .dockerignore instead.
 
 # Python
 __pycache__/
@@ -35,6 +36,7 @@ env/
 .ruff_cache/
 .coverage
 htmlcov/
+tests/
 
 # Environment & secrets (never ship these)
 .env
@@ -60,19 +62,11 @@ Thumbs.db
 .git/
 .gitignore
 
-# Documentation (not needed in runtime image)
+# Documentation (keep README — referenced by pyproject.toml)
 *.md
-docs/
+!README.md
 
 # Development only
-tests/
 devbox.json
 justfile
-
-# If building in monorepo mode, we usually want to exclude the entire sibling bots
-# but include the shared core (controlled by the build command / .dockerignore at root)
-{% if location == "python_bots" %}
-# When building a python_bots/ bot, the parent context usually excludes other bots
-python_bots/!(shared)/
-!packages/merle-core/
-{% endif %}
+.copier-answers.yml

@@ -82,28 +82,46 @@ All settings live in `BotSettings` (`config.py`) and are loaded from environment
 
 ## Docker
 
-### Monorepo mode (recommended while developing inside this repository)
+Always build from the **Merle repository root** while developing in this monorepo.
+The image needs both the bot sources and `packages/merle-core`.
+
+### Monorepo mode (recommended)
 
 ```bash
 # From the Merle repository root:
 docker build \
   -f python_bots/{{ bot_name }}/Dockerfile \
   --build-arg BUILD_MODE=monorepo \
+  --build-arg BOT_PATH=python_bots/{{ bot_name }} \
   -t {{ bot_name }}:latest \
   .
+
+# Or: just docker-bot {{ bot_name }}
 
 docker run --env-file python_bots/{{ bot_name }}/.env {{ bot_name }}:latest
 ```
 
-### Standalone mode (later, when merle-core is published internally)
+### Standalone mode (wheel fallback, no private PyPI)
+
+Still uses the monorepo context, but builds a local `merle-core` wheel and installs it
+via `--find-links` (ignores path sources). Useful for CI smoke tests of packaging.
 
 ```bash
-cd python_bots/{{ bot_name }}
-docker build --build-arg BUILD_MODE=standalone -t {{ bot_name }}:latest .
-docker run --env-file .env {{ bot_name }}:latest
+# From the Merle repository root:
+docker build \
+  -f python_bots/{{ bot_name }}/Dockerfile \
+  --build-arg BUILD_MODE=standalone \
+  --build-arg BOT_PATH=python_bots/{{ bot_name }} \
+  -t {{ bot_name }}:latest \
+  .
+
+# Or: just docker-bot {{ bot_name }} standalone
 ```
 
-The Dockerfile is multi-stage, uses a non-root user, and has a healthcheck.
+Pure external standalone (bot directory only, no `packages/merle-core` in context)
+requires a published `merle-core` on an internal index — not available yet.
+
+The Dockerfile is multi-stage, uses a non-root user, and healthchecks via `import merle_core`.
 
 
 ## Governance

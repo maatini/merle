@@ -79,8 +79,23 @@ Das ist Policy: `site/` soll niemals manuell bearbeitet oder committet werden. T
 
 Das ist akzeptabel, da die CLI ein Entwickler-Tool ist und nicht unter hoher Last läuft.
 
-## Version-Diskrepanz
+## Version-Quellen (CLI vs. Framework)
 
-**Problem:** `merle version` zeigt `merle CLI vX.Y.Z | Merle Framework v0.4.0`. Die CLI-Version kommt aus `importlib.metadata.version("merle-cli")`, die Framework-Version ist in `main.py` hartcodiert. Bei Version-Bumps muss beides aktualisiert werden.
+**Quellen (Stand 0.6.0):**
 
-Aktuell: `pyproject.toml` sagt `0.4.0`, `egg-info` sagt `0.3.0`. Inkonsistenz nach Upgrade.
+| Anzeige           | Quelle                                                | SSOT                                                                                    |
+| ----------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| CLI-Version       | `importlib.metadata.version("merle-cli")`             | `tools/merle/pyproject.toml` (`version = "0.6.0"`)                                      |
+| Framework-Version | `merle_core.__version__` (Fallback: package metadata) | `packages/merle-core/src/merle_core/__init__.py` + `packages/merle-core/pyproject.toml` |
+
+```python
+# tools/merle/merle/main.py
+def _get_version() -> str:
+    return importlib.metadata.version("merle-cli")  # Fallback: "0.6.0-dev"
+
+def _get_framework_version() -> str:
+    from merle_core import __version__ as core_version  # SSOT, derzeit "0.6.0"
+    return core_version
+```
+
+**Gotcha:** Die Framework-Version ist **nicht** mehr in der CLI hartcodiert, sondern kommt aus `merle_core.__version__`. Bei Release-Bumps müssen CLI-`pyproject.toml`, merle-core-`pyproject.toml` und `merle_core.__version__` gemeinsam aktualisiert werden — sonst driftet `merle version`.

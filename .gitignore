@@ -300,6 +300,9 @@ jetstream/
 python_bots/test_*/
 python_bots/tmp_*/
 python_bots/*-test/
+python_bots/ci_bot/
+python_bots/ci_*/
+
 # Any local bot clones
 bots/
 kladde.md

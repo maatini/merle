@@ -85,18 +85,16 @@ invoice-processing/
 
 ## Integration Patterns (integration_examples/)
 
-### orchestrator_api — UiPath REST Client
+### orchestrator_api — UiPath REST Client (thin demo)
 
-**Owns:** Referenz-Implementierung für UiPath Orchestrator OAuth2 + OData API.
+**Owns:** Dünner Demo-Einstieg; **SSOT-Client** ist `merle_core.uipath`.
 
 | Aspekt      | Details                                                                  |
 | ----------- | ------------------------------------------------------------------------ |
-| **Auth**    | OAuth2 Client Credentials Grant                                          |
-| **Ops**     | Start Job, Get Status, Add Queue Item                                    |
-| **HTTP**    | `httpx.AsyncClient`                                                      |
+| **SSOT**    | `merle_core.uipath.UiPathOrchestratorClient` + `UiPathQueueHelper`       |
+| **Demo**    | `example.py` re-exportiert und zeigt env → authenticate → add_queue_item |
+| **Bot**     | Vollständig: `examples/uipath-hybrid/` (BaseBot + SIMULATE default)      |
 | **Secrets** | `UIPATH_CLIENT_ID`, `UIPATH_CLIENT_SECRET`, `UIPATH_TENANT` via env vars |
-
-> **Hinweis:** Wird langfristig durch `merle_core.uipath.UiPathOrchestratorClient` ersetzt.
 
 ### file_based_integration — Dateibasierter Austausch
 

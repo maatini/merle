@@ -51,8 +51,8 @@ just lint
 just mypy
 just test
 
-# Docker (für einen generierten Bot)
-docker build -t invoice-processor python_bots/invoice_processor
+# Docker (für einen generierten Bot — Kontext = Repo-Root)
+just docker-bot invoice_processor
 ```
 
 > **Hinweis**: Der `merle` CLI (via `tools/merle/`) und `just new-bot` / `merle new-bot` sind der **offizielle** One-Command-Flow (Template-First).  

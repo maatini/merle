@@ -45,7 +45,7 @@ Keine Cross-Workflow-Abhängigkeiten. Jeder Workflow ist unabhängig.
 | `actions/cache@v4`                 | ci.yml           | uv-Cache                 |
 | `actions/upload-artifact@v4`       | docs.yml         | Build-Artefakt hochladen |
 | `actions/deploy-pages@v4`          | docs.yml         | GitHub Pages deployen    |
-| `aquasecurity/trivy-action@master` | ci.yml           | Trivy Security Scan      |
+| `aquasecurity/trivy-action@0.36.0` | ci.yml           | Trivy Security Scan      |
 | `trufflesecurity/trufflehog@main`  | ci.yml           | Secrets Detection        |
 | `pre-commit/action@v3`             | ci.yml           | Pre-commit ausführen     |
 

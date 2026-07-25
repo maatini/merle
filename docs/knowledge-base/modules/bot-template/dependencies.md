@@ -69,16 +69,21 @@ members = ["packages/merle-core", "tools/merle"]
 
 ## Docker-Build-Abhängigkeiten
 
-Der Docker-Build im Template benötigt im **Monorepo-Modus**, dass vom **Repo-Root** aus gebaut wird (nicht vom Bot-Verzeichnis):
+Der Docker-Build benötigt **Build-Kontext = Repo-Root** (nicht das Bot-Verzeichnis):
 
 ```bash
 # ✅ Richtig — vom Repo-Root:
-docker build --build-arg BUILD_MODE=monorepo -f python_bots/my_bot/Dockerfile .
+docker build -f python_bots/my_bot/Dockerfile \
+  --build-arg BUILD_MODE=monorepo \
+  --build-arg BOT_PATH=python_bots/my_bot \
+  -t my_bot:latest .
+
+# ✅ Convenience:
+just docker-bot my_bot
 
 # ❌ Falsch — vom Bot-Verzeichnis:
-cd python_bots/my_bot
-docker build --build-arg BUILD_MODE=monorepo .
+cd python_bots/my_bot && docker build .
 # → COPY packages/merle-core schlägt fehl (falscher Kontext)
 ```
 
-Der Grund: Das Dockerfile enthält `COPY packages/merle-core ./packages/merle-core`, was nur funktioniert wenn `packages/` im Docker-Build-Kontext liegt (also vom Repo-Root aus).
+Das Dockerfile kopiert `packages/merle-core` und `${BOT_PATH}` und spiegelt die Monorepo-Layout-Struktur, damit die Path-Dependency `../../packages/merle-core` im Builder auflöst. `BUILD_MODE=standalone` baut stattdessen ein lokales merle-core-Wheel (kein privates PyPI).

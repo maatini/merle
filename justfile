@@ -91,9 +91,9 @@ test *ARGS:
 test-core *ARGS:
     uv run pytest packages/merle-core -q {{ARGS}}
 
-# Test with coverage
+# Test with coverage (fail if merle_core < 70%)
 test-cov:
-    uv run pytest --cov=merle_core --cov-report=term-missing packages/merle-core
+    uv run pytest packages/merle-core -q --cov=merle_core --cov-fail-under=70 --cov-report=term-missing
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Docker (Template + Examples)
@@ -106,9 +106,17 @@ docker-template:
     @echo "   Verwende stattdessen: just new-bot <name>  oder  uv run merle new-bot <name>"
     @exit 1
 
-# Build a specific generated bot (after copier)
-docker-bot BOT:
-    docker build -t merle-{{BOT}}:latest python_bots/{{BOT}}
+# Build a specific generated bot (after copier).
+# Context = repo root so packages/merle-core and BOT_PATH resolve.
+# Usage: just docker-bot my_bot
+#        just docker-bot my_bot standalone
+docker-bot BOT MODE="monorepo":
+    docker build \
+        -f python_bots/{{BOT}}/Dockerfile \
+        --build-arg BUILD_MODE={{MODE}} \
+        --build-arg BOT_PATH=python_bots/{{BOT}} \
+        -t merle-{{BOT}}:latest \
+        .
 
 # Run Trivy scan locally on the template (requires aquasecurity/trivy image or binary)
 trivy-template:
@@ -182,3 +190,7 @@ nats-up:
 # Placeholder for full example orchestration
 orchestrate-example:
     @echo "See examples/nats-task-communication/ for current PoC"
+
+# Run gold-standard invoice bot in simulate mode (no external services)
+demo:
+    cd examples/invoice-processing && uv run python main.py

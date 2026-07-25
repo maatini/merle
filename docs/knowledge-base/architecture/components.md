@@ -112,9 +112,9 @@ C4Container
 **Verantwortlich für:** Qualitätsgates. Lint, Type-Check, Test, Security-Scans, Docker-Template-Validierung.
 
 | Aspekt     | Details                                                                             |
-| ---------- | ----------------------------------------------------------------------------------- | --- | ----------------------------------------------------- |
+| ---------- | ----------------------------------------------------------------------------------- |
 | **Owns**   | `ci.yml` (Quality + Security + Pre-commit + Docker), `docker-build.yml`, `docs.yml` |
-| **Status** | Alle Gates derzeit non-fatal (`                                                     |     | true`, `continue-on-error`) während Refactoring-Phase |
+| **Status** | Quality + Security + Pre-commit + Docker Template **HARD** (siehe ci-cd module KB)  |
 | **Mehr**   | [`../modules/ci-cd/index.md`](../modules/ci-cd/index.md)                            |
 
 ## Anti-Patterns (Architektur)

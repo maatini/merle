@@ -99,12 +99,12 @@ class ExampleTask(BaseTask):
 
 ## `Dockerfile.jinja` — Docker-Build
 
-**Owns:** Multi-Stage Dockerfile mit zwei Build-Modi (Monorepo vs. Standalone), gesteuert via `BUILD_MODE` ARG.
+**Owns:** Multi-Stage Dockerfile mit zwei Build-Modi (Monorepo vs. Standalone), gesteuert via `BUILD_MODE` + `BOT_PATH` ARGs. Build-Kontext = Repo-Root.
 
 **Stages:**
 
-1. **Builder**: `uv` (von `ghcr.io/astral-sh/uv:0.11`), installiert Dependencies mit `--no-dev`
-2. **Runtime**: Non-root `bot`-User (UID 1000), kopiert `.venv`, HEALTHCHECK
+1. **Builder**: Spiegelt Monorepo-Layout unter `/src` (`packages/merle-core` + `${BOT_PATH}`); `uv sync` (path-dep) bzw. Wheel + `--no-sources --find-links` (standalone)
+2. **Runtime**: Non-root `bot`-User (UID 1000), kopiert `.venv` + App-Quellen, HEALTHCHECK via `import merle_core`
 
 **Browser-Dependencies (conditional):**
 

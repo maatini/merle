@@ -10,31 +10,39 @@ Das ist der Grund, warum die statische `README.md` (Template-Dokumentation) im `
 
 ## `.dockerignore` vs `.dockerignore.jinja`
 
-**Problem:** Es existieren BEIDE Dateien:
+**Problem:** Es existieren BEIDE Dateien im Template:
 
 - `.dockerignore` — statisch, einfacher Fallback
-- `.dockerignore.jinja` — dynamisch, mit Monorepo-Logik
+- `.dockerignore.jinja` — gerendert (gewinnt bei Copier)
 
-Copier wird `.dockerignore.jinja` rendern und nach `.dockerignore` ausgeben — die statische `.dockerignore` wird überschrieben.
+Copier rendert `.dockerignore.jinja` → `.dockerignore` im generierten Bot. Diese Datei gilt nur, wenn der Build-**Kontext** das Bot-Verzeichnis ist.
 
-Die statische Version existiert als Fallback für den unwahrscheinlichen Fall, dass jemand Copier ohne Jinja2-Rendering nutzt. In der Praxis irrelevant, aber nicht löschen (könnte Verwirrung stiften, wenn sie fehlt).
+**Monorepo-Builds** nutzen die **Root-`.dockerignore`** (Kontext = Repo-Root). Das Bot-`.dockerignore` ist dann irrelevant.
 
 ## Docker: Monorepo-Build nur vom Repo-Root
 
-**Problem:** Das generierte `Dockerfile` enthält `COPY packages/merle-core ./packages/merle-core`. Dieser Befehl funktioniert nur, wenn der Docker-Build-Kontext das Merle-Repo-Root ist:
+**Problem:** Das generierte `Dockerfile` erwartet Build-Kontext = Merle-Repo-Root und kopiert explizit `packages/merle-core` sowie `${BOT_PATH}` (Default: `python_bots/<bot_name>`).
 
 ```bash
-# ✅ Korrekt:
-cd /path/to/merle
-docker build -f python_bots/my_bot/Dockerfile .
+# ✅ Korrekt (Repo-Root):
+docker build -f python_bots/my_bot/Dockerfile \
+  --build-arg BUILD_MODE=monorepo \
+  --build-arg BOT_PATH=python_bots/my_bot \
+  -t my_bot:latest .
 
-# ❌ Falsch:
-cd /path/to/merle/python_bots/my_bot
-docker build .
-# COPY packages/merle-core → kein solches Verzeichnis im Kontext!
+# ✅ Convenience:
+just docker-bot my_bot
+
+# ❌ Falsch (Kontext = Bot-Verzeichnis):
+cd python_bots/my_bot && docker build .
+# COPY packages/merle-core → fehlt im Kontext
 ```
 
-Das `.dockerignore.jinja` ist so konfiguriert, dass im Monorepo-Modus `packages/merle-core/` **nicht** ignoriert wird (via `!packages/merle-core/`). Alle anderen `python_bots/` werden ignoriert.
+**Layout im Builder:** Die Pfad-Dependency `../../packages/merle-core` aus dem Bot-`pyproject.toml` wird gespiegelt unter `/src/python_bots/<bot>` + `/src/packages/merle-core`. Runtime enthält nur `.venv` + App-Quellen unter `/app`.
+
+**Root-`.dockerignore`:** Darf `python_bots/*/` **nicht** pauschal ausschließen (sonst schlägt `COPY ${BOT_PATH}` fehl). Nur Caches/Tests/Logs unter `python_bots/` ignorieren. `*.md` braucht Exceptions für `python_bots/*/README.md` und `packages/merle-core/README.md`.
+
+**Standalone `BUILD_MODE`:** Mit Monorepo-Kontext wird `merle-core` als Wheel gebaut und via `uv sync --no-sources --find-links` installiert (kein privates PyPI nötig). Reines Standalone ohne `packages/` im Kontext ist noch nicht produktiv.
 
 ## `uv sync` im Post-Hook kann fehlschlagen
 
@@ -64,6 +72,10 @@ Beispiel: Wenn das Template `main.py.jinja` ändert und der Nutzer `main.py` man
 
 Ein bestehender Bot muss nach dem Engine-Wechsel **komplett neu generiert** werden — ein einfaches `copier update` reicht nicht, da die Docker-System-Dependencies tief in der Image-Struktur liegen.
 
-## `location: standalone` noch nicht vollständig getestet
+## `location: standalone` / reines External-Standalone noch limitiert
 
-**Problem:** Der Standalone-Modus (`--location standalone`) geht davon aus, dass `merle-core` als Package von einem (internen) PyPI installiert werden kann. Dies ist noch **nicht produktiv getestet**. Der Monorepo-Modus (`python_bots`) ist der einzig aktiv genutzte Pfad.
+**Problem:** Der Copier-`location=standalone` schreibt `merle-core >= 0.1.0` ohne Path-Source. Ohne internes PyPI schlägt `uv sync` lokal fehl.
+
+**Was CI smoke-testet:** `BUILD_MODE=standalone` **mit Monorepo-Kontext** (Wheel aus `packages/merle-core`). Das validiert die Packaging-Pipeline, nicht „Bot-Ordner allein auf einem fremden Host“.
+
+**Noch nicht produktiv:** Reines External-Standalone (`BOT_PATH=.`, Kontext = nur Bot-Dir, ohne `packages/merle-core`). Dafür später: veröffentlichtes `merle-core` oder vendored wheel.

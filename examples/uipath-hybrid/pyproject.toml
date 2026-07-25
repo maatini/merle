@@ -1,12 +1,27 @@
 [project]
 name = "merle-example-uipath-hybrid"
 version = "0.1.0"
+description = "UiPath hybrid example using merle_core.uipath (simulate default)"
 requires-python = ">=3.11"
 
 dependencies = [
-    "merle-core[observability]",
-    # In realen Projekten: "merle-core[uipath]" sobald verfügbar
+    "merle-core[observability]>=0.2.0",
+    "pydantic-settings>=2.0",
 ]
 
 [tool.uv.sources]
-merle-core = { path = "../../packages/merle-core" }
+merle-core = { path = "../../packages/merle-core", editable = true }
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

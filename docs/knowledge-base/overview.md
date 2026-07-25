@@ -38,25 +38,25 @@ C4Context
 
 ## Tech-Stack
 
-| Kategorie                | Technologie                          | Version                          |
-| ------------------------ | ------------------------------------ | -------------------------------- |
-| **Sprache**              | Python                               | 3.11+                            |
-| **Paketmanager**         | uv (Workspace-Monorepo)              | 0.11.8+                          |
-| **Entwicklungsumgebung** | Devbox + direnv                      | —                                |
-| **Bot-Scaffolding**      | Copier                               | 9.15+                            |
-| **CLI**                  | Typer + Rich                         | 0.12+ / 13.0+                    |
-| **Browser**              | Playwright (Chromium + Lightpanda)   | via rpaframework                 |
-| **Config**               | pydantic-settings                    | via merle-core                   |
-| **Logging**              | loguru                               | via merle-core                   |
-| **Retry**                | tenacity                             | via merle-core                   |
-| **HTTP**                 | httpx (async)                        | via merle-core                   |
-| **Observability**        | OpenTelemetry (OTLP/gRPC)            | optional (extra `observability`) |
-| **Secrets**              | Azure Key Vault                      | optional (extra `azure`)         |
-| **Messaging**            | NATS (nats-py)                       | optional (extra `nats`)          |
-| **Orchestrierung**       | Prefect 3 → NATS JetStream (Phase 4) | —                                |
-| **Qualität**             | Ruff, mypy (strict), pytest          | via dev                          |
-| **CI/CD**                | GitHub Actions                       | —                                |
-| **Dokumentation**        | MkDocs Material                      | —                                |
+| Kategorie                | Technologie                          | Version                                        |
+| ------------------------ | ------------------------------------ | ---------------------------------------------- |
+| **Sprache**              | Python                               | 3.11+                                          |
+| **Paketmanager**         | uv (Workspace-Monorepo)              | 0.11.8+                                        |
+| **Entwicklungsumgebung** | Devbox + direnv                      | —                                              |
+| **Bot-Scaffolding**      | Copier                               | 9.15+                                          |
+| **CLI**                  | Typer + Rich                         | 0.12+ / 13.0+                                  |
+| **Browser**              | Playwright (Chromium + Lightpanda)   | merle-core extras (`playwright`, `lightpanda`) |
+| **Config**               | pydantic-settings                    | via merle-core                                 |
+| **Logging**              | loguru                               | via merle-core                                 |
+| **Retry**                | tenacity                             | via merle-core                                 |
+| **HTTP**                 | httpx (async)                        | via merle-core                                 |
+| **Observability**        | OpenTelemetry (OTLP/gRPC)            | optional (extra `observability`)               |
+| **Secrets**              | Azure Key Vault                      | optional (extra `azure`)                       |
+| **Messaging**            | NATS (nats-py)                       | optional (extra `nats`)                        |
+| **Orchestrierung**       | Prefect 3 → NATS JetStream (Phase 4) | —                                              |
+| **Qualität**             | Ruff, mypy (strict), pytest          | via dev                                        |
+| **CI/CD**                | GitHub Actions                       | —                                              |
+| **Dokumentation**        | MkDocs Material                      | —                                              |
 
 ## Governance (11 Regeln, verbindlich)
 

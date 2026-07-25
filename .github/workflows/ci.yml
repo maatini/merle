@@ -50,7 +50,7 @@ jobs:
         run: uv run mypy packages/merle-core/src/merle_core --strict
 
       - name: Pytest (merle-core)
-        run: uv run pytest packages/merle-core -q --tb=short
+        run: uv run pytest packages/merle-core -q --tb=short --cov=merle_core --cov-fail-under=70 --cov-report=term-missing
 
       - name: Run merle validate (governance)
         run: uv run merle validate
@@ -74,22 +74,24 @@ jobs:
       - name: Sync (dev + security tools)
         run: uv sync --group dev --all-packages --all-extras
 
-      # Bandit -ll (medium+): blocking when clean; High/Medium findings fail the job
+      # Bandit -ll (medium+): blocking; High/Medium findings fail the job
       - name: Bandit (Python SAST)
         run: |
           uv pip install bandit[toml] --quiet
-          uv run bandit -c pyproject.toml -r packages/merle-core/src/merle_core -ll
+          uv run bandit -c pyproject.toml -r packages/merle-core/src/merle_core tools/merle -ll
 
+      # HARD: fail on fixable CRITICAL/HIGH (ignore-unfixed keeps unfixed noise non-blocking)
       - name: Trivy filesystem scan (IaC + deps)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: "fs"
           format: "table"
           scan-ref: "."
-          exit-code: "0"
+          exit-code: "1"
           severity: "CRITICAL,HIGH"
           ignore-unfixed: true
 
+      # HARD: PR-diff secret scan (base..HEAD); --fail exits non-zero on verified secrets
       - name: Detect secrets (basic)
         uses: trufflesecurity/trufflehog@main
         with:
@@ -97,7 +99,6 @@ jobs:
           base: main
           head: HEAD
           extra-args: --fail
-        continue-on-error: true
 
   # ---------------------------------------------------------------------------
   # Pre-commit (full) + changed-file prettier
@@ -152,10 +153,23 @@ jobs:
           python-version: "3.11"
       - name: Generate fresh bot + build (monorepo pattern)
         run: |
-          mkdir -p /tmp/gen
-          uvx copier copy --trust templates/bot /tmp/gen/ci_bot_project --data bot_name=ci_bot --data include_playwright=true --defaults --overwrite --quiet
-          docker build -t merle-ci-bot:test -f /tmp/gen/ci_bot_project/Dockerfile .
-          echo "✅ Generated bot Docker build succeeded"
+          # Generate INTO the workspace so Docker context (repo root) can COPY the bot.
+          # Directory name == bot_name so default BOT_PATH matches.
+          rm -rf python_bots/ci_bot
+          uvx copier copy --trust templates/bot python_bots/ci_bot \
+            --data bot_name=ci_bot \
+            --data location=python_bots \
+            --data include_playwright=true \
+            --defaults \
+            --overwrite \
+            --quiet
+          docker build \
+            -f python_bots/ci_bot/Dockerfile \
+            --build-arg BUILD_MODE=monorepo \
+            --build-arg BOT_PATH=python_bots/ci_bot \
+            -t merle-ci-bot:test \
+            .
+          echo "✅ Generated bot Docker build succeeded (monorepo)"
         # Full matrix + Trivy moved to dedicated docker-build.yml for PRs on template changes
 
 # =============================================================================

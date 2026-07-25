@@ -1,25 +1,35 @@
 # =============================================================================
 # Merle Repository Root .dockerignore
 # =============================================================================
-# This is critical for fast and secure Docker builds of individual bots
-# when using the monorepo build pattern:
-#   docker build -f python_bots/xxx/Dockerfile .
+# Monorepo bot builds (context = repo root):
+#   docker build -f python_bots/<bot>/Dockerfile \
+#     --build-arg BUILD_MODE=monorepo \
+#     --build-arg BOT_PATH=python_bots/<bot> \
+#     -t <bot>:latest .
+#
+# The Dockerfile COPYs only packages/merle-core and ${BOT_PATH}. Other bots may
+# appear in the build context but are not layered into the image.
 
-# --- Everything we never want in any Docker image ---
+# --- VCS / IDE / CI ---
 .git/
 .gitignore
 .github/
 .vscode/
 .idea/
-*.md
+
+# --- Docs & non-bot trees (never needed in bot images) ---
 site/
 docs/
 examples/
 integration_examples/
 uipath_templates/
-rpa-opencode-hybrid/          # 88MB monster - never needed in bot images
+rpa-opencode-hybrid/
 tools/
+templates/
+agent/
 .devbox/
+
+# --- Python / env caches ---
 .venv/
 **/.venv/
 **/__pycache__/
@@ -32,9 +42,17 @@ tools/
 **/*.pem
 **/*.key
 
-# Do not send other bots when building one specific bot
-python_bots/*/
-!packages/merle-core/
+# Bot-local noise (keep python_bots/*/ sources available for COPY)
+python_bots/*/.venv/
+python_bots/*/logs/
+python_bots/*/tests/
+python_bots/*/.pytest_cache/
+python_bots/*/.mypy_cache/
+python_bots/*/.ruff_cache/
+
+# merle-core tests/caches (source + pyproject still included)
+packages/merle-core/tests/
+packages/merle-core/**/__pycache__/
 
 # Large binary assets
 *.png
@@ -49,6 +67,16 @@ devbox.json
 devbox.lock
 uv.lock
 .pre-commit-config.yaml
-.mypy_cache/
-.ruff_cache/
-.pytest_cache/
+mkdocs.yml
+LICENSE
+CHANGELOG.md
+CONTRIBUTING.md
+SECURITY.md
+README.md
+README.en.md
+*.md
+# pyproject/README required by hatchling / bot metadata during uv sync
+!packages/merle-core/README.md
+!packages/merle-core/pyproject.toml
+!python_bots/*/README.md
+!python_bots/*/pyproject.toml

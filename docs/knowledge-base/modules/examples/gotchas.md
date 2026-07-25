@@ -1,10 +1,16 @@
 # Examples — Gotchas & Pitfalls
 
-## invoice-processing: Simulate-Modus benötigt `.eml`-Dateien
+## invoice-processing: Simulate-Modus liest lokale Testdaten
 
-**Problem:** Der Simulate-Modus (`settings.simulate = True`) liest `.eml`-Dateien aus einem lokalen Verzeichnis statt echtem IMAP. Ohne diese Dateien schlägt der Bot fehl.
+**Problem:** Der Simulate-Modus (`settings.simulate = True`) liest `.eml`-Dateien aus einem lokalen Verzeichnis statt echtem IMAP. Fehlen die Dateien, schlägt der Bot fehl.
 
-**Lösung:** `.eml`-Testdateien müssen manuell bereitgestellt werden. Das Beispiel enthält keine Testdaten.
+**Stand im Repo:** `examples/invoice-processing/data/` enthält Sample-Daten:
+
+- `data/simulated_mail_inbox/` — `.eml` (z.B. `INV-2025-0042.eml` …)
+- `data/invoices/` — gepaarte `.pdf` + `.json` Samples
+- `data/reports/` — Beispiel-Excel-Reports
+
+Pfad und Dateinamen müssen zur Config des Bots passen; eigene Szenarien erfordern zusätzliche Dateien.
 
 ## nats-task-communication: NATS-Server muss laufen
 
@@ -15,28 +21,39 @@
 docker run -d -p 4222:4222 nats:latest
 ```
 
-## uipath-hybrid: Platzhalter-Code
+## uipath-hybrid: Simulate vs. echte Orchestrator-API
 
-**Problem:** `examples/uipath-hybrid/` ist ein Platzhalter. Der Code referenziert `merle_core.uipath`, das zum Zeitpunkt der Beispiel-Erstellung noch nicht vollständig implementiert war.
+**Stand:** `examples/uipath-hybrid/` nutzt `merle_core.uipath` (`UiPathOrchestratorClient`, `UiPathQueueHelper`) — kein Platzhalter mehr.
 
-**Aktueller Stand:** Die echte UiPath-Integration liegt in:
+**Falle:** Default ist `SIMULATE=true` (keine Credentials, keine HTTP-Calls). Für echte Queues:
 
-- `integration_examples/orchestrator_api/example.py` (httpx-basierter Client)
-- `packages/merle-core/src/merle_core/uipath/orchestrator.py` (merle-core UiPath Client)
+```bash
+export SIMULATE=false
+export UIPATH_CLIENT_ID=...
+export UIPATH_CLIENT_SECRET=...
+# optional: UIPATH_TENANT, UIPATH_BASE_URL, UIPATH_PROCESS_KEY
+```
 
-## integration_examples/orchestrator_api: Wird durch merle_core.uipath ersetzt
+Ohne Credentials und mit `SIMULATE=false` schlägt der Bot bei Auth fehl.
 
-**Problem:** Der `OrchestratorClient` in `integration_examples/` dupliziert Funktionalität, die jetzt in `merle_core.uipath.UiPathOrchestratorClient` liegt. Langfristig wird das Integration-Example auf den merle-core-Client migriert.
+## integration_examples/orchestrator_api: dünner SSOT-Wrapper
 
-**Übergangsweise:** Beide Implementierungen existieren parallel. Neue Bots sollten `merle_core.uipath` nutzen.
+**Status:** `integration_examples/orchestrator_api/example.py` ist ein dünner Demo-Wrapper um `merle_core.uipath` (SSOT). Vollständiger Bot: `examples/uipath-hybrid/`.
+
+Neue Bots sollen **nur** `merle_core.uipath` nutzen, nicht eigene Orchestrator-Clients bauen.
 
 ## web-automation: Lightpanda benötigt separaten Prozess
 
 **Problem:** Das Beispiel nutzt Chromium (Default). Ein Wechsel zu `engine="lightpanda"` erfordert einen **separat gestarteten** Lightpanda-Prozess auf `localhost:9222` vor dem Bot-Start.
 
-## Keine Testdaten in Examples
+## Testdaten in Examples sind ungleichmäßig
 
-**Problem:** Keines der Examples enthält reale Testdaten (`.eml`, `.xlsx`, `.pdf`). Alle Tests nutzen gemockte Daten oder Dummy-Werte. Für echte End-to-End-Tests müssen Testdaten manuell bereitgestellt werden.
+**Problem:** Nicht alle Examples bringen Sample-Daten mit.
+
+- **invoice-processing:** hat Sample-`.eml`/`.pdf`/`.json` unter `data/` (siehe oben)
+- **web-automation, nats-task-communication, uipath-hybrid:** typischerweise gemockt / ohne vollständige Fixtures; E2E braucht eigene Umgebung (Browser, NATS, Orchestrator)
+
+Unit-Tests in den Examples bleiben oft gemockt, auch wenn Sample-Dateien existieren.
 
 ## invoice-processing: Self-Healing ist demonstrativ
 

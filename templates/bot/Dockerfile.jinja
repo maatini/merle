@@ -5,59 +5,82 @@
 #
 # Recommended build commands:
 #
-# Monorepo (most common during development):
+# Monorepo (most common during development) — build from Merle repo root:
 #   docker build -f python_bots/{{ bot_name }}/Dockerfile \
 #     --build-arg BUILD_MODE=monorepo \
+#     --build-arg BOT_PATH=python_bots/{{ bot_name }} \
 #     -t {{ bot_name }}:latest .
-#   (Run this from the Merle repository root)
 #
-# Standalone (when merle-core is published to an internal index):
-#   cd python_bots/{{ bot_name }}
-#   docker build -f Dockerfile --build-arg BUILD_MODE=standalone -t {{ bot_name }}:latest .
+# Standalone with monorepo context (no private PyPI; builds merle-core wheel):
+#   docker build -f python_bots/{{ bot_name }}/Dockerfile \
+#     --build-arg BUILD_MODE=standalone \
+#     --build-arg BOT_PATH=python_bots/{{ bot_name }} \
+#     -t {{ bot_name }}:latest .
+#
+# Pure external standalone (bot dir only) requires a published merle-core later:
+#   cd /path/to/{{ bot_name }}
+#   docker build -f Dockerfile --build-arg BUILD_MODE=standalone --build-arg BOT_PATH=. \
+#     -t {{ bot_name }}:latest .
+#   (fails today without packages/merle-core in context or a private index)
 #
 
 ARG PYTHON_VERSION={{ python_version }}
 ARG BUILD_MODE=monorepo
+# Path of this bot relative to the Docker build context (repo root for monorepo).
+# Override when the directory name differs from bot_name.
+ARG BOT_PATH=python_bots/{{ bot_name }}
 
 # =============================================================================
 # Builder
 # =============================================================================
 FROM python:${PYTHON_VERSION}-slim AS builder
 
+ARG BUILD_MODE
+ARG BOT_PATH
+
 COPY --from=ghcr.io/astral-sh/uv:0.11 /uv /bin/uv
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_DOWNLOADS=0
 
-WORKDIR /app
+# Mirror monorepo layout under /src so path deps resolve:
+#   pyproject [tool.uv.sources] merle-core = { path = "../../packages/merle-core" }
+# → from /src/${BOT_PATH} the relative path lands on /src/packages/merle-core
+WORKDIR /src
 
-# Copy dependency specification
-COPY pyproject.toml ./
+# merle-core source (required for monorepo path-dep and standalone wheel fallback)
+COPY packages/merle-core /src/packages/merle-core
 
-# === Monorepo support for merle-core ===
-# When building with BUILD_MODE=monorepo (from repo root), we copy the core package
-# so that the path dependency in pyproject.toml works inside the container.
-{% if location == "python_bots" %}
-COPY packages/merle-core ./packages/merle-core
-{% endif %}
+# Bot dependency metadata only (keeps layer cache stable when app code changes)
+COPY ${BOT_PATH}/pyproject.toml ${BOT_PATH}/README.md /src/${BOT_PATH}/
 
-# Install production dependencies (no --frozen: lockfile is generated on-the-fly for CI validation;
-# for production, commit a uv.lock and set --frozen)
+WORKDIR /src/${BOT_PATH}
+
+# Install production dependencies.
+# - monorepo: use path dependency via mirrored layout (uv.sources)
+# - standalone: build a local merle-core wheel and resolve via --find-links
+#   (ignores path/index sources so CI works without a private PyPI)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-dev --no-cache
+    if [ "$BUILD_MODE" = "standalone" ]; then \
+        uv build --wheel /src/packages/merle-core -o /src/wheels && \
+        uv sync --no-dev --no-cache --no-sources --find-links /src/wheels; \
+    else \
+        uv sync --no-dev --no-cache; \
+    fi
 
 # =============================================================================
-# Runtime (distroless-like, non-root)
+# Runtime (slim, non-root)
 # =============================================================================
 FROM python:${PYTHON_VERSION}-slim AS runtime
 
 ARG BUILD_MODE
+ARG BOT_PATH
 
 # Security: non-root user
 RUN groupadd --system --gid 1000 bot && \
     useradd --system --uid 1000 --gid bot --home /app --shell /sbin/nologin bot
 
-# Copy uv for the entrypoint
+# Copy uv for the entrypoint (`uv run`)
 COPY --from=ghcr.io/astral-sh/uv:0.11 /uv /bin/uv
 
 # Browser runtime dependencies (engine-aware)
@@ -78,20 +101,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy virtualenv from builder
-COPY --from=builder /app/.venv /app/.venv
+# Virtualenv from builder (merle-core + deps already installed)
+COPY --from=builder /src/${BOT_PATH}/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     BUILD_MODE=${BUILD_MODE}
 
-# Copy the application (respect .dockerignore)
-COPY --chown=bot:bot . .
+# Application sources only (not the whole monorepo context)
+COPY --chown=bot:bot ${BOT_PATH} /app
 
 USER bot
 
-# Health check (override in real bots with something meaningful)
+# Health check: verify merle_core import (non-root safe, no network)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-    CMD python -c "print('healthy')" || exit 1
+    CMD python -c "import merle_core; print('ok')" || exit 1
 
 ENTRYPOINT ["uv", "run", "python", "main.py"]

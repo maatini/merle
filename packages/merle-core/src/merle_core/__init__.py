@@ -108,4 +108,4 @@ __all__ += [
 ]
 
 
-__version__ = "0.7.0"  # Deploy, Hybrid Gold & Security Hardening
+__version__ = "0.7.1"  # CI restore: TruffleHog, lockfile, ruff 0.16

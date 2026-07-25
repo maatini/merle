@@ -1,7 +1,7 @@
 # Merle Roadmap
 
 **Status:** Living Document  
-**Last Updated:** 2026-07-25 (v0.7.0 — Deploy, Hybrid Gold & Security Hardening)  
+**Last Updated:** 2026-07-25 (v0.7.1 — CI restore)  
 **Owner:** Merle RPA-Hybrid-Architekt + Platform Team
 
 ---
@@ -19,21 +19,21 @@ Merle evolves into a **highly scalable, intelligent, cost-efficient Enterprise R
 
 ---
 
-## Current State (v0.7.0) ✅
+## Current State (v0.7.1) ✅
 
 | Layer                  | Component                                  | Maturity     | Notes                                                                                                                                                                                      |
 | ---------------------- | ------------------------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Core**               | `merle-core` (0.7.0)                       | ✅ Good      | BaseBot, BaseTask, tenacity retry, OTel observability (extra), Azure secrets (extra), NATS client (extra), **Playwright wrapper mit Chromium + Lightpanda (ADR-0007)**, self-healing hooks |
+| **Core**               | `merle-core` (0.7.1)                       | ✅ Good      | BaseBot, BaseTask, tenacity retry, OTel observability (extra), Azure secrets (extra), NATS client (extra), **Playwright wrapper mit Chromium + Lightpanda (ADR-0007)**, self-healing hooks |
 | **Scaffolding**        | Copier Template + `merle` CLI              | ✅ Good      | Feature flags, post-gen hooks, `merle new-bot`, governance enforcement; monorepo/standalone Docker from repo root                                                                          |
 | **DX & Tooling**       | uv workspace, Devbox, justfile, pre-commit | ✅ Good      | CI hard gates (Ruff, mypy, pytest+coverage, Bandit, Trivy, TruffleHog), CODEOWNERS, issue/PR templates                                                                                     |
 | **Agent & Governance** | `.opencode/` + AGENTS.md                   | ✅ Excellent | rpa-hybrid agent, governance-validator skill, rpa-bot-generator, binding rules                                                                                                             |
-| **Documentation**      | `docs/`, ADRs (0001–0009), visuals         | ✅ Strong    | Entscheidungsmatrix, Architektur, secrets, NATS foundation ADR; Version-SSOT 0.7.0; KB aligned with ADR-0009                                                                               |
+| **Documentation**      | `docs/`, ADRs (0001–0009), visuals         | ✅ Strong    | Entscheidungsmatrix, Architektur, secrets, NATS foundation ADR; Version-SSOT 0.7.1; KB aligned with ADR-0009                                                                               |
 | **Examples**           | `examples/`, `integration_examples/`       | ✅ Stronger  | Gold: web-automation, nats-task-communication, **uipath-hybrid**; light: excel-processing; invoice-processing reference                                                                    |
 | **Docker Story**       | Template Dockerfile + Trivy                | ✅ Improved  | Reliable monorepo/standalone path from repo root; coverage + security gates; standalone wheel path still optional (publish roadmap)                                                        |
 
 **Milestone achieved:** Merle is a **professional, reviewable, internal-enterprise-ready RPA framework**. Stack claims match installed dependencies: Prefect 3 and rpaframework are **roadmap / optional / UiPath-scope**, not default installs.
 
-**Shipped since Professional Foundation (v0.2):** Lightpanda (ADR-0007), NATS + Task model foundation, CLI restructuring, data/uipath modules, version SSOT + Quality Hardening 0.6.0, Deploy/Hybrid/Security Hardening 0.7.0.
+**Shipped since Professional Foundation (v0.2):** Lightpanda (ADR-0007), NATS + Task model foundation, CLI restructuring, data/uipath modules, version SSOT + Quality Hardening 0.6.0, Deploy/Hybrid/Security Hardening 0.7.0; CI restore 0.7.1.
 
 ---
 

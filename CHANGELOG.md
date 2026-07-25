@@ -11,6 +11,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.7.1] - 2026-07-25 — CI restore (TruffleHog, lockfile, ruff 0.16)
+
+Patch release: make `main` CI reliably green after Dependabot bumps and a broken TruffleHog configuration.
+
+### Fixed
+
+- **ci (TruffleHog):** event-aware PR/push scan (no fixed `base: main`/`head: HEAD`); drop duplicate `--fail`; pin action `@v3.95.9`, image `latest` (GHCR has no `v3.x` tags); `fetch-depth: 0`
+- **ci (lockfile):** refresh `uv.lock` after Dependabot ruff/pre-commit constraint bumps so `uv lock --check` passes
+- **ci (pre-commit):** align ruff-pre-commit hook to `v0.16.0`; fix B007 + secrets import sort
+- **ruff 0.16:** nested package configs `extend` workspace root; intentional ignores for hooks/unicode/style; small test/API cleanups
+- **ci (quality):** `merle validate --strict` with bandit installed; `setup-uv@v7` for docker-validate
+
+### Changed
+
+- Knowledge-base CI/SECURITY docs aligned with live workflow truth
+
+---
+
 ## [0.7.0] - 2026-07-25 — Deploy, Hybrid Gold & Security Hardening
 
 Post-0.6.0 hardening: reliable monorepo/standalone Docker deploy path, coverage
@@ -140,7 +158,8 @@ Initial public structure of the Merle framework (pre-professionalization).
 
 ---
 
-[Unreleased]: https://github.com/maatini/merle/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/maatini/merle/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/maatini/merle/releases/tag/v0.7.1
 [0.7.0]: https://github.com/maatini/merle/releases/tag/v0.7.0
 [0.6.0]: https://github.com/maatini/merle/releases/tag/v0.6.0
 [0.2.0]: https://github.com/maatini/merle/releases/tag/v0.2.0-professional-foundation

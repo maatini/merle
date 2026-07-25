@@ -1,6 +1,6 @@
 [project]
 name = "merle"
-version = "0.7.0"
+version = "0.7.1"
 description = "Modular Enterprise RPA Lifecycle Engine — Python-first hybrid RPA framework"
 authors = [
     { name = "Martin Richardt", email = "martin.richardt@maatini.space" },
@@ -129,7 +129,7 @@ markers = [
 # ─── Commitizen (Conventional Commits + SemVer + auto-CHANGELOG) ─────────────
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.7.0"
+version = "0.7.1"
 version_files = [
     "pyproject.toml:version",
     "packages/merle-core/pyproject.toml:version",

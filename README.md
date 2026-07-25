@@ -1,7 +1,7 @@
 # Merle
 
 [![License](https://img.shields.io/badge/license-proprietary-red)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-0.7.0-blue)](https://github.com/maatini/merle)
+[![Version](https://img.shields.io/badge/version-0.7.1-blue)](https://github.com/maatini/merle)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![uv](https://img.shields.io/badge/uv-0.11+-8A2BE2?logo=python)](https://docs.astral.sh/uv/)
 [![Strategy](https://img.shields.io/badge/strategy-python--first-success)](./docs/concepts/strategie.md)
@@ -24,7 +24,7 @@ _Python-first hybrid RPA framework for maintainable, testable, and cost-efficien
 **80–90 % Python** (Playwright mit Chromium/Lightpanda, pandas, loguru, tenacity, httpx, pydantic; optional NATS / OTel / Azure Key Vault) — **UiPath only when it delivers a proven architectural advantage.**  
 **Vision: Granular, NATS-based orchestration with intelligent executors (Python / KI / UiPath) and BPMN-grade transparency.**
 
-> **Current Status (v0.7.0):**  
+> **Current Status (v0.7.1):**  
 > Production-ready `merle-core`, official Copier template, reliable monorepo/standalone Docker deploy path, hard CI quality + security gates, gold hybrid/examples, `merle` CLI, and full governance. Ready for internal enterprise use and scaling.
 
 **Zukünftig (Roadmap):** Granulare NATS-Orchestrierung (Orchestrator-PoC), KI-Executor, optionale Prefect-3-Patterns, Self-Healing auf Task-Ebene.
@@ -332,6 +332,8 @@ Beiträge zum Merle-Framework erfolgen ausschließlich durch autorisierte Mitarb
 Dieses Repository und alle darin enthaltenen Artefakte sind proprietär. Nutzung nur mit ausdrücklicher Genehmigung des Urhebers (Martin Richardt). Siehe [LICENSE](./LICENSE) für die vollständige Lizenz.
 
 ## Version
+
+**0.7.1** — CI restore (TruffleHog, lockfile, ruff 0.16) — Juli 2026
 
 **0.7.0** — Deploy, Hybrid Gold & Security Hardening — Juli 2026
 **0.6.0** — Quality Hardening (Q1–Q7 / M1–M7) — Juli 2026

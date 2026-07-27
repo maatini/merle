@@ -104,7 +104,7 @@ jobs:
       # --fail is already set by the action (do not pass via extra_args).
       # Action code pinned; docker image uses default "latest" (GHCR has no v3.x tags).
       - name: Detect secrets
-        uses: trufflesecurity/trufflehog@v3.95.9
+        uses: trufflesecurity/trufflehog@v3.96.0
         with:
           path: ./
 

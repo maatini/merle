@@ -45,7 +45,7 @@
 
 | Datei                    | Zweck                                                                                                                                                                       |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dependabot.yml`         | Weekly Updates: GitHub Actions (Montags), Python/pip. Ignoriert Major-Ruff/Mypy-Bumps.                                                                                      |
+| `dependabot.yml`         | Weekly Updates: GitHub Actions (Montags), Python via `uv` (pyproject.toml + uv.lock). Ignoriert Major-Ruff/Mypy-Bumps.                                                      |
 | `CODEOWNERS`             | 6 Ownership-Zonen: merle-architects (root/docs/ADRs), merle-core-maintainers, merle-template-maintainers, merle-platform (CI/Devbox), merle-opencode-hybrid, merle-examples |
 | `PULL_REQUEST_TEMPLATE/` | Leer (Platzhalter)                                                                                                                                                          |
 | `ISSUE_TEMPLATE/`        | Bug-Report + Feature-Request + Config                                                                                                                                       |

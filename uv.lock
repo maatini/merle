@@ -183,16 +183,16 @@ wheels = [
 
 [[package]]
 name = "azure-keyvault-secrets"
-version = "4.11.0"
+version = "4.11.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "azure-core" },
     { name = "isodate" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f1/b8/03c7b4edd1e3355ad5fffb70e68af70cd09542963f45cf3a2aa9fb3930b5/azure_keyvault_secrets-4.11.0.tar.gz", hash = "sha256:ac14727b9159cca353173ec5a454d8d7b192a6f2f5e7eb540f9fbcf914fa0ca0", size = 112291, upload-time = "2026-04-17T00:52:12.422Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/57/a4/7b0e582c8b2c97e1ea91d67ef831fa0c5e566a0dda9f6aa45054be47720d/azure_keyvault_secrets-4.11.3.tar.gz", hash = "sha256:193ba3cf9912ae776fb1ba40d147aa3cbfcf5cda5e0e2e35ef8fbe4c78db1217", size = 132370, upload-time = "2026-10-02T21:35:42.783Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/78/76/41c513917c0e8dc68de0c33578c6a0668b4a09eb4dc3e2782d382dc2947f/azure_keyvault_secrets-4.11.0-py3-none-any.whl", hash = "sha256:d8543b710423569bd00ada2a2533fe83d52d8e1fe026e1c47f41a3bc0fc73ef5", size = 103148, upload-time = "2026-04-17T00:52:13.796Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/8e/726acb7b6cd8d28cafd06531d6daf7e390667ebbbc4ff39f7cfc5bd75652/azure_keyvault_secrets-4.11.3-py3-none-any.whl", hash = "sha256:c77cc80f33d07e1b8cbbda5e7b6b8a1da1471ca917796f9895603a0c2b5f9c2f", size = 105234, upload-time = "2026-10-02T21:35:44.243Z" },
 ]
 
 [[package]]
@@ -1221,7 +1221,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "azure-identity", marker = "extra == 'azure'", specifier = ">=1.16,<2.0" },
-    { name = "azure-keyvault-secrets", marker = "extra == 'azure'", specifier = ">=4.8,<5.0" },
+    { name = "azure-keyvault-secrets", marker = "extra == 'azure'", specifier = ">=4.11.3,<5.0" },
     { name = "httpx", specifier = ">=0.25,<1.0" },
     { name = "lightpanda-py", marker = "extra == 'lightpanda'", specifier = ">=0.2.0,<1.0" },
     { name = "loguru", specifier = ">=0.7,<1.0" },

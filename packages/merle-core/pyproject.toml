@@ -46,7 +46,7 @@ lightpanda = [
 ]
 azure = [
     "azure-identity>=1.16,<2.0",
-    "azure-keyvault-secrets>=4.8,<5.0",
+    "azure-keyvault-secrets>=4.11.3,<5.0",
     "pydantic-settings>=2.16.1,<3.0",
 ]
 observability = [

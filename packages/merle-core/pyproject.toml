@@ -55,7 +55,7 @@ observability = [
     "opentelemetry-exporter-otlp>=1.25,<2.0",
 ]
 data = [
-    "pandas>=3.0.6,<4.0",
+    "pandas>=3.1.0,<4.0",
     "openpyxl>=3.1,<4.0",
     "pdfplumber>=0.11.10,<1.0",
 ]

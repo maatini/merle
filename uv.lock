@@ -1009,12 +1009,13 @@ wheels = [
 
 [[package]]
 name = "lightpanda-py"
-version = "0.2.8"
+version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/ac/a320086d627ab7c87d96f1c3bbf7e5865baaccba285aaa5a71a2690449d6/lightpanda_py-0.2.8-py3-none-macosx_11_0_arm64.whl", hash = "sha256:9a872b0e480124d773e66794e31bd6e4fe4170c1155d4b82c60fe48ab3ad1534", size = 19121023, upload-time = "2026-05-05T14:13:32.298Z" },
-    { url = "https://files.pythonhosted.org/packages/5c/6b/1047f2b7c25edf9d743ea9c2fce346a925d7265938a4e1bf797c3f50d0f0/lightpanda_py-0.2.8-py3-none-manylinux_2_35_aarch64.whl", hash = "sha256:93d1e6692d9713b2991260206bfe70a0321400b119673c5cf3a34605081e5dff", size = 33214462, upload-time = "2026-05-05T14:13:35.612Z" },
-    { url = "https://files.pythonhosted.org/packages/a9/a0/02b305e1b111ecb81c2997eecc4629bef1fc983ee151bea2dd35327e010f/lightpanda_py-0.2.8-py3-none-manylinux_2_35_x86_64.whl", hash = "sha256:5f4a2a22a3077320861d0bb618f8f57d243e001f09c58dfe06d51c9df65325f2", size = 33509221, upload-time = "2026-05-05T14:13:38.488Z" },
+    { url = "https://files.pythonhosted.org/packages/36/77/2b4c689aa792e38098bcbcb052e3b0f5e73f807b86199cd8b3d903a7f685/lightpanda_py-0.3.0-py3-none-macosx_14_0_arm64.whl", hash = "sha256:90b5fb7b998c28ace25edc241753c7dd4b20322c672720a4fe470700f9465410", size = 28615010, upload-time = "2026-10-28T02:58:02.639Z" },
+    { url = "https://files.pythonhosted.org/packages/84/55/6919de9b712d4f1212844b29891866634e769bcecc55e30ecb1f9df52339/lightpanda_py-0.3.0-py3-none-macosx_14_0_x86_64.whl", hash = "sha256:bc3a2cb93662b89812525d05ba83dee02f0f2d218e8eba02663d0cf18df26aed", size = 30427863, upload-time = "2026-10-28T02:58:05.558Z" },
+    { url = "https://files.pythonhosted.org/packages/45/25/43dec7d1cd7b6a6b882e770b5604e44062d6b7a8b4740756d0c55da11dd3/lightpanda_py-0.3.0-py3-none-manylinux_2_35_x86_64.whl", hash = "sha256:b0e1025a0ac9b36de2434cf9a80db2be07febd1577884320b217ff942470de00", size = 28582841, upload-time = "2026-10-28T02:58:08.167Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/49/dedb78979ad221668d6b4c2817c415735b62c74cb0447d58cb19bd13fcf9/lightpanda_py-0.3.0-py3-none-manylinux_2_38_aarch64.whl", hash = "sha256:13a856038a2c9cca65940d525a9794bf11d1e86dc8abfb5fda08708720fe5760", size = 27189177, upload-time = "2026-10-28T02:58:10.954Z" },
 ]
 
 [[package]]
@@ -1223,7 +1224,7 @@ requires-dist = [
     { name = "azure-identity", marker = "extra == 'azure'", specifier = ">=1.16,<2.0" },
     { name = "azure-keyvault-secrets", marker = "extra == 'azure'", specifier = ">=4.11.3,<5.0" },
     { name = "httpx", specifier = ">=0.25,<1.0" },
-    { name = "lightpanda-py", marker = "extra == 'lightpanda'", specifier = ">=0.2.0,<1.0" },
+    { name = "lightpanda-py", marker = "extra == 'lightpanda'", specifier = ">=0.3.0,<1.0" },
     { name = "loguru", specifier = ">=0.7,<1.0" },
     { name = "nats-py", marker = "extra == 'nats'", specifier = ">=2.7,<3.0" },
     { name = "openpyxl", marker = "extra == 'data'", specifier = ">=3.1,<4.0" },

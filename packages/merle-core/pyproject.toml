@@ -41,7 +41,7 @@ playwright = [
     "playwright>=1.40,<2.0",
 ]
 lightpanda = [
-    "lightpanda-py>=0.2.0,<1.0",
+    "lightpanda-py>=0.3.0,<1.0",
     "playwright>=1.40,<2.0",
 ]
 azure = [

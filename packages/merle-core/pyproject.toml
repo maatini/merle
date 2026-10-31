@@ -38,11 +38,11 @@ line-length = 120
 
 [project.optional-dependencies]
 playwright = [
-    "playwright>=1.40,<2.0",
+    "playwright>=1.64.1,<2.0",
 ]
 lightpanda = [
     "lightpanda-py>=0.2.0,<1.0",
-    "playwright>=1.40,<2.0",
+    "playwright>=1.64.1,<2.0",
 ]
 azure = [
     "azure-identity>=1.16,<2.0",

@@ -51,7 +51,7 @@ azure = [
 ]
 observability = [
     "opentelemetry-api>=1.45.1,<2.0",
-    "opentelemetry-sdk>=1.25,<2.0",
+    "opentelemetry-sdk>=1.45.2,<2.0",
     "opentelemetry-exporter-otlp>=1.25,<2.0",
 ]
 data = [
